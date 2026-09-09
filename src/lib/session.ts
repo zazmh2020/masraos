@@ -60,7 +60,10 @@ export function tenantDestination(host: string, proto: string, role: string, slu
   const root = matchedRoot(host);
   const p = proto.endsWith(':') ? proto : `${proto}:`;
 
-  if (root) {
+  // وضع التوجيه بالمسار (استضافة بلا نطاقات فرعية) — يتجاوز النطاق الفرعي
+  const pathRouting = process.env.NEXT_PUBLIC_APP_PATH_ROUTING === '1';
+
+  if (root && !pathRouting) {
     let targetHost = hostname;
     if (role === 'PLATFORM_OWNER') targetHost = `admin.${root}`;
     else if (slug) targetHost = `${slug}.${root}`;
