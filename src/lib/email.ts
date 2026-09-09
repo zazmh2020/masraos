@@ -15,7 +15,7 @@ export async function sendEmail({
   const key = process.env.RESEND_API_KEY;
   if (!key) return { ok: false, reason: 'not_configured' };
   if (!to) return { ok: false, reason: 'no_recipient' };
-  const from = process.env.EMAIL_FROM || 'Midad <onboarding@resend.dev>';
+  const from = process.env.EMAIL_FROM || 'Masra <onboarding@resend.dev>';
   try {
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',

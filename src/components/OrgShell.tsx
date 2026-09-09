@@ -57,7 +57,7 @@ interface Props {
   assistant?: { show: boolean; ready: boolean };
 }
 
-// ربط مفاتيح التنقّل بنظام أيقونات مِداد (public/icons)
+// ربط مفاتيح التنقّل بنظام أيقونات مسرى (public/icons)
 const ICONS = {
   home: 'navigation/navigation-dashboard',
   users: 'people/people-users',

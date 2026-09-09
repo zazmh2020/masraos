@@ -3,7 +3,7 @@
 @import '../styles/glass.css';
 @import '../styles/dark.css';
 
-/* نظام أيقونات مِداد — يُلوَّن بلون النص عبر القناع */
+/* نظام أيقونات مسرى — يُلوَّن بلون النص عبر القناع */
 .app-icon {
   display: inline-block;
   flex-shrink: 0;

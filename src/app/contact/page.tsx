@@ -45,7 +45,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <strong>البريد الإلكتروني</strong>
-                    <span>hello@midad.app</span>
+                    <span>hello@masraos.com</span>
                   </div>
                 </div>
 

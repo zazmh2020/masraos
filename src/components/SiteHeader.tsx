@@ -6,7 +6,7 @@ import { LogoMark } from '@/components/Logo';
 
 const links = [
   { href: '#home', label: 'الرئيسية' },
-  { href: '#about', label: 'عن مِداد' },
+  { href: '#about', label: 'عن مسرى' },
   { href: '#systems', label: 'الأنظمة' },
   { href: '#features', label: 'المميزات' },
   { href: '#audiences', label: 'الجهات' },
@@ -43,9 +43,9 @@ export default function SiteHeader() {
   return (
     <header className="site-header">
       <nav className="site-nav" aria-label="التنقل الرئيسي">
-        <a href="#home" className="nav-brand" aria-label="مِداد">
+        <a href="#home" className="nav-brand" aria-label="مسرى">
           <LogoMark size={26} className="nav-brand-logo" />
-          <span className="nav-brand-name">مِداد</span>
+          <span className="nav-brand-name">مسرى</span>
         </a>
 
         <div className={`nav-links ${menuOpen ? 'is-open' : ''}`}>

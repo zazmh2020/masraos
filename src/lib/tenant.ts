@@ -4,10 +4,10 @@ import { headers } from 'next/headers';
  * يستخرج slug المؤسسة من الدومين الفرعي.
  *
  * أمثلة:
- * - alqoran.midad.localhost:3000  →  "alqoran"
- * - admin.midad.localhost:3000    →  null (لوحة مالك المنصة)
- * - midad.localhost:3000          →  null (الموقع التعريفي)
- * - alqoran.midad.app             →  "alqoran"
+ * - alqoran.masraos.com   →  "alqoran"
+ * - admin.masraos.com     →  null (لوحة مالك المنصة)
+ * - masraos.com           →  null (الموقع التعريفي)
+ * - alqoran.midad.localhost:3000  →  "alqoran" (التطوير المحلّي)
  */
 export async function getTenantSlug(): Promise<string | null> {
   const h = await headers();

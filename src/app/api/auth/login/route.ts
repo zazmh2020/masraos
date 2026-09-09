@@ -61,7 +61,7 @@ export async function POST(request: Request) {
   // منع دخول مستخدم مؤسسة معطّلة
   if (user.organization && !user.organization.isActive) {
     return NextResponse.json(
-      { error: 'مؤسستك موقوفة حالياً. تواصل مع إدارة مِداد.' },
+      { error: 'مؤسستك موقوفة حالياً. تواصل مع إدارة مسرى.' },
       { status: 403 },
     );
   }

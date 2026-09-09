@@ -26,7 +26,7 @@ function secret(): string {
 
 /** نطاقات الجذر التي يُفعَّل عليها التوجيه بالنطاق الفرعي (مطابقة للـ proxy). */
 function rootDomains(): string[] {
-  return (process.env.APP_ROOT_DOMAINS ?? 'midad.localhost,midad.app')
+  return (process.env.APP_ROOT_DOMAINS ?? 'midad.localhost,masraos.com')
     .split(',').map((s) => s.trim()).filter(Boolean);
 }
 

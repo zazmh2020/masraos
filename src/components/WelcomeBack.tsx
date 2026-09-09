@@ -31,7 +31,7 @@ export default function WelcomeBack({ name, greeting }: { name: string; greeting
         <p className="wlc-greeting">{greeting}</p>
         <h1 className="wlc-name">{name}</h1>
         <span className="wlc-line" />
-        <span className="wlc-brand">مِداد · Midad</span>
+        <span className="wlc-brand">مسرى · Masra</span>
       </div>
     </div>
   );

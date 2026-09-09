@@ -38,7 +38,7 @@ export default function LangGate({ hasChosen }: { hasChosen: boolean }) {
         <button className="lang-gate-x" onClick={dismiss} aria-label="إغلاق / Close">
           <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M5 5l10 10M15 5L5 15" /></svg>
         </button>
-        <div className="lang-gate-logo">مِداد · Midad</div>
+        <div className="lang-gate-logo">مسرى · Masra</div>
         <h2>{translate('ar', 'lang.title')}</h2>
         <p className="lang-gate-en">{translate('en', 'lang.title')}</p>
         <div className="lang-gate-opts">

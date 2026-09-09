@@ -7,7 +7,7 @@ export default function SiteFooter() {
         <div className="footer-brand">
           <LogoMark size={30} className="footer-brand-logo" />
           <div>
-            <div className="footer-brand-name">مِداد</div>
+            <div className="footer-brand-name">مسرى</div>
             <div className="footer-brand-tag">منظومة رقمية متكاملة</div>
           </div>
         </div>
@@ -17,11 +17,11 @@ export default function SiteFooter() {
           <a href="#systems">الأنظمة</a>
           <a href="#features">المميزات</a>
           <a href="#audiences">الجهات</a>
-          <a href="#about-midad">عن مِداد</a>
+          <a href="#about-midad">عن مسرى</a>
           <a href="#contact">تواصل معنا</a>
         </div>
 
-        <p className="footer-copy">مِداد © 2026 — جميع الحقوق محفوظة</p>
+        <p className="footer-copy">مسرى © 2026 — جميع الحقوق محفوظة</p>
       </div>
     </footer>
   );

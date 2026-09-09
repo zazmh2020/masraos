@@ -46,7 +46,7 @@ export default function Mockup({ kind, title, active }: { kind: MockKind; title?
   switch (kind) {
     case 'projects':
       return (
-        <Shell title={title ?? 'مِداد — المشاريع'} active={active ?? 2}>
+        <Shell title={title ?? 'مسرى — المشاريع'} active={active ?? 2}>
           <div className="mk-h"><b>لوحة المشاريع</b><span className="mk-chip">١٤ مشروعًا</span></div>
           <div className="mk-panel" style={{ marginBottom: '0.7rem' }}>
             <div className="pt"><span>حالة الإنجاز</span></div>
@@ -62,7 +62,7 @@ export default function Mockup({ kind, title, active }: { kind: MockKind; title?
     case 'hr':
     case 'people':
       return (
-        <Shell title={title ?? 'مِداد — الموارد البشرية'} active={active ?? 1}>
+        <Shell title={title ?? 'مسرى — الموارد البشرية'} active={active ?? 1}>
           <div className="mk-h"><b>الموظفون والمتطوعون</b><span className="mk-chip">٢٤٧ عضوًا</span></div>
           <div className="mk-kpis"><KPI k="موظفون" v="86" t="4" /><KPI k="متطوعون" v="161" /><KPI k="فرق" v="12" /></div>
           <div className="mk-panel">
@@ -73,7 +73,7 @@ export default function Mockup({ kind, title, active }: { kind: MockKind; title?
       );
     case 'reports':
       return (
-        <Shell title={title ?? 'مِداد — التقارير'} active={active ?? 4}>
+        <Shell title={title ?? 'مسرى — التقارير'} active={active ?? 4}>
           <div className="mk-h"><b>التقارير والتحليلات</b><span className="mk-chip">هذا الشهر</span></div>
           <div className="mk-two">
             <div className="mk-panel"><div className="pt"><span>الأداء</span></div><div className="mk-bars"><span style={{ height: '50%' }} /><span style={{ height: '72%' }} /><span style={{ height: '40%' }} /><span style={{ height: '88%' }} /><span style={{ height: '62%' }} /><span style={{ height: '95%' }} /></div></div>
@@ -84,7 +84,7 @@ export default function Mockup({ kind, title, active }: { kind: MockKind; title?
       );
     case 'beneficiaries':
       return (
-        <Shell title={title ?? 'مِداد — المستفيدون'} active={active ?? 3}>
+        <Shell title={title ?? 'مسرى — المستفيدون'} active={active ?? 3}>
           <div className="mk-h"><b>سجل المستفيدين</b><span className="mk-chip">١٬٩٤٠ حالة</span></div>
           <div className="mk-kpis"><KPI k="حالات" v="1,940" t="38" /><KPI k="خدمات" v="7" /><KPI k="مغطاة" v="86%" /></div>
           <div className="mk-panel"><div className="pt"><span>أحدث الحالات</span></div><Rows items={[{ c: 'ح', tag: 'g', tl: 'مقبولة' }, { c: 'ن', tag: 'o', tl: 'مراجعة' }, { c: 'ر', tag: 'g', tl: 'مقبولة' }]} /></div>
@@ -92,7 +92,7 @@ export default function Mockup({ kind, title, active }: { kind: MockKind; title?
       );
     case 'education':
       return (
-        <Shell title={title ?? 'مِداد — التعليم'} active={active ?? 3}>
+        <Shell title={title ?? 'مسرى — التعليم'} active={active ?? 3}>
           <div className="mk-h"><b>الحلقات والبرامج</b><span className="mk-chip">٣٢ حلقة</span></div>
           <div className="mk-kpis"><KPI k="طلاب" v="247" t="12" /><KPI k="حلقات" v="32" /><KPI k="حضور" v="89%" t="4" /></div>
           <div className="mk-panel"><div className="pt"><span>تقدّم الحفظ</span></div><div className="mk-prog"><div className="pr"><div className="pl"><span>حلقة النور</span><span>74%</span></div><div className="track"><i style={{ width: '74%' }} /></div></div><div className="pr"><div className="pl"><span>حلقة الفلق</span><span>58%</span></div><div className="track"><i style={{ width: '58%' }} /></div></div></div></div>
@@ -100,7 +100,7 @@ export default function Mockup({ kind, title, active }: { kind: MockKind; title?
       );
     case 'finance':
       return (
-        <Shell title={title ?? 'مِداد — المالية والتبرعات'} active={active ?? 2}>
+        <Shell title={title ?? 'مسرى — المالية والتبرعات'} active={active ?? 2}>
           <div className="mk-h"><b>المالية والتبرعات</b><span className="mk-chip">SAR</span></div>
           <div className="mk-kpis"><KPI k="التبرعات" v="482K" t="12%" /><KPI k="حملات" v="6" /><KPI k="متبرعون" v="1,204" /></div>
           <div className="mk-panel"><div className="pt"><span>التبرعات — آخر ٦ أشهر</span></div><div className="mk-bars"><span style={{ height: '40%' }} /><span style={{ height: '55%' }} /><span style={{ height: '48%' }} /><span style={{ height: '70%' }} /><span style={{ height: '82%' }} /><span style={{ height: '95%' }} /></div></div>
@@ -108,7 +108,7 @@ export default function Mockup({ kind, title, active }: { kind: MockKind; title?
       );
     case 'documents':
       return (
-        <Shell title={title ?? 'مِداد — الوثائق'} active={active ?? 0}>
+        <Shell title={title ?? 'مسرى — الوثائق'} active={active ?? 0}>
           <div className="mk-h"><b>إدارة الوثائق</b><span className="mk-chip">٣١٨ ملفًا</span></div>
           <div className="mk-kpis"><KPI k="ملفات" v="318" /><KPI k="سياسات" v="24" /><KPI k="نماذج" v="47" /></div>
           <div className="mk-panel"><div className="pt"><span>أحدث المستندات</span></div><Rows items={[{ c: 'PDF', tag: 'g', tl: 'معتمد' }, { c: 'DOC' }, { c: 'XLS', tag: 'o', tl: 'مسودة' }]} /></div>
@@ -116,7 +116,7 @@ export default function Mockup({ kind, title, active }: { kind: MockKind; title?
       );
     case 'org':
       return (
-        <Shell title={title ?? 'مِداد — إدارة المؤسسة'} active={active ?? 0}>
+        <Shell title={title ?? 'مسرى — إدارة المؤسسة'} active={active ?? 0}>
           <div className="mk-h"><b>الهيكل المؤسسي</b><span className="mk-chip">٦ إدارات</span></div>
           <div className="mk-kpis"><KPI k="إدارات" v="6" /><KPI k="أقسام" v="18" /><KPI k="فروع" v="4" /></div>
           <div className="mk-panel"><div className="pt"><span>الوحدات التنظيمية</span></div><Rows items={[{ c: 'إد' }, { c: 'قس' }, { c: 'فر' }]} /></div>
@@ -124,8 +124,8 @@ export default function Mockup({ kind, title, active }: { kind: MockKind; title?
       );
     case 'ai':
       return (
-        <Shell title={title ?? 'مِداد AI'} active={active ?? 4}>
-          <div className="mk-h"><b>مساعد مِداد الذكي</b><span className="mk-chip">AI</span></div>
+        <Shell title={title ?? 'مسرى AI'} active={active ?? 4}>
+          <div className="mk-h"><b>مساعد مسرى الذكي</b><span className="mk-chip">AI</span></div>
           <div className="mk-panel" style={{ marginBottom: '0.7rem' }}>مرحبًا 👋 اسألني عن أداء مؤسستك…</div>
           <div className="mk-kpis"><KPI k="رؤى" v="12" /><KPI k="توصيات" v="5" /><KPI k="تنبيهات" v="3" /></div>
         </Shell>
@@ -133,7 +133,7 @@ export default function Mockup({ kind, title, active }: { kind: MockKind; title?
     case 'dashboard':
     default:
       return (
-        <Shell title={title ?? 'مِداد — لوحة التحكم'} active={active ?? 0}>
+        <Shell title={title ?? 'مسرى — لوحة التحكم'} active={active ?? 0}>
           <div className="mk-h"><b>نظرة عامة</b><span className="mk-chip">مباشر</span></div>
           <div className="mk-kpis"><KPI k="المستخدمون" v="247" t="12" /><KPI k="المشاريع" v="14" /><KPI k="الإنجاز" v="86%" t="4" /></div>
           <div className="mk-two">

@@ -1,10 +1,10 @@
 import type { MetadataRoute } from 'next';
 
-/** بيان تطبيق الويب — يجعل مِداد قابلًا للتثبيت على الجوال كتطبيق (PWA). */
+/** بيان تطبيق الويب — يجعل مسرى قابلًا للتثبيت على الجوال كتطبيق (PWA). */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'مِداد — منظومة إدارة المؤسسات',
-    short_name: 'مِداد',
+    name: 'مسرى — منظومة إدارة المؤسسات',
+    short_name: 'مسرى',
     description: 'منظومة رقمية متكاملة لإدارة المؤسسات والمراكز القرآنية والجمعيات.',
     start_url: '/',
     scope: '/',

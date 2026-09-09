@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import ProfileForm from '@/components/ProfileForm';
 import LogoutButton from '@/components/LogoutButton';
 import { getT } from '@/lib/i18n/server';
+import { rootUrl } from '@/lib/app-domain';
 import '@/styles/org.css';
 
 export const dynamic = 'force-dynamic';
@@ -32,7 +33,7 @@ export default async function AdminSettingsPage() {
         <ProfileForm name={me.name} email={me.email} role={me.role} avatarUrl={me.avatarUrl} jobTitle={me.jobTitle} phone={me.phone} />
 
         <h2 className="org-settings-h2">{t('oset.account')}</h2>
-        <LogoutButton redirectTo="http://midad.localhost:3000/login" />
+        <LogoutButton redirectTo={rootUrl('/login')} />
       </div>
     </div>
   );

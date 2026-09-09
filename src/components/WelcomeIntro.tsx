@@ -46,7 +46,7 @@ export default function WelcomeIntro() {
 
       <div className="intro-stage">
         <div className="intro-mark">
-          <span className="intro-mark-ar">مِداد</span>
+          <span className="intro-mark-ar">مسرى</span>
         </div>
         <div className="intro-line" />
         <p className="intro-tagline">من التقنية إلى الأثر</p>

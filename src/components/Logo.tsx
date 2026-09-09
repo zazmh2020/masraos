@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 
 /**
- * علامة مِداد — مستطيل مستدير بمربع مقتطع (فراغ سالب).
+ * علامة مسرى — مستطيل مستدير بمربع مقتطع (فراغ سالب).
  * يُلوَّن بلون النص (currentColor): بنفسجي على الفاتح، أبيض على الداكن.
  * المربع يُظهر لون الخلفية خلفه (تمامًا كالشعار الرسمي).
  */
@@ -36,7 +36,7 @@ export function LogoMark({
 }
 
 /**
- * الشعار الكامل: العلامة + الكلمة «مِداد» (بخط Qomra) واختياريًا «MIDAD».
+ * الشعار الكامل: العلامة + الكلمة «مسرى» (بخط Qomra) واختياريًا «MASRA».
  */
 export default function Logo({
   size = 28,
@@ -54,9 +54,9 @@ export default function Logo({
     >
       <LogoMark size={size} />
       <span style={{ display: 'inline-flex', flexDirection: 'column', lineHeight: 1 }}>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: size * 0.62 }}>مِداد</span>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: size * 0.62 }}>مسرى</span>
         {showLatin && (
-          <span style={{ fontSize: size * 0.3, letterSpacing: '0.28em', opacity: 0.7, marginTop: 3 }}>MIDAD</span>
+          <span style={{ fontSize: size * 0.3, letterSpacing: '0.28em', opacity: 0.7, marginTop: 3 }}>MASRA</span>
         )}
       </span>
     </span>

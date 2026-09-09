@@ -24,9 +24,9 @@ export default function FeaturesPage() {
           <div className="page-header-inner">
             <Reveal>
               <span className="eyebrow">المميزات</span>
-              <h1>لماذا مِداد</h1>
+              <h1>لماذا مسرى</h1>
               <p>
-                ثمانية أسباب تجعل مِداد الخيار المناسب للمؤسسات التي تريد
+                ثمانية أسباب تجعل مسرى الخيار المناسب للمؤسسات التي تريد
                 الانتقال من الفوضى إلى النظام.
               </p>
             </Reveal>
@@ -53,7 +53,7 @@ export default function FeaturesPage() {
 
         <section className="cta-band">
           <Reveal>
-            <h2>جاهز لتجربة مِداد؟</h2>
+            <h2>جاهز لتجربة مسرى؟</h2>
             <p>تواصل معنا لإنشاء مساحة مؤسستك.</p>
             <Link className="btn btn-light" href="/contact">تواصل معنا</Link>
           </Reveal>

@@ -73,7 +73,7 @@ export default function LoginPage() {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.5, ease: [0.22, 0.61, 0.36, 1] }}
       >
-        <Link href="/" className="lg-brand" aria-label="مِداد">
+        <Link href="/" className="lg-brand" aria-label="مسرى">
           <span className="lg-brand-mark"><LogoMark size={26} /></span>
           <span className="lg-brand-name">{t('brand')}</span>
         </Link>

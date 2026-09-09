@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { getT } from '@/lib/i18n/server';
+import { tenantHost } from '@/lib/app-domain';
 
 export const dynamic = 'force-dynamic';
 
@@ -57,7 +58,7 @@ export default async function OrganizationsPage() {
                   </td>
                   <td>{TYPE_KEYS[org.type] ? t(TYPE_KEYS[org.type]) : org.type}</td>
                   <td>
-                    <code dir="ltr">{org.slug}.midad.localhost:3000</code>
+                    <code dir="ltr">{tenantHost(org.slug)}</code>
                   </td>
                   <td>{org._count.users}</td>
                   <td>

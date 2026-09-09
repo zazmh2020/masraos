@@ -61,7 +61,7 @@ export default function MidadHeader() {
         <button className="mdl-menu-btn" aria-label="القائمة" onClick={() => setOpen(true)}>
           <svg width="24" height="18" viewBox="0 0 26 20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M1 1h24M1 10h24M1 19h24" /></svg>
         </button>
-        <a href="#home" className="mdl-brand" aria-label="مِداد">
+        <a href="#home" className="mdl-brand" aria-label="مسرى">
           <LogoMark size={26} className="mark" />
           <span className="name">{t('brand')}</span>
         </a>
@@ -94,7 +94,7 @@ export default function MidadHeader() {
         <div className="mdl-drawer-scrim" onClick={() => setOpen(false)} />
         <div className="mdl-drawer-panel">
           <div className="mdl-drawer-head">
-            <span className="mdl-brand"><LogoMark size={26} className="mark" style={{ color: 'var(--p)' }} /><span className="name" style={{ color: 'var(--dark)' }}>مِداد</span></span>
+            <span className="mdl-brand"><LogoMark size={26} className="mark" style={{ color: 'var(--p)' }} /><span className="name" style={{ color: 'var(--dark)' }}>مسرى</span></span>
             <button className="mdl-menu-btn" aria-label="إغلاق" style={{ color: 'var(--text)', display: 'inline-flex' }} onClick={() => setOpen(false)}>
               <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M4 4l14 14M18 4L4 18" /></svg>
             </button>

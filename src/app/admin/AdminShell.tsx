@@ -11,6 +11,7 @@ import PageTransition from '@/components/PageTransition';
 import OrgAssistantFab from '@/components/OrgAssistantFab';
 import { useT } from '@/lib/i18n/LocaleProvider';
 import type { OrgInbox } from '@/lib/inbox';
+import { rootUrl } from '@/lib/app-domain';
 import '@/styles/welcome.css';
 
 interface Props {
@@ -28,7 +29,7 @@ const ASSISTANT_SUGGESTIONS = [
   'أيّ المؤسسات أُنشئت مؤخرًا؟',
 ];
 
-// ربط مفاتيح التنقّل بنظام أيقونات مِداد (public/icons)
+// ربط مفاتيح التنقّل بنظام أيقونات مسرى (public/icons)
 const ICONS = {
   home: 'navigation/navigation-dashboard',
   building: 'organization/organization-institution',
@@ -95,7 +96,7 @@ export default function AdminShell({ children, session, avatarUrl, inbox, assist
     setBusy(true);
     await fetch('/api/auth/logout', { method: 'POST' });
     // بعد الخروج، انتقل إلى صفحة الدخول على الدومين الرئيسي
-    window.location.href = 'http://midad.localhost:3000/login';
+    window.location.href = rootUrl('/login');
   }
 
   return (

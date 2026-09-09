@@ -5,6 +5,7 @@ import { PLAN_BY_ID, CURRENCY } from '@/lib/plans';
 import PlanSelector from './PlanSelector';
 import OrgIdentityForm from '@/components/OrgIdentityForm';
 import { getT, getLocale } from '@/lib/i18n/server';
+import { tenantHost, tenantUrl } from '@/lib/app-domain';
 import '@/styles/org.css';
 
 const numFmt = new Intl.NumberFormat('en-US');
@@ -76,7 +77,7 @@ export default async function OrgDetailPage({
         <div style={{ maxWidth: 620 }}>
           <OrgIdentityForm
             apiBase={`/api/admin/organizations/${org.slug}/branding`}
-            subdomain={`${org.slug}.midad.localhost:3000`}
+            subdomain={tenantHost(org.slug)}
             name={org.name}
             brandColor={org.brandColor}
             brandAccent={org.brandAccent}
@@ -97,13 +98,13 @@ export default async function OrgDetailPage({
         <div className="detail-card">
           <div className="detail-card-label">{t('aorg.detail.subdomain')}</div>
           <a
-            href={`http://${org.slug}.midad.localhost:3000`}
+            href={tenantUrl(org.slug)}
             target="_blank"
             rel="noreferrer"
             className="detail-card-link"
             dir="ltr"
           >
-            {org.slug}.midad.localhost:3000 ↗
+            {tenantHost(org.slug)} ↗
           </a>
           {org.customDomain && (
             <a href={`https://${org.customDomain}`} target="_blank" rel="noreferrer" className="detail-card-link" dir="ltr" style={{ marginTop: '0.35rem' }}>

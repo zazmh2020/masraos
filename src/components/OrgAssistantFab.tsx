@@ -4,7 +4,7 @@ import { useState } from 'react';
 import AssistantChat from '@/components/AssistantChat';
 import { useT } from '@/lib/i18n/LocaleProvider';
 
-/** زرّ عائم يفتح مساعد مِداد الذكي على أي صفحة داخل المنصّة. */
+/** زرّ عائم يفتح مساعد مسرى الذكي على أي صفحة داخل المنصّة. */
 export default function OrgAssistantFab({
   ready, endpoint, suggestions, placeholder, hint,
 }: {

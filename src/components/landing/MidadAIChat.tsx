@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useT } from '@/lib/i18n/LocaleProvider';
 
-/** عرض محادثة يحاكي مساعد مِداد الذكي: سؤال → تحليل → إجابة بمؤشرات. */
+/** عرض محادثة يحاكي مساعد مسرى الذكي: سؤال → تحليل → إجابة بمؤشرات. */
 export default function MidadAIChat() {
   const t = useT();
   const [stage, setStage] = useState(0); // 0 user, 1 typing, 2 answer

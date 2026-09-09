@@ -30,7 +30,7 @@ export async function reportError(report: ErrorReport): Promise<void> {
       await fetch(hook, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: `⚠️ Midad error: ${payload.message}${payload.where ? ` @ ${payload.where}` : ''}` }),
+        body: JSON.stringify({ text: `⚠️ Masra error: ${payload.message}${payload.where ? ` @ ${payload.where}` : ''}` }),
       });
     } catch {
       /* تجاهل — المراقبة ثانوية */

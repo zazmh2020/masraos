@@ -10,11 +10,11 @@ import PWARegister from '@/components/PWARegister';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'مِداد | MIDAD — منظومة مِداد الرقمية',
+  title: 'مسرى | MASRA — منظومة مسرى الرقمية',
   description:
     'منظومة رقمية متكاملة تُدير أفراد المؤسسة ومشاريعها وبرامجها ووثائقها ومعرفتها من مكان واحد.',
-  applicationName: 'مِداد',
-  appleWebApp: { capable: true, statusBarStyle: 'default', title: 'مِداد' },
+  applicationName: 'مسرى',
+  appleWebApp: { capable: true, statusBarStyle: 'default', title: 'مسرى' },
   icons: {
     icon: '/favicon.svg',
     apple: '/icons/pwa/apple-touch-icon.png',

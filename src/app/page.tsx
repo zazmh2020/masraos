@@ -189,7 +189,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* ========== MIDAD AI ========== */}
+        {/* ========== MASRA AI ========== */}
         <section id="ai" className="mdl-section mdl-ai">
           <div className="mdl-wrap mdl-ai-grid">
             <Reveal>

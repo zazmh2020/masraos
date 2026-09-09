@@ -28,7 +28,7 @@ export default function SystemsPage() {
           <div className="page-header-inner">
             <Reveal>
               <span className="eyebrow">الأنظمة</span>
-              <h1>ما الذي تديره مِداد</h1>
+              <h1>ما الذي تديره مسرى</h1>
               <p>
                 منظومة معيارية — لا نظام جاهز واحد. تختار الوحدات التي تناسب عملك،
                 ويبقى الباقي مطفأً حتى تحتاجه.

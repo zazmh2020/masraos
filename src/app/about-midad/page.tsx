@@ -19,10 +19,10 @@ export default function AboutMidadPage() {
         <section className="page-header">
           <div className="page-header-inner">
             <Reveal>
-              <span className="eyebrow">عن مِداد</span>
+              <span className="eyebrow">عن مسرى</span>
               <h1>من نحن</h1>
               <p>
-                مِداد فريق يؤمن أن المؤسسات لا تحتاج مزيدًا من الأنظمة، بل تحتاج
+                مسرى فريق يؤمن أن المؤسسات لا تحتاج مزيدًا من الأنظمة، بل تحتاج
                 منظومة واحدة تجمع ما تفرّق وتُنظّم ما تشتّت.
               </p>
             </Reveal>
@@ -35,7 +35,7 @@ export default function AboutMidadPage() {
               <span className="eyebrow">رؤيتنا</span>
               <h2>بنية رقمية موثوقة للتحول المؤسسي</h2>
               <p>
-                أن تصبح مِداد المنصة التي تعتمد عليها المؤسسات لبناء بيئة عمل
+                أن تصبح مسرى المنصة التي تعتمد عليها المؤسسات لبناء بيئة عمل
                 أكثر تنظيمًا وأمانًا وكفاءة، والانتقال من الإدارة التقليدية إلى
                 الإدارة الرقمية الذكية.
               </p>

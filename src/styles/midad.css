@@ -1,5 +1,5 @@
 /* ============================================================
-   مِداد | MIDAD — Landing (Modern SaaS, RTL-first)
+   مسرى | MIDAD — Landing (Modern SaaS, RTL-first)
    لوحة تركوازية جديدة معزولة تحت .mdl (لا تؤثر على بقية التطبيق).
    ============================================================ */
 
@@ -612,7 +612,7 @@
 }
 
 /* ============================================================
-   Stories carousel (مستوحى من v1 — أصلي لمِداد)
+   Stories carousel (مستوحى من v1 — أصلي لمسرى)
    ============================================================ */
 .mdl-stories { max-width: 980px; margin: 2.5rem auto 0; }
 .mdl-stories-stage { min-height: 300px; }
@@ -671,7 +671,7 @@ html { scroll-behavior: smooth; }
 .mdl-footer { scroll-margin-top: 90px; }
 
 /* ============================================================
-   مساعد مِداد الذكي العائم (floating AI assistant)
+   مساعد مسرى الذكي العائم (floating AI assistant)
    ============================================================ */
 .mdl-asst { position: fixed; z-index: 95; bottom: 1.4rem; inset-inline-end: 1.4rem; }
 .mdl-asst-fab {

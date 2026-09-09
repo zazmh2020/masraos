@@ -1,19 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 /**
- * يوجّه الطلبات بحسب الدومين الفرعي ضمن دومينات مِداد الجذر فقط:
+ * يوجّه الطلبات بحسب الدومين الفرعي ضمن دومينات مسرى الجذر فقط:
  *
- *   midad.app / midad.localhost            →  الموقع التعريفي
- *   admin.midad.app                        →  لوحة مالك المنصة (/admin/*)
- *   alqoran.midad.app                      →  مساحة المؤسسة (/org/*)
+ *   masraos.com / midad.localhost          →  الموقع التعريفي
+ *   admin.masraos.com                      →  لوحة مالك المنصة (/admin/*)
+ *   alqoran.masraos.com                    →  مساحة المؤسسة (/org/*)
  *
- * أي دومين آخر (مثل *.vercel.app أو معاينات Vercel) → الموقع التعريفي مباشرةً،
- * حتى لا يُفسَّر اسم مشروع Vercel على أنه مؤسسة (كان يسبّب 404).
+ * أي دومين آخر → الموقع التعريفي مباشرةً، حتى لا يُفسَّر مضيف غير معروف
+ * على أنه مؤسسة (كان يسبّب 404).
  */
 
 // دومينات الجذر التي يُفعَّل عليها التوجيه بالدومين الفرعي.
 // يمكن تجاوزها بمتغيّر البيئة APP_ROOT_DOMAINS (مفصولة بفواصل).
-const ROOT_DOMAINS = (process.env.APP_ROOT_DOMAINS ?? 'midad.localhost,midad.app')
+const ROOT_DOMAINS = (process.env.APP_ROOT_DOMAINS ?? 'midad.localhost,masraos.com')
   .split(',')
   .map((s) => s.trim())
   .filter(Boolean);
@@ -53,7 +53,7 @@ export function proxy(request: NextRequest) {
 
   const subdomain = extractSubdomain(hostname);
 
-  // لا دومين فرعي ضمن مِداد → الموقع التعريفي (يشمل *.vercel.app والدومين الرئيسي)
+  // لا دومين فرعي ضمن مسرى → الموقع التعريفي (يشمل *.vercel.app والدومين الرئيسي)
   if (!subdomain || ['www', 'api', 'app'].includes(subdomain)) {
     return NextResponse.next();
   }

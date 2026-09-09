@@ -5,7 +5,7 @@ import '@/styles/midad.css';
 import '@/styles/legal.css';
 
 export const dynamic = 'force-dynamic';
-export const metadata = { title: 'سياسة الخصوصية · مِداد' };
+export const metadata = { title: 'سياسة الخصوصية · مسرى' };
 
 const UPDATED = '2026-09-05';
 
@@ -28,7 +28,7 @@ export default async function PrivacyPage() {
 
         {en ? (
           <>
-            <p>Midad (“the Platform”, “we”) provides digital management software to nonprofit and educational organizations (“Organizations”). This policy explains what data we handle and how.</p>
+            <p>Masra (“the Platform”, “we”) provides digital management software to nonprofit and educational organizations (“Organizations”). This policy explains what data we handle and how.</p>
 
             <h2>1. Data we collect</h2>
             <ul>
@@ -63,11 +63,11 @@ export default async function PrivacyPage() {
             <p>We may update this policy; the “last updated” date reflects the latest version.</p>
 
             <h2>10. Contact</h2>
-            <p>Questions about this policy: contact your Organization’s administrator or Midad support.</p>
+            <p>Questions about this policy: contact your Organization’s administrator or Masra support.</p>
           </>
         ) : (
           <>
-            <p>تقدّم منصة مِداد («المنصة»، «نحن») برمجيات إدارة رقمية للجمعيات والمؤسسات التعليمية وغير الربحية («المؤسسات»). توضّح هذه السياسة البيانات التي نتعامل معها وكيفية ذلك.</p>
+            <p>تقدّم منصة مسرى («المنصة»، «نحن») برمجيات إدارة رقمية للجمعيات والمؤسسات التعليمية وغير الربحية («المؤسسات»). توضّح هذه السياسة البيانات التي نتعامل معها وكيفية ذلك.</p>
 
             <h2>١. البيانات التي نجمعها</h2>
             <ul>
@@ -102,13 +102,13 @@ export default async function PrivacyPage() {
             <p>قد نحدّث هذه السياسة، ويعكس تاريخ «آخر تحديث» أحدث نسخة.</p>
 
             <h2>١٠. التواصل</h2>
-            <p>لأي استفسار حول هذه السياسة، تواصل مع مدير مؤسستك أو دعم مِداد.</p>
+            <p>لأي استفسار حول هذه السياسة، تواصل مع مدير مؤسستك أو دعم مسرى.</p>
           </>
         )}
 
         <div className="legal-foot">
           <Link href="/terms">{en ? 'Terms of Service →' : '← الشروط والأحكام'}</Link>
-          <span>مِداد © 2026</span>
+          <span>مسرى © 2026</span>
         </div>
       </main>
     </div>

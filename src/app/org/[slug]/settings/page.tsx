@@ -7,6 +7,7 @@ import OrgSettingsForm from '@/components/OrgSettingsForm';
 import BrandingForm from '@/components/BrandingForm';
 import LogoutButton from '@/components/LogoutButton';
 import { getT } from '@/lib/i18n/server';
+import { tenantHost } from '@/lib/app-domain';
 
 export const dynamic = 'force-dynamic';
 
@@ -84,7 +85,7 @@ export default async function OrgSettingsPage({
             </div>
             <div className="org-kv">
               <span>{t('oset.subdomain')}</span>
-              <code dir="ltr">{org.slug}.midad.localhost:3000</code>
+              <code dir="ltr">{tenantHost(org.slug)}</code>
             </div>
             <p className="org-panel-sub">{t('oset.managedByOwner')}</p>
           </div>

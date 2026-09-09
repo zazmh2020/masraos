@@ -27,7 +27,7 @@ export default function AboutPage() {
           <div className="page-header-inner">
             <Reveal>
               <span className="eyebrow">عن المنصة</span>
-              <h1>ما هي مِداد؟</h1>
+              <h1>ما هي مسرى؟</h1>
               <p>
                 منظومة رقمية متكاملة للتحول المؤسسي، تساعد المؤسسات على إدارة
                 عملياتها وبياناتها وأفرادها وبرامجها ومشاريعها من منصة واحدة.
@@ -39,7 +39,7 @@ export default function AboutPage() {
         <section className="section">
           <div className="section-heading">
             <Reveal>
-              <span className="eyebrow">لماذا مِداد</span>
+              <span className="eyebrow">لماذا مسرى</span>
               <h2>مشكلات تعرفها كل مؤسسة</h2>
               <p>
                 معلومات متفرقة، عمل مكرّر، ومعرفة تضيع — هذه ليست تفاصيل صغيرة،
@@ -69,7 +69,7 @@ export default function AboutPage() {
         <section className="section section-dark">
           <div className="section-heading">
             <Reveal>
-              <span className="eyebrow">فلسفة مِداد</span>
+              <span className="eyebrow">فلسفة مسرى</span>
               <h2>أربعة مفاهيم تحكم كل ما نبنيه</h2>
             </Reveal>
           </div>

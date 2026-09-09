@@ -5,7 +5,7 @@ import '@/styles/midad.css';
 import '@/styles/legal.css';
 
 export const dynamic = 'force-dynamic';
-export const metadata = { title: 'الشروط والأحكام · مِداد' };
+export const metadata = { title: 'الشروط والأحكام · مسرى' };
 
 const UPDATED = '2026-09-05';
 
@@ -28,10 +28,10 @@ export default async function TermsPage() {
 
         {en ? (
           <>
-            <p>These Terms govern your use of Midad (“the Platform”). By creating an account or using the Platform, you agree to them.</p>
+            <p>These Terms govern your use of Masra (“the Platform”). By creating an account or using the Platform, you agree to them.</p>
 
             <h2>1. The service</h2>
-            <p>Midad provides multi-tenant management software for nonprofit and educational organizations. Features may change or improve over time.</p>
+            <p>Masra provides multi-tenant management software for nonprofit and educational organizations. Features may change or improve over time.</p>
 
             <h2>2. Accounts</h2>
             <p>You are responsible for the accuracy of your account information, for keeping your credentials secure, and for all activity under your account. Notify us of any unauthorized use.</p>
@@ -66,14 +66,14 @@ export default async function TermsPage() {
             <p>We may update these Terms; continued use after changes constitutes acceptance.</p>
 
             <h2>11. Contact</h2>
-            <p>For questions about these Terms, contact Midad support.</p>
+            <p>For questions about these Terms, contact Masra support.</p>
           </>
         ) : (
           <>
-            <p>تحكم هذه الشروط استخدامك لمنصّة مِداد («المنصة»). بإنشائك حسابًا أو باستخدامك المنصة فإنك توافق عليها.</p>
+            <p>تحكم هذه الشروط استخدامك لمنصّة مسرى («المنصة»). بإنشائك حسابًا أو باستخدامك المنصة فإنك توافق عليها.</p>
 
             <h2>١. الخدمة</h2>
-            <p>تقدّم مِداد برمجيات إدارة متعدّدة المؤسسات للجمعيات والمؤسسات التعليمية وغير الربحية. قد تتغيّر الميزات أو تتحسّن مع الوقت.</p>
+            <p>تقدّم مسرى برمجيات إدارة متعدّدة المؤسسات للجمعيات والمؤسسات التعليمية وغير الربحية. قد تتغيّر الميزات أو تتحسّن مع الوقت.</p>
 
             <h2>٢. الحسابات</h2>
             <p>أنت مسؤول عن صحّة بيانات حسابك، وعن الحفاظ على سرّية بيانات الدخول، وعن كل نشاط يتمّ عبر حسابك. أبلِغنا بأي استخدام غير مصرّح به.</p>
@@ -108,13 +108,13 @@ export default async function TermsPage() {
             <p>قد نحدّث هذه الشروط، واستمرارك في الاستخدام بعد التغيير يُعدّ موافقة.</p>
 
             <h2>١١. التواصل</h2>
-            <p>لأي استفسار حول هذه الشروط، تواصل مع دعم مِداد.</p>
+            <p>لأي استفسار حول هذه الشروط، تواصل مع دعم مسرى.</p>
           </>
         )}
 
         <div className="legal-foot">
           <Link href="/privacy">{en ? '← Privacy Policy' : 'سياسة الخصوصية →'}</Link>
-          <span>مِداد © 2026</span>
+          <span>مسرى © 2026</span>
         </div>
       </main>
     </div>

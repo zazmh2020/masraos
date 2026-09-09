@@ -24,7 +24,7 @@ export default function AudiencesPage() {
           <div className="page-header-inner">
             <Reveal>
               <span className="eyebrow">الجهات</span>
-              <h1>لمن مِداد</h1>
+              <h1>لمن مسرى</h1>
               <p>
                 منظومة واحدة لمؤسسات مختلفة — ما يتغيّر هو الوحدات المفعّلة
                 والمصطلحات، لا الأساس الذي تقوم عليه كل بيئة.
@@ -55,7 +55,7 @@ export default function AudiencesPage() {
         <section className="cta-band">
           <Reveal>
             <h2>لا ترى مؤسستك في القائمة؟</h2>
-            <p>مِداد قابلة للتشكيل — تواصل معنا لنبني ما يناسبك.</p>
+            <p>مسرى قابلة للتشكيل — تواصل معنا لنبني ما يناسبك.</p>
             <Link className="btn btn-light" href="/contact">تواصل معنا</Link>
           </Reveal>
         </section>

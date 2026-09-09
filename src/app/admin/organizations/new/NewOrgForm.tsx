@@ -4,6 +4,7 @@ import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useT } from '@/lib/i18n/LocaleProvider';
+import { tenantHost, tenantUrl } from '@/lib/app-domain';
 
 const orgTypes = [
   { value: 'ASSOCIATION' },
@@ -92,11 +93,11 @@ export default function NewOrgForm() {
         <div className="success-details">
           <div className="detail-row">
             <span className="detail-label">{t('aorg.success.orgLink')}</span>
-            <code dir="ltr">http://{result.slug}.midad.localhost:3000</code>
+            <code dir="ltr">{tenantUrl(result.slug)}</code>
           </div>
           <div className="detail-row">
             <span className="detail-label">{t('aorg.success.loginPage')}</span>
-            <code dir="ltr">http://{result.slug}.midad.localhost:3000/login</code>
+            <code dir="ltr">{tenantUrl(result.slug, '/login')}</code>
           </div>
           <div className="detail-row">
             <span className="detail-label">{t('aorg.success.adminEmail')}</span>
@@ -158,7 +159,7 @@ export default function NewOrgForm() {
           />
           {slug && (
             <div className="field-preview">
-              {t('aorg.form.slugPreview')} <code dir="ltr">{slug}.midad.localhost:3000</code>
+              {t('aorg.form.slugPreview')} <code dir="ltr">{tenantHost(slug)}</code>
             </div>
           )}
         </div>

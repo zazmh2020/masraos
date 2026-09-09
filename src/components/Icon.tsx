@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 
 /**
- * أيقونة من نظام أيقونات مِداد (public/icons).
+ * أيقونة من نظام أيقونات مسرى (public/icons).
  * تُلوَّن بلون النص (currentColor) عبر قناع CSS.
  * name = "category/file" مثل "navigation/navigation-home".
  */
