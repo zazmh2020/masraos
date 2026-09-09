@@ -177,11 +177,25 @@ export default function ProfileForm({
           <div className="org-field">
             <label htmlFor="pf-phone">{t('pf.phone')}</label>
             <div className="pf-phone-row" dir="ltr">
-              <select className="pf-dial" value={dial} onChange={(e) => setDial(e.target.value)} aria-label={t('pf.phoneHint')} title={countryName(COUNTRIES.find((c) => c.dial === dial) ?? COUNTRIES[0])}>
-                {COUNTRIES.map((c) => (
-                  <option key={c.code} value={c.dial} title={countryName(c)}>{c.flag} {c.dial}</option>
-                ))}
-              </select>
+              <div className="pf-dial-wrap">
+                <span className="pf-dial-face" aria-hidden="true">
+                  {/* علم الدولة كصورة صغيرة (رموز الأعلام لا تظهر على ويندوز) */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    className="pf-dial-flag"
+                    src={`https://flagcdn.com/${(COUNTRIES.find((c) => c.dial === dial) ?? COUNTRIES[0]).code.toLowerCase()}.svg`}
+                    alt=""
+                    onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }}
+                  />
+                  <span className="pf-dial-code">{dial}</span>
+                  <svg className="pf-dial-chev" width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8l4 4 4-4" /></svg>
+                </span>
+                <select className="pf-dial-native" value={dial} onChange={(e) => setDial(e.target.value)} aria-label={t('pf.phoneHint')}>
+                  {COUNTRIES.map((c) => (
+                    <option key={c.code} value={c.dial}>{c.dial} — {countryName(c)}</option>
+                  ))}
+                </select>
+              </div>
               <input id="pf-phone" type="tel" lang="en" inputMode="tel" value={phoneNum} onChange={(e) => setPhoneNum(e.target.value)} placeholder="5X XXX XXXX" />
             </div>
           </div>
