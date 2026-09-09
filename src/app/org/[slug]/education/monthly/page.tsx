@@ -99,6 +99,7 @@ export default async function MonthlySheetPage({
           rows={rows}
           canManage={canManage}
           orgName={org.name}
+          orgLogo={org.logoUrl}
           monthLabel={monthName}
           year={String(year)}
           summaryLabels={org.quranSummaryLabels ?? null}

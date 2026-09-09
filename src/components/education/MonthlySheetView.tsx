@@ -40,11 +40,11 @@ const NOTE_PRESETS: { group: string; keys: string[] }[] = [
 
 export default function MonthlySheetView({
   students, selectedId, studentName, halaqaName, ym, rows, canManage,
-  orgName, monthLabel, year, summaryLabels, canCustomize = false,
+  orgName, orgLogo = null, monthLabel, year, summaryLabels, canCustomize = false,
 }: {
   students: Student[]; selectedId: string; studentName: string; halaqaName: string | null;
   ym: string; rows: Row[]; canManage: boolean;
-  orgName: string; monthLabel: string; year: string;
+  orgName: string; orgLogo?: string | null; monthLabel: string; year: string;
   summaryLabels: unknown; canCustomize?: boolean;
 }) {
   const { t, locale } = useLocale();
@@ -476,6 +476,10 @@ export default function MonthlySheetView({
           <div className="qm-preview-scroll">
             <article className="qm-doc" lang="en">
               <header className="qm-doc-head">
+                {orgLogo && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img className="qm-doc-logo" src={orgLogo} alt="" />
+                )}
                 <div className="qm-doc-org">{orgName}</div>
                 <h1 className="qm-doc-title">{t('qm.title')}</h1>
                 <div className="qm-doc-sub">
