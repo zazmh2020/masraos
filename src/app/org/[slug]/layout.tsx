@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import type { Metadata } from 'next';
 import { requireOrgAccess } from '@/lib/org';
 import { prisma } from '@/lib/prisma';
 import {
@@ -14,6 +15,18 @@ import { getT } from '@/lib/i18n/server';
 import '@/styles/org.css';
 
 export const dynamic = 'force-dynamic';
+
+/** أيقونة التبويب (favicon) واسم التبويب حسب هوية كل جهة. */
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const org = await prisma.organization.findUnique({ where: { slug }, select: { name: true, faviconUrl: true, logoUrl: true } });
+  if (!org) return {};
+  const icon = org.faviconUrl || org.logoUrl;
+  return {
+    title: { default: org.name, template: `%s · ${org.name}` },
+    ...(icon ? { icons: { icon } } : {}),
+  };
+}
 
 /* الطبقات الثلاث للتنقّل:
    1) العمل المؤسسي  2) المعرفة والذكاء  3) إدارة النظام */
@@ -119,7 +132,7 @@ export default async function OrgLayout({
 
   return (
     <OrgShell
-      org={{ name: org.name, slug: org.slug, brandColor: org.brandColor, logoUrl: org.logoUrl }}
+      org={{ name: org.name, slug: org.slug, brandColor: org.brandColor, brandAccent: org.brandAccent, logoUrl: org.logoUrl }}
       user={{ name: user.name, role: user.role, email: user.email, avatarUrl: user.avatarUrl, jobTitle: user.jobTitle }}
       nav={nav}
       inbox={inbox}

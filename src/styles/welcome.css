@@ -16,7 +16,7 @@
 
 .wlc-glow { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; pointer-events: none; }
 .wlc-glow-1 { width: 460px; height: 460px; background: var(--brand, #6B57A0); top: -140px; inset-inline-end: -100px; animation: wlcFloat 9s ease-in-out infinite; }
-.wlc-glow-2 { width: 380px; height: 380px; background: color-mix(in srgb, var(--brand, #6B57A0) 62%, #fff); bottom: -160px; inset-inline-start: -80px; animation: wlcFloat 11s ease-in-out infinite reverse; }
+.wlc-glow-2 { width: 380px; height: 380px; background: var(--accent, color-mix(in srgb, var(--brand, #6B57A0) 62%, #fff)); bottom: -160px; inset-inline-start: -80px; animation: wlcFloat 11s ease-in-out infinite reverse; }
 @keyframes wlcFloat { 0%,100% { transform: translate(0,0); } 50% { transform: translate(20px,26px); } }
 
 .wlc-stage { position: relative; text-align: center; color: #fff; padding: 2rem; }

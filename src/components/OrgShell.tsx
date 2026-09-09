@@ -12,7 +12,10 @@ import { useT } from '@/lib/i18n/LocaleProvider';
 import type { OrgInbox } from '@/lib/inbox';
 import '@/styles/welcome.css';
 
-/* اشتقاق تدرّج بنفسجي مخصّص من لون هوية الجهة */
+/* ===== اشتقاق لوحة ألوان مخصّصة من لون هوية الجهة =====
+   تحافظ على درجة اللون (hue) لكنها تُثبّت السطوع في نطاق يضمن وضوح
+   النص الأبيض فوق الأزرار والشريط الجانبي مهما كان اللون المختار (فاتح أو داكن). */
+function clamp(x: number, lo: number, hi: number) { return Math.max(lo, Math.min(hi, x)); }
 function hexToRgb(h: string): [number, number, number] {
   let s = h.replace('#', '');
   if (s.length === 3) s = s.split('').map((c) => c + c).join('');
@@ -22,20 +25,68 @@ function hexToRgb(h: string): [number, number, number] {
 function toHex(r: number, g: number, b: number) {
   return '#' + [r, g, b].map((x) => Math.max(0, Math.min(255, Math.round(x))).toString(16).padStart(2, '0')).join('');
 }
-function brandVars(hex?: string | null): CSSProperties | undefined {
+function rgbToHsl(r: number, g: number, b: number): [number, number, number] {
+  r /= 255; g /= 255; b /= 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let h = 0; const l = (max + min) / 2; const d = max - min;
+  const s = d === 0 ? 0 : d / (1 - Math.abs(2 * l - 1));
+  if (d !== 0) {
+    if (max === r) h = ((g - b) / d) % 6;
+    else if (max === g) h = (b - r) / d + 2;
+    else h = (r - g) / d + 4;
+    h *= 60; if (h < 0) h += 360;
+  }
+  return [h, s, l]; // s,l in 0..1
+}
+function hslToRgb(h: number, s: number, l: number): [number, number, number] {
+  const c = (1 - Math.abs(2 * l - 1)) * s;
+  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+  const m = l - c / 2;
+  let [r, g, b] = [0, 0, 0];
+  if (h < 60) [r, g, b] = [c, x, 0];
+  else if (h < 120) [r, g, b] = [x, c, 0];
+  else if (h < 180) [r, g, b] = [0, c, x];
+  else if (h < 240) [r, g, b] = [0, x, c];
+  else if (h < 300) [r, g, b] = [x, 0, c];
+  else [r, g, b] = [c, 0, x];
+  return [(r + m) * 255, (g + m) * 255, (b + m) * 255];
+}
+function relLum([r, g, b]: [number, number, number]) {
+  const a = [r, g, b].map((v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+  return 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
+}
+
+function brandVars(hex?: string | null, accent?: string | null): CSSProperties | undefined {
   if (!hex || !/^#?[0-9a-fA-F]{3,6}$/.test(hex)) return undefined;
   try {
-    const [r, g, b] = hexToRgb(hex);
-    const dark = (f: number) => toHex(r * f, g * f, b * f);
-    const light = (f: number) => toHex(r + (255 - r) * f, g + (255 - g) * f, b + (255 - b) * f);
     const base = hex.startsWith('#') ? hex : `#${hex}`;
+    const [r, g, b] = hexToRgb(base);
+    const [h, s0] = rgbToHsl(r, g, b);
+    const l0 = rgbToHsl(r, g, b)[2] * 100;
+    const s = clamp(s0, 0.12, 0.95);
+    // سطوع مُثبَّت لكل درجة — يبقى داكنًا بما يكفي للنص الأبيض
+    const p500L = clamp(l0, 20, 38);
+    const p700L = clamp(p500L - 10, 10, 28);
+    const p900L = clamp(p500L - 20, 6, 20);
+    const mk = (ll: number, ss: number = s) => {
+      const [rr, gg, bb] = hslToRgb(h, ss, ll / 100);
+      return toHex(rr, gg, bb);
+    };
+    const p500 = mk(p500L);
+    // نص فوق اللون الأساسي: أبيض إن كان التباين كافيًا (≥4.5)، وإلا نص داكن
+    const whiteContrast = 1.05 / (relLum(hexToRgb(p500)) + 0.05);
+    const onBrand = whiteContrast >= 4.5 ? '#ffffff' : '#1b1b1b';
+    const accentOk = accent && /^#?[0-9a-fA-F]{3,6}$/.test(accent);
+    const accentHex = accentOk ? (accent!.startsWith('#') ? accent! : `#${accent}`) : mk(clamp(l0, 46, 62), Math.min(s, 0.8));
     return {
       '--brand': base,
-      '--purple-500': base,
-      '--purple-700': dark(0.72),
-      '--purple-900': dark(0.5),
-      '--purple-300': light(0.32),
-      '--purple-100': light(0.68),
+      '--accent': accentHex,
+      '--on-brand': onBrand,
+      '--purple-500': p500,
+      '--purple-700': mk(p700L),
+      '--purple-900': mk(p900L),
+      '--purple-300': mk(64, Math.min(s, 0.55)),
+      '--purple-100': mk(93, Math.min(s, 0.5)),
     } as CSSProperties;
   } catch {
     return undefined;
@@ -50,7 +101,7 @@ export type NavEntry =
 
 interface Props {
   children: ReactNode;
-  org: { name: string; slug: string; brandColor?: string | null; logoUrl?: string | null };
+  org: { name: string; slug: string; brandColor?: string | null; brandAccent?: string | null; logoUrl?: string | null };
   user: { name: string; role: string; email?: string; avatarUrl?: string | null; jobTitle?: string | null };
   nav: NavEntry[];
   inbox: OrgInbox;
@@ -158,7 +209,7 @@ export default function OrgShell({ children, org, user, nav, inbox, assistant }:
   }
 
   return (
-    <div className={`org-app ${collapsed ? 'is-collapsed' : ''}`} style={brandVars(org.brandColor)}>
+    <div className={`org-app ${collapsed ? 'is-collapsed' : ''}`} style={brandVars(org.brandColor, org.brandAccent)}>
       <WelcomeBack name={user.name} greeting={t('welcome.greeting')} />
       <aside className={`org-sidebar ${open ? 'is-open' : ''}`}>
         {/* زر طيّ/فرد الشريط الجانبي (ضمن القائمة نفسها) */}
