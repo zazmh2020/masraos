@@ -8,7 +8,7 @@ import { useLocale } from '@/lib/i18n/LocaleProvider';
 
 interface Student { id: string; name: string; halaqa: string | null; sessions: number; }
 
-export default function CertificatesView({ students, orgName }: { students: Student[]; orgName: string }) {
+export default function CertificatesView({ students, orgName, orgLogo = null }: { students: Student[]; orgName: string; orgLogo?: string | null }) {
   const { t, locale } = useLocale();
   const dateFmt = new Intl.DateTimeFormat(locale === 'en' ? 'en' : 'ar-u-nu-latn', { year: 'numeric', month: 'long', day: 'numeric' });
   const [active, setActive] = useState<string>(students[0]?.id ?? '');
@@ -37,7 +37,12 @@ export default function CertificatesView({ students, orgName }: { students: Stud
             <motion.div key={cur.id} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.25 }}>
               <div className="cert-preview">
                 <div className="cert-frame">
-                  <div className="cert-logo"><LogoMark size={34} /></div>
+                  <div className="cert-logo">
+                    {orgLogo
+                      // eslint-disable-next-line @next/next/no-img-element
+                      ? <img className="cert-logo-img" src={orgLogo} alt="" />
+                      : <LogoMark size={34} />}
+                  </div>
                   <div className="cert-title">{t('cert.title')}</div>
                   <p className="cert-sub">{orgName}</p>
                   <div className="cert-name">{cur.name}</div>

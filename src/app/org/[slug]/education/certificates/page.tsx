@@ -39,7 +39,7 @@ export default async function CertificatesPage({ params }: { params: Promise<{ s
           <p>{t('pg.certificates.sub')}</p>
         </div>
       </div>
-      <CertificatesView students={students} orgName={org.name} />
+      <CertificatesView students={students} orgName={org.name} orgLogo={org.logoUrl} />
     </div>
   );
 }

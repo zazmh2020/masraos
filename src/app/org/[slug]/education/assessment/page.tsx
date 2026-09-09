@@ -39,6 +39,7 @@ export default async function AssessmentPage({ params }: { params: Promise<{ slu
         students={students}
         canManage={canManageEducation(user)}
         orgName={org.name}
+        orgLogo={org.logoUrl}
         assessments={rows.map((a) => ({
           id: a.id, title: a.title, kind: a.kind, score: a.score, maxScore: a.maxScore,
           errors: a.errors, alerts: a.alerts,

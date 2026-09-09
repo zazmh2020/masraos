@@ -13,8 +13,8 @@ type Assessment = {
 type Student = { id: string; name: string };
 
 export default function AssessmentsView({
-  assessments, students, canManage, orgName,
-}: { assessments: Assessment[]; students: Student[]; canManage: boolean; orgName: string }) {
+  assessments, students, canManage, orgName, orgLogo = null,
+}: { assessments: Assessment[]; students: Student[]; canManage: boolean; orgName: string; orgLogo?: string | null }) {
   const { t, locale } = useLocale();
   const dateFmt = new Intl.DateTimeFormat(locale === 'en' ? 'en' : 'ar-u-nu-latn', { year: 'numeric', month: 'short', day: 'numeric' });
   const fmtDate = (d: string) => dateFmt.format(new Date(d));
@@ -181,6 +181,10 @@ export default function AssessmentsView({
           <div className="qm-preview-scroll">
             <article className="qm-doc" lang="en">
               <header className="qm-doc-head">
+                {orgLogo && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img className="qm-doc-logo" src={orgLogo} alt="" />
+                )}
                 <div className="qm-doc-org">{orgName}</div>
                 <h1 className="qm-doc-title">{t('assess.pageTitle')}</h1>
                 <div className="qm-doc-sub">{t('assess.reportCount', { n: assessments.length })}</div>
