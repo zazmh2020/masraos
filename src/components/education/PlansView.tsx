@@ -18,8 +18,8 @@ export type CustomPlan = {
 const DEFAULT_ICON = 'education/education-courses';
 
 export default function PlansView({
-  ready, custom, canManage, orgName,
-}: { ready: ReadyPlan[]; custom: CustomPlan[]; canManage: boolean; orgName: string }) {
+  ready, custom, canManage, orgName, orgLogo = null,
+}: { ready: ReadyPlan[]; custom: CustomPlan[]; canManage: boolean; orgName: string; orgLogo?: string | null }) {
   const t = useT();
   const router = useRouter();
 
@@ -197,6 +197,10 @@ export default function PlansView({
           <div className="qm-preview-scroll">
             <article className="qm-doc" lang="en">
               <header className="qm-doc-head">
+                {orgLogo && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img className="qm-doc-logo" src={orgLogo} alt="" />
+                )}
                 <div className="qm-doc-org">{orgName}</div>
                 <h1 className="qm-doc-title">{preview.title}</h1>
                 {preview.subtitle && <div className="qm-doc-sub">{preview.subtitle}</div>}

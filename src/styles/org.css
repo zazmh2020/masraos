@@ -2061,7 +2061,9 @@ a.org-module:hover {
     border-bottom: 2px solid #6b57a0; padding-bottom: 0.5rem; margin-bottom: 1rem;
   }
   .rep-print-header strong { font-size: 1.15rem; color: #2b1a4e; }
-  .rep-print-header span { font-size: 0.85rem; color: #6c6780; }
+  .rep-print-header .rep-print-brand { display: flex; align-items: center; gap: 0.5rem; }
+  .rep-print-logo { max-height: 40px; max-width: 130px; object-fit: contain; }
+  .rep-print-header > span { font-size: 0.85rem; color: #6c6780; }
   .org-panel, .org-stat, .org-report-grid > * { break-inside: avoid; }
   .org-page-head p, .org-eyebrow { display: none; }
   @page { margin: 14mm; }

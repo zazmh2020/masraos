@@ -167,7 +167,13 @@ export default async function OrgReportsPage({ params }: { params: Promise<{ slu
     <div className="org-page rep-print-root">
       {/* ترويسة تظهر عند الطباعة/التصدير فقط */}
       <div className="rep-print-header" aria-hidden="true">
-        <strong>{org.name}</strong>
+        <span className="rep-print-brand">
+          {org.logoUrl && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img className="rep-print-logo" src={org.logoUrl} alt="" />
+          )}
+          <strong>{org.name}</strong>
+        </span>
         <span>{t('rep.title')} · {printedAt}</span>
       </div>
 

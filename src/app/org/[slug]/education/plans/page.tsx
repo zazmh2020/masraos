@@ -94,7 +94,7 @@ export default async function PlansPage({ params }: { params: Promise<{ slug: st
           <p>{t('pg.plans.sub')}</p>
         </div>
       </div>
-      <PlansView ready={READY_PLANS} custom={custom} canManage={canManageEducation(user)} orgName={org.name} />
+      <PlansView ready={READY_PLANS} custom={custom} canManage={canManageEducation(user)} orgName={org.name} orgLogo={org.logoUrl} />
     </div>
   );
 }
