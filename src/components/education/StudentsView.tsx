@@ -181,19 +181,25 @@ export default function StudentsView({ students, halaqat, basePath }: { students
         <div className="org-empty">{students.length === 0 ? t('edu.st.none') : t('edu.st.noneInHalaqa')}</div>
       ) : (
         <div className="org-table-wrap">
-          <table className="org-table">
+          <table className="org-table org-table-center st-table">
             <thead>
-              <tr><th>{t('edu.st.thStudent')}</th><th>{t('edu.st.thGuardian')}</th><th>{t('edu.st.section')}</th><th>{t('view.status')}</th><th>{t('edu.st.halaqa')}</th><th></th></tr>
+              <tr>
+                <th className="st-col-serial">{t('edu.st.thSerial')}</th>
+                <th className="st-col-name">{t('edu.st.thStudent')}</th>
+                <th>{t('edu.st.section')}</th>
+                <th>{t('view.status')}</th>
+                <th>{t('edu.st.halaqa')}</th>
+                <th className="st-col-actions">{t('view.delete')}</th>
+              </tr>
             </thead>
             <tbody>
               {shown.map((s) => (
                 <tr key={s.id}>
-                  <td>
+                  <td className="st-col-serial"><span className="st-serial" dir="ltr">{s.serial != null ? `#${s.serial}` : '—'}</span></td>
+                  <td className="st-col-name">
                     <Link href={`${basePath}/${s.id}`} className="org-link"><strong>{s.name}</strong></Link>
-                    {s.serial != null && <small dir="ltr">#{s.serial}</small>}
                     {s.phone && <small dir="ltr">{s.phone}</small>}
                   </td>
-                  <td>{s.guardianName ?? '—'}{s.guardianPhone && <small dir="ltr">{s.guardianPhone}</small>}</td>
                   <td>
                     <select className="org-inline-select" value={s.section ?? ''} disabled={busyId === s.id}
                       onChange={(e) => patch(s.id, { section: e.target.value || null })} aria-label={t('edu.st.section')}>
@@ -216,7 +222,7 @@ export default function StudentsView({ students, halaqat, basePath }: { students
                       </select>
                     ) : halaqaName(s.halaqaId)}
                   </td>
-                  <td className="org-row-actions">
+                  <td className="st-col-actions">
                     <button className="org-btn org-btn-danger" disabled={busyId === s.id} onClick={() => remove(s.id)}>{t('view.delete')}</button>
                   </td>
                 </tr>

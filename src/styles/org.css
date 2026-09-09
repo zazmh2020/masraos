@@ -535,6 +535,19 @@ a.org-module:hover {
 .org-table tbody tr:hover { background: #faf9fc; }
 .org-table tr.is-inactive { opacity: 0.6; }
 
+/* جدول موسّط المحتوى (الطلاب) */
+.org-table-center th,
+.org-table-center td { text-align: center; }
+.org-table-center td small { text-align: center; }
+.org-table-center .org-inline-select { margin-inline: auto; }
+/* الأعمدة: رقم تسلسلي ضيّق، اسم أوسع، إجراء ثابت */
+.st-table { min-width: 720px; }
+.st-col-serial { width: 110px; white-space: nowrap; }
+.st-serial { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--purple-700); }
+.st-col-name { min-width: 200px; }
+.st-col-name .org-link { display: inline-block; }
+.st-col-actions { width: 96px; }
+
 .org-table td strong {
   color: var(--purple-900);
   font-weight: 600;
