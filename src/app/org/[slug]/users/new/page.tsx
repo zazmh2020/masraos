@@ -22,7 +22,7 @@ export default async function NewOrgUserPage({
     <div className="org-page org-page-narrow">
       <div className="org-page-head">
         <div>
-          <Link href={`/org/${org.slug}/users`} className="org-back">← {t('pg.usersNew.back')}</Link>
+          <Link href={`/org/${org.slug}/users`} className="org-back-link">← {t('pg.usersNew.back')}</Link>
           <h1>{t('pg.usersNew.title')}</h1>
           <p>{t('pg.usersNew.sub', { org: org.name })}</p>
         </div>

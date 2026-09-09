@@ -36,7 +36,7 @@ export default async function StudentProfilePage({ params }: { params: Promise<{
     <div className="org-page">
       <div className="org-page-head">
         <div>
-          <Link href={`${base}/education/students`} className="org-back">← {t('pg.students.title')}</Link>
+          <Link href={`${base}/education/students`} className="org-back-link">← {t('pg.students.title')}</Link>
           <h1>{student.name}</h1>
           <p>{student.halaqa ? student.halaqa.name : t('edu.st.noHalaqa')} · {t(`status.student.${student.status}`)}</p>
         </div>

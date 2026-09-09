@@ -287,6 +287,15 @@ body:has(.org-app) { background: #f7f8fb; }
   margin-inline-end: 0.4rem;
 }
 .org-back:hover { color: var(--purple-700, #6b57a0); border-color: var(--purple-300, #8873af); background: var(--purple-100, #efeaf6); }
+
+/* رابط عودة نصّي (سهم + نص) — للاستخدام أعلى الصفحات، لا يُخلط مع زر السهم الدائري */
+.org-back-link {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font-size: 0.82rem; font-weight: 600; color: var(--purple-700, #6b57a0);
+  text-decoration: none; margin-bottom: 0.55rem; width: fit-content;
+  transition: color 0.16s, gap 0.16s;
+}
+.org-back-link:hover { color: var(--purple-900, #2b1a4e); gap: 0.5rem; }
 /* السهم يشير لليمين في الواجهة العربية (رجوع)، ولليسار في الإنجليزية */
 :root[dir="rtl"] .org-back-ic, [dir="rtl"] .org-back-ic { transform: scaleX(-1); }
 

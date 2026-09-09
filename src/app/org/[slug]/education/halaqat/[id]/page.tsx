@@ -28,7 +28,7 @@ export default async function HalaqaDetailPage({ params }: { params: Promise<{ s
     <div className="org-page">
       <div className="org-page-head">
         <div>
-          <Link href={`${base}/education/halaqat`} className="org-back">← {t('hub.edu.halaqat')}</Link>
+          <Link href={`${base}/education/halaqat`} className="org-back-link">← {t('hub.edu.halaqat')}</Link>
           <h1>{halaqa.name}</h1>
           <p>{t(`status.halaqa.${halaqa.type}`)}{halaqa.schedule ? ` · ${halaqa.schedule}` : ''}</p>
         </div>

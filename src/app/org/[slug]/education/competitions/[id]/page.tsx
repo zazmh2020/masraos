@@ -25,7 +25,7 @@ export default async function CompetitionDetailPage({ params }: { params: Promis
     <div className="org-page">
       <div className="org-page-head">
         <div>
-          <Link href={`${base}/education/competitions`} className="org-back">← {t('pg.competitions.title')}</Link>
+          <Link href={`${base}/education/competitions`} className="org-back-link">← {t('pg.competitions.title')}</Link>
           <h1>{comp.name}</h1>
           <p>{comp.level ? `${comp.level} · ` : ''}{t(`status.competition.${comp.status}`)}</p>
         </div>
