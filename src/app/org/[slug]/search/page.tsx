@@ -58,7 +58,7 @@ export default async function SearchPage({
             <section className="org-panel"><h2>{t('pg.students.title')}</h2>
               {students.map((s) => (
                 <Link key={s.id} href={`${base}/education/students/${s.id}`} className="srch-item">
-                  <strong>{s.serial != null ? `#${s.serial} · ` : ''}{s.name}</strong>
+                  <strong>{s.serial != null ? `#${String(s.serial).padStart(4, '0')} · ` : ''}{s.name}</strong>
                   <span>{[s.section ? t(`section.${s.section}`) : null, s.halaqa?.name].filter(Boolean).join(' · ')}</span>
                 </Link>
               ))}

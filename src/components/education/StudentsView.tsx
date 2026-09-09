@@ -46,7 +46,7 @@ export default function StudentsView({ students, halaqat, basePath }: { students
       if (sectionFilter !== 'ALL' && s.section !== sectionFilter) return false;
       if (q) {
         const byName = s.name.toLowerCase().includes(q.toLowerCase());
-        const bySerial = s.serial != null && String(s.serial) === q;
+        const bySerial = s.serial != null && /^\d+$/.test(q) && Number(q) === s.serial;
         if (!byName && !bySerial) return false;
       }
       return true;
@@ -195,7 +195,7 @@ export default function StudentsView({ students, halaqat, basePath }: { students
             <tbody>
               {shown.map((s) => (
                 <tr key={s.id}>
-                  <td className="st-col-serial"><span className="st-serial" dir="ltr">{s.serial != null ? `#${s.serial}` : '—'}</span></td>
+                  <td className="st-col-serial"><span className="st-serial" dir="ltr">{s.serial != null ? `#${String(s.serial).padStart(4, '0')}` : '—'}</span></td>
                   <td className="st-col-name">
                     <Link href={`${basePath}/${s.id}`} className="org-link"><strong>{s.name}</strong></Link>
                     {s.phone && <small dir="ltr">{s.phone}</small>}
