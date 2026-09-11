@@ -126,17 +126,20 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className="lg-demo">
-          <div className="lg-demo-head"><span>{t('login.demo.head')}</span></div>
-          <div className="lg-demo-grid">
-            {DEMO_ACCOUNTS.map((a) => (
-              <a key={a.email} className="lg-demo-btn" href={`/api/auth/dev-login?email=${encodeURIComponent(a.email)}`}>
-                <span className="lg-demo-label">{a.label}</span>
-                <span className="lg-demo-role">{a.role}</span>
-              </a>
-            ))}
+        {/* حسابات الدخول التجريبية — للتطوير المحلّي فقط، تُخفى في الإنتاج */}
+        {process.env.NODE_ENV !== 'production' && (
+          <div className="lg-demo">
+            <div className="lg-demo-head"><span>{t('login.demo.head')}</span></div>
+            <div className="lg-demo-grid">
+              {DEMO_ACCOUNTS.map((a) => (
+                <a key={a.email} className="lg-demo-btn" href={`/api/auth/dev-login?email=${encodeURIComponent(a.email)}`}>
+                  <span className="lg-demo-label">{a.label}</span>
+                  <span className="lg-demo-role">{a.role}</span>
+                </a>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
       </motion.main>
 
