@@ -175,12 +175,12 @@ export default async function OrgDashboard({
 
         {/* إجراءات سريعة */}
         <div className="dash-quick">
-          <Link href={`/org/${org.slug}/education/monthly`} className="dash-quick-tile"><span>📖</span>{t('od.q.monthly')}</Link>
-          <Link href={`/org/${org.slug}/tasks`} className="dash-quick-tile"><span>✅</span>{t('od.q.tasks')}</Link>
-          <Link href={`/org/${org.slug}/education/students`} className="dash-quick-tile"><span>🎓</span>{t('od.q.students')}</Link>
-          <Link href={`/org/${org.slug}/events`} className="dash-quick-tile"><span>📅</span>{t('od.q.events')}</Link>
-          <Link href={`/org/${org.slug}/requests`} className="dash-quick-tile"><span>📝</span>{t('od.q.requests')}</Link>
-          <Link href={`/org/${org.slug}/search`} className="dash-quick-tile"><span>🔎</span>{t('od.q.search')}</Link>
+          <Link href={`/org/${org.slug}/education/monthly`} className="dash-quick-tile"><Icon name="education/education-quran-memorization" size={18} />{t('od.q.monthly')}</Link>
+          <Link href={`/org/${org.slug}/tasks`} className="dash-quick-tile"><Icon name="operations/operations-tasks" size={18} />{t('od.q.tasks')}</Link>
+          <Link href={`/org/${org.slug}/education/students`} className="dash-quick-tile"><Icon name="people/people-students" size={18} />{t('od.q.students')}</Link>
+          <Link href={`/org/${org.slug}/events`} className="dash-quick-tile"><Icon name="operations/operations-events" size={18} />{t('od.q.events')}</Link>
+          <Link href={`/org/${org.slug}/requests`} className="dash-quick-tile"><Icon name="operations/operations-requests" size={18} />{t('od.q.requests')}</Link>
+          <Link href={`/org/${org.slug}/search`} className="dash-quick-tile"><Icon name="navigation/navigation-search" size={18} />{t('od.q.search')}</Link>
         </div>
 
         {/* الشبكة الرئيسية: رسم + حلقة */}

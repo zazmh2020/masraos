@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Icon from '@/components/Icon';
 import { prisma } from '@/lib/prisma';
 import { getT } from '@/lib/i18n/server';
 
@@ -58,9 +59,9 @@ export default async function TeacherDashboard({
                   <span className="mod-badge is-active">{h._count.students} {t('td.students')}</span>
                 </div>
                 <div className="dash-quick" style={{ marginTop: '0.7rem' }}>
-                  <Link href={`${base}/education/attendance`} className="dash-quick-tile"><span>✅</span>{t('td.attendance')}</Link>
-                  <Link href={`${base}/education/memorization`} className="dash-quick-tile"><span>📖</span>{t('td.memorization')}</Link>
-                  <Link href={`${base}/education/halaqat/${h.id}`} className="dash-quick-tile"><span>👁️</span>{t('td.viewHalaqa')}</Link>
+                  <Link href={`${base}/education/attendance`} className="dash-quick-tile"><Icon name="education/education-attendance" size={18} />{t('td.attendance')}</Link>
+                  <Link href={`${base}/education/memorization`} className="dash-quick-tile"><Icon name="education/education-quran-memorization" size={18} />{t('td.memorization')}</Link>
+                  <Link href={`${base}/education/halaqat/${h.id}`} className="dash-quick-tile"><Icon name="actions/actions-view" size={18} />{t('td.viewHalaqa')}</Link>
                 </div>
               </div>
             </div>
