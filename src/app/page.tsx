@@ -14,6 +14,7 @@ import MasraAssistant from '@/components/landing/MasraAssistant';
 import PricingPlans from '@/components/PricingPlans';
 import { getT } from '@/lib/i18n/server';
 import { getPlatformSettings } from '@/lib/platform-settings';
+import { getActiveHeroSlides } from '@/lib/hero';
 import '@/styles/masra.css';
 import '@/styles/pricing.css';
 
@@ -52,6 +53,8 @@ const INTEGRATIONS = ['int.email', 'int.payment', 'int.whatsapp', 'int.google', 
 export default async function HomePage() {
   const { t } = await getT();
   const settings = await getPlatformSettings();
+  const slides = await getActiveHeroSlides();
+  const slide = slides[0] ?? null; // شريحة الواجهة المنشورة تقود الهيرو إن وُجدت
   return (
     <div className="mdl">
       <WelcomeIntro />
@@ -70,13 +73,21 @@ export default async function HomePage() {
           <div className="mdl-wrap mdl-hero-grid">
             <div>
               <Reveal><span className="mdl-hero-eyebrow">{t('hero.eyebrow')}</span></Reveal>
-              <Reveal><h1>{settings.heroTitle1 || t('hero.title1')}<br /><span className="hl">{settings.heroTitle2 || t('hero.title2')}</span></h1></Reveal>
+              <Reveal><h1>
+                {slide
+                  ? slide.title
+                  : <>{settings.heroTitle1 || t('hero.title1')}<br /><span className="hl">{settings.heroTitle2 || t('hero.title2')}</span></>}
+              </h1></Reveal>
               <Reveal delay={0.1}>
-                <p className="mdl-hero-sub">{settings.heroSubtitle || t('hero.sub')}</p>
+                <p className="mdl-hero-sub">{slide?.subtitle || settings.heroSubtitle || t('hero.sub')}</p>
               </Reveal>
               <Reveal delay={0.2}>
                 <div className="mdl-hero-actions">
-                  <Link href="/login" className="mdl-btn mdl-btn-light">{t('hero.cta.login')}</Link>
+                  {slide?.ctaText && slide.ctaLink
+                    ? (slide.ctaLink.startsWith('/')
+                        ? <Link href={slide.ctaLink} className="mdl-btn mdl-btn-light">{slide.ctaText}</Link>
+                        : <a href={slide.ctaLink} className="mdl-btn mdl-btn-light" target="_blank" rel="noopener noreferrer">{slide.ctaText}</a>)
+                    : <Link href="/login" className="mdl-btn mdl-btn-light">{t('hero.cta.login')}</Link>}
                   <a href="#systems" className="mdl-btn mdl-btn-outline-light">{t('hero.cta.explore')}</a>
                 </div>
               </Reveal>

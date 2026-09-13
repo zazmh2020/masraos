@@ -861,6 +861,28 @@
   margin-top: 2.5rem;
 }
 
+/* ---------- Hero CMS (لوحة مالك المنصّة) ---------- */
+.hero-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.hero-check { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; }
+.hero-list { display: grid; gap: 0.5rem; }
+.hero-item { display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 0.9rem; border: 1px solid var(--line); border-radius: var(--r-sm); background: #fff; }
+.hero-item.is-off { opacity: 0.55; }
+.hero-item-ord { display: flex; flex-direction: column; gap: 2px; }
+.hero-ord-btn { border: none; background: none; cursor: pointer; color: var(--gray-500); font-size: 0.7rem; line-height: 1; padding: 1px 3px; }
+.hero-ord-btn:disabled { opacity: 0.3; cursor: default; }
+.hero-item-main { flex: 1; display: grid; min-width: 0; }
+.hero-item-main strong { color: var(--purple-900); }
+.hero-item-sub { font-size: 0.78rem; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hero-badge { flex: none; font-size: 0.68rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 999px; }
+.hero-badge.st-PUBLISHED { background: var(--success-soft); color: var(--success); }
+.hero-badge.st-DRAFT { background: var(--gray-100); color: var(--gray-500); }
+.hero-badge.st-SCHEDULED { background: var(--info-soft); color: var(--info); }
+.hero-badge.st-ARCHIVED { background: #f3eef0; color: #8a6d75; }
+.hero-item-toggle input { cursor: pointer; }
+.hero-link-btn { border: none; background: none; cursor: pointer; color: var(--purple-700); font-weight: 700; font-size: 0.82rem; }
+.hero-link-btn.danger { color: var(--error); }
+@media (max-width: 640px) { .hero-row2 { grid-template-columns: 1fr; } }
+
 .section-block h2 {
   font-family: var(--font-display);
   font-size: 1.15rem;
