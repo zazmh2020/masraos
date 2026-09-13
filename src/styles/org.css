@@ -2290,3 +2290,19 @@ a.org-module:hover {
 .pts-display-balance span { font-size: 1.1rem; color: var(--text-muted); }
 .pts-display-balance strong { font-size: clamp(3rem, 11vw, 8rem); font-weight: 900; color: var(--purple-500); line-height: 1; }
 .pts-display-serial { color: var(--text-muted); font-size: 1rem; }
+
+/* بطاقات الباركود القابلة للطباعة */
+.pts-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.9rem; margin-top: 1rem; }
+.pts-card { border: 1px solid var(--line); border-radius: var(--r-md); padding: 0.9rem 1rem 1.1rem; text-align: center; background: #fff; display: grid; gap: 0.35rem; break-inside: avoid; }
+.pts-card-logo { max-height: 40px; margin: 0 auto 0.2rem; object-fit: contain; }
+.pts-card-org { font-weight: 700; color: var(--purple-700); font-size: 0.9rem; }
+.pts-card-name { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; color: var(--text-strong); }
+.pts-card-halaqa { font-size: 0.78rem; color: var(--text-muted); }
+.pts-card-code { margin-top: 0.3rem; }
+.pts-card-code svg { display: block; width: 100%; height: 56px; }
+.pts-card-serial { font-family: 'Consolas', monospace; letter-spacing: 0.06em; color: var(--text); font-size: 0.85rem; }
+@media print {
+  .no-print { display: none !important; }
+  .pts-cards { grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
+  .pts-card { border-color: #ccc; }
+}
