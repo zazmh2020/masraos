@@ -945,6 +945,33 @@ model PlatformSetting {
   @@map("platform_settings")
 }
 
+/// شريحة Hero في الصفحة الرئيسية — يديرها مالك المنصّة (CMS).
+model HeroSlide {
+  id        String     @id @default(cuid())
+  title     String
+  subtitle  String?
+  imageUrl  String?
+  ctaText   String?
+  ctaLink   String?
+  order     Int        @default(0)
+  status    HeroStatus @default(DRAFT)
+  startAt   DateTime? // بداية العرض المجدول
+  endAt     DateTime? // نهاية العرض
+  enabled   Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([status, order])
+  @@map("hero_slides")
+}
+
+enum HeroStatus {
+  DRAFT // مسودّة
+  PUBLISHED // منشور
+  SCHEDULED // مجدول
+  ARCHIVED // مؤرشف
+}
+
 /// خطة/مقرّر دراسي مخصّص تنشئه الجهة (بالإضافة إلى القوالب الجاهزة).
 model StudyPlan {
   id             String   @id @default(cuid())
