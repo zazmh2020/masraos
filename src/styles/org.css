@@ -6,13 +6,12 @@
   display: flex;
   gap: 1rem;
   min-height: 100vh;
-  /* خلفية إطار مساحة العمل — تتبع لون هوية الجهة كطبقة خفيفة جدًّا */
-  background: color-mix(in srgb, var(--brand, #6b57a0) 6%, var(--off-white));
+  /* خلفية مساحة العمل بيضاء صريحة */
+  background: #fff;
   direction: inherit;
   padding: 1rem;
 }
-/* منع ظهور الخلفية العامة خلف مساحة عمل الجهة */
-body:has(.org-app) { background: var(--off-white); }
+body:has(.org-app) { background: #fff; }
 
 /* ---------- Sidebar (لوحة عائمة) ---------- */
 .org-sidebar {
