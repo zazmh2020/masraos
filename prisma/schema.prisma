@@ -20,6 +20,7 @@ model Organization {
   stripeCustomerId     String?   @unique // معرّف العميل في Stripe
   stripeSubscriptionId String? // معرّف الاشتراك النشط
   subscriptionStatus   String? // active / trialing / past_due / canceled …
+  pointsPerScan        Int       @default(10) // نقاط مسابقة الباركود لكل مسح
   brandColor           String? // لون الهوية الأساسي للجهة (hex)
   brandAccent          String? // لون ثانوي/مميّز (hex)
   logoUrl              String? // شعار الجهة (رابط)
@@ -75,6 +76,7 @@ model Organization {
   financeTransactions FinanceTransaction[]
   messages            Message[]
   studyPlans          StudyPlan[]
+  pointsTransactions  PointsTransaction[]
 
   @@map("organizations")
 }
@@ -219,6 +221,7 @@ model Student {
   quranRecords QuranDailyRecord[]
   fees         StudentFee[]
   assessments  Assessment[]
+  pointsTransactions PointsTransaction[]
 
   @@index([organizationId])
   @@index([organizationId, serial])
@@ -247,6 +250,44 @@ model StudentFee {
   @@index([organizationId])
   @@index([studentId])
   @@map("student_fees")
+}
+
+/// حركة نقاط (مسابقة الباركود) — دفتر أستاذ: كل مسح/خصم/تعديل حركة مستقلة، والرصيد يُحسب منها.
+model PointsTransaction {
+  id             String       @id @default(cuid())
+  kind           PointsKind // EARN / DEDUCT / ADJUST
+  source         PointsSource @default(SCAN)
+  amount         Int // موجب دائمًا؛ الاتجاه من kind
+  balanceAfter   Int // الرصيد بعد هذه الحركة (مزامنة موثوقة)
+  reason         String?
+  idempotencyKey String?      @unique // منع تكرار/Replay لنفس العملية
+  createdAt      DateTime     @default(now())
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  studentId String
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  createdById String?
+  createdBy   User?   @relation("PointsCreator", fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@index([organizationId])
+  @@index([studentId])
+  @@index([organizationId, createdAt])
+  @@map("points_transactions")
+}
+
+enum PointsKind {
+  EARN // اكتساب (مسح)
+  DEDUCT // خصم (استبدال)
+  ADJUST // تعديل يدوي
+}
+
+enum PointsSource {
+  SCAN // من قارئ الباركود
+  MANUAL // إدخال يدوي
+  REDEEM // استبدال/خصم
 }
 
 /// حركة مالية — دخل أو مصروف ضمن دفتر الجهة الموحّد
@@ -737,6 +778,7 @@ model User {
   financeEntries     FinanceTransaction[] @relation("FinanceCreator")
   sentMessages       Message[]            @relation("MessageSender")
   receivedMessages   Message[]            @relation("MessageRecipient")
+  pointsCreated      PointsTransaction[]  @relation("PointsCreator")
 
   @@index([organizationId])
   @@index([departmentId])

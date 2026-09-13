@@ -77,6 +77,7 @@ export const CAP_GROUPS: { labelKey: string; caps: { key: string; kind: 'view' |
   { labelKey: 'hub.ops.branches', caps: [{ key: 'branches.view', kind: 'view' }, { key: 'branches.manage', kind: 'manage' }] },
   { labelKey: 'onav.finance', caps: [{ key: 'finance.view', kind: 'view' }, { key: 'finance.manage', kind: 'manage' }] },
   { labelKey: 'onav.education', caps: [{ key: 'education.view', kind: 'view' }, { key: 'education.manage', kind: 'manage' }] },
+  { labelKey: 'onav.points', caps: [{ key: 'points.view', kind: 'view' }, { key: 'points.scan', kind: 'manage' }, { key: 'points.adjust', kind: 'manage' }] },
   { labelKey: 'onav.resources', caps: [{ key: 'hr.view', kind: 'view' }, { key: 'hr.manage', kind: 'manage' }] },
   { labelKey: 'hub.res.beneficiaries', caps: [{ key: 'beneficiaries.view', kind: 'view' }, { key: 'beneficiaries.manage', kind: 'manage' }] },
   { labelKey: 'onav.documents', caps: [{ key: 'documents.view', kind: 'view' }, { key: 'documents.manage', kind: 'manage' }] },
@@ -105,6 +106,7 @@ const STAFF_CAPS = [
   'donations.view', 'donations.manage', 'beneficiaries.view', 'beneficiaries.manage', 'tasks.manage',
   'events.manage', 'fees.manage', 'education.view', 'education.manage', 'hr.view', 'hr.manage',
   'documents.manage', 'knowledge.manage', 'reports.view', 'finance.view', 'finance.manage',
+  'points.view', 'points.scan',
 ];
 // قدرات المشرف = إشراف تربوي/برامجي (متابعة الحلقات والمعلمين والطلاب والتقارير)
 // دون المالية والتبرعات والمستفيدين (تبقى للإدارة/الموظّفين).
@@ -112,9 +114,10 @@ const SUPERVISOR_CAPS = [
   ...MEMBER_CAPS, 'users.view', 'education.view', 'education.manage', 'programs.manage',
   'campaigns.view', 'tasks.manage', 'events.manage', 'reports.view',
   'requests.view', 'requests.manage', 'fees.manage', 'hr.view', 'documents.manage', 'knowledge.manage',
+  'points.view', 'points.scan', 'points.adjust',
 ];
-// قدرات المعلّم = قدرات العضو + الاطّلاع على التعليم (حلقاته وطلابه تُقصر ببوّابة «حلقاتي»).
-const TEACHER_CAPS = [...MEMBER_CAPS, 'education.view'];
+// قدرات المعلّم = قدرات العضو + الاطّلاع على التعليم (حلقاته وطلابه تُقصر ببوّابة «حلقاتي») + مسح النقاط.
+const TEACHER_CAPS = [...MEMBER_CAPS, 'education.view', 'points.view', 'points.scan'];
 // قدرات الطالب = محدودة جدًا (ملفّه ومحتوى منشور فقط).
 const STUDENT_CAPS = ['knowledge.view', 'events.view'];
 
@@ -581,4 +584,19 @@ export function canManageHR(a: string | Actor): boolean {
 /** يستخدم المساعد جميع أعضاء المؤسسة — لكن ضمن حدود ما يحقّ لهم رؤيته */
 export function canUseAssistant(a: string | Actor): boolean {
   return can(a, 'assistant.use');
+}
+
+/* ---------- مسابقة الباركود / النقاط ---------- */
+
+/** يطّلع على النقاط والتقارير */
+export function canViewPoints(a: string | Actor): boolean {
+  return can(a, 'points.view');
+}
+/** يمسح الباركود ويمنح/يخصم نقاطًا */
+export function canScanPoints(a: string | Actor): boolean {
+  return can(a, 'points.scan');
+}
+/** يجري تعديلًا يدويًّا على النقاط (ADJUST) — للإدارة/المشرف */
+export function canAdjustPoints(a: string | Actor): boolean {
+  return can(a, 'points.adjust');
 }
