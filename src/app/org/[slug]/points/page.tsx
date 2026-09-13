@@ -19,7 +19,8 @@ export default async function PointsPage({ params }: { params: Promise<{ slug: s
         <div>
           <span className="org-eyebrow">{t('onav.points')}</span>
           <h1>{t('pts.title')}</h1>
-          <p>{t('pts.sub')} · {org.pointsPerScan} {t('pts.perScan')}</p>
+          <p>{t('pts.sub')}</p>
+          <span className="pts-perscan"><bdi>{org.pointsPerScan}</bdi> {t('pts.perScan')}</span>
         </div>
       </div>
       <ScannerConsole slug={org.slug} perScan={org.pointsPerScan} canRedeem />
