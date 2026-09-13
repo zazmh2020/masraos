@@ -6,6 +6,7 @@ import {
   canViewUsers, canManageSettings, canViewProjects, canViewStructure,
   canViewCampaigns, canViewBeneficiaries, canViewKnowledge, canViewReports,
   canViewDocuments, canUseAssistant, canManageUsers, canViewRequests, canViewFinance,
+  canScanPoints,
 } from '@/lib/permissions';
 import OrgShell, { type NavEntry } from '@/components/OrgShell';
 import { getOrgInbox } from '@/lib/inbox';
@@ -87,6 +88,9 @@ export default async function OrgLayout({
       : []),
     ...(isGuardian
       ? ([{ kind: 'link', href: `${base}/guardian`, label: t('onav.guardianPortal'), icon: 'users', match: [`${base}/guardian`] }] as NavEntry[])
+      : []),
+    ...(canScanPoints(r)
+      ? ([{ kind: 'link', href: `${base}/points`, label: t('onav.points'), icon: 'identity', match: [`${base}/points`] }] as NavEntry[])
       : []),
     ...(canViewFinance(r)
       ? ([{ kind: 'link', href: `${base}/finance`, label: t('onav.finance'), icon: 'donations', match: [`${base}/finance`] }] as NavEntry[])

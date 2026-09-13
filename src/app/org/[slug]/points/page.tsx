@@ -1,0 +1,28 @@
+import { redirect } from 'next/navigation';
+import { requireOrgAccess } from '@/lib/org';
+import { canScanPoints } from '@/lib/permissions';
+import { getT } from '@/lib/i18n/server';
+import ScannerConsole from '@/components/points/ScannerConsole';
+
+export const dynamic = 'force-dynamic';
+
+export default async function PointsPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const { user, org } = await requireOrgAccess(slug);
+  const { t } = await getT();
+
+  if (!canScanPoints(user)) redirect(`/org/${org.slug}`);
+
+  return (
+    <div className="org-page org-page-narrow">
+      <div className="org-page-head">
+        <div>
+          <span className="org-eyebrow">{t('onav.points')}</span>
+          <h1>{t('pts.title')}</h1>
+          <p>{t('pts.sub')} · {org.pointsPerScan} {t('pts.perScan')}</p>
+        </div>
+      </div>
+      <ScannerConsole slug={org.slug} perScan={org.pointsPerScan} canRedeem />
+    </div>
+  );
+}
