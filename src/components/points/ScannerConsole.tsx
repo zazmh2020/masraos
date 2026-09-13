@@ -67,6 +67,7 @@ export default function ScannerConsole({ slug, perScan, canRedeem }: { slug: str
           <button type="button" className={`pts-mode ${mode === 'redeem' ? 'is-on redeem' : ''}`} onClick={() => setMode('redeem')}>{t('pts.redeem')}</button>
         )}
         <span className="pts-modes-spacer" />
+        <Link href={`/org/${slug}/points/report`} className="org-btn org-btn-outline">{t('pts.report')}</Link>
         <Link href={`/org/${slug}/points/cards`} className="org-btn org-btn-outline">{t('pts.cards')}</Link>
         <Link href={`/org/${slug}/points/display`} className="org-btn org-btn-outline" target="_blank">{t('pts.display')} ↗</Link>
       </div>
