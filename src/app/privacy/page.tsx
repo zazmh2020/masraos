@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import MidadHeader from '@/components/landing/MidadHeader';
+import MasraHeader from '@/components/landing/MasraHeader';
 import { getLocale } from '@/lib/i18n/server';
-import '@/styles/midad.css';
+import '@/styles/masra.css';
 import '@/styles/legal.css';
 
 export const dynamic = 'force-dynamic';
@@ -15,7 +15,7 @@ export default async function PrivacyPage() {
 
   return (
     <div className="mdl">
-      <MidadHeader />
+      <MasraHeader />
       <main className="legal">
         <span className="legal-eyebrow">{en ? 'Legal' : 'قانوني'}</span>
         <h1>{en ? 'Privacy Policy' : 'سياسة الخصوصية'}</h1>

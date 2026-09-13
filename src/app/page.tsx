@@ -3,18 +3,18 @@ import Reveal from '@/components/Reveal';
 import Icon from '@/components/Icon';
 import { LogoMark } from '@/components/Logo';
 import WelcomeIntro from '@/components/WelcomeIntro';
-import MidadHeader from '@/components/landing/MidadHeader';
+import MasraHeader from '@/components/landing/MasraHeader';
 import Mockup from '@/components/landing/Mockup';
 import SystemsShowcase from '@/components/landing/SystemsShowcase';
 import HowItWorks from '@/components/landing/HowItWorks';
 import ProductShowcase from '@/components/landing/ProductShowcase';
 import Testimonials from '@/components/landing/Testimonials';
-import MidadAIChat from '@/components/landing/MidadAIChat';
-import MidadAssistant from '@/components/landing/MidadAssistant';
+import MasraAIChat from '@/components/landing/MasraAIChat';
+import MasraAssistant from '@/components/landing/MasraAssistant';
 import PricingPlans from '@/components/PricingPlans';
 import { getT } from '@/lib/i18n/server';
 import { getPlatformSettings } from '@/lib/platform-settings';
-import '@/styles/midad.css';
+import '@/styles/masra.css';
 import '@/styles/pricing.css';
 
 const STAR = (
@@ -57,7 +57,7 @@ export default async function HomePage() {
       {settings.announcementActive && settings.announcement && (
         <div className="mdl-announce" role="status">{settings.announcement}</div>
       )}
-      <MidadHeader />
+      <MasraHeader />
 
       <main>
         {/* ========== HERO ========== */}
@@ -203,7 +203,7 @@ export default async function HomePage() {
                 </div>
               </div>
             </Reveal>
-            <Reveal delay={0.15} y={30}><MidadAIChat /></Reveal>
+            <Reveal delay={0.15} y={30}><MasraAIChat /></Reveal>
           </div>
         </section>
 
@@ -332,7 +332,7 @@ export default async function HomePage() {
         </div>
       </footer>
 
-      <MidadAssistant />
+      <MasraAssistant />
     </div>
   );
 }

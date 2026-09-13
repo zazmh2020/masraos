@@ -17,7 +17,7 @@ export default function SiteFooter() {
           <a href="#systems">الأنظمة</a>
           <a href="#features">المميزات</a>
           <a href="#audiences">الجهات</a>
-          <a href="#about-midad">عن مسرى</a>
+          <a href="#about-masra">عن مسرى</a>
           <a href="#contact">تواصل معنا</a>
         </div>
 

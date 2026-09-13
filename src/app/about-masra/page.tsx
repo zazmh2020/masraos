@@ -11,7 +11,7 @@ const values = [
   { title: 'الجودة', text: 'كل وحدة تُختبر وتُصقل قبل أن تصل للمؤسسات.' },
 ];
 
-export default function AboutMidadPage() {
+export default function AboutMasraPage() {
   return (
     <>
       <SiteHeader />

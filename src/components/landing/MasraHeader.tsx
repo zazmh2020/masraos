@@ -43,7 +43,7 @@ function Mega({ items, href, wide }: { items: typeof SYSTEMS_MEGA; href: string;
   );
 }
 
-export default function MidadHeader() {
+export default function MasraHeader() {
   const t = useT();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);

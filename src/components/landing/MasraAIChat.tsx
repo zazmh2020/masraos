@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useT } from '@/lib/i18n/LocaleProvider';
 
 /** عرض محادثة يحاكي مساعد مسرى الذكي: سؤال → تحليل → إجابة بمؤشرات. */
-export default function MidadAIChat() {
+export default function MasraAIChat() {
   const t = useT();
   const [stage, setStage] = useState(0); // 0 user, 1 typing, 2 answer
   const ref = useRef<HTMLDivElement>(null);

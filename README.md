@@ -1,4 +1,4 @@
-# MIDAD | مِداد
+# MASRA | مسرى
 
 Multi-tenant digital platform for organizational management.
 

@@ -22,7 +22,7 @@ export async function reportError(report: ErrorReport): Promise<void> {
   };
 
   // يظهر في سجلّات المستضيف (Vercel Logs) — مراقبة أساسية جاهزة
-  console.error('[midad:error]', JSON.stringify(payload));
+  console.error('[masra:error]', JSON.stringify(payload));
 
   const hook = process.env.ERROR_WEBHOOK_URL;
   if (hook) {

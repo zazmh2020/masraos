@@ -33,22 +33,22 @@ function replyAr(q: string): string {
 
 function replyEn(q: string): string {
   if (/plan|pricing|price|subscri|free|cost/i.test(q))
-    return 'Midad has four plans: Launch (free), Growth, Empower, and Impact for large organizations. Check the “Pricing” section for details, and start free anytime.';
+    return 'Masra has four plans: Launch (free), Growth, Empower, and Impact for large organizations. Check the “Pricing” section for details, and start free anytime.';
   if (/system|module|feature/i.test(q))
-    return 'Midad covers organization management, HR, projects, beneficiaries, education, finance, reports and documents — plus the Midad AI assistant. Enable only what you need.';
+    return 'Masra covers organization management, HR, projects, beneficiaries, education, finance, reports and documents — plus the Masra AI assistant. Enable only what you need.';
   if (/donat|financ|campaign|fund/i.test(q))
-    return 'Midad’s finance & donations system manages campaigns, donors and financial operations with reports ready to connect.';
+    return 'Masra’s finance & donations system manages campaigns, donors and financial operations with reports ready to connect.';
   if (/educat|circle|quran|student|memoriz|certificate|competition/i.test(q))
     return 'The education system manages circles, students, attendance, memorization progress, assessment, competitions and certificates — ideal for Quran and educational centers.';
   if (/secur|permission|privacy|isolat|protect/i.test(q))
-    return 'Midad provides precise control over permissions and access, with full data isolation for every organization.';
+    return 'Masra provides precise control over permissions and access, with full data isolation for every organization.';
   if (/integrat|connect|api|whatsapp|email/i.test(q))
-    return 'Midad integrates with email, payment gateways, WhatsApp, Google and Microsoft via APIs.';
+    return 'Masra integrates with email, payment gateways, WhatsApp, Google and Microsoft via APIs.';
   if (/start|begin|sign|account|login/i.test(q))
     return 'Start by signing in, then set up your organization’s data and structure and enable the systems you need. Organization accounts are created via platform administration.';
   if (ON_TOPIC_EN.test(q))
-    return 'Great question about Midad! I can help with systems, pricing, getting started, security and integrations. Tell me what you’d like to know, or sign in to try the full assistant inside your organization.';
-  return 'I’m Midad’s dedicated assistant and only answer questions about the platform: systems, pricing, getting started, security and integrations. Ask me anything about Midad and I’ll be glad to help 🙏';
+    return 'Great question about Masra! I can help with systems, pricing, getting started, security and integrations. Tell me what you’d like to know, or sign in to try the full assistant inside your organization.';
+  return 'I’m Masra’s dedicated assistant and only answer questions about the platform: systems, pricing, getting started, security and integrations. Ask me anything about Masra and I’ll be glad to help 🙏';
 }
 
 function reply(locale: Locale, q: string): string {
@@ -56,7 +56,7 @@ function reply(locale: Locale, q: string): string {
   return locale === 'en' ? replyEn(t) : replyAr(t);
 }
 
-export default function MidadAssistant() {
+export default function MasraAssistant() {
   const { locale, t } = useLocale();
   const [open, setOpen] = useState(false);
   const [msgs, setMsgs] = useState<Msg[]>(() => [{ role: 'ai', text: t('asst.welcome') }]);
