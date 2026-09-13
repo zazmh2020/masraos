@@ -64,7 +64,7 @@
   align-items: center;
   gap: 0.7rem;
   padding: 0.4rem 0.6rem 1.5rem;
-  border-bottom: 1px solid #eeecf2;
+  border-bottom: 1px solid #ededf1;
   margin-bottom: 1rem;
 }
 
@@ -158,7 +158,7 @@
 
 .admin-sidebar-foot {
   padding-top: 1rem;
-  border-top: 1px solid #eeecf2;
+  border-top: 1px solid #ededf1;
 }
 
 .admin-user {
@@ -398,7 +398,7 @@
 }
 .admin-bar-label { color: var(--gray-700); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .admin-bar-value { color: var(--purple-900); font-weight: 700; text-align: end; }
-.admin-bar-track { height: 9px; background: #efeaf6; border-radius: 100px; overflow: hidden; }
+.admin-bar-track { height: 9px; background: #f0f0f3; border-radius: 100px; overflow: hidden; }
 .admin-bar-track > span {
   display: block; height: 100%; min-width: 4px; border-radius: 100px;
   background: linear-gradient(90deg, var(--purple-500), var(--purple-300));
@@ -431,7 +431,7 @@
 .admin-table td {
   padding: 0.9rem 1rem;
   text-align: start;
-  border-bottom: 1px solid #eeecf2;
+  border-bottom: 1px solid #ededf1;
 }
 
 .admin-table th {
@@ -454,7 +454,7 @@
 .admin-table code {
   font-family: 'Consolas', monospace;
   font-size: 0.78rem;
-  background: #f3f0f8;
+  background: #f1f1f4;
   padding: 0.2rem 0.5rem;
   border-radius: 4px;
   color: var(--purple-700);
@@ -509,7 +509,7 @@
   display: inline-flex;
   align-items: center;
   padding: 0.6rem 1.3rem;
-  border: 1.2px solid #d5d0dc;
+  border: 1.2px solid #d6d5da;
   color: var(--purple-900);
   border-radius: 8px;
   font-family: var(--font-display);
@@ -538,7 +538,7 @@
 /* Empty state */
 .empty-state {
   background: var(--white);
-  border: 1px dashed #d5d0dc;
+  border: 1px dashed #d6d5da;
   border-radius: 12px;
   padding: 3rem 2rem;
   text-align: center;
@@ -606,7 +606,7 @@
   font-size: 1rem;
   margin-bottom: 1rem;
   padding-bottom: 0.65rem;
-  border-bottom: 1px solid #eeecf2;
+  border-bottom: 1px solid #ededf1;
   width: 100%;
 }
 
@@ -636,7 +636,7 @@
 .admin-field select {
   width: 100%;
   padding: 0.65rem 0.85rem;
-  border: 1.2px solid #d5d0dc;
+  border: 1.2px solid #d6d5da;
   border-radius: 8px;
   font-family: var(--font-body);
   font-size: 0.9rem;
@@ -663,7 +663,7 @@
   align-items: flex-start;
   gap: 0.6rem;
   padding: 0.8rem 0.9rem;
-  border: 1.4px solid #d5d0dc;
+  border: 1.4px solid #d6d5da;
   border-radius: 10px;
   background: var(--white);
   text-align: start;
@@ -681,7 +681,7 @@
   flex: none; width: 34px; height: 34px;
   display: grid; place-items: center;
   border-radius: 8px;
-  background: var(--purple-100, #f3f0f8);
+  background: var(--purple-100, #f1f1f4);
   color: var(--purple-700);
 }
 .sector-tx { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; flex: 1; }
@@ -698,7 +698,7 @@
 .sector-mod-chip {
   display: inline-flex; align-items: center; gap: 0.3rem;
   font-size: 0.76rem; color: var(--purple-700);
-  background: var(--purple-100, #f3f0f8);
+  background: var(--purple-100, #f1f1f4);
   padding: 0.28rem 0.6rem; border-radius: 999px;
 }
 
@@ -713,7 +713,7 @@
   justify-content: flex-end;
   gap: 0.7rem;
   padding-top: 1rem;
-  border-top: 1px solid #eeecf2;
+  border-top: 1px solid #ededf1;
 }
 
 .form-error {
@@ -786,7 +786,7 @@
 }
 
 .detail-row:not(:last-child) {
-  border-bottom: 1px solid #eeecf2;
+  border-bottom: 1px solid #ededf1;
 }
 
 .detail-label {
@@ -803,7 +803,7 @@
   padding: 0.35rem 0.7rem;
   border-radius: 5px;
   color: var(--purple-700);
-  border: 1px solid #eeecf2;
+  border: 1px solid #ededf1;
   overflow-wrap: anywhere;
   min-width: 0;
   justify-self: start;
@@ -814,7 +814,7 @@
   gap: 0.7rem;
   justify-content: flex-start;
   padding-top: 0.5rem;
-  border-top: 1px solid #eeecf2;
+  border-top: 1px solid #ededf1;
   margin-top: 0.5rem;
 }
 
@@ -899,7 +899,7 @@
 }
 .plan-assign select {
   padding: 0.55rem 0.85rem;
-  border: 1.2px solid #d5d0dc;
+  border: 1.2px solid #d6d5da;
   border-radius: 8px;
   font: inherit;
   font-size: 0.9rem;
