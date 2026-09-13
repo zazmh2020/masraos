@@ -19,7 +19,7 @@ export default async function AdminContentPage() {
       </div>
 
       <div className="section-block">
-        <div style={{ maxWidth: 620 }}>
+        <div style={{ maxWidth: 620, marginInline: 'auto' }}>
           <PlatformContentForm initial={settings} />
         </div>
       </div>

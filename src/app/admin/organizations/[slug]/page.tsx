@@ -74,7 +74,7 @@ export default async function OrgDetailPage({
       <div className="section-block">
         <h2>{t('aorg.detail.branding')}</h2>
         <p className="link-quiet" style={{ marginBottom: '0.8rem' }}>{t('aorg.detail.brandingSub')}</p>
-        <div style={{ maxWidth: 620 }}>
+        <div style={{ maxWidth: 620, marginInline: 'auto' }}>
           <OrgIdentityForm
             apiBase={`/api/admin/organizations/${org.slug}/branding`}
             subdomain={tenantHost(org.slug)}

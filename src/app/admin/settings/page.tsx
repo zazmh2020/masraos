@@ -28,7 +28,7 @@ export default async function AdminSettingsPage() {
         <p>{t('aset.sub')}</p>
       </div>
 
-      <div style={{ maxWidth: 620 }}>
+      <div style={{ maxWidth: 620, marginInline: 'auto' }}>
         <h2 className="org-settings-h2">{t('oset.profile')}</h2>
         <ProfileForm name={me.name} email={me.email} role={me.role} avatarUrl={me.avatarUrl} jobTitle={me.jobTitle} phone={me.phone} />
 
