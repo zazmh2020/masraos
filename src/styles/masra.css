@@ -577,8 +577,29 @@
 .mdl-footer .fb-desc { margin-top: 0.9rem; font-size: 0.88rem; max-width: 34ch; line-height: 1.8; color: rgba(255,255,255,0.68); }
 .mdl-footer h5 { color: #fff; font-size: 0.92rem; margin: 0 0 1rem; }
 .mdl-footer ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
-.mdl-footer ul a { font-size: 0.88rem; color: rgba(255,255,255,0.68); transition: color 0.2s; }
-.mdl-footer ul a:hover { color: var(--pl); }
+.mdl-footer ul a {
+  position: relative;
+  display: inline-block;
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.68);
+  transition: color var(--dur) var(--ease);
+}
+/* لمسة Brand moment: خطّ سفلي يُرسَم من بداية السطر عند المرور (يحترم RTL/reduced-motion) */
+.mdl-footer ul a::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: -3px;
+  width: 100%;
+  height: 1.5px;
+  background: var(--pl);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur) var(--ease-out);
+}
+[dir="rtl"] .mdl-footer ul a::after { transform-origin: right center; }
+.mdl-footer ul a:hover { color: #fff; }
+.mdl-footer ul a:hover::after { transform: scaleX(1); }
 .mdl-footer-bottom { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.82rem; text-align: center; color: rgba(255,255,255,0.5); }
 
 /* ============================================================
