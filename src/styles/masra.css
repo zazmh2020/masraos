@@ -242,7 +242,7 @@
   animation: mdlFloat 6s ease-in-out infinite;
 }
 .mdl-float .fic { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; flex-shrink: 0; }
-.mdl-float .fic.teal { background: var(--p-08); color: var(--p); }
+.mdl-float .fic.brand { background: var(--p-08); color: var(--p); }
 .mdl-float .fic.gold { background: var(--gold-12); color: #3D2879; }
 .mdl-float .ftitle { font-size: 0.72rem; color: var(--muted); }
 .mdl-float .fval { font-size: 1.05rem; font-weight: 700; color: var(--dark); }

@@ -111,7 +111,7 @@ export default async function HomePage() {
                   <div className="mdl-fan-card front"><Mockup kind="dashboard" /></div>
                 </div>
                 <div className="mdl-float mdl-float-1">
-                  <span className="fic teal"><Icon name="analytics/analytics-growth" size={17} /></span>
+                  <span className="fic brand"><Icon name="analytics/analytics-growth" size={17} /></span>
                   <div><div className="ftitle">{t('hero.float.completion')}</div><div className="fval">86%</div></div>
                 </div>
                 <div className="mdl-float mdl-float-2">
@@ -119,7 +119,7 @@ export default async function HomePage() {
                   <div><div className="ftitle">{t('hero.float.report')}</div><div className="fval">{t('hero.float.reportVal')}</div></div>
                 </div>
                 <div className="mdl-float mdl-float-3">
-                  <span className="fic teal"><Icon name="people/people-users" size={17} /></span>
+                  <span className="fic brand"><Icon name="people/people-users" size={17} /></span>
                   <div><div className="ftitle">{t('hero.float.newMembers')}</div><div className="fval">+12</div></div>
                 </div>
               </div>
