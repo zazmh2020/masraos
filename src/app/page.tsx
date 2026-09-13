@@ -21,12 +21,13 @@ const STAR = (
   <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z" /></svg>
 );
 
+// الترتيب الرسمي للقطاعات (يطابق SECTORS في lib/org-types.ts): مراكز القرآن أولًا «متاح الآن».
 const AUDIENCES = [
+  { icon: 'education/education-quran', k: 'aud.quran' },
   { icon: 'organization/organization-institution', k: 'aud.charity' },
   { icon: 'people/people-groups', k: 'aud.humanitarian' },
   { icon: 'education/education-education', k: 'aud.education' },
   { icon: 'analytics/analytics-growth', k: 'aud.development' },
-  { icon: 'education/education-quran', k: 'aud.quran' },
   { icon: 'organization/organization-building', k: 'aud.waqf' },
 ];
 
