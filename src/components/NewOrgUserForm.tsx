@@ -3,9 +3,11 @@
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ASSIGNABLE_ROLES, roleLabel } from '@/lib/permissions';
+import { ASSIGNABLE_ROLES } from '@/lib/permissions';
+import { useT } from '@/lib/i18n/LocaleProvider';
 
 export default function NewOrgUserForm({ slug }: { slug: string }) {
+  const t = useT();
   const router = useRouter();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -61,7 +63,7 @@ export default function NewOrgUserForm({ slug }: { slug: string }) {
         <label htmlFor="role">الدور</label>
         <select id="role" value={role} onChange={(e) => setRole(e.target.value)}>
           {ASSIGNABLE_ROLES.map((r) => (
-            <option key={r} value={r}>{roleLabel(r)}</option>
+            <option key={r} value={r}>{t(`role.${r}`)}</option>
           ))}
         </select>
       </div>

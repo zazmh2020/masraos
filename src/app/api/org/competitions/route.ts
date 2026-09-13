@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getOrgActor } from '@/lib/org';
-import { canViewProjects } from '@/lib/permissions';
+import { canManageEducation } from '@/lib/permissions';
 
 const STATUSES = ['UPCOMING', 'OPEN', 'CLOSED'];
 
 /** إنشاء مسابقة */
 export async function POST(request: Request) {
   const actor = await getOrgActor();
-  if (!actor || !canViewProjects(actor)) {
+  if (!actor || !canManageEducation(actor)) {
     return NextResponse.json({ error: 'غير مصرّح.' }, { status: 403 });
   }
   const body = await request.json().catch(() => null);
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
 /** حذف مسابقة */
 export async function DELETE(request: Request) {
   const actor = await getOrgActor();
-  if (!actor || !canViewProjects(actor)) {
+  if (!actor || !canManageEducation(actor)) {
     return NextResponse.json({ error: 'غير مصرّح.' }, { status: 403 });
   }
   const id = new URL(request.url).searchParams.get('id');

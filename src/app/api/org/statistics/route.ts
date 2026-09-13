@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getOrgActor } from '@/lib/org';
+import { canViewEducation } from '@/lib/permissions';
 
 /** إحصاءات تطوّر الإنجاز — جلسات الحفظ/المراجعة عبر الزمن مع فلاتر. */
 export async function GET(request: Request) {
   const actor = await getOrgActor();
-  if (!actor) return NextResponse.json({ error: 'غير مصرّح.' }, { status: 403 });
+  if (!actor || !canViewEducation(actor)) return NextResponse.json({ error: 'غير مصرّح.' }, { status: 403 });
 
   const url = new URL(request.url);
   const halaqaId = url.searchParams.get('halaqaId') || undefined;

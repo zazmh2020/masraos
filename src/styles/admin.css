@@ -652,6 +652,56 @@
   box-shadow: 0 0 0 3px rgba(107, 87, 160, 0.1);
 }
 
+/* ---------- منتقي القطاعات (معالج إنشاء المؤسسة) ---------- */
+.sector-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.6rem;
+}
+.sector-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.8rem 0.9rem;
+  border: 1.4px solid #d5d0dc;
+  border-radius: 10px;
+  background: var(--white);
+  text-align: start;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.sector-card:hover:not(.is-disabled) { border-color: var(--purple-300); }
+.sector-card.is-selected {
+  border-color: var(--purple-500);
+  box-shadow: 0 0 0 3px rgba(107, 87, 160, 0.1);
+  background: #faf9fd;
+}
+.sector-card.is-disabled { opacity: 0.55; cursor: not-allowed; }
+.sector-ic {
+  flex: none; width: 34px; height: 34px;
+  display: grid; place-items: center;
+  border-radius: 8px;
+  background: var(--purple-100, #f3f0f8);
+  color: var(--purple-700);
+}
+.sector-tx { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; flex: 1; }
+.sector-name { font-weight: 700; font-size: 0.88rem; color: var(--purple-900); }
+.sector-desc { font-size: 0.74rem; color: var(--gray-500); line-height: 1.45; }
+.sector-badge {
+  flex: none; font-size: 0.64rem; font-weight: 700;
+  padding: 0.12rem 0.45rem; border-radius: 999px; white-space: nowrap;
+}
+.sector-badge.st-ACTIVE { background: #e6f6ec; color: #1c7a43; }
+.sector-badge.st-COMING_SOON { background: #fdf2e3; color: #9a6b12; }
+.sector-badge.st-FUTURE { background: #f0eef4; color: var(--gray-500); }
+.sector-mods { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.3rem; }
+.sector-mod-chip {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  font-size: 0.76rem; color: var(--purple-700);
+  background: var(--purple-100, #f3f0f8);
+  padding: 0.28rem 0.6rem; border-radius: 999px;
+}
+
 .field-preview {
   margin-top: 0.4rem;
   font-size: 0.78rem;

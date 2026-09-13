@@ -486,6 +486,82 @@ a.org-module:hover {
   opacity: 0.55;
 }
 
+/* ---------- بطاقات الأنظمة الموحّدة (سجلّ Metadata) ---------- */
+.mod-cat { margin-top: 1.6rem; }
+.mod-cat:first-of-type { margin-top: 0.6rem; }
+.mod-cat-title {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  margin: 0 0 0.7rem;
+}
+.mod-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.85rem;
+}
+.mod-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem 1.05rem;
+  border: 1px solid #e7e4ee;
+  border-radius: 12px;
+  background: var(--surface, #fff);
+  transition: border-color 0.2s, box-shadow 0.2s, opacity 0.2s;
+}
+.mod-card.is-active { border-color: var(--purple-300); }
+.mod-card.is-unavailable,
+.mod-card.is-locked { opacity: 0.72; }
+.mod-card-ic {
+  flex: none;
+  width: 40px; height: 40px;
+  display: grid; place-items: center;
+  border-radius: 10px;
+  background: var(--purple-100, #f3f0f8);
+  color: var(--purple-700);
+}
+.mod-card-body { flex: 1; min-width: 0; }
+.mod-card-hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.mod-card-hd strong {
+  color: var(--purple-900);
+  font-family: var(--font-display);
+  font-size: 0.94rem;
+}
+.mod-card-desc {
+  color: var(--gray-500);
+  font-size: 0.8rem;
+  line-height: 1.55;
+  margin: 0.3rem 0 0;
+}
+.mod-card-hint {
+  color: var(--gray-500);
+  font-size: 0.75rem;
+  margin: 0.45rem 0 0;
+  font-style: italic;
+}
+.mod-badge {
+  flex: none;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.16rem 0.5rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.mod-badge.is-active { background: #e6f6ec; color: #1c7a43; }
+.mod-badge.is-disabled { background: #f0eef4; color: var(--gray-500); }
+.mod-badge.is-locked { background: #fdf2e3; color: #9a6b12; }
+.mod-badge.is-unavailable { background: #f3eef0; color: #8a6d75; }
+.mod-card .org-switch { margin-top: 0.15rem; flex: none; }
+
 /* ---------- Key/Value ---------- */
 .org-kv {
   display: flex;

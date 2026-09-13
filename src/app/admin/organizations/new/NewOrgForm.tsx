@@ -1,17 +1,13 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useState, useMemo, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Icon from '@/components/Icon';
 import { useT } from '@/lib/i18n/LocaleProvider';
 import { tenantHost, tenantUrl } from '@/lib/app-domain';
-
-const orgTypes = [
-  { value: 'ASSOCIATION' },
-  { value: 'MOSQUE' },
-  { value: 'SCHOOL' },
-  { value: 'PROJECT' },
-];
+import { SECTORS } from '@/lib/org-types';
+import { ORG_MODULES, MODULE_REGISTRY } from '@/lib/modules';
 
 export default function NewOrgForm() {
   const t = useT();
@@ -22,7 +18,10 @@ export default function NewOrgForm() {
 
   const [orgName, setOrgName] = useState('');
   const [slug, setSlug] = useState('');
-  const [type, setType] = useState('ASSOCIATION');
+  // اختيار القطاع (يُشتقّ منه نوع المؤسسة والأنظمة المُهيَّأة)
+  const [sectorId, setSectorId] = useState('QURAN_CENTER');
+  const sector = useMemo(() => SECTORS.find((s) => s.id === sectorId) ?? SECTORS[0], [sectorId]);
+  const type = sector.type ?? 'ASSOCIATION';
   const [adminName, setAdminName] = useState('');
   const [adminEmail, setAdminEmail] = useState('');
   const [adminPassword, setAdminPassword] = useState('');
@@ -50,6 +49,8 @@ export default function NewOrgForm() {
     setBusy(true);
 
     try {
+      // الأنظمة المعطّلة = كل نظام قابل للتفعيل ليس ضمن الأنظمة المُهيَّأة للقطاع
+      const disabledModules = ORG_MODULES.filter((m) => !sector.suggestedModules.includes(m));
       const res = await fetch('/api/admin/organizations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -57,6 +58,7 @@ export default function NewOrgForm() {
           name: orgName,
           slug,
           type,
+          disabledModules,
           adminName,
           adminEmail,
           adminPassword,
@@ -165,12 +167,41 @@ export default function NewOrgForm() {
         </div>
 
         <div className="admin-field">
-          <label htmlFor="type">{t('aorg.form.orgType')}</label>
-          <select id="type" value={type} onChange={(e) => setType(e.target.value)}>
-            {orgTypes.map((o) => (
-              <option key={o.value} value={o.value}>{t('atype.' + o.value)}</option>
+          <label>{t('aorg.form.sector')}<span className="field-hint">{t('aorg.form.sectorHint')}</span></label>
+          <div className="sector-grid">
+            {SECTORS.map((s) => {
+              const selectable = s.type !== null;
+              const selected = s.id === sectorId;
+              return (
+                <button
+                  type="button"
+                  key={s.id}
+                  className={`sector-card ${selected ? 'is-selected' : ''} ${selectable ? '' : 'is-disabled'}`}
+                  onClick={() => selectable && setSectorId(s.id)}
+                  disabled={!selectable}
+                  aria-pressed={selected}
+                >
+                  <span className="sector-ic"><Icon name={s.icon} size={20} /></span>
+                  <span className="sector-tx">
+                    <span className="sector-name">{t(s.labelKey)}</span>
+                    <span className="sector-desc">{t(s.descKey)}</span>
+                  </span>
+                  <span className={`sector-badge st-${s.status}`}>{t(`sector.status.${s.status}`)}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="admin-field">
+          <span className="field-hint">{t('aorg.form.suggestedModules')}</span>
+          <div className="sector-mods">
+            {sector.suggestedModules.map((m) => (
+              <span key={m} className="sector-mod-chip">
+                <Icon name={MODULE_REGISTRY[m].icon} size={14} /> {t(MODULE_REGISTRY[m].labelKey)}
+              </span>
             ))}
-          </select>
+          </div>
         </div>
       </fieldset>
 

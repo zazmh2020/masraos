@@ -38,8 +38,11 @@ import type {
 export const ROLE_LABELS: Record<Role, string> = {
   PLATFORM_OWNER: 'مالك المنصة',
   ORG_ADMIN: 'مدير المؤسسة',
+  SUPERVISOR: 'مشرف',
   STAFF: 'موظف',
+  TEACHER: 'معلم',
   MEMBER: 'عضو',
+  STUDENT: 'طالب',
 };
 
 export function roleLabel(role: string): string {
@@ -47,7 +50,7 @@ export function roleLabel(role: string): string {
 }
 
 /** الأدوار التي يمكن إسنادها لمستخدم داخل مؤسسة — لا يُسند دور مالك المنصة أبدًا */
-export const ASSIGNABLE_ROLES: Role[] = ['ORG_ADMIN', 'STAFF', 'MEMBER'];
+export const ASSIGNABLE_ROLES: Role[] = ['ORG_ADMIN', 'SUPERVISOR', 'STAFF', 'TEACHER', 'MEMBER', 'STUDENT'];
 
 export function isAssignableRole(role: string): role is Role {
   return (ASSIGNABLE_ROLES as string[]).includes(role);
@@ -103,13 +106,27 @@ const STAFF_CAPS = [
   'events.manage', 'fees.manage', 'education.view', 'education.manage', 'hr.view', 'hr.manage',
   'documents.manage', 'knowledge.manage', 'reports.view', 'finance.view', 'finance.manage',
 ];
+// قدرات المشرف = إشراف تربوي/برامجي (متابعة الحلقات والمعلمين والطلاب والتقارير)
+// دون المالية والتبرعات والمستفيدين (تبقى للإدارة/الموظّفين).
+const SUPERVISOR_CAPS = [
+  ...MEMBER_CAPS, 'users.view', 'education.view', 'education.manage', 'programs.manage',
+  'campaigns.view', 'tasks.manage', 'events.manage', 'reports.view',
+  'requests.view', 'requests.manage', 'fees.manage', 'hr.view', 'documents.manage', 'knowledge.manage',
+];
+// قدرات المعلّم = قدرات العضو + الاطّلاع على التعليم (حلقاته وطلابه تُقصر ببوّابة «حلقاتي»).
+const TEACHER_CAPS = [...MEMBER_CAPS, 'education.view'];
+// قدرات الطالب = محدودة جدًا (ملفّه ومحتوى منشور فقط).
+const STUDENT_CAPS = ['knowledge.view', 'events.view'];
 
 /** قدرات كل دور أساسي — مطابقة لسلوك الدوال السابق. */
 export const BASE_CAPS: Record<string, string[]> = {
   PLATFORM_OWNER: [],
   ORG_ADMIN: [...ALL_CAPS],
+  SUPERVISOR: SUPERVISOR_CAPS,
   STAFF: STAFF_CAPS,
+  TEACHER: TEACHER_CAPS,
   MEMBER: MEMBER_CAPS,
+  STUDENT: STUDENT_CAPS,
 };
 
 /** القدرات الفعّالة للفاعل: قدرات الدور المخصّص إن وُجد، وإلا قدرات الدور الأساسي. */

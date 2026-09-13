@@ -64,6 +64,7 @@ export default async function HomePage() {
         <section id="home" className="mdl-hero">
           <div className="mdl-wrap mdl-hero-grid">
             <div>
+              <Reveal><span className="mdl-hero-eyebrow">{t('hero.eyebrow')}</span></Reveal>
               <Reveal><h1>{settings.heroTitle1 || t('hero.title1')}<br /><span className="hl">{settings.heroTitle2 || t('hero.title2')}</span></h1></Reveal>
               <Reveal delay={0.1}>
                 <p className="mdl-hero-sub">{settings.heroSubtitle || t('hero.sub')}</p>
@@ -95,15 +96,15 @@ export default async function HomePage() {
                 </div>
                 <div className="mdl-float mdl-float-1">
                   <span className="fic teal"><Icon name="analytics/analytics-growth" size={17} /></span>
-                  <div><div className="ftitle">نسبة الإنجاز</div><div className="fval">86%</div></div>
+                  <div><div className="ftitle">{t('hero.float.completion')}</div><div className="fval">86%</div></div>
                 </div>
                 <div className="mdl-float mdl-float-2">
                   <span className="fic gold"><Icon name="analytics/analytics-reports" size={17} /></span>
-                  <div><div className="ftitle">تقرير جاهز</div><div className="fval">أغسطس</div></div>
+                  <div><div className="ftitle">{t('hero.float.report')}</div><div className="fval">{t('hero.float.reportVal')}</div></div>
                 </div>
                 <div className="mdl-float mdl-float-3">
                   <span className="fic teal"><Icon name="people/people-users" size={17} /></span>
-                  <div><div className="ftitle">أعضاء جدد</div><div className="fval">+12</div></div>
+                  <div><div className="ftitle">{t('hero.float.newMembers')}</div><div className="fval">+12</div></div>
                 </div>
               </div>
             </Reveal>

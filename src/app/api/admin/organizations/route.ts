@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/session';
+import { isOrgModule } from '@/lib/modules';
 
 const RESERVED_SLUGS = ['www', 'admin', 'api', 'app', 'midad', 'mail', 'ftp'];
 
@@ -44,6 +45,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'نوع المؤسسة غير صالح.' }, { status: 400 });
   }
 
+  // الأنظمة المُهيَّأة عند الإنشاء (اختياري) — نقبل مفاتيح معروفة فقط
+  const disabledModules = Array.isArray(body.disabledModules)
+    ? [...new Set((body.disabledModules as unknown[]).map((x) => String(x)))].filter(isOrgModule)
+    : [];
+
   // تحقق من عدم التكرار
   const [existingOrg, existingUser] = await Promise.all([
     prisma.organization.findUnique({ where: { slug } }),
@@ -66,6 +72,7 @@ export async function POST(request: Request) {
       name,
       slug,
       type: type as 'ASSOCIATION' | 'MOSQUE' | 'SCHOOL' | 'PROJECT',
+      disabledModules,
       users: {
         create: {
           name: adminName,

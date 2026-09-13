@@ -11,6 +11,8 @@ import DashboardShell from '@/components/dash/DashboardShell';
 import StatCard, { type StatColor } from '@/components/dash/StatCard';
 import AreaChart from '@/components/dash/AreaChart';
 import DonutRing from '@/components/dash/DonutRing';
+import TeacherDashboard from './TeacherDashboard';
+import StudentDashboard from './StudentDashboard';
 import { getT } from '@/lib/i18n/server';
 
 export const dynamic = 'force-dynamic';
@@ -51,6 +53,15 @@ export default async function OrgDashboard({
 }) {
   const { slug } = await params;
   const { user, org } = await requireOrgAccess(slug);
+
+  // لوحات مخصّصة حسب الدور — تجربة مبنية حول مهام كل دور
+  if (user.role === 'TEACHER') {
+    return <TeacherDashboard orgId={org.id} slug={org.slug} userId={user.id} userName={user.name} />;
+  }
+  if (user.role === 'STUDENT') {
+    return <StudentDashboard orgId={org.id} slug={org.slug} userId={user.id} userName={user.name} />;
+  }
+
   const { t, locale } = await getT();
   const dateFmt = new Intl.DateTimeFormat(locale === 'en' ? 'en' : 'ar-u-nu-latn', { day: 'numeric', month: 'short' });
   const weekdayFmt = new Intl.DateTimeFormat(locale === 'en' ? 'en' : 'ar-u-nu-latn', { weekday: 'short' });

@@ -17,7 +17,8 @@ function destinationFor(request: Request, role: string, slug: string | null): st
 
 export async function GET(request: Request) {
   // متاح في التطوير دائمًا، وفي الإنتاج فقط عند تفعيل ENABLE_DEMO_LOGIN=1
-  const enabled = process.env.NODE_ENV !== 'production' || process.env.ENABLE_DEMO_LOGIN === '1';
+  const isProd = process.env.NODE_ENV === 'production';
+  const enabled = !isProd || process.env.ENABLE_DEMO_LOGIN === '1';
   if (!enabled) {
     return NextResponse.json({ error: 'غير متاح.' }, { status: 404 });
   }
@@ -32,6 +33,12 @@ export async function GET(request: Request) {
   });
   if (!user) {
     return NextResponse.json({ error: `لا يوجد مستخدم بالبريد ${email}` }, { status: 404 });
+  }
+
+  // تحصين: في الإنتاج — حتى لو فُعّل العلم بالخطأ — يُمنع انتحال الحسابات المميّزة
+  // (مالك المنصّة/مدير المؤسسة) لتقليص أثر أي تفعيل غير مقصود لهذا المنفذ.
+  if (isProd && (user.role === 'PLATFORM_OWNER' || user.role === 'ORG_ADMIN')) {
+    return NextResponse.json({ error: 'غير متاح.' }, { status: 404 });
   }
 
   await createSession(

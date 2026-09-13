@@ -23,7 +23,7 @@ export default async function ModulesPage({ params }: { params: Promise<{ slug: 
         </div>
       </div>
 
-      <ModulesView disabled={org.disabledModules} canManage />
+      <ModulesView disabled={org.disabledModules} canManage type={org.type} plan={org.plan} />
     </div>
   );
 }

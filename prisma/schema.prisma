@@ -210,6 +210,10 @@ model Student {
   guardianId  String?
   guardianRef Guardian? @relation(fields: [guardianId], references: [id], onDelete: SetNull)
 
+  // ربط الطالب بحساب دخول (اختياري) — لبوّابة الطالب
+  userId  String? @unique
+  account User?   @relation("StudentAccount", fields: [userId], references: [id], onDelete: SetNull)
+
   attendance   AttendanceRecord[]
   memorization MemorizationEntry[]
   quranRecords QuranDailyRecord[]
@@ -727,6 +731,7 @@ model User {
   requests           MemberRequest[]      @relation("RequestRequester")
   teacherProfile     Teacher?             @relation("TeacherAccount")
   guardianProfile    Guardian?            @relation("GuardianAccount")
+  studentProfile     Student?             @relation("StudentAccount")
   approvalsRequested Approval[]           @relation("ApprovalRequester")
   approvalsDecided   Approval[]           @relation("ApprovalDecider")
   financeEntries     FinanceTransaction[] @relation("FinanceCreator")
@@ -932,6 +937,9 @@ enum Role {
   ORG_ADMIN // مدير المؤسسة — يدير كل شيء داخلها
   STAFF // موظف — يعمل داخل المؤسسة بصلاحيات محددة
   MEMBER // مستخدم عادي — قراءة وتفاعل محدود
+  SUPERVISOR // مشرف — يتابع البرامج والحلقات والمعلمين والطلاب حسب صلاحياته
+  TEACHER // معلم — يدير حلقاته وطلابه ومتابعتهم
+  STUDENT // طالب — يطّلع على ملفه وحضوره وتقدّمه وتقييماته
 }
 
 enum ProjectStatus {
