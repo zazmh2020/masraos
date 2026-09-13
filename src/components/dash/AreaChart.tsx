@@ -49,8 +49,8 @@ export default function AreaChart({
     <svg className="dash-chart" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" role="img">
       <defs>
         <linearGradient id="dashArea" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={primary?.color ?? '#6B57A0'} stopOpacity="0.35" />
-          <stop offset="100%" stopColor={primary?.color ?? '#6B57A0'} stopOpacity="0" />
+          <stop offset="0%" stopColor={primary?.color ?? 'var(--purple-500)'} stopOpacity="0.35" />
+          <stop offset="100%" stopColor={primary?.color ?? 'var(--purple-500)'} stopOpacity="0" />
         </linearGradient>
       </defs>
 
@@ -83,7 +83,7 @@ export default function AreaChart({
           return <circle key={i} cx={x} cy={y} r="3.5" fill={primary.color} />;
         })}
 
-      <g fontFamily="Qomra, Segoe UI, sans-serif" fontSize="11" fill="#7A7580" textAnchor="middle">
+      <g fontFamily="Qomra, Segoe UI, sans-serif" fontSize="11" fill="var(--gray-500)" textAnchor="middle">
         {labels.map((lab, i) => (
           <text key={i} x={PAD_X + i * stepX} y={H - 14}>
             {lab}

@@ -7,7 +7,7 @@ export default function DonutRing({
   hint,
   size = 150,
   stroke = 13,
-  color = '#6B57A0',
+  color = 'var(--purple-500)',
 }: {
   percent: number;
   label: string;

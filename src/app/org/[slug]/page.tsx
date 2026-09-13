@@ -196,13 +196,13 @@ export default async function OrgDashboard({
                   <AreaChart
                     labels={labels}
                     series={[
-                      { color: '#6B57A0', values: usersSeries },
-                      { color: '#B8860B', values: projectsSeries, dashed: true },
+                      { color: 'var(--purple-500)', values: usersSeries },
+                      { color: 'var(--gold-500)', values: projectsSeries, dashed: true },
                     ]}
                   />
                   <div className="dash-chart-legend">
-                    <span><span className="dot" style={{ background: '#6B57A0' }} />{t('od.newMembers')}</span>
-                    <span><span className="dot" style={{ background: '#B8860B' }} />{t('od.projects')}</span>
+                    <span><span className="dot" style={{ background: 'var(--purple-500)' }} />{t('od.newMembers')}</span>
+                    <span><span className="dot" style={{ background: 'var(--gold-500)' }} />{t('od.projects')}</span>
                   </div>
                 </>
               ) : (

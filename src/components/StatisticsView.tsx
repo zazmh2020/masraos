@@ -15,8 +15,8 @@ interface Stats {
 }
 
 const numFmt = new Intl.NumberFormat('en-US');
-const NEW_C = '#6B57A0';
-const REV_C = '#B7A9D6';
+const NEW_C = 'var(--purple-500)';
+const REV_C = 'var(--purple-300)';
 
 function isoDaysAgo(days: number) {
   const d = new Date();
@@ -51,7 +51,7 @@ function Chart({ labels, a, b }: { labels: string[]; a: number[]; b: number[] })
       <path d={line(a)} fill="none" stroke={NEW_C} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
       <path d={line(b)} fill="none" stroke={REV_C} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="6 4" />
       {a.map((v, i) => <circle key={i} cx={pt(v, i)[0]} cy={pt(v, i)[1]} r="3.2" fill={NEW_C} />)}
-      <g fontFamily="Tahoma, sans-serif" fontSize="11" fill="#7c7788" textAnchor="middle">
+      <g fontFamily="Qomra, Segoe UI, sans-serif" fontSize="11" fill="var(--gray-500)" textAnchor="middle">
         {labels.map((l, i) => <text key={i} x={padX + i * stepX} y={H - 14}>{l}</text>)}
       </g>
     </svg>
@@ -168,7 +168,7 @@ export default function StatisticsView({ halaqat, students }: { halaqat: Halaqa[
         <div className="stat-card-hd"><h3>{t('stat.ratingDist')}</h3></div>
         {ratingTotal > 0 ? (
           <div className="stat-ratings">
-            {([['EXCELLENT', '#2E7D57'], ['GOOD', '#6B57A0'], ['NEEDS_REPEAT', '#A9711F']] as const).map(([k, c]) => (
+            {([['EXCELLENT', 'var(--success)'], ['GOOD', 'var(--purple-500)'], ['NEEDS_REPEAT', 'var(--gold-600)']] as const).map(([k, c]) => (
               <div key={k} className="stat-rating">
                 <div className="stat-rating-hd"><span>{t('status.memoRating.' + k)}</span><strong>{numFmt.format(ratings![k])}</strong></div>
                 <div className="stat-rating-track"><i style={{ width: `${(ratings![k] / ratingTotal) * 100}%`, background: c }} /></div>
