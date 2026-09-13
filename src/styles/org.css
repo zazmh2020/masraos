@@ -2275,9 +2275,18 @@ a.org-module:hover {
 
 /* شاشة العرض الكبيرة */
 .pts-display {
+  position: relative;
   min-height: 78vh; display: grid; place-items: center; text-align: center;
   background: radial-gradient(circle at 50% 30%, var(--purple-100) 0%, #fff 60%); border-radius: var(--r-lg);
+  transition: background 0.5s var(--ease);
 }
+.pts-display.is-flash { background: radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--purple-500) 22%, #fff) 0%, #fff 65%); }
+.pts-display-livebadge { position: absolute; top: 1.2rem; inset-inline-end: 1.4rem; display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 700; color: var(--success); }
+.pts-display-livebadge i { width: 9px; height: 9px; border-radius: 50%; background: var(--success); animation: ptsPulse 1.4s ease-in-out infinite; }
+@keyframes ptsPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+.pts-display-delta { font-size: clamp(1.8rem, 5vw, 3.2rem); font-weight: 900; margin-top: 0.5rem; }
+.pts-display-delta.earn { color: var(--success); }
+.pts-display-delta.redeem { color: var(--gold-600); }
 .pts-display-form { position: absolute; opacity: 0; pointer-events: none; }
 .pts-display-input { width: 1px; height: 1px; }
 .pts-display-error { color: var(--error); font-size: 1.6rem; font-weight: 700; }
