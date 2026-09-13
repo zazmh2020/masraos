@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { persistLocale } from '@/lib/i18n/LocaleProvider';
+import { persistLocale, useLocale } from '@/lib/i18n/LocaleProvider';
 import { translate } from '@/lib/i18n/dictionaries';
 import type { Locale } from '@/lib/i18n/config';
 
 /** نافذة اختيار اللغة عند أول زيارة — على الصفحة الرئيسية فقط، لا داخل المنصّة. */
 export default function LangGate({ hasChosen }: { hasChosen: boolean }) {
   const [open, setOpen] = useState(false);
+  const { setLocale } = useLocale();
   const pathname = usePathname();
   // لا تظهر إلا على الموقع التعريفي (الجذر) — لا في الدخول أو لوحات الجهات أو الإدارة
   const onLanding = pathname === '/';
@@ -21,12 +22,13 @@ export default function LangGate({ hasChosen }: { hasChosen: boolean }) {
 
   if (!open || !onLanding) return null;
 
+  // تبديل سلس بلا إعادة تحميل (تحديث فوري + مزامنة محتوى الخادم عبر router.refresh)
   function choose(locale: Locale) {
-    persistLocale(locale);
-    window.location.reload();
+    setLocale(locale);
+    setOpen(false);
   }
 
-  // إغلاق دون اختيار: اعتماد العربية افتراضيًا (بلا إعادة تحميل — الصفحة عربية أصلًا)
+  // إغلاق دون اختيار: اعتماد العربية افتراضيًا (الصفحة عربية أصلًا)
   function dismiss() {
     persistLocale('ar');
     setOpen(false);
