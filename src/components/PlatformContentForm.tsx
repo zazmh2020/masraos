@@ -14,6 +14,7 @@ export default function PlatformContentForm({ initial }: { initial: PlatformSett
   const [heroTitle2, setHeroTitle2] = useState(initial.heroTitle2 ?? '');
   const [heroSubtitle, setHeroSubtitle] = useState(initial.heroSubtitle ?? '');
   const [announcement, setAnnouncement] = useState(initial.announcement ?? '');
+  const [announcementLink, setAnnouncementLink] = useState(initial.announcementLink ?? '');
   const [announcementActive, setAnnouncementActive] = useState(initial.announcementActive);
   const [contactEmail, setContactEmail] = useState(initial.contactEmail ?? '');
   const [contactPhone, setContactPhone] = useState(initial.contactPhone ?? '');
@@ -34,7 +35,7 @@ export default function PlatformContentForm({ initial }: { initial: PlatformSett
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           heroTitle1, heroTitle2, heroSubtitle,
-          announcement, announcementActive,
+          announcement, announcementLink, announcementActive,
           contactEmail, contactPhone, whatsapp, twitterUrl, instagramUrl,
         }),
       });
@@ -59,6 +60,11 @@ export default function PlatformContentForm({ initial }: { initial: PlatformSett
       <div className="org-field">
         <label htmlFor="pc-ann">{t('apc.announcementText')}</label>
         <input id="pc-ann" value={announcement} onChange={(e) => setAnnouncement(e.target.value)} maxLength={300} placeholder={t('apc.announcementPlaceholder')} />
+      </div>
+      <div className="org-field">
+        <label htmlFor="pc-ann-link">{t('apc.announcementLink')}</label>
+        <input id="pc-ann-link" dir="ltr" value={announcementLink} onChange={(e) => setAnnouncementLink(e.target.value)} maxLength={2048} placeholder="/pricing  ·  https://…" />
+        <span className="field-hint">{t('apc.announcementLinkHint')}</span>
       </div>
 
       {/* ===== نصوص الصفحة الرئيسية ===== */}

@@ -5,6 +5,7 @@ export type PlatformSettings = {
   heroTitle2: string | null;
   heroSubtitle: string | null;
   announcement: string | null;
+  announcementLink: string | null;
   announcementActive: boolean;
   contactEmail: string | null;
   contactPhone: string | null;
@@ -15,7 +16,7 @@ export type PlatformSettings = {
 
 const EMPTY: PlatformSettings = {
   heroTitle1: null, heroTitle2: null, heroSubtitle: null,
-  announcement: null, announcementActive: false,
+  announcement: null, announcementLink: null, announcementActive: false,
   contactEmail: null, contactPhone: null, whatsapp: null,
   twitterUrl: null, instagramUrl: null,
 };

@@ -55,7 +55,11 @@ export default async function HomePage() {
     <div className="mdl">
       <WelcomeIntro />
       {settings.announcementActive && settings.announcement && (
-        <div className="mdl-announce" role="status">{settings.announcement}</div>
+        settings.announcementLink
+          ? settings.announcementLink.startsWith('/')
+            ? <Link href={settings.announcementLink} className="mdl-announce is-link">{settings.announcement}</Link>
+            : <a href={settings.announcementLink} target="_blank" rel="noopener noreferrer" className="mdl-announce is-link">{settings.announcement}</a>
+          : <div className="mdl-announce" role="status">{settings.announcement}</div>
       )}
       <MasraHeader />
 

@@ -785,7 +785,10 @@ html { scroll-behavior: smooth; }
 
 /* شريط الإعلان العام (يُدار من لوحة مالك المنصّة) */
 .mdl-announce {
+  display: block;
   background: linear-gradient(135deg, var(--purple-900, #2b1a4e), var(--purple-500, #6b57a0));
   color: #fff; text-align: center; font-weight: 700; font-size: 0.9rem;
   padding: 0.6rem 1.2rem; line-height: 1.4;
 }
+a.mdl-announce.is-link { cursor: pointer; transition: filter var(--dur, 0.2s) var(--ease, ease); }
+a.mdl-announce.is-link:hover { filter: brightness(1.12); text-decoration: underline; text-underline-offset: 3px; }

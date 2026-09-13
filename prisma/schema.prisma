@@ -933,6 +933,7 @@ model PlatformSetting {
   heroTitle2         String? // عنوان البطل — السطر المميّز
   heroSubtitle       String? // وصف البطل
   announcement       String? // شريط إعلان عام
+  announcementLink   String? // وجهة الإعلان (مسار داخلي /x أو رابط خارجي https) — اختياري
   announcementActive Boolean  @default(false)
   contactEmail       String?
   contactPhone       String?

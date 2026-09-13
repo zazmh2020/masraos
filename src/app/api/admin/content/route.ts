@@ -14,6 +14,14 @@ function url(v: unknown, label: string): string | null {
   if (!URL_RE.test(u) || u.length > 2048) throw new Error(`رابط ${label} غير صالح.`);
   return u;
 }
+/** وجهة الإعلان: مسار داخلي (يبدأ بـ /) أو رابط خارجي كامل، أو فارغ. */
+function link(v: unknown): string | null {
+  const u = String(v ?? '').trim();
+  if (u === '') return null;
+  if (u.startsWith('/')) return u.slice(0, 512);
+  if (URL_RE.test(u) && u.length <= 2048) return u;
+  throw new Error('رابط الإعلان غير صالح — استخدم مسارًا داخليًا (يبدأ بـ /) أو رابطًا كاملًا.');
+}
 
 /** تخصيص المحتوى العام للمنصّة — لمالك المنصّة فقط. */
 export async function PATCH(request: Request) {
@@ -32,6 +40,7 @@ export async function PATCH(request: Request) {
       heroTitle2: text(body.heroTitle2, 120),
       heroSubtitle: text(body.heroSubtitle, 400),
       announcement: text(body.announcement, 300),
+      announcementLink: link(body.announcementLink),
       announcementActive: Boolean(body.announcementActive),
       contactEmail: text(body.contactEmail, 160),
       contactPhone: text(body.contactPhone, 40),
