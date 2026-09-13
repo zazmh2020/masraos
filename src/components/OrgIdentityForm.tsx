@@ -18,6 +18,7 @@ type Props = {
   instagramUrl?: string | null;
   whatsapp?: string | null;
   customDomain?: string | null;
+  allowCustomDomain?: boolean; // تسمح باقة المؤسسة بالدومين المخصّص؟
   name: string;
 };
 
@@ -55,7 +56,8 @@ export default function OrgIdentityForm(p: Props) {
           brandAccent: enabled ? accent : '',
           logoUrl, faviconUrl, coverUrl,
           tagline, websiteUrl, twitterUrl, instagramUrl, whatsapp,
-          customDomain,
+          // لا نرسل الدومين إلا إن كانت الباقة تسمح (وإلا يبقى بلا تغيير)
+          ...(p.allowCustomDomain ? { customDomain } : {}),
         }),
       });
       const data = await res.json().catch(() => ({}));
@@ -172,8 +174,14 @@ export default function OrgIdentityForm(p: Props) {
       </div>
       <div className="org-field">
         <label htmlFor="oid-domain">{t('aorg.id.customDomain')}</label>
-        <input id="oid-domain" dir="ltr" value={customDomain} onChange={(e) => setCustomDomain(e.target.value)} placeholder="example.com" />
-        <span className="org-hint">{t('aorg.id.customDomainHint')}</span>
+        {p.allowCustomDomain ? (
+          <>
+            <input id="oid-domain" dir="ltr" value={customDomain} onChange={(e) => setCustomDomain(e.target.value)} placeholder="example.com" />
+            <span className="org-hint">{t('aorg.id.customDomainHint')}</span>
+          </>
+        ) : (
+          <div className="oid-locked">{t('aorg.id.customDomainLocked')}</div>
+        )}
       </div>
 
       <div className="org-form-actions">

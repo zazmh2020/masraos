@@ -25,7 +25,8 @@ export const viewport: Viewport = {
   themeColor: '#6b57a0',
 };
 
-const themeScript = `(function(){try{var t=localStorage.getItem('midad_theme');document.documentElement.dataset.theme=(t==='dark')?'dark':'light';}catch(e){document.documentElement.dataset.theme='light';}})();`;
+// الأولوية: اختيار المستخدم المحفوظ، وإلا تفضيل نظام جهازه (prefers-color-scheme). يعمل قبل الرسم (بلا وميض).
+const themeScript = `(function(){try{var t=localStorage.getItem('midad_theme');var d=t?(t==='dark'):(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.dataset.theme=d?'dark':'light';}catch(e){document.documentElement.dataset.theme='light';}})();`;
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const store = await cookies();

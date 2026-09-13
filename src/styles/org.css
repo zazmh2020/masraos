@@ -2306,3 +2306,9 @@ a.org-module:hover {
   .pts-cards { grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
   .pts-card { border-color: #ccc; }
 }
+
+/* حقل ميزة مقفلة حسب الباقة (مثل الدومين المخصّص) */
+.oid-locked {
+  padding: 0.7rem 0.9rem; border: 1px dashed var(--line-strong, #ccc); border-radius: var(--r-sm);
+  background: var(--gray-100); color: var(--text-muted); font-size: 0.85rem; line-height: 1.6;
+}

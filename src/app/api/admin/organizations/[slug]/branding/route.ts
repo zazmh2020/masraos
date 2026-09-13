@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/session';
 import { imageValue } from '@/lib/branding';
+import { planAllowsCustomDomain } from '@/lib/plans';
 
 type OrgData = Record<string, string | null>;
 
@@ -38,7 +39,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ sl
   const body = await request.json().catch(() => null);
   if (!body) return NextResponse.json({ error: 'طلب غير صالح.' }, { status: 400 });
 
-  const org = await prisma.organization.findUnique({ where: { slug }, select: { id: true } });
+  const org = await prisma.organization.findUnique({ where: { slug }, select: { id: true, plan: true } });
   if (!org) return NextResponse.json({ error: 'المؤسسة غير موجودة.' }, { status: 404 });
 
   const data: OrgData = {};
@@ -64,6 +65,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ sl
     if (body.customDomain !== undefined) {
       const d = String(body.customDomain ?? '').trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
       if (d === '') data.customDomain = null;
+      else if (!planAllowsCustomDomain(org.plan)) throw new Error('الدومين المخصّص غير متاح في باقة هذه المؤسسة — يتطلّب الترقية.');
       else if (!DOMAIN_RE.test(d)) throw new Error('صيغة الدومين غير صحيحة (example.com).');
       else {
         const taken = await prisma.organization.findFirst({

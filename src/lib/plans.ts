@@ -21,6 +21,8 @@ export interface Plan {
   storageGb: number | null;
   /** الاسم الإنجليزي المرافق */
   en: string;
+  /** تسمح الباقة بربط دومين مخصّص للمؤسسة؟ */
+  customDomain?: boolean;
   features: string[];
   /** النصوص الإنجليزية (للعرض عند اختيار اللغة الإنجليزية) */
   tagEn?: string;
@@ -85,6 +87,7 @@ export const PLANS: Plan[] = [
     price: 449,
     maxUsers: 100,
     storageGb: 50,
+    customDomain: true,
     features: [
       'حتى 100 مستخدم',
       'كل الوحدات + نظام التعليم والحلقات',
@@ -111,6 +114,7 @@ export const PLANS: Plan[] = [
     price: null,
     maxUsers: null,
     storageGb: null,
+    customDomain: true,
     features: [
       'مستخدمون ومساحة بلا حدود',
       'الهوية الرقمية والتكاملات المخصّصة',
@@ -148,4 +152,9 @@ export function planLabel(id: string): string {
 /** الحدّ الأقصى للمستخدمين لباقة مؤسسة (null = بلا حدّ) */
 export function planUserLimit(id: string): number | null {
   return PLAN_BY_ID[id as OrgPlan]?.maxUsers ?? null;
+}
+
+/** هل تسمح الباقة بربط دومين مخصّص؟ (تمكين وأثر فقط) */
+export function planAllowsCustomDomain(id: string): boolean {
+  return PLAN_BY_ID[id as OrgPlan]?.customDomain ?? false;
 }

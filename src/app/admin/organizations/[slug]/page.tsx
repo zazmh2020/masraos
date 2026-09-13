@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
-import { PLAN_BY_ID, CURRENCY } from '@/lib/plans';
+import { PLAN_BY_ID, CURRENCY, planAllowsCustomDomain } from '@/lib/plans';
 import PlanSelector from './PlanSelector';
 import OrgIdentityForm from '@/components/OrgIdentityForm';
 import { getT, getLocale } from '@/lib/i18n/server';
@@ -90,6 +90,7 @@ export default async function OrgDetailPage({
             instagramUrl={org.instagramUrl}
             whatsapp={org.whatsapp}
             customDomain={org.customDomain}
+            allowCustomDomain={planAllowsCustomDomain(org.plan)}
           />
         </div>
       </div>
