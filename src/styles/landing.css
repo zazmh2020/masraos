@@ -170,7 +170,7 @@
 
 .hero-content {
   max-width: 560px;
-  text-align: right;
+  text-align: start;
 }
 
 .hero-title {
@@ -285,7 +285,7 @@
   border-radius: 14px;
   padding: 1.4rem 1.3rem;
   min-height: 185px;
-  text-align: right;
+  text-align: start;
   transition: border-color 0.3s var(--ease), transform 0.3s var(--ease),
     box-shadow 0.3s var(--ease);
   height: 100%;
@@ -677,7 +677,7 @@
     padding: 0.75rem 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     width: 100%;
-    text-align: right;
+    text-align: start;
   }
 
   .nav-links a.active::after {

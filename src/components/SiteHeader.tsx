@@ -3,18 +3,21 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { LogoMark } from '@/components/Logo';
+import LangToggle from '@/components/LangToggle';
+import { useT } from '@/lib/i18n/LocaleProvider';
 
 const links = [
-  { href: '#home', label: 'الرئيسية' },
-  { href: '#about', label: 'عن مسرى' },
-  { href: '#systems', label: 'الأنظمة' },
-  { href: '#features', label: 'المميزات' },
-  { href: '#audiences', label: 'الجهات' },
-  { href: '#pricing', label: 'الأسعار' },
-  { href: '#contact', label: 'تواصل معنا' },
+  { href: '#home', k: 'nav.home' },
+  { href: '#about', k: 'nav.about' },
+  { href: '#systems', k: 'nav.systems' },
+  { href: '#features', k: 'nav.features' },
+  { href: '#audiences', k: 'nav.audiences' },
+  { href: '#pricing', k: 'nav.pricing' },
+  { href: '#contact', k: 'nav.contact' },
 ];
 
 export default function SiteHeader() {
+  const t = useT();
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
@@ -42,7 +45,7 @@ export default function SiteHeader() {
 
   return (
     <header className="site-header">
-      <nav className="site-nav" aria-label="التنقل الرئيسي">
+      <nav className="site-nav" aria-label={t('nav.menu')}>
         <a href="#home" className="nav-brand" aria-label="مسرى">
           <LogoMark size={26} className="nav-brand-logo" />
           <span className="nav-brand-name">مسرى</span>
@@ -56,16 +59,17 @@ export default function SiteHeader() {
               className={activeSection === link.href.substring(1) ? 'active' : ''}
               onClick={() => setMenuOpen(false)}
             >
-              {link.label}
+              {t(link.k)}
             </a>
           ))}
         </div>
 
         <div className="nav-actions">
-          <Link className="nav-login" href="/login">تسجيل الدخول</Link>
+          <LangToggle />
+          <Link className="nav-login" href="/login">{t('nav.login')}</Link>
           <button
             className="nav-menu-btn"
-            aria-label="القائمة"
+            aria-label={t('nav.menu')}
             onClick={() => setMenuOpen(!menuOpen)}
           >
             <svg width="22" height="16" viewBox="0 0 24 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">

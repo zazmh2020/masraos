@@ -148,6 +148,9 @@ export default function AdminShell({ children, session, avatarUrl, inbox, assist
         </nav>
       </aside>
 
+      {/* حجاب الخلفية عند فتح الشريط الجانبي على الموبايل */}
+      {sidebarOpen && <div className="admin-scrim" onClick={() => setSidebarOpen(false)} />}
+
       {confirmLogout && (
         <div className="admin-modal-scrim" onClick={() => setConfirmLogout(false)}>
           <div className="admin-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">

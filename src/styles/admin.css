@@ -430,7 +430,7 @@
 .admin-table th,
 .admin-table td {
   padding: 0.9rem 1rem;
-  text-align: right;
+  text-align: start;
   border-bottom: 1px solid #eeecf2;
 }
 
@@ -723,7 +723,7 @@
   border-radius: 8px;
   padding: 1.25rem 1.5rem;
   margin-bottom: 1rem;
-  text-align: right;
+  text-align: start;
 }
 
 .detail-row {
@@ -743,7 +743,7 @@
   font-family: var(--font-display);
   font-weight: 600;
   color: var(--purple-900);
-  text-align: right;
+  text-align: start;
 }
 
 .detail-row code {
@@ -841,26 +841,39 @@
    Mobile
    ============================================================ */
 
+.admin-scrim { display: none; }
+
 @media (max-width: 900px) {
   .admin-app { padding: 0.6rem; gap: 0.6rem; }
+  /* الشريط مثبّت على حافة البداية (منطقيًّا)، والإخفاء بإزاحة أفقية تنقلب مع الاتجاه. */
   .admin-sidebar {
     position: fixed;
-    right: 0;
+    inset-inline-start: 0;
     top: 0;
     height: 100vh;
     border-radius: 0;
-    transform: translateX(100%);
+    transform: translateX(-100%);
     transition: transform 0.3s;
     z-index: 40;
-    box-shadow: -10px 0 40px rgba(0,0,0,0.1);
+    box-shadow: 10px 0 40px rgba(0,0,0,0.1);
   }
+  [dir='rtl'] .admin-sidebar { transform: translateX(100%); }
 
-  .admin-sidebar.is-open {
+  .admin-sidebar.is-open,
+  [dir='rtl'] .admin-sidebar.is-open {
     transform: translateX(0);
   }
 
   .admin-menu-toggle {
     display: inline-flex;
+  }
+
+  .admin-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 35;
   }
 
   .admin-content {

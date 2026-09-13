@@ -134,7 +134,7 @@
 /* ---------- الجدول ---------- */
 .dash-table { width: 100%; border-collapse: collapse; }
 .dash-table th, .dash-table td {
-  text-align: right; padding: 0.7rem 0.5rem; font-size: 13px;
+  text-align: start; padding: 0.7rem 0.5rem; font-size: 13px;
   border-bottom: 1px solid var(--line);
 }
 .dash-table th {
