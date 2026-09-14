@@ -4,17 +4,16 @@
    ============================================================ */
 
 .mdl {
-  --p: #6B57A0;         /* اللون العلامي (لمسات فقط: أزرار/أيقونات/تمييز) */
-  --pd: #4A357E;
+  --p: #6B57A0;
+  --pd: #3D2879;
   --pl: #8873AF;
   --gold: #8873AF;
-  --dark: #191720;      /* حبر داكن محايد للعناوين (بلا أثر بنفسجي) */
-  --text: #3a3742;
-  --muted: #78757f;
-  --bg: #FFFFFF;        /* خلفية بيضاء كاملة */
-  --tint: #F7F7FA;      /* رمادي همسي محايد للتبادل بين الأقسام */
+  --dark: #2B1A4E;
+  --text: #423d52;
+  --muted: #7c7788;
+  --bg: #F6F5FB;
   --white: #FFFFFF;
-  --border: #ECECF0;
+  --border: #E6E3EE;
 
   --p-08: rgba(107, 87, 160, 0.08);
   --p-12: rgba(107, 87, 160, 0.12);
@@ -22,9 +21,9 @@
 
   --radius: 14px;
   --radius-lg: 22px;
-  --shadow-sm: 0 1px 2px rgba(23, 21, 28, 0.04), 0 8px 24px -18px rgba(23, 21, 28, 0.18);
-  --shadow: 0 2px 6px rgba(23, 21, 28, 0.05), 0 24px 60px -34px rgba(23, 21, 28, 0.24);
-  --shadow-lg: 0 30px 80px -40px rgba(23, 21, 28, 0.3);
+  --shadow-sm: 0 1px 2px rgba(43, 26, 78, 0.05), 0 8px 24px -18px rgba(43, 26, 78, 0.35);
+  --shadow: 0 2px 6px rgba(43, 26, 78, 0.06), 0 24px 60px -34px rgba(43, 26, 78, 0.5);
+  --shadow-lg: 0 30px 80px -40px rgba(61, 40, 121, 0.55);
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   --maxw: 1200px;
   --announce-h: 40px; /* ارتفاع شريط الإعلان المثبّت */
@@ -32,12 +31,19 @@
   font-family: var(--font-display, 'Qomra', system-ui, sans-serif);
   color: var(--text);
   background-color: var(--bg);
+  background-image: linear-gradient(rgba(246, 245, 251, 0.82), rgba(246, 245, 251, 0.82)), url(/bg/lines.jpg);
+  background-size: cover, cover;
+  background-position: center top, center top;
+  background-attachment: fixed, fixed;
+  background-repeat: no-repeat, no-repeat;
   direction: inherit;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   /* clip يقصّ الفائض الأفقي دون إنشاء حاوية تمرير تعطّل روابط التنقّل (#قسم) */
   overflow-x: clip;
 }
+/* في الوضع الداكن نُخفي خلفية الخطوط الفاتحة */
+:root[data-theme="dark"] .mdl { background-image: none; }
 
 .mdl *,
 .mdl *::before,
@@ -102,12 +108,12 @@
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.85);
   border-radius: 20px;
-  box-shadow: 0 10px 40px -12px rgba(23, 21, 28, 0.22);
+  box-shadow: 0 10px 40px -12px rgba(43, 26, 78, 0.22);
   padding: 0.6rem 0.7rem 0.6rem 0.6rem;
   display: flex; align-items: center; gap: 1rem;
   transition: box-shadow 0.3s var(--ease);
 }
-.mdl-header.is-scrolled .mdl-navbar { box-shadow: 0 14px 46px -14px rgba(23, 21, 28, 0.32); }
+.mdl-header.is-scrolled .mdl-navbar { box-shadow: 0 14px 46px -14px rgba(43, 26, 78, 0.32); }
 
 .mdl-brand { display: inline-flex; align-items: center; gap: 0.5rem; flex-shrink: 0; padding-inline-start: 0.4rem; }
 .mdl-brand .mark { width: 24px; height: 28px; color: var(--p); }
@@ -134,7 +140,7 @@
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.9);
-  border-radius: 18px; box-shadow: 0 24px 60px -18px rgba(23, 21, 28, 0.35);
+  border-radius: 18px; box-shadow: 0 24px 60px -18px rgba(43, 26, 78, 0.35);
   padding: 0.9rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.25rem;
   opacity: 0; visibility: hidden; transition: opacity 0.2s, transform 0.2s, visibility 0.2s; z-index: 110;
 }
@@ -157,14 +163,14 @@
 .mdl-login { font-size: 0.88rem; font-weight: 600; color: var(--text); padding: 0.5rem 0.7rem; border-radius: 10px; }
 .mdl-login:hover { color: var(--p); background: var(--p-08); }
 .mdl-menu-btn { display: none; background: none; border: none; cursor: pointer; color: var(--dark); padding: 0.3rem; }
-.mdl-navbar .mdl-btn { padding: 0.6rem 1.25rem; font-size: 0.88rem; box-shadow: 0 6px 18px -8px rgba(23, 21, 28, 0.28); }
+.mdl-navbar .mdl-btn { padding: 0.6rem 1.25rem; font-size: 0.88rem; box-shadow: 0 6px 18px -6px rgba(107, 87, 160, 0.6); }
 
 /* Drawer (mobile) */
 .mdl-drawer {
   position: fixed; inset: 0; z-index: 200; display: none;
 }
 .mdl-drawer.is-open { display: block; }
-.mdl-drawer-scrim { position: absolute; inset: 0; background: rgba(23, 21, 28, 0.5); backdrop-filter: blur(3px); }
+.mdl-drawer-scrim { position: absolute; inset: 0; background: rgba(43, 26, 78, 0.5); backdrop-filter: blur(3px); }
 .mdl-drawer-panel {
   position: absolute; inset-block: 0; inset-inline-start: 0; width: min(320px, 85vw);
   background: #fff; padding: 1.5rem; display: flex; flex-direction: column; gap: 0.3rem;
@@ -179,14 +185,19 @@
    ============================================================ */
 .mdl-hero {
   position: relative; overflow: hidden;
-  background: var(--white);
-  color: var(--text); padding: 8.5rem 0 5rem;
+  background: radial-gradient(120% 130% at 85% -10%, var(--pl) 0%, var(--p) 42%, var(--pd) 100%);
+  color: #fff; padding: 8.5rem 0 5rem;
 }
-/* شبكة نقاط رمادية خافتة تتلاشى للأسفل (بلا أي تلوين بنفسجي) */
+/* نسيج ورقي ثلاثي الأبعاد شفاف في قسم العنوان فقط */
+.mdl-hero::before {
+  content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: url(/bg/paper.jpg) center / cover no-repeat;
+  opacity: 0.22; mix-blend-mode: soft-light;
+}
 .mdl-hero::after {
   content: ''; position: absolute; inset: 0; pointer-events: none;
-  background-image: radial-gradient(circle at 1px 1px, rgba(23, 21, 28, 0.045) 1px, transparent 0);
-  background-size: 30px 30px; -webkit-mask-image: linear-gradient(180deg, #000, transparent 62%); mask-image: linear-gradient(180deg, #000, transparent 62%);
+  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
+  background-size: 30px 30px; mask-image: linear-gradient(180deg, #000, transparent 70%);
 }
 .mdl-hero-grid {
   position: relative; z-index: 1; display: grid; grid-template-columns: 1.05fr 1.15fr;
@@ -195,21 +206,22 @@
 .mdl-hero-eyebrow {
   display: inline-flex; align-items: center;
   padding: 0.35rem 0.9rem; margin-bottom: 1.1rem;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255,255,255,0.22);
   border-radius: 999px;
-  background: var(--p-08);
-  color: var(--p);
-  font-size: 0.82rem; font-weight: 700; letter-spacing: 0.01em;
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.9);
+  font-size: 0.82rem; font-weight: 600; letter-spacing: 0.01em;
+  backdrop-filter: blur(4px);
 }
 .mdl-hero h1 {
-  color: var(--dark); font-size: clamp(2.3rem, 5vw, 3.8rem); line-height: 1.2; letter-spacing: -0.01em;
+  color: #fff; font-size: clamp(2.3rem, 5vw, 3.8rem); line-height: 1.2; letter-spacing: -0.01em;
 }
-.mdl-hero h1 .hl { color: var(--p); }
-.mdl-hero-sub { color: var(--muted); font-size: clamp(1.02rem, 1.6vw, 1.22rem); margin-top: 1.3rem; max-width: 52ch; }
+.mdl-hero h1 .hl { color: #d3c6f2; }
+.mdl-hero-sub { color: rgba(255,255,255,0.82); font-size: clamp(1.02rem, 1.6vw, 1.22rem); margin-top: 1.3rem; max-width: 52ch; }
 .mdl-hero-actions { display: flex; gap: 0.8rem; margin-top: 2rem; flex-wrap: wrap; }
-.mdl-hero-trust { margin-top: 2.2rem; display: flex; align-items: center; gap: 1.4rem; color: var(--muted); font-size: 0.85rem; flex-wrap: wrap; }
-.mdl-hero-trust strong { color: var(--dark); font-size: 1.15rem; }
-.mdl-hero-trust .sep { width: 1px; height: 26px; background: var(--border); }
+.mdl-hero-trust { margin-top: 2.2rem; display: flex; align-items: center; gap: 1.4rem; color: rgba(255,255,255,0.7); font-size: 0.85rem; flex-wrap: wrap; }
+.mdl-hero-trust strong { color: #fff; font-size: 1.15rem; }
+.mdl-hero-trust .sep { width: 1px; height: 26px; background: rgba(255,255,255,0.2); }
 
 /* Floating mock cards around dashboard */
 .mdl-hero-stage { position: relative; }
@@ -323,9 +335,9 @@
    ============================================================ */
 .mdl-sys {
   display: grid; grid-template-columns: 1.45fr 1fr; gap: 1.75rem; align-items: start; margin-top: 2.5rem;
-  background: linear-gradient(165deg, #ffffff 0%, var(--tint) 100%);
+  background: linear-gradient(165deg, #ffffff 0%, #f4f1fa 100%);
   border: 1px solid var(--border); border-radius: 26px; padding: 1.5rem;
-  box-shadow: 0 30px 70px -44px rgba(23, 21, 28, 0.28);
+  box-shadow: 0 30px 70px -44px rgba(43, 26, 78, 0.5);
 }
 /* عمودان: 5 أنظمة وبجانبها 5 */
 .mdl-sys-list {
@@ -381,7 +393,7 @@
   position: relative; background: var(--white); border: 1px solid var(--border); border-radius: 18px;
   padding: 1.5rem 1.25rem; transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.25s;
 }
-.mdl-stepc:hover { transform: translateY(-4px); box-shadow: 0 20px 44px -28px rgba(23, 21, 28, 0.5); border-color: rgba(107, 87, 160, 0.3); }
+.mdl-stepc:hover { transform: translateY(-4px); box-shadow: 0 20px 44px -28px rgba(43, 26, 78, 0.5); border-color: rgba(107, 87, 160, 0.3); }
 .mdl-stepc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
 .mdl-stepc-num { font-size: 2rem; font-weight: 800; line-height: 1; color: var(--p); opacity: 0.35; }
 .mdl-stepc-ic { width: 40px; height: 40px; border-radius: 11px; background: var(--p-08); color: var(--p); display: grid; place-items: center; }
@@ -456,26 +468,28 @@
 /* ============================================================
    Masra AI (premium dark)
    ============================================================ */
-.mdl-ai { background: var(--tint); color: var(--text); position: relative; overflow: hidden; }
+.mdl-ai { background: linear-gradient(160deg, var(--dark) 0%, #0c1a1b 60%, var(--pd) 130%); color: #fff; position: relative; overflow: hidden; }
+.mdl-ai::before { content: ''; position: absolute; top: -20%; inset-inline-end: -10%; width: 480px; height: 480px; border-radius: 50%; background: radial-gradient(circle, rgba(10,121,130,0.5), transparent 70%); }
+.mdl-ai::after { content: ''; position: absolute; bottom: -25%; inset-inline-start: -8%; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(107, 87, 160,0.18), transparent 70%); }
 .mdl-ai-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1.1fr; gap: 3rem; align-items: center; }
-.mdl-ai h2 { color: var(--dark); }
-.mdl-ai .mdl-lead { color: var(--muted); }
-.mdl-ai .mdl-eyebrow { color: var(--p); background: var(--p-08); }
-.mdl-chat { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.3rem; box-shadow: var(--shadow); }
-.mdl-chat-head { display: flex; align-items: center; gap: 0.7rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); margin-bottom: 1rem; }
-.mdl-chat-head .ava { width: 34px; height: 34px; border-radius: 10px; background: linear-gradient(135deg, var(--pl), var(--p)); display: grid; place-items: center; color: #fff; }
-.mdl-chat-head b { color: var(--dark); font-size: 0.95rem; }
-.mdl-chat-head span { color: var(--muted); font-size: 0.72rem; }
+.mdl-ai h2 { color: #fff; }
+.mdl-ai .mdl-lead { color: rgba(255,255,255,0.78); }
+.mdl-ai .mdl-eyebrow { color: var(--gold); background: rgba(107, 87, 160,0.14); }
+.mdl-chat { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); border-radius: var(--radius-lg); padding: 1.3rem; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); box-shadow: var(--shadow-lg); }
+.mdl-chat-head { display: flex; align-items: center; gap: 0.7rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.12); margin-bottom: 1rem; }
+.mdl-chat-head .ava { width: 34px; height: 34px; border-radius: 10px; background: linear-gradient(135deg, var(--gold), #3D2879); display: grid; place-items: center; color: #fff; }
+.mdl-chat-head b { color: #fff; font-size: 0.95rem; }
+.mdl-chat-head span { color: rgba(255,255,255,0.55); font-size: 0.72rem; }
 .mdl-msgs { display: flex; flex-direction: column; gap: 0.8rem; min-height: 250px; }
 .mdl-msg { max-width: 85%; padding: 0.7rem 0.95rem; border-radius: 14px; font-size: 0.9rem; line-height: 1.7; }
 .mdl-msg.user { align-self: flex-start; background: var(--p); color: #fff; border-bottom-right-radius: 4px; }
-.mdl-msg.ai { align-self: flex-end; background: var(--tint); color: var(--text); border-bottom-left-radius: 4px; border: 1px solid var(--border); }
+.mdl-msg.ai { align-self: flex-end; background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.92); border-bottom-left-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
 .mdl-msg.ai .ai-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.7rem; }
-.mdl-msg.ai .ai-metric { background: var(--white); border: 1px solid var(--border); border-radius: 9px; padding: 0.5rem 0.6rem; }
-.mdl-msg.ai .ai-metric .m { font-size: 0.62rem; color: var(--muted); }
-.mdl-msg.ai .ai-metric .n { font-size: 1.05rem; font-weight: 800; color: var(--p); }
+.mdl-msg.ai .ai-metric { background: rgba(255,255,255,0.08); border-radius: 9px; padding: 0.5rem 0.6rem; }
+.mdl-msg.ai .ai-metric .m { font-size: 0.62rem; color: rgba(255,255,255,0.6); }
+.mdl-msg.ai .ai-metric .n { font-size: 1.05rem; font-weight: 800; color: var(--gold); }
 .mdl-typing { display: inline-flex; gap: 4px; align-items: center; }
-.mdl-typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); animation: mdlBlink 1.2s infinite; }
+.mdl-typing i { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.6); animation: mdlBlink 1.2s infinite; }
 .mdl-typing i:nth-child(2) { animation-delay: 0.2s; }
 .mdl-typing i:nth-child(3) { animation-delay: 0.4s; }
 @keyframes mdlBlink { 0%,60%,100% { opacity: 0.25; } 30% { opacity: 1; } }
@@ -492,10 +506,10 @@
 /* ============================================================
    Security
    ============================================================ */
-.mdl-sec { background: var(--tint); }
+.mdl-sec { background: var(--white); }
 .mdl-sec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
 .mdl-sec-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-.mdl-sec-item { display: flex; align-items: center; gap: 0.7rem; background: var(--tint); border: 1px solid var(--border); border-radius: 12px; padding: 0.9rem 1rem; }
+.mdl-sec-item { display: flex; align-items: center; gap: 0.7rem; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 0.9rem 1rem; }
 .mdl-sec-item .app-icon { width: 20px; height: 20px; color: var(--p); flex-shrink: 0; }
 .mdl-sec-item span { font-size: 0.9rem; font-weight: 600; color: var(--text); }
 .mdl-shield { display: grid; place-items: center; }
@@ -562,43 +576,43 @@
 /* ============================================================
    Final CTA
    ============================================================ */
-/* بطاقة نداء ختامية فاتحة بحدّ لطيف وتوهّج علامي خفيف */
-.mdl-cta { position: relative; overflow: hidden; background: var(--white); text-align: center; padding: clamp(2.5rem, 5vw, 4rem) 0; }
-.mdl-cta-inner {
-  position: relative; z-index: 1; max-width: 820px; margin-inline: auto;
-  background: var(--tint); border: 1px solid var(--border); border-radius: 28px;
-  padding: clamp(2.4rem, 5vw, 3.6rem) 1.5rem; overflow: hidden;
-}
-.mdl-cta-inner > * { position: relative; z-index: 1; }
-.mdl-cta h2 { color: var(--dark); font-size: clamp(1.9rem, 4vw, 3rem); }
-.mdl-cta p { color: var(--muted); margin-top: 1rem; font-size: 1.1rem; }
+.mdl-cta { position: relative; overflow: hidden; background: linear-gradient(180deg, var(--pl) 0%, var(--p) 45%, var(--pd) 100%); color: #fff; text-align: center; padding: clamp(3.5rem, 7vw, 6rem) 0; }
+.mdl-cta::after { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.06) 1px, transparent 0); background-size: 30px 30px; }
+.mdl-cta-inner { position: relative; z-index: 1; max-width: 680px; margin-inline: auto; }
+.mdl-cta h2 { color: #fff; font-size: clamp(1.9rem, 4vw, 3rem); }
+.mdl-cta p { color: rgba(255,255,255,0.82); margin-top: 1rem; font-size: 1.1rem; }
 .mdl-cta-actions { display: flex; gap: 0.8rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap; }
 
 /* ============================================================
    Footer
    ============================================================ */
-/* فوتر فاتح نظيف بحدّ علوي (بلا خلفية بنفسجية) */
+/* الفوتر يُكمل تدرّج نداء الختام (تدرّج واحد متّصل)، والمعلومات بطاقة عائمة فوقه */
 .mdl-footer {
-  background: var(--white);
-  border-top: 1px solid var(--border);
-  color: var(--muted); padding: 3rem 1.5rem 2rem;
+  background: linear-gradient(180deg, var(--pd) 0%, var(--dark) 100%);
+  color: rgba(255,255,255,0.72); padding: 1.5rem 1.5rem 2rem;
 }
 .mdl-footer .mdl-wrap {
-  max-width: 1200px;
-  padding: 0;
+  max-width: 1380px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 24px;
+  box-shadow: 0 26px 60px -34px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 2.8rem 2.5rem 1.8rem;
 }
 .mdl-footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 2rem; }
-.mdl-footer .fb-name { display: flex; align-items: center; gap: 0.55rem; color: var(--dark); font-size: 1.3rem; font-weight: 700; }
-.mdl-footer .fb-name .mark { width: 26px; height: 30px; color: var(--p); }
-.mdl-footer .fb-desc { margin-top: 0.9rem; font-size: 0.88rem; max-width: 34ch; line-height: 1.8; color: var(--muted); }
-.mdl-footer h5 { color: var(--dark); font-size: 0.92rem; margin: 0 0 1rem; }
+.mdl-footer .fb-name { display: flex; align-items: center; gap: 0.55rem; color: #fff; font-size: 1.3rem; font-weight: 700; }
+.mdl-footer .fb-name .mark { width: 26px; height: 30px; color: #fff; }
+.mdl-footer .fb-desc { margin-top: 0.9rem; font-size: 0.88rem; max-width: 34ch; line-height: 1.8; color: rgba(255,255,255,0.68); }
+.mdl-footer h5 { color: #fff; font-size: 0.92rem; margin: 0 0 1rem; }
 .mdl-footer ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
 .mdl-footer ul a {
   position: relative;
   display: inline-block;
   font-size: 0.88rem;
-  color: var(--muted);
-  transition: color var(--dur, 0.2s) var(--ease);
+  color: rgba(255,255,255,0.68);
+  transition: color var(--dur) var(--ease);
 }
 /* لمسة Brand moment: خطّ سفلي يُرسَم من بداية السطر عند المرور (يحترم RTL/reduced-motion) */
 .mdl-footer ul a::after {
@@ -608,15 +622,15 @@
   bottom: -3px;
   width: 100%;
   height: 1.5px;
-  background: var(--p);
+  background: var(--pl);
   transform: scaleX(0);
   transform-origin: left center;
-  transition: transform var(--dur, 0.2s) var(--ease-out, var(--ease));
+  transition: transform var(--dur) var(--ease-out);
 }
 [dir="rtl"] .mdl-footer ul a::after { transform-origin: right center; }
-.mdl-footer ul a:hover { color: var(--p); }
+.mdl-footer ul a:hover { color: #fff; }
 .mdl-footer ul a:hover::after { transform: scaleX(1); }
-.mdl-footer-bottom { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: 0.82rem; text-align: center; color: var(--muted); }
+.mdl-footer-bottom { margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.82rem; text-align: center; color: rgba(255,255,255,0.5); }
 
 /* ============================================================
    Responsive
@@ -784,7 +798,7 @@ html { scroll-behavior: smooth; }
 .mdl-rating {
   display: inline-flex; align-items: center; gap: 1rem; margin: 1.4rem auto 0;
   background: var(--white); border: 1px solid var(--border); border-radius: 100px; padding: 0.6rem 1.3rem;
-  box-shadow: var(--shadow-soft, 0 10px 26px -18px rgba(23, 21, 28, 0.4));
+  box-shadow: var(--shadow-soft, 0 10px 26px -18px rgba(43, 26, 78, 0.4));
 }
 .mdl-rating-score { font-size: 1.5rem; font-weight: 800; color: var(--dark); line-height: 1; }
 .mdl-rating-stars { display: inline-flex; gap: 2px; color: #f2b705; }
@@ -803,7 +817,7 @@ html { scroll-behavior: smooth; }
 /* شريط الإعلان العام (يُدار من لوحة مالك المنصّة) — مثبّت أعلى الصفحة فوق الترويسة */
 .mdl-announce {
   display: block; position: fixed; inset-inline: 0; top: 0; z-index: 101;
-  background: linear-gradient(135deg, var(--pd), var(--p));
+  background: linear-gradient(135deg, var(--purple-900, #2b1a4e), var(--purple-500, #6b57a0));
   color: #fff; text-align: center; font-weight: 700; font-size: 0.9rem;
   padding: 0.55rem 3rem; line-height: 1.4; height: var(--announce-h, 40px);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
