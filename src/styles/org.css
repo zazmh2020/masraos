@@ -2260,6 +2260,22 @@ a.org-module:hover {
 .pts-mode.is-on.redeem { background: var(--gold-600); border-color: var(--gold-600); }
 .pts-perscan { display: inline-flex; align-items: center; gap: 0.35rem; margin-top: 0.6rem; padding: 0.25rem 0.75rem; border-radius: var(--r-pill); background: var(--purple-100); color: var(--purple-700); font-size: 0.8rem; font-weight: 700; }
 
+/* ضبط النقاط لكل مسح (لمدير المؤسسة) */
+.pts-config {
+  margin: 0 0 1.1rem; background: var(--surface, #fff); border: 1px solid var(--line);
+  border-radius: var(--r-md); padding: 1rem 1.1rem;
+}
+.pts-config-head { display: flex; flex-direction: column; gap: 0.15rem; margin-bottom: 0.7rem; }
+.pts-config-title { font-weight: 800; color: var(--text-strong); font-size: 0.95rem; }
+.pts-config-hint { color: var(--text-soft, #78757f); font-size: 0.82rem; }
+.pts-config-row { display: flex; gap: 0.6rem; align-items: center; }
+.pts-config-input {
+  width: 110px; height: 46px; padding-inline: 0.9rem; font-size: 1.15rem; font-weight: 800;
+  border: 2px solid var(--purple-300); border-radius: var(--r-md); background: #fff; color: var(--text-strong);
+  text-align: center; outline: none; transition: border-color 0.18s;
+}
+.pts-config-input:focus { border-color: var(--purple-500); }
+
 .pts-scanbar { display: flex; gap: 0.6rem; }
 .pts-input {
   flex: 1; height: 56px; padding-inline: 1rem; font-size: 1.3rem; font-weight: 700;
