@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import Link from 'next/link';
 
 export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {
@@ -21,7 +22,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
         {error.digest && <code style={code}>#{error.digest}</code>}
         <div style={{ display: 'flex', gap: '0.6rem', marginTop: '1.2rem' }}>
           <button onClick={reset} style={btnPrimary}>إعادة المحاولة · Retry</button>
-          <a href="/" style={btnGhost}>الرئيسية · Home</a>
+          <Link href="/" style={btnGhost}>الرئيسية · Home</Link>
         </div>
       </div>
     </div>
@@ -29,9 +30,9 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
 }
 
 const wrap: React.CSSProperties = { minHeight: '70vh', display: 'grid', placeItems: 'center', padding: '2rem', fontFamily: "'Qomra', system-ui, sans-serif" };
-const card: React.CSSProperties = { background: '#fff', border: '1px solid #ece9f4', borderRadius: 20, padding: '2.4rem', textAlign: 'center', maxWidth: 440, boxShadow: '0 20px 50px -30px rgba(43,26,78,0.4)' };
-const h1: React.CSSProperties = { fontSize: '1.3rem', color: '#2b1a4e', margin: '0.8rem 0 0.5rem' };
-const p: React.CSSProperties = { color: '#6c6780', lineHeight: 1.8, margin: 0 };
-const code: React.CSSProperties = { display: 'inline-block', marginTop: '0.9rem', fontSize: '0.78rem', color: '#9a94ab', direction: 'ltr' };
-const btnPrimary: React.CSSProperties = { flex: 1, padding: '0.65rem 1rem', borderRadius: 12, border: 'none', background: '#6b57a0', color: '#fff', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' };
-const btnGhost: React.CSSProperties = { flex: 1, padding: '0.65rem 1rem', borderRadius: 12, border: '1px solid #e6e3ee', background: 'transparent', color: '#6b57a0', fontWeight: 700, textDecoration: 'none', display: 'grid', placeItems: 'center' };
+const card: React.CSSProperties = { background: '#fff', border: '1px solid #ececf0', borderRadius: 20, padding: '2.4rem', textAlign: 'center', maxWidth: 440, boxShadow: '0 20px 50px -30px rgba(23,21,28,0.4)' };
+const h1: React.CSSProperties = { fontSize: '1.3rem', color: '#1a1820', margin: '0.8rem 0 0.5rem' };
+const p: React.CSSProperties = { color: '#6a6874', lineHeight: 1.8, margin: 0 };
+const code: React.CSSProperties = { display: 'inline-block', marginTop: '0.9rem', fontSize: '0.78rem', color: '#9a97a2', direction: 'ltr' };
+const btnPrimary: React.CSSProperties = { flex: 1, padding: '0.65rem 1rem', borderRadius: 12, border: 'none', background: '#1a1820', color: '#fff', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' };
+const btnGhost: React.CSSProperties = { flex: 1, padding: '0.65rem 1rem', borderRadius: 12, border: '1px solid #e4e3e8', background: 'transparent', color: '#1a1820', fontWeight: 700, textDecoration: 'none', display: 'grid', placeItems: 'center' };

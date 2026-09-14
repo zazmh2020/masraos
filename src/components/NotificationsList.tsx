@@ -14,6 +14,8 @@ export default function NotificationsList({ notifications, storageKey }: { notif
   const [seen, setSeen] = useState(0);
 
   useEffect(() => {
+    // قراءة التخزين المحلي تتم بعد التركيب لتفادي عدم تطابق SSR
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     try { setSeen(Number(localStorage.getItem(`${storageKey}_seen_notif`)) || 0); } catch { /* */ }
   }, [storageKey]);
 

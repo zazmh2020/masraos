@@ -47,6 +47,8 @@ export function LocaleProvider({ initialLocale, children }: { initialLocale: Loc
   const router = useRouter();
   // حالة محلية للتبديل الفوري بلا إعادة تحميل الصفحة
   const [locale, setLocaleState] = useState<Locale>(initialLocale);
+  // مزامنة الحالة المحلية مع القيمة القادمة من الخادم عند تغيّرها
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setLocaleState(initialLocale); }, [initialLocale]);
 
   const setLocale = useCallback((next: Locale) => {

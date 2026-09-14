@@ -173,6 +173,8 @@ export default function OrgShell({ children, org, user, nav, inbox, assistant }:
   const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
+    // قراءة التخزين المحلي تتم بعد التركيب لتفادي عدم تطابق SSR
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     try { setCollapsed(localStorage.getItem('midad_sidebar_collapsed') === '1'); } catch { /* */ }
   }, []);
   function toggleCollapsed() {
@@ -355,6 +357,7 @@ function NavGroup({
   const anyActive = entry.children.some((c) => isActive(c.href, c.match));
   const [open, setOpen] = useState(anyActive);
   // يُفتح تلقائيًا عند الانتقال لعنصر نشط، مع إتاحة الطيّ/الفرد يدويًا بعدها
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { if (anyActive) setOpen(true); }, [anyActive]);
   const expanded = open;
 

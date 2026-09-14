@@ -24,10 +24,9 @@ type Row = {
 };
 type Student = { id: string; name: string; halaqa: string | null };
 
-const NUM_FIELDS = [
-  'newFrom', 'newTo', 'reviewFrom', 'reviewTo', 'last5From', 'last5To', 'pages', 'errors', 'alerts',
-  'lessonScore', 'reviewScore', 'minorScore', 'conductScore', 'otherScore',
-] as const;
+type NumField =
+  | 'newFrom' | 'newTo' | 'reviewFrom' | 'reviewTo' | 'last5From' | 'last5To' | 'pages' | 'errors' | 'alerts'
+  | 'lessonScore' | 'reviewScore' | 'minorScore' | 'conductScore' | 'otherScore';
 
 const SCORE_FIELDS = ['lessonScore', 'reviewScore', 'minorScore', 'conductScore', 'otherScore'] as const;
 
@@ -177,7 +176,6 @@ export default function MonthlySheetView({
     SCORE_FIELDS.reduce((s, f) => s + (Number(data[dateStr]?.[f]) || 0), 0);
 
   // ===== دوال العرض النصّي لمعاينة/تصدير PDF =====
-  const attLabel = (dateStr: string) => t(`status.attendance.${data[dateStr]?.attendance ?? 'PRESENT'}`);
   const surahLabel = (dateStr: string) => {
     const v = Number(data[dateStr]?.newFrom);
     return v && SURAHS[v - 1] ? `${v}. ${SURAHS[v - 1]}` : '';
@@ -232,6 +230,8 @@ export default function MonthlySheetView({
   const pageKey = `midad_qm_page_${selectedId}_${ym}`;
   const [pageNum, setPageNum] = useState('');
   useEffect(() => {
+    // قراءة التخزين المحلي تتم بعد التركيب لتفادي عدم تطابق SSR
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     try { setPageNum(localStorage.getItem(pageKey) || ''); } catch { /* */ }
   }, [pageKey]);
   function setPage(v: string) {
@@ -262,7 +262,7 @@ export default function MonthlySheetView({
     { key: 'absenceUnexcused', value: monthSummary.absenceUnexcused },
   ];
 
-  const numCell = (r: Row, field: (typeof NUM_FIELDS)[number], cls = 'qm-num') => (
+  const numCell = (r: Row, field: NumField, cls = 'qm-num') => (
     <input type="number" className={`qm-in ${cls}`} disabled={!canManage}
       value={data[r.dateStr]?.[field] ?? ''} onChange={(e) => set(r.dateStr, field, e.target.value)} />
   );

@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { REQUEST_TYPES, REQUEST_STATUSES } from '@/lib/permissions';
+import { REQUEST_TYPES } from '@/lib/permissions';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 
 type Req = {

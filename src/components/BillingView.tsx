@@ -21,7 +21,7 @@ export default function BillingView({
     try {
       const res = await fetch('/api/org/billing/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ plan }) });
       const d = await res.json().catch(() => ({}));
-      if (d.url) { window.location.href = d.url; return; }
+      if (d.url) { window.location.assign(d.url); return; }
       setMsg(d.reason === 'not_configured' ? t('bill.notConfigured') : (d.error ?? t('bill.failed')));
     } catch { setMsg(t('form.netErr')); } finally { setBusy(null); }
   }
@@ -30,7 +30,7 @@ export default function BillingView({
     try {
       const res = await fetch('/api/org/billing/portal', { method: 'POST' });
       const d = await res.json().catch(() => ({}));
-      if (d.url) { window.location.href = d.url; return; }
+      if (d.url) { window.location.assign(d.url); return; }
       setMsg(d.reason === 'not_configured' ? t('bill.notConfigured') : d.reason === 'no_customer' ? t('bill.noSub') : t('bill.failed'));
     } catch { setMsg(t('form.netErr')); } finally { setBusy(null); }
   }

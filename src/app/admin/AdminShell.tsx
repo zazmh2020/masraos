@@ -80,6 +80,8 @@ export default function AdminShell({ children, session, avatarUrl, inbox, assist
   const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
+    // قراءة التخزين المحلي تتم بعد التركيب لتفادي عدم تطابق SSR
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     try { setCollapsed(localStorage.getItem('midad_sidebar_collapsed') === '1'); } catch { /* */ }
   }, []);
   function toggleCollapsed() {

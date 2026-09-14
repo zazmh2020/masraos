@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useMemo, type FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Icon from '@/components/Icon';
 import { useT } from '@/lib/i18n/LocaleProvider';
@@ -11,7 +10,6 @@ import { ORG_MODULES, MODULE_REGISTRY } from '@/lib/modules';
 
 export default function NewOrgForm() {
   const t = useT();
-  const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [result, setResult] = useState<{ slug: string; adminEmail: string } | null>(null);

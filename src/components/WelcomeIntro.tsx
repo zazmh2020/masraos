@@ -16,6 +16,8 @@ export default function WelcomeIntro() {
     // ظهرت مسبقًا في هذه الجلسة؟ لا تكرّرها
     let seen = false;
     try { seen = sessionStorage.getItem('midad_intro_seen') === '1'; } catch { seen = false; }
+    // قراءة التخزين تتم بعد التركيب لتفادي عدم تطابق SSR
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (seen) { setShow(false); return; }
     try { sessionStorage.setItem('midad_intro_seen', '1'); } catch { /* تجاهل */ }
 

@@ -41,6 +41,8 @@ export default function EventsView({ events, canManage }: { events: Ev[]; canMan
     } finally { setBusy(false); }
   }
 
+  // الوقت الحالي لتصنيف الفعاليات (قادمة/منتهية) عند كل عرض
+  // eslint-disable-next-line react-hooks/purity
   const now = Date.now();
   const upcoming = events.filter((e) => new Date(e.endAt ?? e.startAt).getTime() >= now);
   const past = events.filter((e) => new Date(e.endAt ?? e.startAt).getTime() < now);
