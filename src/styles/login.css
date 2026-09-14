@@ -139,8 +139,8 @@
 :root[data-theme="dark"] .lg-demo-btn { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12); }
 :root[data-theme="dark"] .lg-demo-btn:hover { background: rgba(255,255,255,0.08); }
 
-/* مجموعة مبدّلات (لغة + ثيم) أعلى يسار صفحة الدخول */
-.lg-toggles { position: absolute; top: 1.5rem; left: 1.5rem; z-index: 2; height: 34px; display: flex; align-items: center; gap: 0.5rem; }
+/* مجموعة مبدّلات (لغة + ثيم) — عند نهاية السطر (يسار في RTL) بمنطق منطقي يعكس مع الاتجاه */
+.lg-toggles { position: absolute; top: 1.5rem; inset-inline-end: 1.5rem; z-index: 2; height: 34px; display: flex; align-items: center; gap: 0.5rem; }
 
 /* حقوق النشر أسفل صفحة الدخول */
 .lg-copyright {
@@ -148,9 +148,9 @@
   font-size: 0.78rem; color: rgba(255, 255, 255, 0.5); z-index: 2;
 }
 
-/* رابط العودة للرئيسية — زر مطابق للمبدّلات ومحاذٍ لها */
+/* رابط العودة للرئيسية — عند بداية السطر (يمين في RTL) بمنطق منطقي يعكس مع الاتجاه */
 .lg-home-top {
-  position: absolute; top: 1.5rem; right: 1.5rem; z-index: 2; height: 34px;
+  position: absolute; top: 1.5rem; inset-inline-start: 1.5rem; z-index: 2; height: 34px;
   display: inline-flex; align-items: center; gap: 0.4rem; padding: 0 1rem;
   border-radius: 100px; border: 1px solid rgba(255, 255, 255, 0.28); background: transparent;
   font-size: 0.82rem; font-weight: 600; color: rgba(255, 255, 255, 0.85);

@@ -16,7 +16,7 @@
   padding: 1.1rem 1.2rem;
   background: linear-gradient(135deg, #ffffff 0%, #faf9fe 100%);
   border: 1px solid var(--line, #ece9f4);
-  box-shadow: 0 10px 30px -22px rgba(43, 26, 78, 0.5);
+  box-shadow: 0 10px 30px -22px rgba(23, 21, 28, 0.5);
   overflow: hidden;
   break-inside: avoid;
 }
@@ -66,7 +66,7 @@
 .vf-card {
   width: 100%; max-width: 400px; text-align: center;
   background: #fff; border-radius: 22px; padding: 2.2rem 1.8rem;
-  box-shadow: 0 24px 60px -34px rgba(43, 26, 78, 0.5);
+  box-shadow: 0 24px 60px -34px rgba(23, 21, 28, 0.5);
   border-top: 6px solid #6b57a0;
 }
 .vf-logo { display: grid; place-items: center; margin-bottom: 0.6rem; color: #6b57a0; }

@@ -241,7 +241,7 @@
   --glass-bg: rgba(255, 255, 255, 0.62);
   --glass-strong: rgba(255, 255, 255, 0.75);
   --glass-border: rgba(255, 255, 255, 0.6);
-  --glass-shadow: 0 8px 30px rgba(43, 26, 78, 0.12);
+  --glass-shadow: 0 8px 30px rgba(23, 21, 28, 0.12);
   --glass-blur: blur(18px) saturate(180%);
   isolation: isolate;
 }

@@ -78,10 +78,10 @@
   border: 1px solid var(--line);
   border-radius: 20px;
   padding: 2rem 1.6rem 1.6rem;
-  box-shadow: 0 1px 2px rgba(43, 26, 78, 0.04);
+  box-shadow: 0 1px 2px rgba(23, 21, 28, 0.04);
   transition: border-color 0.22s, box-shadow 0.22s, transform 0.22s;
 }
-.plan-card:hover { border-color: var(--purple-300); box-shadow: 0 20px 50px -30px rgba(43, 26, 78, 0.4); }
+.plan-card:hover { border-color: var(--purple-300); box-shadow: 0 20px 50px -30px rgba(23, 21, 28, 0.4); }
 
 .plan-card.is-featured {
   border-color: transparent;
@@ -103,7 +103,7 @@
   padding: 0.35rem 1rem;
   border-radius: 100px;
   white-space: nowrap;
-  box-shadow: 0 8px 20px -8px rgba(43, 26, 78, 0.6);
+  box-shadow: 0 8px 20px -8px rgba(23, 21, 28, 0.6);
 }
 
 .plan-name-row { display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; }

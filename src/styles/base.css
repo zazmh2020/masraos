@@ -217,7 +217,7 @@ svg {
 .tbt-drop {
   position: absolute; top: calc(100% + 0.5rem); inset-inline-end: 0; z-index: 40;
   background: #fff; border: 1px solid var(--line); border-radius: 14px;
-  box-shadow: 0 24px 60px -22px rgba(43, 26, 78, 0.4); padding: 0.4rem; overflow: hidden;
+  box-shadow: 0 24px 60px -22px rgba(23, 21, 28, 0.4); padding: 0.4rem; overflow: hidden;
 }
 .tbt-results { inset-inline: 0; }
 .tbt-result {

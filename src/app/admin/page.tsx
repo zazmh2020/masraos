@@ -203,7 +203,7 @@ export default async function AdminOverview() {
                   <span style={{ flex: 1, height: 8, borderRadius: 100, background: 'var(--gray-100)', overflow: 'hidden' }}>
                     <span style={{ display: 'block', height: '100%', width: `${(row.value / typeMax) * 100}%`, background: 'linear-gradient(90deg, var(--purple-300), var(--purple-500))', borderRadius: 100 }} />
                   </span>
-                  <span style={{ fontWeight: 700, color: 'var(--purple-900)', minWidth: 24, textAlign: 'left' }}>{numFmt.format(row.value)}</span>
+                  <span style={{ fontWeight: 700, color: 'var(--purple-900)', minWidth: 24, textAlign: 'end' }}>{numFmt.format(row.value)}</span>
                 </div>
               ))}
             </div>
