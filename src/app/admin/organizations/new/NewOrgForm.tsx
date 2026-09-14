@@ -8,11 +8,46 @@ import { tenantHost, tenantUrl } from '@/lib/app-domain';
 import { SECTORS } from '@/lib/org-types';
 import { ORG_MODULES, MODULE_REGISTRY } from '@/lib/modules';
 
+/** يولّد كلمة مرور مؤقتة قوية (أحرف كبيرة/صغيرة + أرقام + رمز) بلا محارف ملتبسة. */
+function generatePassword(): string {
+  const upper = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+  const lower = 'abcdefghijkmnpqrstuvwxyz';
+  const digits = '23456789';
+  const symbols = '@#%&*!?';
+  const all = upper + lower + digits + symbols;
+  const rnd = (set: string) => set[Math.floor(Math.random() * set.length)];
+  const chars = [rnd(upper), rnd(lower), rnd(digits), rnd(symbols)];
+  for (let i = chars.length; i < 12; i++) chars.push(rnd(all));
+  // خلط بسيط
+  for (let i = chars.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [chars[i], chars[j]] = [chars[j], chars[i]];
+  }
+  return chars.join('');
+}
+
+/** زر نسخ صغير بجانب قيمة (يعرض حالة "تم النسخ" لثوانٍ). */
+function CopyBtn({ value, label }: { value: string; label: string }) {
+  const [done, setDone] = useState(false);
+  return (
+    <button
+      type="button"
+      className="oid-copy"
+      aria-label={label}
+      onClick={async () => {
+        try { await navigator.clipboard.writeText(value); setDone(true); setTimeout(() => setDone(false), 1600); } catch { /* تجاهل */ }
+      }}
+    >
+      {done ? '✓' : '⧉'}
+    </button>
+  );
+}
+
 export default function NewOrgForm() {
   const t = useT();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
-  const [result, setResult] = useState<{ slug: string; adminEmail: string } | null>(null);
+  const [result, setResult] = useState<{ slug: string; adminEmail: string; adminPassword: string } | null>(null);
 
   const [orgName, setOrgName] = useState('');
   const [slug, setSlug] = useState('');
@@ -71,7 +106,7 @@ export default function NewOrgForm() {
         return;
       }
 
-      setResult({ slug: data.slug, adminEmail });
+      setResult({ slug: data.slug, adminEmail, adminPassword });
       setBusy(false);
     } catch {
       setError(t('aorg.form.netErr'));
@@ -94,16 +129,25 @@ export default function NewOrgForm() {
           <div className="detail-row">
             <span className="detail-label">{t('aorg.success.orgLink')}</span>
             <code dir="ltr">{tenantUrl(result.slug)}</code>
+            <CopyBtn value={tenantUrl(result.slug)} label={t('aorg.copy')} />
           </div>
           <div className="detail-row">
             <span className="detail-label">{t('aorg.success.loginPage')}</span>
             <code dir="ltr">{tenantUrl(result.slug, '/login')}</code>
+            <CopyBtn value={tenantUrl(result.slug, '/login')} label={t('aorg.copy')} />
           </div>
           <div className="detail-row">
             <span className="detail-label">{t('aorg.success.adminEmail')}</span>
             <code dir="ltr">{result.adminEmail}</code>
+            <CopyBtn value={result.adminEmail} label={t('aorg.copy')} />
+          </div>
+          <div className="detail-row">
+            <span className="detail-label">{t('aorg.success.tempPassword')}</span>
+            <code dir="ltr">{result.adminPassword}</code>
+            <CopyBtn value={result.adminPassword} label={t('aorg.copy')} />
           </div>
         </div>
+        <p className="success-note">{t('aorg.success.handoffNote')}</p>
 
         <div className="success-actions">
           <Link href="/admin/organizations" className="btn-admin-primary">
@@ -234,15 +278,20 @@ export default function NewOrgForm() {
             {t('aorg.form.tempPassword')}
             <span className="field-hint">{t('aorg.form.tempPasswordHint')}</span>
           </label>
-          <input
-            id="adminPassword"
-            type="text"
-            value={adminPassword}
-            onChange={(e) => setAdminPassword(e.target.value)}
-            dir="ltr"
-            minLength={8}
-            required
-          />
+          <div className="admin-field-inline">
+            <input
+              id="adminPassword"
+              type="text"
+              value={adminPassword}
+              onChange={(e) => setAdminPassword(e.target.value)}
+              dir="ltr"
+              minLength={8}
+              required
+            />
+            <button type="button" className="btn-admin-outline btn-gen" onClick={() => setAdminPassword(generatePassword())}>
+              {t('aorg.form.genPassword')}
+            </button>
+          </div>
         </div>
       </fieldset>
 

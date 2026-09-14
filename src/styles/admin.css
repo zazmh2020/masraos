@@ -778,12 +778,25 @@
 
 .detail-row {
   display: grid;
-  grid-template-columns: 130px 1fr;
+  grid-template-columns: 130px 1fr auto;
   align-items: center;
   gap: 1rem;
   padding: 0.7rem 0;
   font-size: 0.85rem;
 }
+/* زر نسخ صغير بجانب القيمة في لوحة النجاح */
+.oid-copy {
+  width: 30px; height: 30px; flex-shrink: 0; border-radius: 7px;
+  border: 1px solid #e2e0ea; background: var(--white); color: var(--purple-700);
+  cursor: pointer; font-size: 0.9rem; line-height: 1; display: grid; place-items: center;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.oid-copy:hover { background: var(--purple-50, #f4f1fa); border-color: var(--purple-300); }
+/* حقل مع زر مجاور (توليد كلمة المرور) */
+.admin-field-inline { display: flex; gap: 0.5rem; align-items: stretch; }
+.admin-field-inline input { flex: 1; min-width: 0; }
+.btn-gen { flex-shrink: 0; white-space: nowrap; padding-inline: 1rem; }
+.success-note { font-size: 0.82rem; color: var(--gray-600, #6a6874); margin: 0 0 1.2rem; line-height: 1.7; text-align: start; }
 
 .detail-row:not(:last-child) {
   border-bottom: 1px solid #ededf1;
