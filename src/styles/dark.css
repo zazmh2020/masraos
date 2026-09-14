@@ -130,13 +130,12 @@
 
 /* ---------- الواجهة الرئيسية (.mdl) ---------- */
 :root[data-theme="dark"] .mdl {
-  --bg: #14101f; --white: #221a35; --dark: #f2eefb; --text: #cfc8e0; --muted: #a79fbe;
+  --bg: #14101f; --white: #221a35; --tint: #1b1530; --dark: #f2eefb; --text: #cfc8e0; --muted: #a79fbe;
   --border: rgba(255, 255, 255, 0.1); --p: #a48fd9; --pd: #c6b6ee; --pl: #8b78bf;
   --p-08: rgba(164, 143, 217, 0.12); --p-12: rgba(164, 143, 217, 0.16);
 }
 :root[data-theme="dark"] .mdl-navbar { background: rgba(34, 26, 53, 0.82) !important; border-color: rgba(255, 255, 255, 0.1) !important; }
-:root[data-theme="dark"] .mdl-footer { background: linear-gradient(180deg, #241a3f 0%, #14101f 100%) !important; }
-:root[data-theme="dark"] .mdl-footer .mdl-wrap { background: rgba(255,255,255,0.05) !important; border-color: rgba(255,255,255,0.12) !important; }
+:root[data-theme="dark"] .mdl-footer { background: #14101f !important; border-top-color: rgba(255,255,255,0.1) !important; }
 :root[data-theme="dark"] .mdl-mega { background: rgba(28, 22, 46, 0.96) !important; border-color: rgba(255, 255, 255, 0.12) !important; }
 :root[data-theme="dark"] .mdl-btn.mdl-btn-light { background: #fff; color: #2b1a4e; border-color: transparent; }
 :root[data-theme="dark"] .mdl-btn-white { background: #2a2140; color: #f2eefb; border-color: rgba(255, 255, 255, 0.12); }

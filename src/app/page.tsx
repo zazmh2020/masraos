@@ -85,10 +85,10 @@ export default async function HomePage() {
                 <div className="mdl-hero-actions">
                   {slide?.ctaText && slide.ctaLink
                     ? (slide.ctaLink.startsWith('/')
-                        ? <Link href={slide.ctaLink} className="mdl-btn mdl-btn-light">{slide.ctaText}</Link>
-                        : <a href={slide.ctaLink} className="mdl-btn mdl-btn-light" target="_blank" rel="noopener noreferrer">{slide.ctaText}</a>)
-                    : <Link href="/login" className="mdl-btn mdl-btn-light">{t('hero.cta.login')}</Link>}
-                  <a href="#systems" className="mdl-btn mdl-btn-outline-light">{t('hero.cta.explore')}</a>
+                        ? <Link href={slide.ctaLink} className="mdl-btn mdl-btn-primary">{slide.ctaText}</Link>
+                        : <a href={slide.ctaLink} className="mdl-btn mdl-btn-primary" target="_blank" rel="noopener noreferrer">{slide.ctaText}</a>)
+                    : <Link href="/login" className="mdl-btn mdl-btn-primary">{t('hero.cta.login')}</Link>}
+                  <a href="#systems" className="mdl-btn mdl-btn-white">{t('hero.cta.explore')}</a>
                 </div>
               </Reveal>
               <Reveal delay={0.3}>
@@ -146,7 +146,7 @@ export default async function HomePage() {
         </section>
 
         {/* ========== SYSTEMS (interactive) ========== */}
-        <section id="systems" className="mdl-section">
+        <section id="systems" className="mdl-section" style={{ background: 'var(--tint)' }}>
           <div className="mdl-wrap">
             <Reveal>
               <div className="mdl-center">
@@ -160,7 +160,7 @@ export default async function HomePage() {
         </section>
 
         {/* ========== HOW IT WORKS ========== */}
-        <section className="mdl-section" style={{ background: 'var(--white)' }}>
+        <section className="mdl-section">
           <div className="mdl-wrap">
             <Reveal>
               <div className="mdl-center">
@@ -184,25 +184,6 @@ export default async function HomePage() {
               </div>
             </Reveal>
             <ProductShowcase />
-          </div>
-        </section>
-
-        {/* ========== STORIES (v1 carousel) ========== */}
-        <section className="mdl-section" style={{ background: 'var(--white)' }}>
-          <div className="mdl-wrap">
-            <Reveal>
-              <div className="mdl-center">
-                <span className="mdl-eyebrow">{t('sec.stories.eyebrow')}</span>
-                <h2 className="mdl-h2">{t('sec.stories.title')}</h2>
-                <p className="mdl-lead">{t('sec.stories.lead')}</p>
-                <div className="mdl-rating">
-                  <span className="mdl-rating-score">4.9</span>
-                  <span className="mdl-rating-stars">{STAR}{STAR}{STAR}{STAR}{STAR}</span>
-                  <span className="mdl-rating-meta">{t('sec.stories.rating', { n: '+40' })}</span>
-                </div>
-              </div>
-            </Reveal>
-            <Testimonials />
           </div>
         </section>
 
@@ -273,7 +254,7 @@ export default async function HomePage() {
         </section>
 
         {/* ========== INTEGRATIONS ========== */}
-        <section className="mdl-section" style={{ background: 'var(--white)' }}>
+        <section className="mdl-section">
           <div className="mdl-wrap mdl-center">
             <Reveal>
               <span className="mdl-eyebrow">{t('sec.integrations.eyebrow')}</span>
@@ -287,6 +268,25 @@ export default async function HomePage() {
                 <span key={i} className="mdl-int"><Icon name="actions/actions-link" size={18} />{t(n)}</span>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* ========== STORIES (social proof — قبل التسعير) ========== */}
+        <section className="mdl-section" style={{ background: 'var(--tint)' }}>
+          <div className="mdl-wrap">
+            <Reveal>
+              <div className="mdl-center">
+                <span className="mdl-eyebrow">{t('sec.stories.eyebrow')}</span>
+                <h2 className="mdl-h2">{t('sec.stories.title')}</h2>
+                <p className="mdl-lead">{t('sec.stories.lead')}</p>
+                <div className="mdl-rating">
+                  <span className="mdl-rating-score">4.9</span>
+                  <span className="mdl-rating-stars">{STAR}{STAR}{STAR}{STAR}{STAR}</span>
+                  <span className="mdl-rating-meta">{t('sec.stories.rating', { n: '+40' })}</span>
+                </div>
+              </div>
+            </Reveal>
+            <Testimonials />
           </div>
         </section>
 
@@ -315,8 +315,8 @@ export default async function HomePage() {
               <h2>{t('cta.title')}</h2>
               <p>{t('cta.lead')}</p>
               <div className="mdl-cta-actions">
-                <Link href="/login" className="mdl-btn mdl-btn-light">{t('cta.login')}</Link>
-                <a href="#about" className="mdl-btn mdl-btn-outline-light">{t('cta.contact')}</a>
+                <Link href="/login" className="mdl-btn mdl-btn-primary">{t('cta.login')}</Link>
+                <a href="#about" className="mdl-btn mdl-btn-white">{t('cta.contact')}</a>
               </div>
             </Reveal>
           </div>
