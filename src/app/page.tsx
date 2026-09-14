@@ -66,10 +66,12 @@ export default async function HomePage() {
     ? settings.homeFaqs
     : [1, 2, 3, 4, 5].map((n) => ({ q: t(`faq.q${n}`), a: t(`faq.a${n}`) }));
 
+  const showAnnounce = settings.announcementActive && !!settings.announcement;
+
   return (
-    <div className="mdl">
+    <div className={`mdl ${showAnnounce ? 'has-announce' : ''}`}>
       <WelcomeIntro />
-      {settings.announcementActive && settings.announcement && (
+      {showAnnounce && (
         settings.announcementLink
           ? settings.announcementLink.startsWith('/')
             ? <Link href={settings.announcementLink} className="mdl-announce is-link">{settings.announcement}</Link>

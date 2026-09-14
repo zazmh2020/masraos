@@ -27,6 +27,7 @@
   --shadow-lg: 0 30px 80px -40px rgba(23, 21, 28, 0.3);
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   --maxw: 1200px;
+  --announce-h: 40px; /* ارتفاع شريط الإعلان المثبّت */
 
   font-family: var(--font-display, 'Qomra', system-ui, sans-serif);
   color: var(--text);
@@ -640,6 +641,7 @@
   .mdl-sys-list { grid-template-columns: 1fr; grid-template-rows: auto; grid-auto-flow: row; }
   .mdl-steps-grid { grid-template-columns: repeat(2, 1fr); }
   .mdl-hero { padding-top: 7rem; }
+  .mdl.has-announce .mdl-hero { padding-top: calc(7rem + var(--announce-h, 40px)); }
   /* على الجوال: بطاقة واحدة مستقيمة بلا ميلان حتى لا تبرز من حواف الشاشة */
   .mdl-float-1, .mdl-float-2, .mdl-float-3 { display: none; }
   .mdl-fan-card.back-1, .mdl-fan-card.back-2 { display: none; }
@@ -798,12 +800,16 @@ html { scroll-behavior: smooth; }
 .mdl-sys-cat { display: block; font-size: 0.72rem; color: var(--muted); margin-top: 0.15rem; }
 
 
-/* شريط الإعلان العام (يُدار من لوحة مالك المنصّة) */
+/* شريط الإعلان العام (يُدار من لوحة مالك المنصّة) — مثبّت أعلى الصفحة فوق الترويسة */
 .mdl-announce {
-  display: block;
-  background: linear-gradient(135deg, var(--purple-900, #2b1a4e), var(--purple-500, #6b57a0));
+  display: block; position: fixed; inset-inline: 0; top: 0; z-index: 101;
+  background: linear-gradient(135deg, var(--pd), var(--p));
   color: #fff; text-align: center; font-weight: 700; font-size: 0.9rem;
-  padding: 0.6rem 1.2rem; line-height: 1.4;
+  padding: 0.55rem 3rem; line-height: 1.4; height: var(--announce-h, 40px);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 a.mdl-announce.is-link { cursor: pointer; transition: filter var(--dur, 0.2s) var(--ease, ease); }
 a.mdl-announce.is-link:hover { filter: brightness(1.12); text-decoration: underline; text-underline-offset: 3px; }
+/* عند وجود الإعلان: تُدفَع الترويسة للأسفل ويُزاد الحيّز العلوي للبطل حتى لا يختفي أيّهما */
+.mdl.has-announce .mdl-header { top: var(--announce-h, 40px); }
+.mdl.has-announce .mdl-hero { padding-top: calc(8.5rem + var(--announce-h, 40px)); }
