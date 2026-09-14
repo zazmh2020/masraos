@@ -13,6 +13,8 @@ export default function PlatformContentForm({ initial }: { initial: PlatformSett
   const [heroTitle1, setHeroTitle1] = useState(initial.heroTitle1 ?? '');
   const [heroTitle2, setHeroTitle2] = useState(initial.heroTitle2 ?? '');
   const [heroSubtitle, setHeroSubtitle] = useState(initial.heroSubtitle ?? '');
+  const [features, setFeatures] = useState<{ title: string; desc: string }[]>(initial.homeFeatures ?? []);
+  const [faqs, setFaqs] = useState<{ q: string; a: string }[]>(initial.homeFaqs ?? []);
   const [announcement, setAnnouncement] = useState(initial.announcement ?? '');
   const [announcementLink, setAnnouncementLink] = useState(initial.announcementLink ?? '');
   const [announcementActive, setAnnouncementActive] = useState(initial.announcementActive);
@@ -35,6 +37,7 @@ export default function PlatformContentForm({ initial }: { initial: PlatformSett
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           heroTitle1, heroTitle2, heroSubtitle,
+          homeFeatures: features, homeFaqs: faqs,
           announcement, announcementLink, announcementActive,
           contactEmail, contactPhone, whatsapp, twitterUrl, instagramUrl,
         }),
@@ -82,6 +85,58 @@ export default function PlatformContentForm({ initial }: { initial: PlatformSett
       <div className="org-field">
         <label htmlFor="pc-sub">{t('apc.heroSubtitle')}</label>
         <textarea id="pc-sub" value={heroSubtitle} onChange={(e) => setHeroSubtitle(e.target.value)} maxLength={400} rows={2} placeholder={t('apc.overrideHint')} />
+      </div>
+
+      {/* ===== المميزات ===== */}
+      <h3 className="oid-h">{t('apc.features')}</h3>
+      <p className="field-hint" style={{ marginTop: '-0.4rem' }}>{t('apc.featuresHint')}</p>
+      <div className="pc-repeater">
+        {features.map((f, i) => (
+          <div key={i} className="pc-row">
+            <div className="org-field">
+              <label>{t('apc.featureTitle')}</label>
+              <input value={f.title} maxLength={80}
+                onChange={(e) => setFeatures((p) => p.map((x, j) => (j === i ? { ...x, title: e.target.value } : x)))} />
+            </div>
+            <div className="org-field">
+              <label>{t('apc.featureDesc')}</label>
+              <input value={f.desc} maxLength={240}
+                onChange={(e) => setFeatures((p) => p.map((x, j) => (j === i ? { ...x, desc: e.target.value } : x)))} />
+            </div>
+            <button type="button" className="pc-del" aria-label={t('apc.remove')}
+              onClick={() => setFeatures((p) => p.filter((_, j) => j !== i))}>×</button>
+          </div>
+        ))}
+        {features.length < 12 && (
+          <button type="button" className="org-btn org-btn-outline pc-add"
+            onClick={() => setFeatures((p) => [...p, { title: '', desc: '' }])}>{t('apc.addFeature')}</button>
+        )}
+      </div>
+
+      {/* ===== الأسئلة الشائعة ===== */}
+      <h3 className="oid-h">{t('apc.faqs')}</h3>
+      <p className="field-hint" style={{ marginTop: '-0.4rem' }}>{t('apc.faqsHint')}</p>
+      <div className="pc-repeater">
+        {faqs.map((f, i) => (
+          <div key={i} className="pc-row pc-row-stack">
+            <div className="org-field">
+              <label>{t('apc.faqQ')}</label>
+              <input value={f.q} maxLength={160}
+                onChange={(e) => setFaqs((p) => p.map((x, j) => (j === i ? { ...x, q: e.target.value } : x)))} />
+            </div>
+            <div className="org-field">
+              <label>{t('apc.faqA')}</label>
+              <textarea value={f.a} maxLength={800} rows={2}
+                onChange={(e) => setFaqs((p) => p.map((x, j) => (j === i ? { ...x, a: e.target.value } : x)))} />
+            </div>
+            <button type="button" className="pc-del" aria-label={t('apc.remove')}
+              onClick={() => setFaqs((p) => p.filter((_, j) => j !== i))}>×</button>
+          </div>
+        ))}
+        {faqs.length < 20 && (
+          <button type="button" className="org-btn org-btn-outline pc-add"
+            onClick={() => setFaqs((p) => [...p, { q: '', a: '' }])}>{t('apc.addFaq')}</button>
+        )}
       </div>
 
       {/* ===== بيانات التواصل ===== */}

@@ -932,6 +932,8 @@ model PlatformSetting {
   heroTitle1         String? // عنوان البطل — السطر الأول
   heroTitle2         String? // عنوان البطل — السطر المميّز
   heroSubtitle       String? // وصف البطل
+  homeFeatures       Json? // مميزات الصفحة الرئيسية (مصفوفة {title, desc}) — فارغة = افتراضي
+  homeFaqs           Json? // الأسئلة الشائعة (مصفوفة {q, a}) — فارغة = افتراضي
   announcement       String? // شريط إعلان عام
   announcementLink   String? // وجهة الإعلان (مسار داخلي /x أو رابط خارجي https) — اختياري
   announcementActive Boolean  @default(false)

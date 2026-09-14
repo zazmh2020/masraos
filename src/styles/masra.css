@@ -530,6 +530,35 @@
 .mdl-org-more { margin-top: 0.7rem; font-size: 0.82rem; color: var(--p); font-weight: 700; }
 
 /* ============================================================
+   FAQ (accordion)
+   ============================================================ */
+.mdl-faq-wrap { max-width: 820px; }
+.mdl-faq { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 2.5rem; }
+.mdl-faq-item {
+  background: var(--white); border: 1px solid var(--border); border-radius: 16px;
+  padding: 0 1.25rem; transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.mdl-faq-item[open] { border-color: rgba(107, 87, 160, 0.3); box-shadow: var(--shadow-sm); }
+.mdl-faq-item summary {
+  list-style: none; cursor: pointer; display: flex; align-items: center; gap: 1rem;
+  padding: 1.15rem 0; font-weight: 700; color: var(--dark); font-size: 1.02rem;
+}
+.mdl-faq-item summary::-webkit-details-marker { display: none; }
+.mdl-faq-mark {
+  margin-inline-start: auto; position: relative; width: 18px; height: 18px; flex-shrink: 0;
+}
+.mdl-faq-mark::before, .mdl-faq-mark::after {
+  content: ''; position: absolute; inset-inline-start: 50%; top: 50%; width: 12px; height: 2px;
+  background: var(--p); border-radius: 2px; transform: translate(-50%, -50%); transition: transform 0.22s var(--ease);
+}
+.mdl-faq-mark::after { transform: translate(-50%, -50%) rotate(90deg); }
+.mdl-faq-item[open] .mdl-faq-mark::after { transform: translate(-50%, -50%) rotate(0); }
+.mdl-faq-a {
+  padding: 0 0 1.2rem; color: var(--muted); line-height: 1.85; font-size: 0.95rem;
+  border-top: 1px solid var(--border); padding-top: 1rem; margin-top: -0.1rem;
+}
+
+/* ============================================================
    Final CTA
    ============================================================ */
 /* بطاقة نداء ختامية فاتحة بحدّ لطيف وتوهّج علامي خفيف */
@@ -684,7 +713,7 @@
 /* ---------- تمرير سلس + إزاحة تعوّض الشريط العائم ---------- */
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-.mdl-hero, .mdl-section, #home, #platform, #systems, #ai { scroll-margin-top: 90px; }
+.mdl-hero, .mdl-section, #home, #platform, #systems, #ai, #faq, #pricing { scroll-margin-top: 90px; }
 .mdl-footer { scroll-margin-top: 90px; }
 
 /* ============================================================

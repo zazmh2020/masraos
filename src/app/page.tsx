@@ -55,6 +55,17 @@ export default async function HomePage() {
   const settings = await getPlatformSettings();
   const slides = await getActiveHeroSlides();
   const slide = slides[0] ?? null; // شريحة الواجهة المنشورة تقود الهيرو إن وُجدت
+
+  // المميزات: محتوى مالك المنصّة إن وُجد، وإلا النصوص الافتراضية (أيقونات دوّارة للمخصّصة)
+  const features = settings.homeFeatures?.length
+    ? settings.homeFeatures.map((f, i) => ({ icon: FEATURES[i % FEATURES.length].icon, title: f.title, desc: f.desc }))
+    : FEATURES.map((f) => ({ icon: f.icon, title: t(`${f.k}.t`), desc: t(`${f.k}.d`) }));
+
+  // الأسئلة الشائعة: محتوى المالك إن وُجد، وإلا الأسئلة الافتراضية
+  const faqs = settings.homeFaqs?.length
+    ? settings.homeFaqs
+    : [1, 2, 3, 4, 5].map((n) => ({ q: t(`faq.q${n}`), a: t(`faq.a${n}`) }));
+
   return (
     <div className="mdl">
       <WelcomeIntro />
@@ -214,12 +225,12 @@ export default async function HomePage() {
               </div>
             </Reveal>
             <div className="mdl-feats">
-              {FEATURES.map((f, i) => (
-                <Reveal key={f.k} delay={(i % 3) * 0.06}>
+              {features.map((f, i) => (
+                <Reveal key={i} delay={(i % 3) * 0.06}>
                   <div className="mdl-feat">
                     <span className="fi"><Icon name={f.icon} size={22} /></span>
-                    <h4>{t(`${f.k}.t`)}</h4>
-                    <p>{t(`${f.k}.d`)}</p>
+                    <h4>{f.title}</h4>
+                    <p>{f.desc}</p>
                   </div>
                 </Reveal>
               ))}
@@ -303,6 +314,29 @@ export default async function HomePage() {
             <Reveal delay={0.1}>
               <div className="mdl-pricing">
                 <PricingPlans />
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ========== FAQ ========== */}
+        <section id="faq" className="mdl-section" style={{ background: 'var(--tint)' }}>
+          <div className="mdl-wrap mdl-faq-wrap">
+            <Reveal>
+              <div className="mdl-center">
+                <span className="mdl-eyebrow">{t('sec.faq.eyebrow')}</span>
+                <h2 className="mdl-h2">{t('sec.faq.title')}</h2>
+                <p className="mdl-lead">{t('sec.faq.lead')}</p>
+              </div>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <div className="mdl-faq">
+                {faqs.map((f, i) => (
+                  <details key={i} className="mdl-faq-item">
+                    <summary>{f.q}<span className="mdl-faq-mark" aria-hidden="true" /></summary>
+                    <div className="mdl-faq-a">{f.a}</div>
+                  </details>
+                ))}
               </div>
             </Reveal>
           </div>
