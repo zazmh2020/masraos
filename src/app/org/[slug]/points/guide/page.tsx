@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { requireOrgAccess } from '@/lib/org';
 import { canScanPoints } from '@/lib/permissions';
 import { getT } from '@/lib/i18n/server';
+import { GUIDE_ART } from '@/components/points/GuideArt';
 
 export const dynamic = 'force-dynamic';
 
@@ -24,15 +25,21 @@ export default async function PointsGuidePage({ params }: { params: Promise<{ sl
       </div>
 
       <ol className="pts-guide-steps">
-        {STEPS.map((s, i) => (
-          <li key={s} className="pts-guide-step">
-            <span className="pts-guide-num">{i + 1}</span>
-            <div className="pts-guide-body">
-              <strong>{t(`ptsGuide.${s}t`)}</strong>
-              <p>{t(`ptsGuide.${s}d`)}</p>
-            </div>
-          </li>
-        ))}
+        {STEPS.map((s, i) => {
+          const Art = GUIDE_ART[i];
+          return (
+            <li key={s} className="pts-guide-step">
+              <div className="pts-guide-art">
+                <span className="pts-guide-num">{i + 1}</span>
+                <Art />
+              </div>
+              <div className="pts-guide-body">
+                <strong>{t(`ptsGuide.${s}t`)}</strong>
+                <p>{t(`ptsGuide.${s}d`)}</p>
+              </div>
+            </li>
+          );
+        })}
       </ol>
 
       <div className="pts-guide-notes">

@@ -2430,11 +2430,28 @@ a.org-module:hover {
 }
 
 /* دليل مسابقة النقاط */
-.pts-guide-steps { list-style: none; padding: 0; margin: 1.2rem 0 0; display: grid; gap: 0.7rem; }
-.pts-guide-step { display: flex; gap: 0.9rem; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: var(--r-md); background: #fff; }
-.pts-guide-num { flex: none; width: 32px; height: 32px; display: grid; place-items: center; border-radius: var(--r-pill); background: var(--purple-500); color: #fff; font-weight: 800; font-family: var(--font-display); }
-.pts-guide-body strong { display: block; color: var(--purple-900); font-family: var(--font-display); font-size: 1rem; margin-bottom: 0.2rem; }
-.pts-guide-body p { color: var(--text); font-size: 0.9rem; line-height: 1.7; margin: 0; }
+.pts-guide-steps { list-style: none; padding: 0; margin: 1.2rem 0 0; display: grid; gap: 1rem; }
+/* بطاقة خطوة: رسم توضيحي + نص، تتبادل الجهة للإيقاع البصري */
+.pts-guide-step {
+  display: grid; grid-template-columns: 300px 1fr; gap: 1.3rem; align-items: center;
+  padding: 1.1rem 1.2rem; border: 1px solid var(--line); border-radius: var(--r-lg); background: #fff;
+}
+.pts-guide-step:nth-child(even) { grid-template-columns: 1fr 300px; }
+.pts-guide-step:nth-child(even) .pts-guide-art { order: 2; }
+.pts-guide-art { position: relative; }
+.pts-guide-svg { width: 100%; height: auto; display: block; border-radius: var(--r-md); }
+.pts-guide-num {
+  position: absolute; inset-block-start: -10px; inset-inline-start: -10px; z-index: 1;
+  width: 34px; height: 34px; display: grid; place-items: center; border-radius: var(--r-pill);
+  background: var(--purple-500); color: #fff; font-weight: 800; font-family: var(--font-display);
+  box-shadow: 0 6px 16px -6px rgba(23, 21, 28, 0.4); border: 2px solid #fff;
+}
+.pts-guide-body strong { display: block; color: var(--purple-900); font-family: var(--font-display); font-size: 1.1rem; margin-bottom: 0.35rem; }
+.pts-guide-body p { color: var(--text); font-size: 0.92rem; line-height: 1.75; margin: 0; }
+@media (max-width: 640px) {
+  .pts-guide-step, .pts-guide-step:nth-child(even) { grid-template-columns: 1fr; gap: 1rem; }
+  .pts-guide-step:nth-child(even) .pts-guide-art { order: 0; }
+}
 .pts-guide-notes { margin-top: 1.4rem; padding: 1.1rem 1.3rem; border-radius: var(--r-md); background: var(--gray-100); border: 1px solid var(--line); }
 .pts-guide-notes h2 { font-family: var(--font-display); font-size: 1rem; color: var(--purple-900); margin: 0 0 0.6rem; }
 .pts-guide-notes ul { margin: 0; padding-inline-start: 1.2rem; display: grid; gap: 0.4rem; }
