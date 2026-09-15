@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
 import { getOrgActor } from '@/lib/org';
 import { canUseAssistant } from '@/lib/permissions';
-import { anthropic, isAssistantConfigured, ASSISTANT_MODEL } from '@/lib/anthropic';
+import { anthropic, isAssistantConfigured, ASSISTANT_MODEL, ASSISTANT_EFFORT } from '@/lib/anthropic';
 import { buildAssistantContext } from '@/lib/assistant-context';
 
 export const maxDuration = 60;
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     const message = await anthropic().messages.create({
       model: ASSISTANT_MODEL,
       max_tokens: 1500,
-      output_config: { effort: 'low' },
+      output_config: { effort: ASSISTANT_EFFORT },
       system,
       messages: [{ role: 'user', content: question }],
     });
