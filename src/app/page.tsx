@@ -77,15 +77,34 @@ export default async function HomePage() {
   const showAnnounce = settings.announcementActive && !!settings.announcement;
   const demoEnabled = !!process.env.DEMO_LOGIN_EMAIL; // زر «شاهد المنصة» يظهر عند تهيئة حساب العرض
 
+  // محتوى شريط الإعلان المتحرك — نِصفان متطابقان (كلٌّ يكرّر النصّ عدّة مرّات ليملأ العرض)،
+  // والحركة تُزيح بمقدار نصف المسار فيبدو دورانًا متّصلًا بلا فراغ مهما كان طول النصّ.
+  const announceHalf = (side: string) => (
+    <span className="mdl-announce-half" key={side} aria-hidden={side === 'b' || undefined}>
+      {[0, 1, 2, 3].map((i) => (
+        <span className="mdl-announce-run" key={i}>
+          <span>{settings.announcement}</span>
+          <span className="mdl-announce-star" aria-hidden="true">✦</span>
+        </span>
+      ))}
+    </span>
+  );
+  const announceInner = (
+    <span className="mdl-announce-track">
+      {announceHalf('a')}
+      {announceHalf('b')}
+    </span>
+  );
+
   return (
     <div className={`mdl ${showAnnounce ? 'has-announce' : ''}`}>
       <WelcomeIntro />
       {showAnnounce && (
         settings.announcementLink
           ? settings.announcementLink.startsWith('/')
-            ? <Link href={settings.announcementLink} className="mdl-announce is-link">{settings.announcement}</Link>
-            : <a href={settings.announcementLink} target="_blank" rel="noopener noreferrer" className="mdl-announce is-link">{settings.announcement}</a>
-          : <div className="mdl-announce" role="status">{settings.announcement}</div>
+            ? <Link href={settings.announcementLink} className="mdl-announce is-link">{announceInner}</Link>
+            : <a href={settings.announcementLink} target="_blank" rel="noopener noreferrer" className="mdl-announce is-link">{announceInner}</a>
+          : <div className="mdl-announce" role="status">{announceInner}</div>
       )}
       <MasraHeader />
 

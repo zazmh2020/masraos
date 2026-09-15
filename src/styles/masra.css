@@ -824,16 +824,31 @@ html { scroll-behavior: smooth; }
 .mdl-sys-cat { display: block; font-size: 0.72rem; color: var(--muted); margin-top: 0.15rem; }
 
 
-/* شريط الإعلان العام (يُدار من لوحة مالك المنصّة) — مثبّت أعلى الصفحة فوق الترويسة */
+/* شريط الإعلان العام المتحرك (يُدار من لوحة مالك المنصّة) — مثبّت أعلى الصفحة فوق الترويسة */
 .mdl-announce {
-  display: block; position: fixed; inset-inline: 0; top: 0; z-index: 101;
+  display: flex; align-items: center; position: fixed; inset-inline: 0; top: 0; z-index: 101;
   background: linear-gradient(135deg, var(--purple-900, #2b1a4e), var(--purple-500, #6b57a0));
-  color: #fff; text-align: center; font-weight: 700; font-size: 0.9rem;
-  padding: 0.55rem 3rem; line-height: 1.4; height: var(--announce-h, 40px);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  color: #fff; font-weight: 700; font-size: 0.9rem; line-height: 1.4;
+  height: var(--announce-h, 40px); overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
+.mdl-announce-track { display: inline-flex; align-items: center; flex-shrink: 0; width: max-content; animation: mdlAnnounce 40s linear infinite; }
+.mdl-announce:hover .mdl-announce-track { animation-play-state: paused; }
+.mdl-announce-half { display: inline-flex; align-items: center; }
+.mdl-announce-run { display: inline-flex; align-items: center; }
+.mdl-announce-star { margin-inline: 2rem; opacity: 0.5; }
+@keyframes mdlAnnounce { to { transform: translateX(50%); } }
 a.mdl-announce.is-link { cursor: pointer; transition: filter var(--dur, 0.2s) var(--ease, ease); }
-a.mdl-announce.is-link:hover { filter: brightness(1.12); text-decoration: underline; text-underline-offset: 3px; }
+a.mdl-announce.is-link:hover { filter: brightness(1.12); }
+/* احترام تقليل الحركة: نصّ واحد ثابت موسّط بلا تحريك */
+@media (prefers-reduced-motion: reduce) {
+  .mdl-announce { justify-content: center; }
+  .mdl-announce-track { animation: none; width: auto; overflow: hidden; }
+  .mdl-announce-half[aria-hidden] { display: none; }
+  .mdl-announce-half:not([aria-hidden]) .mdl-announce-run:not(:first-child) { display: none; }
+  .mdl-announce-star { display: none; }
+}
 /* عند وجود الإعلان: تُدفَع الترويسة للأسفل ويُزاد الحيّز العلوي للبطل حتى لا يختفي أيّهما */
 .mdl.has-announce .mdl-header { top: var(--announce-h, 40px); }
 .mdl.has-announce .mdl-hero { padding-top: calc(8.5rem + var(--announce-h, 40px)); }
