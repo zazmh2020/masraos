@@ -2535,3 +2535,32 @@ a.org-module:hover {
 .ent-modal-ver { color: var(--text-soft, #78757f); font-size: 0.82rem; margin-top: 1rem; }
 .ent-modal-foot { padding: 1rem 1.4rem; border-top: 1px solid var(--line); display: flex; justify-content: flex-end; }
 @media (max-width: 560px) { .ent-optin-head { flex-direction: column; gap: 0.5rem; } }
+
+/* الاستحقاق الدائم — صفحة التفاصيل + بطاقة اللوحة */
+.ent-progress { height: 12px; border-radius: 100px; background: var(--purple-100); overflow: hidden; }
+.ent-progress > span { display: block; height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--purple-500), var(--purple-700)); transition: width 0.5s var(--ease); }
+.ent-details-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.7rem; }
+.ent-details-pct { font-family: var(--font-display); font-weight: 900; font-size: 1.4rem; color: var(--purple-700); }
+.ent-status-badge { font-size: 0.78rem; font-weight: 800; border-radius: var(--r-pill); padding: 0.22rem 0.7rem; }
+.ent-status-badge.st-ACTIVE { background: var(--purple-100); color: var(--purple-700); }
+.ent-status-badge.st-PAUSED { background: #fef3c7; color: #92400e; }
+.ent-status-badge.st-COMPLETED { background: #dcfce7; color: #166534; }
+.ent-status-badge.st-CANCELLED, .ent-status-badge.st-EXPIRED { background: #fee2e2; color: #991b1b; }
+.ent-details { margin-top: 1.1rem; }
+.ent-excl h4, .ent-gets h4 { margin: 0 0 0.6rem; font-family: var(--font-display); font-size: 1rem; color: var(--purple-900); }
+.ent-excl ul { margin: 0; padding-inline-start: 1.3rem; display: grid; gap: 0.4rem; }
+.ent-excl li { color: var(--text-soft, #6a6874); line-height: 1.7; font-size: 0.92rem; }
+.ent-complete-banner { background: linear-gradient(135deg, #dcfce7, #f0fdf4); border: 1px solid #bbf7d0; border-radius: var(--r-lg); padding: 1.2rem 1.4rem; margin-bottom: 1rem; }
+.ent-complete-banner strong { display: block; font-family: var(--font-display); font-size: 1.1rem; color: #166534; margin-bottom: 0.35rem; }
+.ent-complete-banner p { margin: 0; color: #15803d; line-height: 1.8; font-size: 0.92rem; }
+
+/* بطاقة اللوحة */
+.dash-ent-card { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 1.1rem 1.3rem; margin: 1rem 0; transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease); }
+.dash-ent-card:hover { border-color: var(--purple-300); box-shadow: var(--sh-1); }
+.dash-ent-info { flex: 1; min-width: 240px; display: grid; gap: 0.5rem; }
+.dash-ent-top { display: flex; align-items: center; justify-content: space-between; }
+.dash-ent-title { font-family: var(--font-display); font-weight: 800; color: var(--purple-900); }
+.dash-ent-pct { font-weight: 900; color: var(--purple-700); }
+.dash-ent-remain { font-size: 1.05rem; font-weight: 800; color: var(--text-strong); }
+.dash-ent-target { font-size: 0.82rem; color: var(--text-soft, #78757f); }
+.dash-ent-cta { font-weight: 700; color: var(--purple-700); white-space: nowrap; }

@@ -4,8 +4,9 @@ import { prisma } from '@/lib/prisma';
 import {
   canViewUsers, canManageUsers, canViewProjects, canViewStructure, canViewPrograms,
   canViewCampaigns, canViewBeneficiaries, canViewReports,
-  canViewDocuments, canUseAssistant,
+  canViewDocuments, canUseAssistant, canManageSettings,
 } from '@/lib/permissions';
+import { getOrgEntitlement } from '@/lib/entitlement-load';
 import Icon from '@/components/Icon';
 import DashboardShell from '@/components/dash/DashboardShell';
 import StatCard, { type StatColor } from '@/components/dash/StatCard';
@@ -94,6 +95,8 @@ export default async function OrgDashboard({
 
   const canUsers = canViewUsers(user);
   const canManage = canManageUsers(user);
+  // بطاقة الاستحقاق الدائم — تظهر لمدير المؤسسة إن كانت منضمّة
+  const entitlement = canManageSettings(user) ? await getOrgEntitlement(org.id) : null;
   const canProjects = canViewProjects(user);
   const canStructure = canViewStructure(user);
   const canPrograms = canViewPrograms(user);
@@ -163,6 +166,29 @@ export default async function OrgDashboard({
             </div>
           )}
         </div>
+
+        {entitlement && (
+          <Link href={`/org/${org.slug}/settings/permanent-entitlement`} className="dash-ent-card">
+            <div className="dash-ent-info">
+              <div className="dash-ent-top">
+                <span className="dash-ent-title">{t('ent.card.title')}</span>
+                <span className="dash-ent-pct">{Math.round(entitlement.view.progress * 100)}%</span>
+              </div>
+              <div className="dash-ent-remain">
+                {entitlement.view.isComplete
+                  ? t('ent.status.COMPLETED')
+                  : `${entitlement.view.remaining.years && entitlement.view.remaining.months
+                      ? t('ent.dur.ym', { y: entitlement.view.remaining.years, m: entitlement.view.remaining.months })
+                      : entitlement.view.remaining.years
+                        ? t('ent.dur.y', { y: entitlement.view.remaining.years })
+                        : t('ent.dur.m', { m: entitlement.view.remaining.months })} ${t('ent.card.remaining')}`}
+              </div>
+              <div className="ent-progress"><span style={{ width: `${Math.round(entitlement.view.progress * 100)}%` }} /></div>
+              <div className="dash-ent-target">{t('ent.targetDate')}: {new Intl.DateTimeFormat('ar-u-nu-latn', { year: 'numeric', month: 'long', day: 'numeric' }).format(entitlement.row.targetDate)}</div>
+            </div>
+            <span className="dash-ent-cta">{t('ent.viewDetails')} ←</span>
+          </Link>
+        )}
 
         {/* الإحصائيات */}
         {topStats.length > 0 && (
