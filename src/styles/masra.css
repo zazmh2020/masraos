@@ -225,6 +225,13 @@
 
 /* Floating mock cards around dashboard */
 .mdl-hero-stage { position: relative; }
+/* وسم «عرض توضيحي» على واجهة اللوحة (أرقامها تجريبية لا مقاييس عملاء) */
+.mdl-demo-tag {
+  position: absolute; top: -10px; inset-inline-start: 14px; z-index: 4;
+  font-size: 0.66rem; font-weight: 800; letter-spacing: 0.02em; color: #fff;
+  background: rgba(23, 21, 28, 0.55); backdrop-filter: blur(4px);
+  padding: 0.25rem 0.65rem; border-radius: 100px; border: 1px solid rgba(255, 255, 255, 0.28);
+}
 
 /* مكدّس بطاقات مائل (fanned stack) */
 .mdl-fan { position: relative; z-index: 2; }
@@ -502,6 +509,8 @@
 .mdl-feat .fi .app-icon { width: 22px; height: 22px; }
 .mdl-feat h4 { font-size: 1.1rem; }
 .mdl-feat p { color: var(--muted); font-size: 0.9rem; margin-top: 0.35rem; }
+/* شارة «قريبًا» بجانب عنوان السيناريو */
+.mdl-soon { display: inline-block; margin-inline-start: 0.5rem; font-size: 0.62rem; font-weight: 800; vertical-align: middle; color: var(--p); background: var(--p-08); padding: 0.15rem 0.5rem; border-radius: 100px; letter-spacing: 0.02em; }
 
 /* ============================================================
    Security

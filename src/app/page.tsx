@@ -8,7 +8,6 @@ import Mockup from '@/components/landing/Mockup';
 import SystemsShowcase from '@/components/landing/SystemsShowcase';
 import HowItWorks from '@/components/landing/HowItWorks';
 import ProductShowcase from '@/components/landing/ProductShowcase';
-import Testimonials from '@/components/landing/Testimonials';
 import MasraAIChat from '@/components/landing/MasraAIChat';
 import MasraAssistant from '@/components/landing/MasraAssistant';
 import PricingPlans from '@/components/PricingPlans';
@@ -17,10 +16,6 @@ import { getPlatformSettings } from '@/lib/platform-settings';
 import { getActiveHeroSlides } from '@/lib/hero';
 import '@/styles/masra.css';
 import '@/styles/pricing.css';
-
-const STAR = (
-  <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9z" /></svg>
-);
 
 // الترتيب الرسمي للقطاعات (يطابق SECTORS في lib/org-types.ts): مراكز القرآن أولًا «متاح الآن».
 const AUDIENCES = [
@@ -49,6 +44,14 @@ const SECURITY = [
 ];
 
 const INTEGRATIONS = ['int.email', 'int.payment', 'int.whatsapp', 'int.google', 'int.microsoft', 'int.api'];
+
+// سيناريوهات الاستخدام (بديل الشهادات الوهمية) — مراكز القرآن أولًا «متاح الآن»، والبقية «قريبًا».
+const SCENARIOS = [
+  { icon: 'education/education-quran', k: 'scen.quran' },
+  { icon: 'organization/organization-institution', k: 'scen.charity', soon: true },
+  { icon: 'education/education-education', k: 'scen.edu', soon: true },
+  { icon: 'people/people-groups', k: 'scen.dev', soon: true },
+];
 
 export default async function HomePage() {
   const { t } = await getT();
@@ -120,6 +123,7 @@ export default async function HomePage() {
 
             <Reveal delay={0.2} y={30}>
               <div className="mdl-hero-stage">
+                <span className="mdl-demo-tag">{t('mockup.demo')}</span>
                 {/* مكدّس بطاقات مائل: واجهات متراكبة بزوايا */}
                 <div className="mdl-fan">
                   <div className="mdl-fan-card back-2"><Mockup kind="reports" /></div>
@@ -203,22 +207,27 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* ========== STORIES (v1 carousel) ========== */}
+        {/* ========== SCENARIOS (use cases — بديل الشهادات) ========== */}
         <section className="mdl-section" style={{ background: 'var(--white)' }}>
           <div className="mdl-wrap">
             <Reveal>
               <div className="mdl-center">
-                <span className="mdl-eyebrow">{t('sec.stories.eyebrow')}</span>
-                <h2 className="mdl-h2">{t('sec.stories.title')}</h2>
-                <p className="mdl-lead">{t('sec.stories.lead')}</p>
-                <div className="mdl-rating">
-                  <span className="mdl-rating-score">4.9</span>
-                  <span className="mdl-rating-stars">{STAR}{STAR}{STAR}{STAR}{STAR}</span>
-                  <span className="mdl-rating-meta">{t('sec.stories.rating', { n: '+40' })}</span>
-                </div>
+                <span className="mdl-eyebrow">{t('sec.scen.eyebrow')}</span>
+                <h2 className="mdl-h2">{t('sec.scen.title')}</h2>
+                <p className="mdl-lead">{t('sec.scen.lead')}</p>
               </div>
             </Reveal>
-            <Testimonials />
+            <div className="mdl-feats" style={{ marginTop: '2.5rem' }}>
+              {SCENARIOS.map((s, i) => (
+                <Reveal key={s.k} delay={(i % 3) * 0.06}>
+                  <div className="mdl-feat">
+                    <span className="fi"><Icon name={s.icon} size={22} /></span>
+                    <h4>{t(`${s.k}.t`)}{s.soon && <span className="mdl-soon">{t('badge.soon')}</span>}</h4>
+                    <p>{t(`${s.k}.d`)}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </section>
 
