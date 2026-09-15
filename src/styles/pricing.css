@@ -62,8 +62,8 @@
 
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+  gap: 1.35rem;
   max-width: var(--container);
   margin-inline: auto;
   align-items: stretch;
@@ -76,8 +76,8 @@
   flex-direction: column;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: 2rem 1.6rem 1.6rem;
+  border-radius: 22px;
+  padding: 2.4rem 2rem 2rem;
   box-shadow: 0 1px 2px rgba(23, 21, 28, 0.04);
   transition: border-color 0.22s, box-shadow 0.22s, transform 0.22s;
 }
@@ -114,7 +114,7 @@
 .plan-name {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   color: var(--purple-900);
   margin: 0;
 }
@@ -127,8 +127,8 @@
 }
 .plan-tagline {
   color: var(--text-muted);
-  font-size: 0.82rem;
-  margin: 0.3rem 0 1rem;
+  font-size: 0.9rem;
+  margin: 0.45rem 0 1.2rem;
 }
 
 .plan-price {
@@ -151,7 +151,7 @@
 .plan-amount {
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: 1.9rem;
+  font-size: 2.15rem;
   color: var(--purple-900);
   line-height: 1;
 }
@@ -166,23 +166,23 @@
 .plan-features {
   list-style: none;
   padding: 0;
-  margin: 0 0 1.25rem;
+  margin: 0 0 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.7rem;
   flex: 1;
 }
 .plan-features li {
   display: flex;
   align-items: flex-start;
-  gap: 0.5rem;
-  font-size: 0.83rem;
+  gap: 0.6rem;
+  font-size: 0.92rem;
   color: var(--text);
-  line-height: 1.5;
+  line-height: 1.6;
 }
 .plan-features svg {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   flex: none;
   color: var(--purple-500);
   margin-top: 1px;
@@ -191,13 +191,13 @@
 .plan-cta {
   display: block;
   text-align: center;
-  padding: 0.6rem 1rem;
-  border-radius: 9px;
+  padding: 0.75rem 1rem;
+  border-radius: 11px;
   border: 1.5px solid var(--purple-500);
   color: var(--purple-700);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 0.88rem;
+  font-size: 0.95rem;
   transition: background 0.2s, color 0.2s;
 }
 .plan-cta:hover { background: var(--purple-100); }
@@ -231,9 +231,9 @@
 /* مؤشّر الاستحقاق الدائم في بطاقة الباقة — كتلة واضحة مكوّنة من عنوان + وصف */
 .plan-entitlement { display: flex; flex-direction: column; gap: 0.4rem; margin-top: auto; padding-top: 0.9rem; border-top: 1px dashed var(--border, #ececf0); text-align: start; }
 .plan-ent-head { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-.plan-ent-title { font-size: 0.85rem; font-weight: 800; color: var(--p, #6b57a0); }
-.plan-ent-optional { font-size: 0.64rem; font-weight: 800; color: var(--p, #6b57a0); background: rgba(107,87,160,0.1); border-radius: 100px; padding: 0.1rem 0.5rem; white-space: nowrap; }
-.plan-ent-desc { font-size: 0.76rem; line-height: 1.6; color: var(--text-muted, #6c6780); }
+.plan-ent-title { font-size: 0.92rem; font-weight: 800; color: var(--p, #6b57a0); }
+.plan-ent-optional { font-size: 0.66rem; font-weight: 800; color: var(--p, #6b57a0); background: rgba(107,87,160,0.1); border-radius: 100px; padding: 0.12rem 0.55rem; white-space: nowrap; }
+.plan-ent-desc { font-size: 0.82rem; line-height: 1.65; color: var(--text-muted, #6c6780); }
 
 /* ============================================================
    مساعد اختيار الباقة — استشارة مجانية
