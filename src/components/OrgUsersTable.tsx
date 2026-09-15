@@ -14,6 +14,7 @@ type Row = {
   lastLoginAt: string | null;
   departmentId: string | null;
   customRoleId: string | null;
+  avatarUrl: string | null;
 };
 
 type Department = { id: string; name: string };
@@ -89,9 +90,23 @@ export default function OrgUsersTable({
               return (
                 <tr key={u.id} className={u.isActive ? '' : 'is-inactive'}>
                   <td>
-                    <strong>{u.name}</strong>
-                    {isSelf && <span className="org-tag-self">{t('ousers.you')}</span>}
-                    <small dir="ltr">{u.email}</small>
+                    <div className="ousers-user">
+                      <span className="ousers-ava">
+                        {u.avatarUrl ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={u.avatarUrl} alt="" />
+                        ) : (
+                          <svg className="ava-default" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <circle cx="12" cy="8.5" r="3.8" />
+                            <path d="M4.6 20a7.4 7.4 0 0 1 14.8 0z" />
+                          </svg>
+                        )}
+                      </span>
+                      <span className="ousers-user-tx">
+                        <strong>{u.name}{isSelf && <span className="org-tag-self">{t('ousers.you')}</span>}</strong>
+                        <small dir="ltr">{u.email}</small>
+                      </span>
+                    </div>
                   </td>
                   <td>
                     {canManage && !isSelf ? (

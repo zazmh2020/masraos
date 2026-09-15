@@ -33,6 +33,7 @@ export default async function OrgUsersPage({
         lastLoginAt: true,
         departmentId: true,
         customRoleId: true,
+        avatarUrl: true,
       },
     }),
     prisma.department.findMany({
