@@ -774,7 +774,9 @@ a.org-module:hover {
 
 .org-field input,
 .org-field select {
-  padding: 0.6rem 0.8rem;
+  height: 44px;
+  box-sizing: border-box;
+  padding: 0 0.8rem;
   border: 1.2px solid #d6d5da;
   border-radius: 8px;
   font: inherit;
@@ -2054,7 +2056,7 @@ a.org-module:hover {
 .pf-dial-wrap { position: relative; flex: 0 0 auto; width: 108px; }
 .pf-dial-face {
   display: flex; align-items: center; gap: 0.4rem;
-  height: 47px; box-sizing: border-box; padding: 0 0.55rem;
+  height: 44px; box-sizing: border-box; padding: 0 0.55rem;
   background: #fff; border: 1.2px solid #d6d5da; border-radius: 8px;
   pointer-events: none;
 }
@@ -2073,7 +2075,7 @@ a.org-module:hover {
   width: 100%; box-sizing: border-box; border: 1px solid var(--line); border-radius: 10px;
   padding: 0.6rem 0.7rem; font: inherit; font-size: 0.9rem; resize: vertical; background: #fff; color: var(--text);
 }
-.pf-phone-row input { flex: 1; min-width: 0; box-sizing: border-box; height: 47px; }
+.pf-phone-row input { flex: 1; min-width: 0; box-sizing: border-box; height: 44px; }
 
 /* ---------- الأدوار المخصّصة ---------- */
 .crole-wrap { margin-top: 2rem; padding-top: 1.6rem; border-top: 1px solid var(--line); }
