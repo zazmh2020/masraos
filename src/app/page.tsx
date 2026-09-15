@@ -54,9 +54,12 @@ const SCENARIOS = [
 ];
 
 export default async function HomePage() {
-  const { t } = await getT();
-  const settings = await getPlatformSettings();
-  const slides = await getActiveHeroSlides();
+  // جلب متوازٍ (بدل تسلسلي) — الترجمة والإعدادات وشرائح الهيرو مستقلّة
+  const [{ t }, settings, slides] = await Promise.all([
+    getT(),
+    getPlatformSettings(),
+    getActiveHeroSlides(),
+  ]);
   const slide = slides[0] ?? null; // شريحة الواجهة المنشورة تقود الهيرو إن وُجدت
 
   // المميزات: محتوى مالك المنصّة إن وُجد، وإلا النصوص الافتراضية (أيقونات دوّارة للمخصّصة)
