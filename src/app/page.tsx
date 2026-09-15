@@ -11,6 +11,7 @@ import ProductShowcase from '@/components/landing/ProductShowcase';
 import MasraAIChat from '@/components/landing/MasraAIChat';
 import MasraAssistant from '@/components/landing/MasraAssistant';
 import PricingPlans from '@/components/PricingPlans';
+import PlanAdvisor from '@/components/PlanAdvisor';
 import { getT } from '@/lib/i18n/server';
 import { getPlatformSettings } from '@/lib/platform-settings';
 import { getActiveHeroSlides } from '@/lib/hero';
@@ -377,6 +378,9 @@ export default async function HomePage() {
                 <h2 className="mdl-h2">{t('sec.pricing.title')}</h2>
                 <p className="mdl-lead">{t('sec.pricing.lead')}</p>
               </div>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <PlanAdvisor />
             </Reveal>
             <Reveal delay={0.1}>
               <div className="mdl-pricing">
