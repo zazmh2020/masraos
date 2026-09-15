@@ -2362,10 +2362,28 @@ a.org-module:hover {
 }
 .pts-board-full:hover { background: var(--purple-500); color: #fff; border-color: var(--purple-500); }
 .pts-board-full svg { width: 17px; height: 17px; }
-/* حالة ملء الشاشة: خلفية كاملة ومساحات أوسع للعرض على شاشة كبيرة */
-.pts-board.is-full { max-width: none; background: var(--surface, #fff); padding: clamp(1.5rem, 4vw, 3rem); overflow-y: auto; }
-.pts-board.is-full .pts-board-head { margin-bottom: 2rem; }
-.pts-board.is-full .pts-podium { gap: 1.2rem; }
+/* حالة ملء الشاشة: تملأ الشاشة بالضبط (100vw×100vh) وتُوزّع المحتوى ليملأ الارتفاع بلا تمرير للصفحة */
+.pts-board.is-full {
+  max-width: none; width: 100vw; height: 100vh;
+  background: var(--surface, #fff); padding: clamp(1.2rem, 2.5vw, 2.8rem);
+  display: flex; flex-direction: column; overflow: hidden; box-sizing: border-box;
+}
+.pts-board.is-full .pts-board-head { margin-bottom: clamp(0.8rem, 2vh, 1.8rem); flex-shrink: 0; }
+.pts-board.is-full .pts-board-logo { width: clamp(46px, 5vh, 72px); height: clamp(46px, 5vh, 72px); }
+.pts-board.is-full .pts-board-orgname { font-size: clamp(1.15rem, 2.4vh, 1.9rem); }
+.pts-board.is-full .pts-board-day { font-size: clamp(1rem, 2vh, 1.5rem); }
+.pts-board.is-full .pts-podium { flex-shrink: 0; gap: clamp(0.6rem, 1.4vh, 1.2rem); }
+/* البطاقات تكبر مع ارتفاع الشاشة لملء المساحة */
+.pts-board.is-full .pts-podium-item { padding: clamp(0.7rem, 1.6vh, 1.4rem) 1.1rem; }
+.pts-board.is-full .pts-podium-item.rank-1 { padding: clamp(1rem, 2.4vh, 2rem) 1.2rem; }
+.pts-board.is-full .pts-podium-name { font-size: clamp(1.1rem, 2.6vh, 1.9rem); }
+.pts-board.is-full .pts-podium-item.rank-1 .pts-podium-name { font-size: clamp(1.8rem, 4.5vh, 3.2rem); }
+.pts-board.is-full .pts-podium-pts { font-size: clamp(1.4rem, 3vh, 2.4rem); }
+.pts-board.is-full .pts-podium-item.rank-1 .pts-podium-pts { font-size: clamp(2.4rem, 6vh, 4rem); }
+/* جدول البقية يملأ ما تبقّى من الارتفاع، ويلتفّ في أعمدة، مع تمرير داخلي عند الحاجة فقط */
+.pts-board.is-full .pts-roster { flex: 1 1 auto; min-height: 0; margin-top: clamp(0.8rem, 2vh, 1.5rem); overflow-y: auto; }
+.pts-board.is-full .pts-roster-name, .pts-board.is-full .pts-roster-pts { font-size: clamp(0.9rem, 1.8vh, 1.15rem); }
+.pts-board.is-full .pts-roster-row { padding-block: clamp(0.4rem, 1vh, 0.8rem); }
 .pts-podium { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
 .pts-podium-item { display: grid; gap: 0.25rem; padding: 1rem 1.1rem; border-radius: var(--r-md); background: #fff; border: 1px solid var(--line); text-align: center; min-width: 0; box-shadow: var(--sh-1); }
 .pts-podium-item.rank-1 { grid-column: 1 / -1; background: linear-gradient(135deg, var(--purple-700), var(--purple-500)); color: #fff; border-color: transparent; padding: 1.5rem 1.2rem; }
