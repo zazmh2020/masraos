@@ -23,6 +23,12 @@ export interface Plan {
   en: string;
   /** تسمح الباقة بربط دومين مخصّص للمؤسسة؟ */
   customDomain?: boolean;
+  /**
+   * برنامج الاستحقاق الدائم — عدد سنوات الاشتراك المدفوع المتواصل اللازمة
+   * لتصبح المنصّة الأساسية بلا رسوم اشتراك مستقبلية. null = الباقة غير مؤهّلة
+   * (مثل المجانية). القيمة مركزية هنا فقط ولا تُكرَّر.
+   */
+  entitlementYears?: number | null;
   features: string[];
   /** النصوص الإنجليزية (للعرض عند اختيار اللغة الإنجليزية) */
   tagEn?: string;
@@ -63,6 +69,7 @@ export const PLANS: Plan[] = [
     maxUsers: 20,
     storageGb: 10,
     highlighted: true,
+    entitlementYears: 10,
     features: [
       'حتى 20 مستخدمًا',
       'كل مزايا انطلاقة + البرامج والحملات والتبرعات',
@@ -88,6 +95,7 @@ export const PLANS: Plan[] = [
     maxUsers: 100,
     storageGb: 50,
     customDomain: true,
+    entitlementYears: 8,
     features: [
       'حتى 100 مستخدم',
       'كل الوحدات + نظام التعليم والحلقات',
@@ -115,6 +123,7 @@ export const PLANS: Plan[] = [
     maxUsers: null,
     storageGb: null,
     customDomain: true,
+    entitlementYears: 5,
     features: [
       'مستخدمون ومساحة بلا حدود',
       'الهوية الرقمية والتكاملات المخصّصة',
@@ -157,4 +166,14 @@ export function planUserLimit(id: string): number | null {
 /** هل تسمح الباقة بربط دومين مخصّص؟ (تمكين وأثر فقط) */
 export function planAllowsCustomDomain(id: string): boolean {
   return PLAN_BY_ID[id as OrgPlan]?.customDomain ?? false;
+}
+
+/** سنوات الاستحقاق الدائم لباقةٍ ما، أو null إن كانت غير مؤهّلة (مثل المجانية). */
+export function planEntitlementYears(id: string): number | null {
+  return PLAN_BY_ID[id as OrgPlan]?.entitlementYears ?? null;
+}
+
+/** هل الباقة مؤهّلة للانضمام إلى برنامج الاستحقاق الدائم؟ */
+export function planIsEntitlementEligible(id: string): boolean {
+  return planEntitlementYears(id) != null;
 }

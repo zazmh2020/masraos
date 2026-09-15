@@ -78,6 +78,7 @@ model Organization {
   messages            Message[]
   studyPlans          StudyPlan[]
   pointsTransactions  PointsTransaction[]
+  permanentEntitlement PermanentEntitlement?
 
   @@map("organizations")
 }
@@ -780,6 +781,7 @@ model User {
   sentMessages       Message[]            @relation("MessageSender")
   receivedMessages   Message[]            @relation("MessageRecipient")
   pointsCreated      PointsTransaction[]  @relation("PointsCreator")
+  entitlementsAccepted PermanentEntitlement[] @relation("EntitlementAcceptor")
 
   @@index([organizationId])
   @@index([departmentId])
@@ -946,6 +948,69 @@ model PlatformSetting {
   updatedAt          DateTime @updatedAt
 
   @@map("platform_settings")
+}
+
+/// حالة برنامج الاستحقاق الدائم لمؤسسة (غياب السجل = غير منضمّة NOT_ENROLLED).
+enum EntitlementStatus {
+  ACTIVE // منضمّة وتراكم الوقت المدفوع جارٍ
+  PAUSED // متوقّفة مؤقّتًا (انقطع الاشتراك المدفوع) — لا يتراكم الوقت
+  COMPLETED // اكتملت المدّة المطلوبة — استحقاق دائم
+  CANCELLED // أُلغيت (بقرار المالك/المؤسسة)
+  EXPIRED // انتهت دون إكمال (سبب إداري)
+}
+
+/// برنامج الاستحقاق الدائم — سجل واحد اختياري لكل مؤسسة.
+/// كل الحسابات (المدّة/التواريخ/التراكم) تُشتقّ خادميًّا ولا تُقبل من العميل.
+model PermanentEntitlement {
+  id                    String            @id @default(cuid())
+  organizationId        String            @unique
+  organization          Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  // الباقة وقت الانضمام + المدّة المطلوبة المشتقّة منها (مخزّنة تاريخيًّا)
+  planIdAtEnrollment    OrgPlan
+  requiredDurationYears Int
+  status                EntitlementStatus @default(ACTIVE)
+
+  enrollmentDate        DateTime          @default(now())
+  startDate             DateTime // بداية احتساب الاستحقاق
+  targetDate            DateTime // التاريخ المتوقّع الإرشادي (startDate + المدّة)
+
+  // التراكم الفعلي للوقت المدفوع المتواصل (يُحدَّث خادميًّا من أحداث Stripe)
+  accruedDays           Int               @default(0)
+  lastAccrualAt         DateTime?
+
+  // الموافقة على الاتفاقية والشروط
+  agreementVersion      String
+  termsVersion          String
+  agreementAcceptedAt   DateTime
+  agreementAcceptedById String
+  agreementAcceptedBy   User              @relation("EntitlementAcceptor", fields: [agreementAcceptedById], references: [id])
+
+  completedAt           DateTime?
+  cancelledAt           DateTime?
+  cancellationReason    String?
+
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+
+  events                EntitlementEvent[]
+
+  @@index([status])
+  @@map("permanent_entitlements")
+}
+
+/// سجلّ تدقيق لتغييرات الاستحقاق (انضمام/تغيير باقة/تعليق/إكمال/إلغاء…).
+model EntitlementEvent {
+  id            String               @id @default(cuid())
+  entitlementId String
+  entitlement   PermanentEntitlement @relation(fields: [entitlementId], references: [id], onDelete: Cascade)
+  type          String // ENROLLED, PLAN_CHANGED, PAUSED, RESUMED, ACCRUED, COMPLETED, CANCELLED, EXPIRED
+  note          String?
+  actorUserId   String?
+  createdAt     DateTime             @default(now())
+
+  @@index([entitlementId])
+  @@map("entitlement_events")
 }
 
 /// شريحة Hero في الصفحة الرئيسية — يديرها مالك المنصّة (CMS).
