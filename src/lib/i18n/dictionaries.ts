@@ -750,6 +750,15 @@ const ar: Dict = {
   'sec.platform.eyebrow': 'منظومة واحدة',
   'sec.platform.title': 'منظومة واحدة. إمكانيات متعددة.',
   'sec.platform.lead': 'صُمِّمت مسرى لتجمع أهمّ احتياجات المؤسسات في بيئة رقمية واحدة مترابطة.',
+  // المشكلة ← الحل
+  'sec.ps.eyebrow': 'المشكلة',
+  'sec.ps.title': 'من الفوضى إلى نظام واحد',
+  'ps.p1': 'بيانات مؤسستك موزّعة بين Excel وWhatsApp والملفات.',
+  'ps.p2': 'التقارير تُجمَع يدويًّا وتستهلك أيامًا كل شهر.',
+  'ps.p3': 'لا رؤية واضحة على المشاريع والمستفيدين والأداء.',
+  'ps.p4': 'الصلاحيات فوضوية — لا تعرف من يرى ماذا ويفعل ماذا.',
+  'ps.sol.title': 'مسرى تجمعها في نظام واحد',
+  'ps.sol.desc': 'منظومة واحدة مترابطة لإدارة الأفراد والمشاريع والبرامج والبيانات — بصلاحيات دقيقة وتقارير تُبنى تلقائيًّا.',
   'sec.systems.eyebrow': 'الأنظمة',
   'sec.systems.title': 'كل ما تحتاجه مؤسستك',
   'sec.systems.lead': 'فعّل الأنظمة التي تحتاجها وابدأ العمل من مكان واحد.',
@@ -840,10 +849,13 @@ const ar: Dict = {
   'feat.arabic.t': 'تجربة عربية', 'feat.arabic.d': 'واجهة احترافية مصمّمة RTL أولاً.',
 
   // الأمان (عناصر)
-  'sec2.perms': 'إدارة الصلاحيات',
+  'sec2.perms': 'صلاحيات دقيقة حسب الدور',
   'sec2.access': 'التحكم في الوصول',
   'sec2.data': 'حماية البيانات',
-  'sec2.workspaces': 'مساحات عمل مستقلة',
+  'sec2.workspaces': 'عزل كامل لبيانات كل مؤسسة',
+  'sec2.audit': 'سجلّ النشاطات',
+  'sec2.mfa': 'تحقّق بخطوتين (MFA)',
+  'sec2.sso': 'الدخول الموحّد (SSO)',
 
   // التكاملات
   'int.email': 'البريد الإلكتروني',
@@ -2293,6 +2305,15 @@ const en: Dict = {
   'hero.float.report': 'Report ready',
   'hero.float.reportVal': 'This month',
   'hero.float.newMembers': 'New members',
+  // Problem → Solution
+  'sec.ps.eyebrow': 'The problem',
+  'sec.ps.title': 'From scattered work to one system',
+  'ps.p1': 'Your data is scattered across Excel, WhatsApp and files.',
+  'ps.p2': 'Reports are compiled by hand, eating days every month.',
+  'ps.p3': 'No clear view of projects, beneficiaries or performance.',
+  'ps.p4': 'Permissions are chaotic — you don’t know who sees or does what.',
+  'ps.sol.title': 'Masra brings it into one system',
+  'ps.sol.desc': 'One connected system for your people, projects, programs and data — with precise permissions and reports built automatically.',
   'sec.platform.eyebrow': 'One platform',
   'sec.platform.title': 'One platform. Many capabilities.',
   'sec.platform.lead': 'Masra is built to bring the key needs of organizations into one connected digital environment.',
@@ -2380,10 +2401,13 @@ const en: Dict = {
   'feat.scale.t': 'Scalability', 'feat.scale.d': 'The platform grows as your organization grows.',
   'feat.arabic.t': 'Arabic-first experience', 'feat.arabic.d': 'A professional interface, designed RTL-first.',
 
-  'sec2.perms': 'Permission management',
+  'sec2.perms': 'Fine-grained role permissions',
   'sec2.access': 'Access control',
   'sec2.data': 'Data protection',
-  'sec2.workspaces': 'Isolated workspaces',
+  'sec2.workspaces': 'Full data isolation per organization',
+  'sec2.audit': 'Activity log',
+  'sec2.mfa': 'Two-factor auth (MFA)',
+  'sec2.sso': 'Single sign-on (SSO)',
 
   'int.email': 'Email',
   'int.payment': 'Payment gateways',

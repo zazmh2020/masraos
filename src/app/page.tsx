@@ -36,11 +36,13 @@ const FEATURES = [
   { icon: 'identity/identity-digital-identity', k: 'feat.arabic' },
 ];
 
-const SECURITY = [
+const SECURITY: { icon: string; k: string; soon?: boolean }[] = [
   { icon: 'people/people-permissions', k: 'sec2.perms' },
-  { icon: 'actions/actions-lock', k: 'sec2.access' },
-  { icon: 'identity/identity-security', k: 'sec2.data' },
   { icon: 'organization/organization-office', k: 'sec2.workspaces' },
+  { icon: 'actions/actions-lock', k: 'sec2.access' },
+  { icon: 'analytics/analytics-reports', k: 'sec2.audit' },
+  { icon: 'identity/identity-security', k: 'sec2.mfa', soon: true },
+  { icon: 'identity/identity-digital-identity', k: 'sec2.sso', soon: true },
 ];
 
 const INTEGRATIONS = ['int.email', 'int.payment', 'int.whatsapp', 'int.google', 'int.microsoft', 'int.api'];
@@ -147,6 +149,32 @@ export default async function HomePage() {
                 <div className="mdl-float mdl-float-3">
                   <span className="fic brand"><Icon name="people/people-users" size={17} /></span>
                   <div><div className="ftitle">{t('hero.float.newMembers')}</div><div className="fval">+12</div></div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ========== PROBLEM → SOLUTION ========== */}
+        <section className="mdl-section" style={{ background: 'var(--white)' }}>
+          <div className="mdl-wrap">
+            <Reveal>
+              <div className="mdl-center">
+                <span className="mdl-eyebrow">{t('sec.ps.eyebrow')}</span>
+                <h2 className="mdl-h2">{t('sec.ps.title')}</h2>
+              </div>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <div className="mdl-ps" style={{ marginTop: '2.5rem' }}>
+                <div className="mdl-problems">
+                  {['ps.p1', 'ps.p2', 'ps.p3', 'ps.p4'].map((k) => (
+                    <div key={k} className="mdl-prob"><span className="x">✕</span><span>{t(k)}</span></div>
+                  ))}
+                </div>
+                <div className="mdl-solution">
+                  <h3>{t('ps.sol.title')}</h3>
+                  <p>{t('ps.sol.desc')}</p>
+                  <Link href="/login" className="mdl-btn mdl-btn-light">{t('hero.cta.login')}</Link>
                 </div>
               </div>
             </Reveal>
@@ -287,7 +315,7 @@ export default async function HomePage() {
                 <p className="mdl-lead" style={{ marginBottom: '1.5rem' }}>{t('sec.security.lead')}</p>
                 <div className="mdl-sec-list">
                   {SECURITY.map((s) => (
-                    <div key={s.k} className="mdl-sec-item"><Icon name={s.icon} size={20} /><span>{t(s.k)}</span></div>
+                    <div key={s.k} className="mdl-sec-item"><Icon name={s.icon} size={20} /><span>{t(s.k)}{s.soon && <span className="mdl-soon">{t('badge.soon')}</span>}</span></div>
                   ))}
                 </div>
               </div>
