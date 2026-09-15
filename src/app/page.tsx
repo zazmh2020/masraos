@@ -98,6 +98,9 @@ export default async function HomePage() {
               <Reveal delay={0.1}>
                 <p className="mdl-hero-sub">{slide?.subtitle || settings.heroSubtitle || t('hero.sub')}</p>
               </Reveal>
+              <Reveal delay={0.15}>
+                <p className="mdl-hero-tagline">{t('hero.tagline')}</p>
+              </Reveal>
               <Reveal delay={0.2}>
                 <div className="mdl-hero-actions">
                   {slide?.ctaText && slide.ctaLink

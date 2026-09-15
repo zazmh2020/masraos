@@ -218,6 +218,7 @@
 }
 .mdl-hero h1 .hl { color: #d3c6f2; }
 .mdl-hero-sub { color: rgba(255,255,255,0.82); font-size: clamp(1.02rem, 1.6vw, 1.22rem); margin-top: 1.3rem; max-width: 52ch; }
+.mdl-hero-tagline { color: #d3c6f2; font-weight: 700; font-size: clamp(0.95rem, 1.4vw, 1.1rem); margin-top: 1rem; }
 .mdl-hero-actions { display: flex; gap: 0.8rem; margin-top: 2rem; flex-wrap: wrap; }
 .mdl-hero-trust { margin-top: 2.2rem; display: flex; align-items: center; gap: 1.4rem; color: rgba(255,255,255,0.7); font-size: 0.85rem; flex-wrap: wrap; }
 .mdl-hero-trust strong { color: #fff; font-size: 1.15rem; }

@@ -52,9 +52,9 @@ export default function MasraAIChat() {
           )}
           {stage === 2 && (
             <motion.div key="answer" className="mdl-msg ai" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}>
-              {t('aichat.a', { p: '86%' })}
+              {t('aichat.a', { p: '89%' })}
               <div className="ai-metrics">
-                <div className="ai-metric"><div className="m">{t('aichat.m1')}</div><div className="n">86%</div></div>
+                <div className="ai-metric"><div className="m">{t('aichat.m1')}</div><div className="n">89%</div></div>
                 <div className="ai-metric"><div className="m">{t('aichat.m2')}</div><div className="n">2</div></div>
                 <div className="ai-metric"><div className="m">{t('aichat.m3')}</div><div className="n">{t('aichat.m3v')}</div></div>
                 <div className="ai-metric"><div className="m">{t('aichat.m4')}</div><div className="n">{t('aichat.m4v')}</div></div>
