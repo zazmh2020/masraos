@@ -2493,6 +2493,10 @@ a.org-module:hover {
 /* ============================================================
    برنامج الاستحقاق الدائم — الانضمام والاتفاقية
    ============================================================ */
+.bill-fee-waived { margin: 0 0 1.2rem; padding: 1rem 1.2rem; border-radius: var(--r-lg); background: color-mix(in srgb, var(--green-500, #16a34a) 10%, var(--surface)); border: 1px solid color-mix(in srgb, var(--green-500, #16a34a) 30%, transparent); }
+.bill-fee-waived strong { display: block; color: var(--green-700, #15803d); font-size: 0.98rem; }
+.bill-fee-waived p { margin: 0.35rem 0 0; color: var(--text-soft); font-size: 0.86rem; line-height: 1.65; }
+
 .ent-optin { margin-top: 1.2rem; }
 .ent-optin-head { display: flex; align-items: flex-start; gap: 1rem; }
 .ent-optin-badge { display: inline-block; font-size: 0.7rem; font-weight: 800; color: var(--purple-700); background: var(--purple-100); border-radius: var(--r-pill); padding: 0.15rem 0.6rem; margin-bottom: 0.5rem; }

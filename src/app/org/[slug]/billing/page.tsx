@@ -32,7 +32,9 @@ export default async function BillingPage({
 
   // برنامج الاستحقاق الدائم — اشتقاق خادميّ (بلا أي حساب من العميل)
   const entYears = planEntitlementYears(org.plan);
-  const enrolled = (await prisma.permanentEntitlement.count({ where: { organizationId: org.id } })) > 0;
+  const entRow = await prisma.permanentEntitlement.findUnique({ where: { organizationId: org.id }, select: { status: true } });
+  const enrolled = entRow != null;
+  const entCompleted = entRow?.status === 'COMPLETED';
   const terms = deriveEnrollmentTerms(org.plan);
   const entitlement = {
     eligible: entYears != null,
@@ -55,6 +57,12 @@ export default async function BillingPage({
           <p>{t('bill.sub')}</p>
         </div>
       </div>
+      {entCompleted && (
+        <div className="bill-fee-waived">
+          <strong>{t('ent.feeWaivedTitle')}</strong>
+          <p>{t('ent.feeWaivedNote')}</p>
+        </div>
+      )}
       <BillingView
         plans={plans}
         statusMsg={statusMsg as 'success' | 'cancel' | null}

@@ -3,6 +3,8 @@ import type { OrgPlan, EntitlementStatus } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { getStripe, planForPriceId } from '@/lib/stripe';
 
+type AccrualResult = { status: EntitlementStatus; planIdAtEnrollment: OrgPlan; justCompleted: boolean };
+
 // يجب قراءة الجسم الخام للتحقق من التوقيع
 export const dynamic = 'force-dynamic';
 
@@ -17,19 +19,32 @@ async function syncSubscription(sub: Stripe.Subscription) {
   const active = sub.status === 'active' || sub.status === 'trialing';
   const periodEnd = sub.items.data[0]?.current_period_end;
 
+  // نراكم الوقت المدفوع أولًا (قد يُكمِل الاستحقاق)
+  const ent = await accrueEntitlement(org.id, active);
+  const feeWaived = ent?.status === 'COMPLETED'; // استحقاق دائم مكتمل → لا رسوم اشتراك للمنصّة
+
   await prisma.organization.update({
     where: { id: org.id },
     data: {
       stripeSubscriptionId: sub.id,
       subscriptionStatus: sub.status,
-      // نُطبّق الباقة فقط عند نشاط الاشتراك؛ عند الإلغاء نعود للمجانية
+      // نُطبّق الباقة عند نشاط الاشتراك؛ وعند الإلغاء نعود للمجانية —
+      // إلا إذا كانت المؤسسة مستحقّة دائمًا فنُبقي باقتها (لا تُخفَّض للمجانية).
       ...(active && plan ? { plan } : {}),
-      ...(sub.status === 'canceled' ? { plan: 'STARTER' as OrgPlan } : {}),
+      ...(sub.status === 'canceled'
+        ? { plan: (feeWaived ? ent!.planIdAtEnrollment : 'STARTER') as OrgPlan }
+        : {}),
       ...(periodEnd ? { planRenewsAt: new Date(periodEnd * 1000) } : {}),
     },
   });
 
-  await accrueEntitlement(org.id, active);
+  // عند اكتمال الاستحقاق للتوّ: أوقِف تجديد اشتراك Stripe (لا رسوم مستقبلية) دون قطع الفترة الحالية
+  if (ent?.justCompleted && !sub.cancel_at_period_end) {
+    try {
+      const stripe = getStripe();
+      if (stripe) await stripe.subscriptions.update(sub.id, { cancel_at_period_end: true });
+    } catch { /* أفضل جهد — لا نُفشل الـ webhook */ }
+  }
 }
 
 /**
@@ -37,9 +52,12 @@ async function syncSubscription(sub: Stripe.Subscription) {
  * يُضيف الوقت المنقضي منذ آخر تراكم فقط إن كان الاشتراك نشطًا ومتّصلًا (بلا فجوة).
  * عند الانقطاع تُوقَف الحالة (PAUSED) ولا يُحتسب زمن الفجوة عند العودة.
  */
-async function accrueEntitlement(organizationId: string, active: boolean) {
+async function accrueEntitlement(organizationId: string, active: boolean): Promise<AccrualResult | null> {
   const ent = await prisma.permanentEntitlement.findUnique({ where: { organizationId } });
-  if (!ent || ent.status === 'COMPLETED' || ent.status === 'CANCELLED' || ent.status === 'EXPIRED') return;
+  if (!ent) return null;
+  if (ent.status === 'COMPLETED' || ent.status === 'CANCELLED' || ent.status === 'EXPIRED') {
+    return { status: ent.status, planIdAtEnrollment: ent.planIdAtEnrollment, justCompleted: false };
+  }
 
   const now = new Date();
   let accruedDays = ent.accruedDays;
@@ -78,6 +96,9 @@ async function accrueEntitlement(organizationId: string, active: boolean) {
       ...(eventType ? { events: { create: { type: eventType } } } : {}),
     },
   });
+
+  // اكتمل للتوّ إن كانت الحالة السابقة ليست COMPLETED (خرجنا مبكرًا لتلك الحالة أعلاه)
+  return { status, planIdAtEnrollment: ent.planIdAtEnrollment, justCompleted: status === 'COMPLETED' };
 }
 
 export async function POST(request: Request) {
