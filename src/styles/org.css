@@ -1766,6 +1766,10 @@ a.org-module:hover {
   .org-fold-toggle { display: none; }
   .org-content { padding: 1.25rem; }
   .org-topbar-name { display: none; }
+  /* الشريط العلوي يتّسع للجوال: مسافات أصغر، إخفاء الشعار (موجود في القائمة)، والبحث يمتصّ المتبقّي */
+  .org-topbar { gap: 0.5rem; }
+  .org-topbar-brand { display: none; }
+  .tbt { flex: 1; min-width: 0; }
   .tbt-search { width: auto; flex: 1; min-width: 0; }
 }
 
@@ -2249,8 +2253,9 @@ a.org-module:hover {
 /* ============================================================
    مسابقة الباركود — وحدة المسح وشاشة العرض
    ============================================================ */
-.pts-modes { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
-.pts-modes-spacer { flex: 1; }
+.pts-modes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+/* يتمدّد ليدفع أزرار الإجراءات لنهاية السطر على الشاشات الواسعة، ويطوى إلى صفر عند اللف */
+.pts-modes-spacer { flex: 1 1 0; min-width: 0; }
 .pts-mode {
   padding: 0.5rem 1.1rem; border: 1px solid var(--line); border-radius: var(--r-pill);
   background: #fff; color: var(--text); font: inherit; font-weight: 700; font-size: 0.88rem; cursor: pointer;
@@ -2278,7 +2283,7 @@ a.org-module:hover {
 
 .pts-scanbar { display: flex; gap: 0.6rem; }
 .pts-input {
-  flex: 1; height: 56px; padding-inline: 1rem; font-size: 1.3rem; font-weight: 700;
+  flex: 1; min-width: 0; height: 56px; padding-inline: 1rem; font-size: 1.3rem; font-weight: 700;
   border: 2px solid var(--purple-300); border-radius: var(--r-md); background: #fff; color: var(--text-strong);
   text-align: start;
 }
