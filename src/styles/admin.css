@@ -116,7 +116,9 @@
 
 /* ملف مستخدم مكدّس (أفاتار كبير موسّط) */
 .admin-user-stacked { flex-direction: column; align-items: center; text-align: center; gap: 0.35rem; padding: 0.6rem 0.5rem; }
-.admin-user-avatar-lg { width: 60px; height: 60px; font-size: 1.5rem; }
+/* أفاتار الملف الكبير — موحّد مع مساحة عمل الجهات (نفس المقاس عبر الموقع) */
+.admin-user-avatar-lg { width: 96px; height: 96px; aspect-ratio: 1; flex-shrink: 0; font-size: 2.3rem; margin-bottom: 0.5rem; border: 3px solid rgba(255, 255, 255, 0.14); box-shadow: 0 10px 28px -14px rgba(0, 0, 0, 0.55); }
+.admin-user-avatar-lg img { display: block; }
 .admin-user-stacked .admin-user-info,
 .admin-user-stacked .admin-user-name { text-align: center; }
 .admin-user-stacked .admin-user-chev { margin: 0; opacity: 0.6; }
@@ -1039,8 +1041,7 @@
   border-radius: 16px;
   box-shadow: var(--shadow-lift);
   padding: 1.75rem;
-  max-width: 380px;
-  width: 100%;
+  width: min(380px, calc(100vw - 3rem)); /* عرض محدّد حتى لا تنكمش النافذة لعرض محتواها */
   text-align: center;
 }
 .admin-modal-ic {
@@ -1056,8 +1057,8 @@
 .admin-modal-ic .admin-nav-ic { width: 24px; height: 24px; opacity: 1; }
 .admin-modal h3 { font-family: var(--font-display); font-size: 1.15rem; color: var(--purple-900); margin: 0 0 0.4rem; }
 .admin-modal p { color: var(--gray-500); font-size: 0.9rem; margin: 0 0 1.4rem; }
-.admin-modal-actions { display: flex; gap: 0.6rem; }
-.admin-modal-actions button { flex: 1; }
+.admin-modal-actions { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.6rem; }
+.admin-modal-actions button { width: 100%; min-width: 0; justify-content: center; }
 
 .btn-admin-danger {
   padding: 0.6rem 1.2rem;

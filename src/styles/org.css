@@ -121,8 +121,9 @@ body:has(.org-app) { background: #fff; }
 
 /* ملف مستخدم مكدّس أعلى الشريط (أفاتار كبير موسّط) */
 .org-user-stacked { flex-direction: column; align-items: center; text-align: center; gap: 0; padding: 0.9rem 0.5rem 1rem; }
-.org-user-avatar.org-user-avatar-lg { width: 104px; height: 104px; font-size: 2.5rem; margin-bottom: 0.85rem; overflow: hidden; border: 3px solid rgba(255, 255, 255, 0.14); box-shadow: 0 10px 28px -14px rgba(0, 0, 0, 0.55); }
-.org-user-avatar.org-user-avatar-lg img { width: 100%; height: 100%; object-fit: cover; }
+/* أفاتار الملف الكبير — مقاس ثابت موحّد لكل الجهات، صورة مقصوصة دائريًّا بنفس الحجم دائمًا */
+.org-user-avatar.org-user-avatar-lg { width: 96px; height: 96px; aspect-ratio: 1; flex-shrink: 0; font-size: 2.3rem; margin-bottom: 0.85rem; overflow: hidden; border: 3px solid rgba(255, 255, 255, 0.14); box-shadow: 0 10px 28px -14px rgba(0, 0, 0, 0.55); }
+.org-user-avatar.org-user-avatar-lg img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .org-user-stacked .org-user-name { max-width: 100%; font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
 .org-user-stacked .org-user-role { font-size: 0.78rem; }
 .org-user-stacked .org-user-chev { margin: 0; opacity: 0.6; }
@@ -1865,8 +1866,7 @@ a.org-module:hover {
   border-radius: 16px;
   box-shadow: var(--shadow-lift);
   padding: 1.75rem;
-  max-width: 380px;
-  width: 100%;
+  width: min(380px, calc(100vw - 3rem)); /* عرض محدّد حتى لا تنكمش النافذة لعرض محتواها */
   text-align: center;
 }
 .org-modal-ic {
@@ -1887,8 +1887,8 @@ a.org-module:hover {
   margin: 0 0 0.4rem;
 }
 .org-modal p { color: var(--gray-500); font-size: 0.9rem; margin: 0 0 1.4rem; }
-.org-modal-actions { display: flex; gap: 0.6rem; }
-.org-modal-actions .org-btn { flex: 1; justify-content: center; }
+.org-modal-actions { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.6rem; }
+.org-modal-actions .org-btn { width: 100%; min-width: 0; justify-content: center; }
 
 /* ---------- Profile form avatar ---------- */
 .pf-avatar-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.9rem; }
