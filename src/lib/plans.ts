@@ -29,6 +29,8 @@ export interface Plan {
    * (مثل المجانية). القيمة مركزية هنا فقط ولا تُكرَّر.
    */
   entitlementYears?: number | null;
+  /** الباقة غير معروضة للعملاء (تبقى قيمة داخلية آمنة مثل الحالة المجانية/الافتراضية). */
+  hidden?: boolean;
   features: string[];
   /** النصوص الإنجليزية (للعرض عند اختيار اللغة الإنجليزية) */
   tagEn?: string;
@@ -46,6 +48,8 @@ export const PLANS: Plan[] = [
     price: 0,
     maxUsers: 5,
     storageGb: 1,
+    // مخفيّة من العرض — تبقى حالةً داخلية آمنة (الافتراضي وهدف التخفيض عند الإلغاء)
+    hidden: true,
     features: [
       'حتى 5 مستخدمين',
       'الهيكل التنظيمي والمشاريع',
@@ -140,6 +144,9 @@ export const PLANS: Plan[] = [
     ],
   },
 ];
+
+/** الباقات المعروضة للعملاء (تستبعد المخفيّة مثل المجانية). المصدر الوحيد للعرض. */
+export const OFFERED_PLANS: Plan[] = PLANS.filter((p) => !p.hidden);
 
 /** عدد الأشهر المدفوعة في الاشتراك السنوي (12 − 2 مجانًا) */
 export const YEARLY_MONTHS = 10;

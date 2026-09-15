@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { PLANS, yearlyPrice } from '@/lib/plans';
+import { OFFERED_PLANS, yearlyPrice } from '@/lib/plans';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { useCurrency } from '@/components/CurrencyProvider';
 import { convertRounded, currencySymbol, formatAmount } from '@/lib/currency';
@@ -42,7 +42,7 @@ export default function PricingPlans() {
       </div>
 
       <div className="pricing-grid">
-        {PLANS.map((p) => {
+        {OFFERED_PLANS.map((p) => {
           const year = yearlyPrice(p);
           const isPaid = p.price !== null && p.price > 0;
           const name = en ? p.en : p.name;
@@ -90,8 +90,11 @@ export default function PricingPlans() {
 
               {p.entitlementYears != null && (
                 <div className="plan-entitlement">
-                  <span className="plan-ent-label">{t('plan.entitlement', { n: p.entitlementYears })}</span>
-                  <span className="plan-ent-optional">{t('ent.optional')}</span>
+                  <div className="plan-ent-head">
+                    <span className="plan-ent-title">{t('plan.entitlement.title')}</span>
+                    <span className="plan-ent-optional">{t('ent.optional')}</span>
+                  </div>
+                  <span className="plan-ent-desc">{t('plan.entitlement.desc', { n: p.entitlementYears })}</span>
                 </div>
               )}
 

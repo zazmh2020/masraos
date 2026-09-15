@@ -1,5 +1,5 @@
 import type { OrgPlan } from '@/generated/prisma/client';
-import { PLANS, PLAN_BY_ID, type Plan } from '@/lib/plans';
+import { OFFERED_PLANS, PLAN_BY_ID, type Plan } from '@/lib/plans';
 
 /* ============================================================
    مساعد اختيار الباقة — محرّك التوصية (Best-Fit، لا الأغلى).
@@ -99,7 +99,7 @@ export interface Recommendation {
  */
 export function recommend(a: AdvisorAnswers): Recommendation {
   const scores = new Map<OrgPlan, number>();
-  for (const p of PLANS) scores.set(p.id, 0);
+  for (const p of OFFERED_PLANS) scores.set(p.id, 0);
 
   if (a.students) addWeights(scores, STUDENT_W[a.students]);
   if (a.branches) addWeights(scores, BRANCH_W[a.branches]);
@@ -107,8 +107,8 @@ export function recommend(a: AdvisorAnswers): Recommendation {
   for (const n of a.needs) addWeights(scores, NEED_W[n] ?? {});
 
   // أعلى نقاط؛ التعادل يُكسَر لصالح الباقة الأدنى رتبةً (الأنسب لا الأغلى)
-  let best: OrgPlan = PLANS[0].id;
-  for (const p of PLANS) {
+  let best: OrgPlan = OFFERED_PLANS[0].id;
+  for (const p of OFFERED_PLANS) {
     const s = scores.get(p.id) ?? 0;
     const bs = scores.get(best) ?? 0;
     if (s > bs || (s === bs && planRank(p.id) < planRank(best))) best = p.id;

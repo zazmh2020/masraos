@@ -3,7 +3,7 @@ import { requireOrgAccess } from '@/lib/org';
 import { prisma } from '@/lib/prisma';
 import { canManageSettings } from '@/lib/permissions';
 import { getT } from '@/lib/i18n/server';
-import { PLANS, CURRENCY, PLAN_BY_ID, planEntitlementYears } from '@/lib/plans';
+import { OFFERED_PLANS, CURRENCY, PLAN_BY_ID, planEntitlementYears } from '@/lib/plans';
 import { billingConfigured } from '@/lib/stripe';
 import { deriveEnrollmentTerms, ENTITLEMENT_AGREEMENT_VERSION, ENTITLEMENT_TERMS_VERSION } from '@/lib/entitlement';
 import BillingView from '@/components/BillingView';
@@ -20,7 +20,7 @@ export default async function BillingPage({
   const { t, locale } = await getT();
   if (!canManageSettings(user)) redirect(`/org/${org.slug}`);
 
-  const plans = PLANS.map((p) => ({
+  const plans = OFFERED_PLANS.map((p) => ({
     id: p.id,
     name: locale === 'en' ? p.en : p.name,
     price: p.price,
