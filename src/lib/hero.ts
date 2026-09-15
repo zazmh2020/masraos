@@ -69,19 +69,26 @@ export type PublicHeroSlide = {
   imageUrl: string | null; ctaText: string | null; ctaLink: string | null;
 };
 
-/** الشرائح المعروضة الآن على الواجهة: منشورة/مجدولة، مفعّلة، وضمن نافذة العرض. */
+/**
+ * الشرائح المعروضة الآن على الواجهة: منشورة/مجدولة، مفعّلة، وضمن نافذة العرض.
+ * يتحمّل انقطاع قاعدة البيانات: يعيد [] بدل رمي الخطأ حتى لا تتعطّل الصفحة الرئيسية العامّة.
+ */
 export async function getActiveHeroSlides(): Promise<PublicHeroSlide[]> {
   const now = new Date();
-  return prisma.heroSlide.findMany({
-    where: {
-      enabled: true,
-      status: { in: ['PUBLISHED', 'SCHEDULED'] },
-      AND: [
-        { OR: [{ startAt: null }, { startAt: { lte: now } }] },
-        { OR: [{ endAt: null }, { endAt: { gte: now } }] },
-      ],
-    },
-    orderBy: [{ order: 'asc' }, { createdAt: 'asc' }],
-    select: { id: true, title: true, subtitle: true, imageUrl: true, ctaText: true, ctaLink: true },
-  });
+  try {
+    return await prisma.heroSlide.findMany({
+      where: {
+        enabled: true,
+        status: { in: ['PUBLISHED', 'SCHEDULED'] },
+        AND: [
+          { OR: [{ startAt: null }, { startAt: { lte: now } }] },
+          { OR: [{ endAt: null }, { endAt: { gte: now } }] },
+        ],
+      },
+      orderBy: [{ order: 'asc' }, { createdAt: 'asc' }],
+      select: { id: true, title: true, subtitle: true, imageUrl: true, ctaText: true, ctaLink: true },
+    });
+  } catch {
+    return [];
+  }
 }
