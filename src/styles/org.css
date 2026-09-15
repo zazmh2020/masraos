@@ -2253,9 +2253,15 @@ a.org-module:hover {
 /* ============================================================
    مسابقة الباركود — وحدة المسح وشاشة العرض
    ============================================================ */
-.pts-modes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
-/* يتمدّد ليدفع أزرار الإجراءات لنهاية السطر على الشاشات الواسعة، ويطوى إلى صفر عند اللف */
-.pts-modes-spacer { flex: 1 1 0; min-width: 0; }
+/* شريط الأوضاع: مجموعة التبديل (منح/خصم) في البداية، ومجموعة الإجراءات في النهاية، تلتفّ بنظافة */
+.pts-modes { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin-bottom: 1rem; justify-content: space-between; }
+.pts-modes-group { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+.pts-modes-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+.pts-modes-spacer { flex: 1 1 0; min-width: 0; } /* موروث — لم يعد مستخدمًا */
+/* لوحة العرض المدمجة داخل الصفحة (نفس شاشة العرض بحجم أصغر) */
+.pts-inline-display { margin: 0 0 1.3rem; }
+.pts-inline-display .pts-display { min-height: 320px; }
+@media (max-width: 560px) { .pts-inline-display .pts-display { min-height: 260px; } }
 .pts-mode {
   padding: 0.5rem 1.1rem; border: 1px solid var(--line); border-radius: var(--r-pill);
   background: #fff; color: var(--text); font: inherit; font-weight: 700; font-size: 0.88rem; cursor: pointer;

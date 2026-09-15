@@ -25,7 +25,7 @@ export default async function PointsPage({ params }: { params: Promise<{ slug: s
         </div>
       </div>
       {canManageSettings(user) && <PointsConfigForm perScan={org.pointsPerScan} />}
-      <ScannerConsole slug={org.slug} perScan={org.pointsPerScan} canRedeem />
+      <ScannerConsole slug={org.slug} perScan={org.pointsPerScan} canRedeem orgName={org.name} />
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import Link from 'next/link';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
+import DisplayScreen from './DisplayScreen';
 
 type Mode = 'earn' | 'redeem';
 interface ScanResult {
@@ -13,9 +14,10 @@ interface ScanResult {
   duplicate: boolean;
 }
 
-export default function ScannerConsole({ slug, perScan, canRedeem }: { slug: string; perScan: number; canRedeem: boolean }) {
+export default function ScannerConsole({ slug, perScan, canRedeem, orgName }: { slug: string; perScan: number; canRedeem: boolean; orgName: string }) {
   const { t } = useLocale();
   const [mode, setMode] = useState<Mode>('earn');
+  const [showDisplay, setShowDisplay] = useState(false);
   const [serial, setSerial] = useState('');
   const [amount, setAmount] = useState(String(perScan));
   const [busy, setBusy] = useState(false);
@@ -62,17 +64,29 @@ export default function ScannerConsole({ slug, perScan, canRedeem }: { slug: str
   return (
     <div className="pts-console">
       <div className="pts-modes">
-        <button type="button" className={`pts-mode ${mode === 'earn' ? 'is-on' : ''}`} onClick={() => setMode('earn')}>{t('pts.scan')}</button>
-        {canRedeem && (
-          <button type="button" className={`pts-mode ${mode === 'redeem' ? 'is-on redeem' : ''}`} onClick={() => setMode('redeem')}>{t('pts.redeem')}</button>
-        )}
-        <span className="pts-modes-spacer" />
-        <Link href={`/org/${slug}/points/guide`} className="org-btn org-btn-outline">{t('pts.guide')}</Link>
-        <Link href={`/org/${slug}/points/report`} className="org-btn org-btn-outline">{t('pts.report')}</Link>
-        <Link href={`/org/${slug}/points/cards`} className="org-btn org-btn-outline">{t('pts.cards')}</Link>
-        <Link href={`/org/${slug}/points/standings`} className="org-btn org-btn-outline" target="_blank">{t('pts.standings')} ↗</Link>
-        <Link href={`/org/${slug}/points/display`} className="org-btn org-btn-outline" target="_blank">{t('pts.display')} ↗</Link>
+        <div className="pts-modes-group">
+          <button type="button" className={`pts-mode ${mode === 'earn' ? 'is-on' : ''}`} onClick={() => setMode('earn')}>{t('pts.scan')}</button>
+          {canRedeem && (
+            <button type="button" className={`pts-mode ${mode === 'redeem' ? 'is-on redeem' : ''}`} onClick={() => setMode('redeem')}>{t('pts.redeem')}</button>
+          )}
+        </div>
+        <div className="pts-modes-actions">
+          <Link href={`/org/${slug}/points/guide`} className="org-btn org-btn-outline">{t('pts.guide')}</Link>
+          <Link href={`/org/${slug}/points/report`} className="org-btn org-btn-outline">{t('pts.report')}</Link>
+          <Link href={`/org/${slug}/points/cards`} className="org-btn org-btn-outline">{t('pts.cards')}</Link>
+          <Link href={`/org/${slug}/points/standings`} className="org-btn org-btn-outline" target="_blank">{t('pts.standings')} ↗</Link>
+          <button type="button" className={`org-btn ${showDisplay ? 'org-btn-primary' : 'org-btn-outline'}`} onClick={() => setShowDisplay((v) => !v)}>
+            {showDisplay ? t('pts.hideDisplay') : t('pts.showDisplay')}
+          </button>
+          <Link href={`/org/${slug}/points/display`} className="org-btn org-btn-outline" target="_blank">{t('pts.display')} ↗</Link>
+        </div>
       </div>
+
+      {showDisplay && (
+        <div className="pts-inline-display">
+          <DisplayScreen orgName={orgName} />
+        </div>
+      )}
 
       <form className="pts-scanbar" onSubmit={submit}>
         <input
