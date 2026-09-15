@@ -1,5 +1,5 @@
 import type Stripe from 'stripe';
-import type { OrgPlan } from '@/generated/prisma/client';
+import type { OrgPlan, EntitlementStatus } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { getStripe, planForPriceId } from '@/lib/stripe';
 
@@ -26,6 +26,56 @@ async function syncSubscription(sub: Stripe.Subscription) {
       ...(active && plan ? { plan } : {}),
       ...(sub.status === 'canceled' ? { plan: 'STARTER' as OrgPlan } : {}),
       ...(periodEnd ? { planRenewsAt: new Date(periodEnd * 1000) } : {}),
+    },
+  });
+
+  await accrueEntitlement(org.id, active);
+}
+
+/**
+ * تراكم الوقت المدفوع لبرنامج الاستحقاق الدائم — خادميّ فقط.
+ * يُضيف الوقت المنقضي منذ آخر تراكم فقط إن كان الاشتراك نشطًا ومتّصلًا (بلا فجوة).
+ * عند الانقطاع تُوقَف الحالة (PAUSED) ولا يُحتسب زمن الفجوة عند العودة.
+ */
+async function accrueEntitlement(organizationId: string, active: boolean) {
+  const ent = await prisma.permanentEntitlement.findUnique({ where: { organizationId } });
+  if (!ent || ent.status === 'COMPLETED' || ent.status === 'CANCELLED' || ent.status === 'EXPIRED') return;
+
+  const now = new Date();
+  let accruedDays = ent.accruedDays;
+  let status: EntitlementStatus = ent.status;
+  let eventType = '';
+
+  if (active) {
+    // نحتسب المنقضي فقط إن كان متراكمًا سابقًا (بلا فجوة)؛ وإلا نستأنف من الآن
+    if (ent.status === 'ACTIVE' && ent.lastAccrualAt) {
+      const elapsed = Math.floor((now.getTime() - ent.lastAccrualAt.getTime()) / 86_400_000);
+      if (elapsed > 0) { accruedDays += elapsed; eventType = 'ACCRUED'; }
+    } else if (ent.status === 'PAUSED') {
+      eventType = 'RESUMED';
+    }
+    status = 'ACTIVE';
+  } else {
+    if (ent.status === 'ACTIVE') { status = 'PAUSED'; eventType = 'PAUSED'; }
+  }
+
+  const requiredDays = ent.requiredDurationYears * 365;
+  let completedAt = ent.completedAt;
+  if (accruedDays >= requiredDays) {
+    accruedDays = requiredDays;
+    status = 'COMPLETED';
+    completedAt = completedAt ?? now;
+    eventType = 'COMPLETED';
+  }
+
+  await prisma.permanentEntitlement.update({
+    where: { id: ent.id },
+    data: {
+      accruedDays,
+      status,
+      completedAt,
+      lastAccrualAt: active ? now : ent.lastAccrualAt,
+      ...(eventType ? { events: { create: { type: eventType } } } : {}),
     },
   });
 }
