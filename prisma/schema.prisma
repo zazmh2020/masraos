@@ -21,6 +21,7 @@ model Organization {
   stripeSubscriptionId String? // معرّف الاشتراك النشط
   subscriptionStatus   String? // active / trialing / past_due / canceled …
   pointsPerScan        Int       @default(10) // نقاط مسابقة الباركود لكل مسح
+  pointsBoardRotateSec Int       @default(15) // مدة تدوير صفحات لوحة الترتيب (ثوانٍ)
   brandColor           String? // لون الهوية الأساسي للجهة (hex)
   brandAccent          String? // لون ثانوي/مميّز (hex)
   logoUrl              String? // شعار الجهة (رابط)

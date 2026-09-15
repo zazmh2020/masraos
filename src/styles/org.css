@@ -2284,10 +2284,15 @@ a.org-module:hover {
   margin: 0 0 1.1rem; background: var(--surface, #fff); border: 1px solid var(--line);
   border-radius: var(--r-md); padding: 1rem 1.1rem;
 }
-.pts-config-head { display: flex; flex-direction: column; gap: 0.15rem; margin-bottom: 0.7rem; }
+.pts-config-head { display: flex; flex-direction: column; gap: 0.15rem; margin-bottom: 0.6rem; }
 .pts-config-title { font-weight: 800; color: var(--text-strong); font-size: 0.95rem; }
 .pts-config-hint { color: var(--text-soft, #78757f); font-size: 0.82rem; }
 .pts-config-row { display: flex; gap: 0.6rem; align-items: center; }
+.pts-config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.pts-config-field { display: flex; flex-direction: column; }
+.pts-config-field .pts-config-input { width: 100%; }
+.pts-config-actions { margin-top: 0.9rem; }
+@media (max-width: 560px) { .pts-config-grid { grid-template-columns: 1fr; gap: 1rem; } }
 .pts-config-input {
   width: 110px; height: 46px; padding-inline: 0.9rem; font-size: 1.15rem; font-weight: 800;
   border: 2px solid var(--purple-300); border-radius: var(--r-md); background: #fff; color: var(--text-strong);
@@ -2408,6 +2413,20 @@ a.org-module:hover {
 .pts-roster-pts { flex: none; font-weight: 800; color: var(--purple-700); font-variant-numeric: tabular-nums; }
 @media (max-width: 900px) { .pts-roster { column-count: 2; } }
 @media (max-width: 560px) { .pts-podium { grid-template-columns: 1fr; } .pts-roster { column-count: 1; } }
+
+/* ظهور تسلسلي للمراكز الثلاثة (الأول ثم الثاني ثم الثالث) */
+.pts-reveal { animation: ptsReveal 0.6s var(--ease) both; }
+@keyframes ptsReveal { from { opacity: 0; transform: translateY(18px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+/* تلاشٍ لطيف عند تبديل صفحة القائمة السفلية */
+.pts-roster { animation: ptsRosterIn 0.5s var(--ease) both; position: relative; }
+@keyframes ptsRosterIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+/* مؤشّر صفحات القائمة الدوّارة */
+.pts-roster-pager { column-span: all; display: flex; gap: 0.4rem; justify-content: center; margin-top: 1rem; }
+.pts-roster-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--purple-300); opacity: 0.5; transition: all 0.25s var(--ease); }
+.pts-roster-dot.is-on { opacity: 1; width: 22px; background: var(--purple-500); }
+@media (prefers-reduced-motion: reduce) {
+  .pts-reveal, .pts-roster { animation: none; }
+}
 .pts-display-form { position: absolute; opacity: 0; pointer-events: none; }
 .pts-display-input { width: 1px; height: 1px; }
 .pts-display-error { color: var(--error); font-size: 1.6rem; font-weight: 700; }

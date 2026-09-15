@@ -5,15 +5,18 @@ import { useLocale } from '@/lib/i18n/LocaleProvider';
 
 interface Row { name: string; serial: number | null; balance: number }
 
-export default function StandingsBoard({ orgName, logoUrl }: { orgName?: string; logoUrl?: string | null }) {
+const PAGE_SIZE = 15; // عدد الأسماء في كل صفحة من القائمة الدوّارة (تحت المراكز الثلاثة)
+
+export default function StandingsBoard({ orgName, logoUrl, rotateSec = 15 }: { orgName?: string; logoUrl?: string | null; rotateSec?: number }) {
   const { t, locale } = useLocale();
   const [rows, setRows] = useState<Row[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [full, setFull] = useState(false);
   const [now, setNow] = useState<Date | null>(null);
+  const [page, setPage] = useState(0);
   const boardRef = useRef<HTMLDivElement>(null);
 
-  // التاريخ واليوم (يُحدَّث عند التركيب وكل دقيقة) — بعد التركيب لتفادي عدم تطابق SSR
+  // التاريخ واليوم — بعد التركيب لتفادي عدم تطابق SSR
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setNow(new Date());
@@ -35,12 +38,26 @@ export default function StandingsBoard({ orgName, logoUrl }: { orgName?: string;
     return () => { active = false; clearInterval(iv); };
   }, []);
 
-  // مزامنة حالة ملء الشاشة مع أحداث المتصفّح
   useEffect(() => {
     const onFs = () => setFull(!!document.fullscreenElement);
     document.addEventListener('fullscreenchange', onFs);
     return () => document.removeEventListener('fullscreenchange', onFs);
   }, []);
+
+  const top = rows.slice(0, 3);       // المراكز الثابتة: الأول/الثاني/الثالث
+  const rest = rows.slice(3);         // البقية — تُعرَض في صفحات دوّارة
+  const pageCount = Math.max(1, Math.ceil(rest.length / PAGE_SIZE));
+
+  // تدوير صفحات القائمة السفلية فقط (المراكز الثلاثة تبقى ثابتة)
+  useEffect(() => {
+    if (pageCount <= 1) return;
+    const ms = Math.max(3, rotateSec) * 1000;
+    const iv = setInterval(() => setPage((p) => p + 1), ms);
+    return () => clearInterval(iv);
+  }, [pageCount, rotateSec]);
+
+  // الصفحة الظاهرة (نقصّها بالباقي حتى تبقى ضمن المدى مهما تغيّرت البيانات)
+  const curPage = page % pageCount;
 
   async function toggleFull() {
     try {
@@ -49,12 +66,13 @@ export default function StandingsBoard({ orgName, logoUrl }: { orgName?: string;
     } catch { /* المتصفّح قد يمنع — نتجاهل */ }
   }
 
-  const top = rows.slice(0, 5);
-  const rest = rows.slice(5);
-  const labels = [t('pts.rank.1'), t('pts.rank.2'), t('pts.rank.3'), t('pts.rank.4'), t('pts.rank.5')];
+  const labels = [t('pts.rank.1'), t('pts.rank.2'), t('pts.rank.3')];
   const lc = locale === 'en' ? 'en' : 'ar-u-nu-latn';
   const dayStr = now ? new Intl.DateTimeFormat(lc, { weekday: 'long' }).format(now) : '';
   const dateStr = now ? new Intl.DateTimeFormat(lc, { year: 'numeric', month: 'long', day: 'numeric' }).format(now) : '';
+
+  const pageStart = curPage * PAGE_SIZE;
+  const pageRows = rest.slice(pageStart, pageStart + PAGE_SIZE);
 
   return (
     <div className={`pts-board ${full ? 'is-full' : ''}`} ref={boardRef}>
@@ -86,7 +104,7 @@ export default function StandingsBoard({ orgName, logoUrl }: { orgName?: string;
         <>
           <div className="pts-podium">
             {top.map((r, i) => (
-              <div key={i} className={`pts-podium-item rank-${i + 1}`}>
+              <div key={i} className={`pts-podium-item rank-${i + 1} pts-reveal`} style={{ animationDelay: `${i * 0.4}s` }}>
                 <span className="pts-podium-rank">{labels[i]}</span>
                 <span className="pts-podium-name">{r.name || '—'}</span>
                 <span className="pts-podium-pts">{r.balance}</span>
@@ -95,14 +113,21 @@ export default function StandingsBoard({ orgName, logoUrl }: { orgName?: string;
           </div>
 
           {rest.length > 0 && (
-            <div className="pts-roster">
-              {rest.map((r, i) => (
+            <div className="pts-roster" key={curPage}>
+              {pageRows.map((r, i) => (
                 <div key={i} className="pts-roster-row">
-                  <span className="pts-roster-num">{i + 6}</span>
+                  <span className="pts-roster-num">{pageStart + i + 4}</span>
                   <span className="pts-roster-name">{r.name}</span>
                   <span className="pts-roster-pts">{r.balance}</span>
                 </div>
               ))}
+              {pageCount > 1 && (
+                <div className="pts-roster-pager" aria-hidden="true">
+                  {Array.from({ length: pageCount }).map((_, i) => (
+                    <span key={i} className={`pts-roster-dot ${i === curPage ? 'is-on' : ''}`} />
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </>
