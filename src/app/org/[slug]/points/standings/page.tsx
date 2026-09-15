@@ -21,7 +21,7 @@ export default async function PointsStandingsPage({ params }: { params: Promise<
           <p>{t('ptsStand.sub')}</p>
         </div>
       </div>
-      <StandingsBoard />
+      <StandingsBoard orgName={org.name} logoUrl={org.logoUrl} />
     </div>
   );
 }

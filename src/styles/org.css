@@ -2339,6 +2339,27 @@ a.org-module:hover {
 
 /* ---------- لوحة الترتيب (شاشة النتائج) ---------- */
 .pts-board { max-width: 1100px; margin-inline: auto; }
+/* ترويسة اللوحة: شعار الجهة + التاريخ/اليوم + زر التكبير */
+.pts-board-head { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.3rem; }
+.pts-board-org { display: flex; align-items: center; gap: 0.6rem; min-width: 0; }
+.pts-board-logo { width: 46px; height: 46px; border-radius: 12px; object-fit: cover; flex-shrink: 0; border: 1px solid var(--line); background: #fff; }
+.pts-board-logo-ph { display: grid; place-items: center; font-family: var(--font-display); font-weight: 800; font-size: 1.3rem; color: #fff; background: linear-gradient(135deg, var(--purple-500), var(--purple-700)); border: none; }
+.pts-board-orgname { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; color: var(--text-strong); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pts-board-when { margin-inline-start: auto; display: grid; text-align: end; line-height: 1.3; }
+.pts-board-day { font-weight: 800; color: var(--purple-700); font-size: 1rem; }
+.pts-board-date { font-size: 0.82rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.pts-board-full {
+  display: inline-flex; align-items: center; gap: 0.4rem; flex-shrink: 0; cursor: pointer;
+  border: 1px solid var(--purple-300); background: #fff; color: var(--purple-700);
+  border-radius: var(--r-pill); padding: 0.5rem 0.95rem; font: inherit; font-weight: 700; font-size: 0.85rem;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.pts-board-full:hover { background: var(--purple-500); color: #fff; border-color: var(--purple-500); }
+.pts-board-full svg { width: 17px; height: 17px; }
+/* حالة ملء الشاشة: خلفية كاملة ومساحات أوسع للعرض على شاشة كبيرة */
+.pts-board.is-full { max-width: none; background: var(--surface, #fff); padding: clamp(1.5rem, 4vw, 3rem); overflow-y: auto; }
+.pts-board.is-full .pts-board-head { margin-bottom: 2rem; }
+.pts-board.is-full .pts-podium { gap: 1.2rem; }
 .pts-podium { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
 .pts-podium-item { display: grid; gap: 0.25rem; padding: 1rem 1.1rem; border-radius: var(--r-md); background: #fff; border: 1px solid var(--line); text-align: center; min-width: 0; box-shadow: var(--sh-1); }
 .pts-podium-item.rank-1 { grid-column: 1 / -1; background: linear-gradient(135deg, var(--purple-700), var(--purple-500)); color: #fff; border-color: transparent; padding: 1.5rem 1.2rem; }
