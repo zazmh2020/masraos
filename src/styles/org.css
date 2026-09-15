@@ -257,6 +257,14 @@ body:has(.org-app) { background: #fff; }
   gap: 1rem;
 }
 
+/* شريط وضع العرض التجريبي (للاستعراض فقط) */
+.org-demo-banner {
+  display: flex; align-items: center; gap: 0.5rem; justify-content: center;
+  background: var(--purple-100); color: var(--purple-900); border: 1px solid var(--purple-300);
+  border-radius: var(--r-md); padding: 0.65rem 1rem; font-weight: 700; font-size: 0.88rem; text-align: center;
+}
+.org-demo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold-500); flex-shrink: 0; }
+
 /* الشريط العلوي (لوحة عائمة) */
 .org-topbar {
   background: #fff;

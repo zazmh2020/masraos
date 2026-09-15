@@ -9,6 +9,7 @@ import {
   canScanPoints,
 } from '@/lib/permissions';
 import OrgShell, { type NavEntry } from '@/components/OrgShell';
+import { getSession } from '@/lib/session';
 import { getOrgInbox } from '@/lib/inbox';
 import { moduleEnabled } from '@/lib/modules';
 import { isAssistantConfigured } from '@/lib/anthropic';
@@ -45,6 +46,8 @@ export default async function OrgLayout({
   const base = `/org/${org.slug}`;
   const inbox = await getOrgInbox(org.id);
   const { t } = await getT();
+  const session = await getSession();
+  const isDemo = !!session?.demo; // جلسة عرض تجريبي → شريط تنبيه + منع التعديلات
 
   // الوحدات المفعّلة لهذه المؤسسة
   const md = org.disabledModules;
@@ -142,6 +145,12 @@ export default async function OrgLayout({
       inbox={inbox}
       assistant={{ show: canUseAssistant(r) && moduleEnabled(md, 'assistant'), ready: isAssistantConfigured() }}
     >
+      {isDemo && (
+        <div className="org-demo-banner" role="status">
+          <span className="org-demo-dot" aria-hidden="true" />
+          {t('demo.banner')}
+        </div>
+      )}
       {children}
     </OrgShell>
   );

@@ -67,6 +67,7 @@ export default async function HomePage() {
     : [1, 2, 3, 4, 5].map((n) => ({ q: t(`faq.q${n}`), a: t(`faq.a${n}`) }));
 
   const showAnnounce = settings.announcementActive && !!settings.announcement;
+  const demoEnabled = !!process.env.DEMO_LOGIN_EMAIL; // زر «شاهد المنصة» يظهر عند تهيئة حساب العرض
 
   return (
     <div className={`mdl ${showAnnounce ? 'has-announce' : ''}`}>
@@ -101,7 +102,9 @@ export default async function HomePage() {
                         ? <Link href={slide.ctaLink} className="mdl-btn mdl-btn-light">{slide.ctaText}</Link>
                         : <a href={slide.ctaLink} className="mdl-btn mdl-btn-light" target="_blank" rel="noopener noreferrer">{slide.ctaText}</a>)
                     : <Link href="/login" className="mdl-btn mdl-btn-light">{t('hero.cta.login')}</Link>}
-                  <a href="#systems" className="mdl-btn mdl-btn-outline-light">{t('hero.cta.explore')}</a>
+                  {demoEnabled
+                    ? <a href="/api/auth/demo" className="mdl-btn mdl-btn-outline-light">{t('hero.cta.demo')}</a>
+                    : <a href="#systems" className="mdl-btn mdl-btn-outline-light">{t('hero.cta.explore')}</a>}
                 </div>
               </Reveal>
               <Reveal delay={0.3}>

@@ -16,7 +16,11 @@ export interface SessionData {
   role: string;
   organizationId: string | null;
   organizationSlug: string | null;
+  demo?: boolean; // جلسة عرض تجريبي (للاستعراض فقط — تُمنَع التعديلات)
 }
+
+/** اسم كوكي وسم العرض التجريبي (غير حسّاس — وجوده يقيّد فقط، فلا يحتاج توقيعًا). */
+export const DEMO_COOKIE = 'midad_demo';
 
 function secret(): string {
   const value = process.env.AUTH_SECRET;

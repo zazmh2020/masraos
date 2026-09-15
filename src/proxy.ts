@@ -36,6 +36,19 @@ export function proxy(request: NextRequest) {
   const url = request.nextUrl.clone();
   const path = url.pathname;
 
+  // العرض التجريبي: للاستعراض فقط — نمنع أي تعديل عبر الـ API (باستثناء مسارات الدخول/الخروج).
+  // الوسم كوكي غير موقّع؛ وجوده يقيّد فقط، فلا حاجة للتحقّق التوقيعي هنا.
+  if (path.startsWith('/api')) {
+    const mutating = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(request.method);
+    const isDemo = request.cookies.get('midad_demo')?.value === '1';
+    if (isDemo && mutating && !path.startsWith('/api/auth/')) {
+      return NextResponse.json(
+        { ok: false, error: 'وضع العرض التجريبي — للاستعراض فقط، لا يمكن حفظ التغييرات.', code: 'DEMO_READONLY' },
+        { status: 403 },
+      );
+    }
+  }
+
   // مسارات لا يمسّها التوجيه
   if (
     path.startsWith('/_next') ||
