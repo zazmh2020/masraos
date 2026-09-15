@@ -1076,3 +1076,28 @@
 .btn-admin-danger:disabled { opacity: 0.6; cursor: not-allowed; }
 
 .admin-topbar-theme { margin-inline-start: auto; }
+
+/* إدارة الاستحقاق الدائم (لمالك المنصّة) */
+.admin-count { font-size: 0.85rem; font-weight: 700; color: var(--gray-600, #6a6874); background: var(--gray-100); border-radius: 100px; padding: 0.3rem 0.8rem; }
+.admin-empty { padding: 2.5rem; text-align: center; color: var(--gray-500); background: #fff; border: 1px solid var(--line); border-radius: 16px; }
+.entadm-list { display: grid; gap: 1rem; }
+.entadm-card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 1.2rem 1.3rem; }
+.entadm-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 0.9rem; }
+.entadm-card-head strong { font-family: var(--font-display); color: var(--purple-900); font-size: 1.05rem; }
+.entadm-slug { display: block; font-size: 0.78rem; color: var(--gray-500); margin-top: 0.15rem; }
+.entadm-progress { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
+.entadm-progress .ent-progress { flex: 1; }
+.entadm-pct { font-weight: 900; color: var(--purple-700); min-width: 3rem; text-align: end; }
+.entadm-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.7rem 1.2rem; }
+.entadm-grid > div { display: flex; flex-direction: column; gap: 0.15rem; }
+.entadm-grid span { font-size: 0.76rem; color: var(--gray-500); }
+.entadm-grid strong { font-size: 0.9rem; color: var(--gray-900); }
+.entadm-events { margin-top: 1rem; }
+.entadm-events summary { cursor: pointer; font-weight: 700; color: var(--purple-700); font-size: 0.88rem; }
+.entadm-events ul { margin: 0.6rem 0 0; padding-inline-start: 1.2rem; display: grid; gap: 0.3rem; }
+.entadm-events li { font-size: 0.82rem; color: var(--gray-600, #6a6874); }
+.entadm-actions { margin-top: 1rem; }
+.entadm-cancelbox { margin-top: 1rem; display: grid; gap: 0.6rem; }
+.entadm-cancelbox textarea { width: 100%; border: 1px solid var(--line); border-radius: 10px; padding: 0.6rem 0.8rem; font-family: inherit; resize: vertical; }
+.entadm-cancelbtns { display: flex; gap: 0.6rem; justify-content: flex-end; }
+.entadm-cancelnote { margin: 0.8rem 0 0; font-size: 0.85rem; color: #991b1b; }

@@ -15,6 +15,18 @@ const DAYS_PER_MONTH = DAYS_PER_YEAR / 12;
 
 export type EntitlementStatusName = 'ACTIVE' | 'PAUSED' | 'COMPLETED' | 'CANCELLED' | 'EXPIRED';
 
+/**
+ * الوقت المدفوع الفعّال للعرض (خادميّ): القيمة المخزّنة + المنقضي منذ آخر تراكم إن كانت الحالة ACTIVE،
+ * حتى تتحرّك النسبة يوميًّا بين أحداث Stripe. القيمة المخزّنة تبقى نقطة الحفظ الرسمية.
+ */
+export function effectiveAccruedDays(row: { status: EntitlementStatusName; accruedDays: number; lastAccrualAt: Date | null }): number {
+  if (row.status === 'ACTIVE' && row.lastAccrualAt) {
+    const elapsed = Math.floor((Date.now() - row.lastAccrualAt.getTime()) / 86_400_000);
+    if (elapsed > 0) return row.accruedDays + elapsed;
+  }
+  return row.accruedDays;
+}
+
 /** شروط الانضمام المشتقّة من الباقة (خادميًّا) — أو null إن كانت الباقة غير مؤهّلة. */
 export function deriveEnrollmentTerms(
   planId: OrgPlan,

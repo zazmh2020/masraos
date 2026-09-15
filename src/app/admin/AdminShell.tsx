@@ -35,12 +35,14 @@ const ICONS = {
   building: 'organization/organization-institution',
   content: 'communication/communication-announcement',
   settings: 'navigation/navigation-settings',
+  entitlement: 'identity/identity-security',
   logout: 'navigation/navigation-logout',
 } as const;
 
 const navItems = [
   { href: '/admin', labelKey: 'anav.overview', icon: 'home' as const },
   { href: '/admin/organizations', labelKey: 'anav.organizations', icon: 'building' as const },
+  { href: '/admin/entitlements', labelKey: 'anav.entitlements', icon: 'entitlement' as const },
   { href: '/admin/content', labelKey: 'anav.content', icon: 'content' as const },
   { href: '/admin/hero', labelKey: 'anav.hero', icon: 'content' as const },
   { href: '/admin/settings', labelKey: 'anav.settings', icon: 'settings' as const },

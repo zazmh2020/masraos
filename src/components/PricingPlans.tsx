@@ -88,6 +88,13 @@ export default function PricingPlans() {
                 ))}
               </ul>
 
+              {p.entitlementYears != null && (
+                <div className="plan-entitlement">
+                  <span className="plan-ent-label">{t('plan.entitlement', { n: p.entitlementYears })}</span>
+                  <span className="plan-ent-optional">{t('ent.optional')}</span>
+                </div>
+              )}
+
               {p.price === 0 ? (
                 <Link href="/login" className={`plan-cta ${p.highlighted ? 'is-primary' : ''}`}>{t('plan.cta.free')}</Link>
               ) : (

@@ -227,3 +227,8 @@
 .mdl .plan-cta.is-primary { color: #fff; background: var(--purple-500); border-color: var(--purple-500); }
 .mdl .plan-cta.is-primary:hover { color: #fff; background: var(--purple-700); border-color: var(--purple-700); }
 .mdl .plan-name, .mdl .plan-amount { color: var(--purple-900); }
+
+/* مؤشّر الاستحقاق الدائم في بطاقة الباقة */
+.plan-entitlement { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-top: auto; padding-top: 0.9rem; border-top: 1px dashed var(--border, #ececf0); }
+.plan-ent-label { font-size: 0.82rem; font-weight: 700; color: var(--p, #6b57a0); }
+.plan-ent-optional { font-size: 0.66rem; font-weight: 800; color: var(--p, #6b57a0); background: rgba(107,87,160,0.1); border-radius: 100px; padding: 0.12rem 0.5rem; }
