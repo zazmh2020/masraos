@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import type { InboxMessage, InboxNotification } from '@/lib/inbox';
-import ThemeToggle from '@/components/ThemeToggle';
 import LangToggle from '@/components/LangToggle';
 import { useT } from '@/lib/i18n/LocaleProvider';
 
@@ -165,7 +164,6 @@ export default function TopbarTools({ searchItems, messages, notifications, stor
       </div>
 
       <LangToggle />
-      <ThemeToggle />
     </div>
   );
 }

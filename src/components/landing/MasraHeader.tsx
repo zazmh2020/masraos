@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Icon from '@/components/Icon';
 import { LogoMark } from '@/components/Logo';
-import ThemeToggle from '@/components/ThemeToggle';
 import LangToggle from '@/components/LangToggle';
 import CurrencyToggle from '@/components/CurrencyToggle';
 import { useT } from '@/lib/i18n/LocaleProvider';
@@ -85,7 +84,6 @@ export default function MasraHeader() {
         <div className="mdl-nav-actions">
           <CurrencyToggle />
           <LangToggle />
-          <ThemeToggle />
           <Link href="/login" className="mdl-btn mdl-btn-white">{t('nav.login')}</Link>
         </div>
       </nav>

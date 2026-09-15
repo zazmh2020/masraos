@@ -4,7 +4,6 @@ import { useState, type FormEvent } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { LogoMark } from '@/components/Logo';
-import ThemeToggle from '@/components/ThemeToggle';
 import LangToggle from '@/components/LangToggle';
 import { useT } from '@/lib/i18n/LocaleProvider';
 import '@/styles/login.css';
@@ -62,7 +61,6 @@ export default function LoginPage() {
 
       <div className="lg-toggles">
         <LangToggle className="on-deep" />
-        <ThemeToggle onDeep />
       </div>
 
       <Link href="/" className="lg-home-top">{t('login.home')}</Link>
