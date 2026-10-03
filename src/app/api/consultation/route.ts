@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
    طلب استشارة مجانية (من مساعد اختيار الباقة) — عام، بلا تسجيل.
    لا يُنشئ جدولًا ولا migration. التسليم أفضل جهد:
    • إن ضُبط CONSULT_WEBHOOK_URL (Slack/Zapier/Make…) نُرسل الطلب إليه.
-   • وإلا نسجّله في سجلّ الخادم ونعيد نجاحًا (لا نُسقط الطلب صامتين في الواجهة).
+   • وإلا نعيد عدم توفر الخدمة دون تسجيل بيانات الاتصال الشخصية.
    لاحقًا يمكن اعتماد جدول ConsultationRequest لالتقاط دائم.
    ============================================================ */
 
@@ -41,17 +41,18 @@ export async function POST(request: Request) {
   const hook = process.env.CONSULT_WEBHOOK_URL;
   if (hook) {
     try {
-      await fetch(hook, {
+      const response = await fetch(hook, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: `📞 طلب استشارة جديد — ${lead.center} (${lead.phone})`, lead }),
+        signal: AbortSignal.timeout(8000),
       });
+      if (!response.ok) return NextResponse.json({ error: 'تعذّر تسليم الطلب. حاول لاحقًا.' }, { status: 502 });
     } catch {
-      // فشل الويبهوك لا يُفشل الطلب من ناحية المستخدم؛ نسجّله فقط
-      console.warn('[consultation] webhook failed', lead);
+      return NextResponse.json({ error: 'تعذّر تسليم الطلب. حاول لاحقًا.' }, { status: 502 });
     }
   } else {
-    console.info('[consultation] lead received', lead);
+    return NextResponse.json({ error: 'خدمة الاستشارة غير مفعّلة حاليًا.' }, { status: 503 });
   }
 
   return NextResponse.json({ ok: true });

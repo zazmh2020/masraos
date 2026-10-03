@@ -72,6 +72,8 @@ export async function getOrgActor(): Promise<
 
   if (!user || !user.isActive) return null;
   if (!user.organization || !user.organization.isActive) return null;
+  // لا تسمح لجلسة قديمة بالانتقال إلى مؤسسة جديدة بعد نقل الحساب.
+  if (session.organizationId !== user.organization.id || session.organizationSlug !== user.organization.slug) return null;
 
   // أرفق القدرات الفعّالة (من الدور المخصّص إن وُجد)
   return {

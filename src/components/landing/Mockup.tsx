@@ -1,4 +1,7 @@
+'use client';
+
 import type { ReactNode } from 'react';
+import { useLocale } from '@/lib/i18n/LocaleProvider';
 
 /** إطار نافذة وهمي لواجهات المنصة (يُستخدم عبر الصفحة). */
 function Shell({ title, active = 0, children }: { title: string; active?: number; children: ReactNode }) {
@@ -43,6 +46,8 @@ const KPI = ({ k, v, t }: { k: string; v: string; t?: string }) => (
 );
 
 export default function Mockup({ kind, title, active }: { kind: MockKind; title?: string; active?: number }) {
+  const { locale } = useLocale();
+  const pick = (ar: string, en: string) => locale === 'ar' ? ar : en;
   switch (kind) {
     case 'projects':
       return (
@@ -73,13 +78,13 @@ export default function Mockup({ kind, title, active }: { kind: MockKind; title?
       );
     case 'reports':
       return (
-        <Shell title={title ?? 'مسرى — التقارير'} active={active ?? 4}>
-          <div className="mk-h"><b>التقارير والتحليلات</b><span className="mk-chip">هذا الشهر</span></div>
+        <Shell title={title ?? pick('مسرى — التقارير', 'Masra — Reports')} active={active ?? 4}>
+          <div className="mk-h"><b>{pick('التقارير والتحليلات', 'Reports & analytics')}</b><span className="mk-chip">{pick('هذا الشهر', 'This month')}</span></div>
           <div className="mk-two">
-            <div className="mk-panel"><div className="pt"><span>الأداء</span></div><div className="mk-bars"><span style={{ height: '50%' }} /><span style={{ height: '72%' }} /><span style={{ height: '40%' }} /><span style={{ height: '88%' }} /><span style={{ height: '62%' }} /><span style={{ height: '95%' }} /></div></div>
-            <div className="mk-panel"><div className="pt"><span>الإنجاز</span></div><div className="mk-donut" /></div>
+            <div className="mk-panel"><div className="pt"><span>{pick('الأداء', 'Performance')}</span></div><div className="mk-bars"><span style={{ height: '50%' }} /><span style={{ height: '72%' }} /><span style={{ height: '40%' }} /><span style={{ height: '88%' }} /><span style={{ height: '62%' }} /><span style={{ height: '95%' }} /></div></div>
+            <div className="mk-panel"><div className="pt"><span>{pick('الإنجاز', 'Progress')}</span></div><div className="mk-donut" /></div>
           </div>
-          <div className="mk-kpis" style={{ marginTop: '0.7rem' }}><KPI k="مؤشرات" v="18" /><KPI k="نمو" v="24%" t="6" /><KPI k="تقارير" v="42" /></div>
+          <div className="mk-kpis" style={{ marginTop: '0.7rem' }}><KPI k={pick('مؤشرات', 'Metrics')} v="18" /><KPI k={pick('نمو', 'Growth')} v="24%" t="6" /><KPI k={pick('تقارير', 'Reports')} v="42" /></div>
         </Shell>
       );
     case 'beneficiaries':
@@ -92,10 +97,10 @@ export default function Mockup({ kind, title, active }: { kind: MockKind; title?
       );
     case 'education':
       return (
-        <Shell title={title ?? 'مسرى — التعليم'} active={active ?? 3}>
-          <div className="mk-h"><b>الحلقات والبرامج</b><span className="mk-chip">٣٢ حلقة</span></div>
-          <div className="mk-kpis"><KPI k="طلاب" v="247" t="12" /><KPI k="حلقات" v="32" /><KPI k="حضور" v="89%" t="4" /></div>
-          <div className="mk-panel"><div className="pt"><span>تقدّم الحفظ</span></div><div className="mk-prog"><div className="pr"><div className="pl"><span>حلقة النور</span><span>74%</span></div><div className="track"><i style={{ width: '74%' }} /></div></div><div className="pr"><div className="pl"><span>حلقة الفلق</span><span>58%</span></div><div className="track"><i style={{ width: '58%' }} /></div></div></div></div>
+        <Shell title={title ?? pick('مسرى — التعليم', 'Masra — Education')} active={active ?? 3}>
+          <div className="mk-h"><b>{pick('الحلقات والبرامج', 'Circles & programs')}</b><span className="mk-chip">{pick('٣٢ حلقة', '32 circles')}</span></div>
+          <div className="mk-kpis"><KPI k={pick('طلاب', 'Students')} v="247" t="12" /><KPI k={pick('حلقات', 'Circles')} v="32" /><KPI k={pick('حضور', 'Attendance')} v="89%" t="4" /></div>
+          <div className="mk-panel"><div className="pt"><span>{pick('تقدّم الحفظ', 'Memorization progress')}</span></div><div className="mk-prog"><div className="pr"><div className="pl"><span>{pick('حلقة النور', 'Al-Noor circle')}</span><span>74%</span></div><div className="track"><i style={{ width: '74%' }} /></div></div><div className="pr"><div className="pl"><span>{pick('حلقة الفلق', 'Al-Falaq circle')}</span><span>58%</span></div><div className="track"><i style={{ width: '58%' }} /></div></div></div></div>
         </Shell>
       );
     case 'finance':
@@ -116,10 +121,10 @@ export default function Mockup({ kind, title, active }: { kind: MockKind; title?
       );
     case 'org':
       return (
-        <Shell title={title ?? 'مسرى — إدارة المؤسسة'} active={active ?? 0}>
-          <div className="mk-h"><b>الهيكل المؤسسي</b><span className="mk-chip">٦ إدارات</span></div>
-          <div className="mk-kpis"><KPI k="إدارات" v="6" /><KPI k="أقسام" v="18" /><KPI k="فروع" v="4" /></div>
-          <div className="mk-panel"><div className="pt"><span>الوحدات التنظيمية</span></div><Rows items={[{ c: 'إد' }, { c: 'قس' }, { c: 'فر' }]} /></div>
+        <Shell title={title ?? pick('مسرى — إدارة المؤسسة', 'Masra — Organization')} active={active ?? 0}>
+          <div className="mk-h"><b>{pick('الهيكل المؤسسي', 'Organization structure')}</b><span className="mk-chip">{pick('٦ إدارات', '6 departments')}</span></div>
+          <div className="mk-kpis"><KPI k={pick('إدارات', 'Departments')} v="6" /><KPI k={pick('أقسام', 'Divisions')} v="18" /><KPI k={pick('فروع', 'Branches')} v="4" /></div>
+          <div className="mk-panel"><div className="pt"><span>{pick('الوحدات التنظيمية', 'Organization units')}</span></div><Rows items={[{ c: 'إد' }, { c: 'قس' }, { c: 'فر' }]} /></div>
         </Shell>
       );
     case 'ai':
@@ -135,7 +140,7 @@ export default function Mockup({ kind, title, active }: { kind: MockKind; title?
       return (
         <Shell title={title ?? 'مسرى — لوحة التحكم'} active={active ?? 0}>
           <div className="mk-h"><b>نظرة عامة</b><span className="mk-chip">مباشر</span></div>
-          <div className="mk-kpis"><KPI k="المستخدمون" v="247" t="12" /><KPI k="المشاريع" v="14" /><KPI k="الإنجاز" v="86%" t="4" /></div>
+          <div className="mk-kpis"><KPI k="المستخدمون" v="247" t="12" /><KPI k="المشاريع" v="14" /><KPI k={pick('الإنجاز', 'Progress')} v="86%" t="4" /></div>
           <div className="mk-two">
             <div className="mk-panel"><div className="pt"><span>النشاط</span></div><div className="mk-bars"><span style={{ height: '45%' }} /><span style={{ height: '65%' }} /><span style={{ height: '52%' }} /><span style={{ height: '80%' }} /><span style={{ height: '60%' }} /><span style={{ height: '92%' }} /></div></div>
             <div className="mk-panel"><div className="pt"><span>التوزيع</span></div><div className="mk-donut" /></div>

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { ENTITLEMENT_AGREEMENT } from '@/lib/entitlement-agreement';
+import Icon from '@/components/Icon';
 
 interface Props {
   eligible: boolean;
@@ -119,7 +120,7 @@ export default function EntitlementEnroll(p: Props) {
           <div className="ent-modal" role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>
             <div className="ent-modal-head">
               <h3>{ENTITLEMENT_AGREEMENT.title}</h3>
-              <button type="button" className="ent-modal-x" aria-label={t('shell.cancel')} onClick={() => setShowAgreement(false)}>×</button>
+              <button type="button" className="ent-modal-x" aria-label={t('shell.cancel')} onClick={() => setShowAgreement(false)}><Icon name="close" size={20} /></button>
             </div>
             <div className="ent-modal-body">
               <p className="ent-modal-intro">{ENTITLEMENT_AGREEMENT.intro}</p>

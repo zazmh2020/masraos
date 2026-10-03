@@ -225,11 +225,39 @@ model Student {
   assessments  Assessment[]
   pointsTransactions PointsTransaction[]
 
+  registration StudentRegistration?
+
   @@index([organizationId])
   @@index([organizationId, serial])
   @@index([halaqaId])
   @@index([guardianId])
   @@map("students")
+}
+
+/// بيانات إدارية حساسة؛ لا تُحمّل ضمن قوائم الطلاب أو بوابات المتابعة العامة.
+model StudentRegistration {
+  studentId String @id
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  city String?
+  district String?
+  address String?
+  homeLocationUrl String?
+  guardianRelation String?
+  alternatePhone String?
+  emergencyName String?
+  emergencyRelation String?
+  emergencyPhone String?
+  authorizedPickup String?
+  healthNotes String?
+  adminNotes String?
+  memorizationLevel String?
+  enrolledAt DateTime? @db.Date
+  consentConfirmed Boolean @default(false)
+  photoKey String?
+  updatedByName String
+  updatedAt DateTime @updatedAt
+
+  @@map("student_registrations")
 }
 
 /// رسم دراسي/اشتراك لطالب

@@ -5,6 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState, type ReactNode } from 'react';
 import type { SessionData } from '@/lib/session';
 import { LogoMark } from '@/components/Logo';
+import AppIcon from '@/components/Icon';
 import TopbarTools, { type SearchItem } from '@/components/TopbarTools';
 import WelcomeBack from '@/components/WelcomeBack';
 import PageTransition from '@/components/PageTransition';
@@ -29,14 +30,10 @@ const ASSISTANT_SUGGESTIONS = [
   'أيّ المؤسسات أُنشئت مؤخرًا؟',
 ];
 
-// ربط مفاتيح التنقّل بنظام أيقونات مسرى (public/icons)
+// مفاتيح التنقّل القديمة تُحلّ عبر خريطة Tabler المركزية.
 const ICONS = {
-  home: 'navigation/navigation-dashboard',
-  building: 'organization/organization-institution',
-  content: 'communication/communication-announcement',
-  settings: 'navigation/navigation-settings',
-  entitlement: 'identity/identity-security',
-  logout: 'navigation/navigation-logout',
+  home: 'dashboard', building: 'organization', content: 'content',
+  settings: 'settings', entitlement: 'administration', logout: 'logout',
 } as const;
 
 const navItems = [
@@ -49,14 +46,7 @@ const navItems = [
 ];
 
 function Icon({ name }: { name: keyof typeof ICONS }) {
-  const url = `url(/icons/${ICONS[name]}.svg)`;
-  return (
-    <span
-      aria-hidden="true"
-      className="app-icon admin-nav-ic"
-      style={{ WebkitMaskImage: url, maskImage: url }}
-    />
-  );
+  return <AppIcon name={ICONS[name]} size={20} className="admin-nav-ic" />;
 }
 
 function Avatar({ url }: { url?: string | null }) {
@@ -116,11 +106,7 @@ export default function AdminShell({ children, session, avatarUrl, inbox, assist
           aria-pressed={collapsed}
           title={t('shell.foldSidebar')}
         >
-          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            {collapsed
-              ? <path d="M4 5h12M4 10h12M4 15h12" />
-              : <><rect x="2.5" y="3.5" width="15" height="13" rx="2" /><path d="M12.5 3.5v13" /></>}
-          </svg>
+          <AppIcon name={collapsed ? 'menu' : 'sidebar'} size={20} />
         </button>
         <div className="admin-side-profile">
           <div className="admin-user admin-user-stacked">
@@ -180,13 +166,11 @@ export default function AdminShell({ children, session, avatarUrl, inbox, assist
             onClick={() => setSidebarOpen(!sidebarOpen)}
             aria-label={t('shell.menu')}
           >
-            <svg width="20" height="14" viewBox="0 0 20 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <path d="M1 1h18M1 7h18M1 13h18" />
-            </svg>
+            <AppIcon name="menu" size={20} />
           </button>
           {pathname !== '/admin' && (
             <button className="org-back" onClick={() => router.back()} aria-label={t('shell.back')} title={t('shell.back')}>
-              <svg className="org-back-ic" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 4l-6 6 6 6" /></svg>
+              <AppIcon name="back" size={20} className="org-back-ic" />
             </button>
           )}
           <Link href="/admin" className="admin-topbar-brand">
@@ -206,7 +190,7 @@ export default function AdminShell({ children, session, avatarUrl, inbox, assist
                 <span className="tbar-user-name">{session.name}</span>
                 <span className="tbar-user-role">{t('anav.owner')}</span>
               </span>
-              <svg className="tbar-user-chev" width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8l4 4 4-4" /></svg>
+              <AppIcon name="chevronDown" size={16} className="tbar-user-chev" />
             </button>
             {profileOpen && (
               <>

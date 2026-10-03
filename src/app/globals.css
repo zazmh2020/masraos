@@ -2,16 +2,37 @@
 @import '../styles/base.css';
 @import '../styles/glass.css';
 @import '../styles/dark.css';
+@import '../styles/interface-system.css';
+@import '../styles/color-roles.css';
 
-/* نظام أيقونات مسرى — يُلوَّن بلون النص عبر القناع */
+/* نظام أيقونات Tabler الموحّد */
 .app-icon {
   display: inline-block;
   flex-shrink: 0;
-  background-color: currentColor;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  -webkit-mask-size: contain;
-  mask-size: contain;
+  vertical-align: middle;
 }
+
+:root {
+  --icon-xs: 16px;
+  --icon-sm: 20px;
+  --icon-md: 24px;
+  --icon-lg: 32px;
+  --icon-xl: 48px;
+  --icon-box-sm: 32px;
+  --icon-box-md: 40px;
+  --icon-box-lg: 48px;
+}
+
+.icon-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  gap: .5rem;
+  padding: .25rem;
+  border-radius: 12px;
+  line-height: 1;
+}
+.icon-box-sm { width: var(--icon-box-sm); height: var(--icon-box-sm); }
+.icon-box-md { width: var(--icon-box-md); height: var(--icon-box-md); }
+.icon-box-lg { width: var(--icon-box-lg); height: var(--icon-box-lg); }

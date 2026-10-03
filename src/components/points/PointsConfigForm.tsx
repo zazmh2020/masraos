@@ -3,6 +3,8 @@
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
+import { normalizeDigits } from '@/lib/normalize-digits';
+import styles from './inputs.module.css';
 
 /** إعدادات مسابقة النقاط (النقاط لكل مسح + مدة تدوير لوحة الترتيب) — لمدير المؤسسة. */
 export default function PointsConfigForm({ perScan, rotateSec }: { perScan: number; rotateSec: number }) {
@@ -41,9 +43,10 @@ export default function PointsConfigForm({ perScan, rotateSec }: { perScan: numb
             <span className="pts-config-hint">{t('ptsCfg.hint')}</span>
           </div>
           <input
-            className="pts-config-input"
+            className={`pts-config-input ${styles.field}`}
+            dir="ltr"
             value={value}
-            onChange={(e) => setValue(e.target.value.replace(/[^\d]/g, ''))}
+            onChange={(e) => setValue(normalizeDigits(e.target.value).replace(/[^\d]/g, ''))}
             inputMode="numeric"
             aria-label={t('ptsCfg.title')}
           />
@@ -54,9 +57,10 @@ export default function PointsConfigForm({ perScan, rotateSec }: { perScan: numb
             <span className="pts-config-hint">{t('ptsCfg.rotateHint')}</span>
           </div>
           <input
-            className="pts-config-input"
+            className={`pts-config-input ${styles.field}`}
+            dir="ltr"
             value={rotate}
-            onChange={(e) => setRotate(e.target.value.replace(/[^\d]/g, ''))}
+            onChange={(e) => setRotate(normalizeDigits(e.target.value).replace(/[^\d]/g, ''))}
             inputMode="numeric"
             aria-label={t('ptsCfg.rotateTitle')}
           />

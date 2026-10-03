@@ -4,6 +4,8 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 import Link from 'next/link';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import DisplayScreen from './DisplayScreen';
+import { normalizeDigits } from '@/lib/normalize-digits';
+import styles from './inputs.module.css';
 
 type Mode = 'earn' | 'redeem';
 interface ScanResult {
@@ -91,9 +93,10 @@ export default function ScannerConsole({ slug, perScan, canRedeem, orgName }: { 
       <form className="pts-scanbar" onSubmit={submit}>
         <input
           ref={inputRef}
-          className="pts-input"
+          className={`pts-input ${styles.field} ${styles.serial}`}
+          dir={serial ? 'ltr' : undefined}
           value={serial}
-          onChange={(e) => setSerial(e.target.value)}
+          onChange={(e) => setSerial(normalizeDigits(e.target.value))}
           placeholder={t('pts.serialPh')}
           inputMode="numeric"
           autoComplete="off"
@@ -101,9 +104,10 @@ export default function ScannerConsole({ slug, perScan, canRedeem, orgName }: { 
         />
         {mode === 'redeem' && (
           <input
-            className="pts-amount"
+            className={`pts-amount ${styles.field}`}
+            dir="ltr"
             value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            onChange={(e) => setAmount(normalizeDigits(e.target.value))}
             inputMode="numeric"
             aria-label={t('pts.amount')}
           />

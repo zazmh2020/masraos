@@ -20,7 +20,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'طلب غير صالح.' }, { status: 400 });
   }
 
-  const email = (body.email ?? '').trim().toLowerCase();
+  if (!body || typeof body !== 'object' || typeof body.email !== 'string' || typeof body.password !== 'string' || body.email.length > 254 || body.password.length > 1024) {
+    return NextResponse.json({ error: 'طلب غير صالح.' }, { status: 400 });
+  }
+  const email = body.email.trim().toLowerCase();
   const password = body.password ?? '';
 
   if (!email || !password) {

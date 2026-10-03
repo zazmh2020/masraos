@@ -1,7 +1,8 @@
 import { redirect } from 'next/navigation';
+import Link from 'next/link';
 import { requireOrgAccess } from '@/lib/org';
 import { prisma } from '@/lib/prisma';
-import { canViewEducation } from '@/lib/permissions';
+import { canViewEducation, canManageEducation } from '@/lib/permissions';
 import AttendanceView from '@/components/education/AttendanceView';
 import { getT } from '@/lib/i18n/server';
 
@@ -31,6 +32,7 @@ export default async function AttendancePage({ params }: { params: Promise<{ slu
           <p>{t('pg.attendance.sub')}</p>
         </div>
       </div>
+      {canManageEducation(user) && <Link className="org-btn org-btn-outline" href={`/org/${slug}/education/attendance/statistics`}>إحصاءات الحضور والغياب وشاشة العرض</Link>}
       <AttendanceView halaqat={halaqat} />
     </div>
   );

@@ -37,7 +37,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const currency = isCurrency(cookieCurrency) ? cookieCurrency : DEFAULT_CURRENCY;
 
   return (
-    <html lang={locale} dir={dirFor(locale)} suppressHydrationWarning>
+    <html lang={locale} dir={dirFor(locale)} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>

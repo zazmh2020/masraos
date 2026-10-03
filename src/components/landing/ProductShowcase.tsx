@@ -3,6 +3,7 @@
 import Reveal from '@/components/Reveal';
 import Mockup, { type MockKind } from './Mockup';
 import { useT } from '@/lib/i18n/LocaleProvider';
+import Icon from '@/components/Icon';
 
 interface Item {
   kind: MockKind;
@@ -10,17 +11,12 @@ interface Item {
 }
 
 const ITEMS: Item[] = [
-  { kind: 'dashboard', k: 'prod.dashboard' },
-  { kind: 'hr', k: 'prod.hr' },
-  { kind: 'projects', k: 'prod.projects' },
+  { kind: 'reports', k: 'prod.dashboard' },
   { kind: 'education', k: 'prod.education' },
-  { kind: 'beneficiaries', k: 'prod.beneficiaries' },
-  { kind: 'reports', k: 'prod.reports' },
+  { kind: 'education', k: 'prod.hr' },
 ];
 
-const CHECK = (
-  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 10.5l4 4 8-9" /></svg>
-);
+const CHECK = <Icon name="check" size={20} />;
 
 export default function ProductShowcase() {
   const t = useT();
@@ -37,6 +33,7 @@ export default function ProductShowcase() {
               <ul>{['p1', 'p2', 'p3'].map((p) => <li key={p}>{CHECK}<span>{t(`${it.k}.${p}`)}</span></li>)}</ul>
             </div>
             <div className="mdl-show-media">
+              <p className="mdl-preview-caption">{t('mockup.demo')}</p>
               <Mockup kind={it.kind} />
             </div>
           </div>

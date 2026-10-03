@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useT } from '@/lib/i18n/LocaleProvider';
+import Icon from '@/components/Icon';
 
 /**
  * زر تسجيل خروج ظاهر مع نافذة تأكيد — يعمل لأي مستخدم.
@@ -34,9 +35,7 @@ export default function LogoutButton({ redirectTo = '/login' }: { redirectTo?: s
         <div className="org-modal-scrim" onClick={() => setConfirm(false)}>
           <div className="org-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
             <div className="org-modal-ic">
-              <svg width="24" height="24" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 4h3a1 1 0 011 1v10a1 1 0 01-1 1h-3" /><path d="M9 14l-4-4 4-4M5 10h9" />
-              </svg>
+              <Icon name="logout" size={24} />
             </div>
             <h3>{t('shell.logout.confirm.title')}</h3>
             <p>{t('shell.logout.confirm.body')}</p>

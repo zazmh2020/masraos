@@ -137,7 +137,7 @@
 :root[data-theme="dark"] .mdl-navbar { background: rgba(34, 26, 53, 0.82) !important; border-color: rgba(255, 255, 255, 0.1) !important; }
 :root[data-theme="dark"] .mdl-footer { background: #14101f !important; border-top-color: rgba(255,255,255,0.1) !important; }
 :root[data-theme="dark"] .mdl-mega { background: rgba(28, 22, 46, 0.96) !important; border-color: rgba(255, 255, 255, 0.12) !important; }
-:root[data-theme="dark"] .mdl-btn.mdl-btn-light { background: #fff; color: #2b1a4e; border-color: transparent; }
+:root[data-theme="dark"] .mdl-btn.mdl-btn-light { background: #fff; color: var(--brand-primary-dark); border-color: transparent; }
 :root[data-theme="dark"] .mdl-btn-white { background: #2a2140; color: #f2eefb; border-color: rgba(255, 255, 255, 0.12); }
 :root[data-theme="dark"] .mdl-story { background: #221a35; border-color: rgba(255, 255, 255, 0.1); }
 :root[data-theme="dark"] .mdl-sys { background: linear-gradient(165deg, #221a35, #1a1430); border-color: rgba(255, 255, 255, 0.1); }

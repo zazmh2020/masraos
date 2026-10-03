@@ -2,6 +2,7 @@ import Link from 'next/link';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
 import Reveal from '@/components/Reveal';
+import Icon from '@/components/Icon';
 import '@/styles/landing.css';
 
 const problems = [
@@ -53,10 +54,7 @@ export default function AboutPage() {
               <Reveal key={p.title} delay={i * 0.05}>
                 <article className="card">
                   <div className="card-icon">
-                    <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="14" cy="14" r="10" />
-                      <path d="M14 9v6M14 19v.01" />
-                    </svg>
+                    <Icon name="alert" size={24} />
                   </div>
                   <h3>{p.title}</h3>
                   <p>{p.text}</p>
@@ -79,9 +77,7 @@ export default function AboutPage() {
               <Reveal key={p.title} delay={i * 0.05}>
                 <article className="card">
                   <div className="card-icon">
-                    <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M4 14l6 6L24 8" />
-                    </svg>
+                    <Icon name="check" size={24} />
                   </div>
                   <h3>{p.title}</h3>
                   <p>{p.text}</p>

@@ -38,7 +38,7 @@ function CopyBtn({ value, label }: { value: string; label: string }) {
         try { await navigator.clipboard.writeText(value); setDone(true); setTimeout(() => setDone(false), 1600); } catch { /* تجاهل */ }
       }}
     >
-      {done ? '✓' : '⧉'}
+      <Icon name={done ? 'check' : 'copy'} size={16} />
     </button>
   );
 }
@@ -118,9 +118,7 @@ export default function NewOrgForm() {
     return (
       <div className="success-panel">
         <div className="success-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M20 6L9 17l-5-5" />
-          </svg>
+          <Icon name="completed" size={24} />
         </div>
         <h2>{t('aorg.success.title')}</h2>
         <p>{t('aorg.success.sub')}</p>

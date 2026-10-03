@@ -3,9 +3,10 @@
 import { useEffect, useState } from 'react';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import type { InboxNotification } from '@/lib/inbox';
+import Icon from '@/components/Icon';
 
 const ICON: Record<string, string> = {
-  member: '👤', announcement: '📣', task: '✅', request: '📝', donation: '💛', student: '🎓',
+  member: 'users', announcement: 'announcement', task: 'completed', request: 'notes', donation: 'heart', student: 'students',
 };
 
 export default function NotificationsList({ notifications, storageKey }: { notifications: InboxNotification[]; storageKey: string }) {
@@ -41,7 +42,7 @@ export default function NotificationsList({ notifications, storageKey }: { notif
             const isUnread = new Date(n.time).getTime() > seen;
             return (
               <div key={n.id} className={`notif-row ${isUnread ? 'is-unread' : ''}`}>
-                <span className="notif-ic">{ICON[n.type] ?? '📣'}</span>
+                <span className="notif-ic"><Icon name={ICON[n.type] ?? 'announcement'} size={20} /></span>
                 <span className="notif-tx">{n.title}</span>
                 <time className="notif-time">{fmt.format(new Date(n.time))}</time>
               </div>

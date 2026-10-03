@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useT } from '@/lib/i18n/LocaleProvider';
+import Icon from '@/components/Icon';
 
 /** عرض محادثة يحاكي مساعد مسرى الذكي: سؤال → تحليل → إجابة بمؤشرات. */
 export default function MasraAIChat() {
@@ -14,24 +15,26 @@ export default function MasraAIChat() {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const obs = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
         if (e.isIntersecting && !started.current) {
           started.current = true;
-          setTimeout(() => setStage(1), 800);
-          setTimeout(() => setStage(2), 2400);
+          if (!reduced) timers.push(setTimeout(() => setStage(1), 800));
+          timers.push(setTimeout(() => setStage(2), reduced ? 0 : 2400));
         }
       });
     }, { threshold: 0.4 });
     obs.observe(el);
-    return () => obs.disconnect();
+    return () => { obs.disconnect(); timers.forEach(clearTimeout); };
   }, []);
 
   return (
     <div className="mdl-chat" ref={ref}>
       <div className="mdl-chat-head">
         <span className="ava">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z" /></svg>
+          <Icon name="assistant" size={20} />
         </span>
         <div>
           <b>{t('aichat.title')}</b><br />

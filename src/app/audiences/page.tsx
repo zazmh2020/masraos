@@ -2,6 +2,7 @@ import Link from 'next/link';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
 import Reveal from '@/components/Reveal';
+import Icon from '@/components/Icon';
 import '@/styles/landing.css';
 
 const audiences = [
@@ -39,10 +40,7 @@ export default function AudiencesPage() {
               <Reveal key={a.title} delay={(i % 4) * 0.05}>
                 <article className="card">
                   <div className="card-icon">
-                    <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M4 25V11l10-7 10 7v14" />
-                      <path d="M11 25v-8h6v8" />
-                    </svg>
+                    <Icon name="home" size={24} />
                   </div>
                   <h3>{a.title}</h3>
                   <p>{a.text}</p>

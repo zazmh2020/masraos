@@ -4,6 +4,7 @@ import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useT } from '@/lib/i18n/LocaleProvider';
 import type { PlatformSettings } from '@/lib/platform-settings';
+import Icon from '@/components/Icon';
 
 /** تخصيص المحتوى العام للمنصّة — لمالك المنصّة. */
 export default function PlatformContentForm({ initial }: { initial: PlatformSettings }) {
@@ -104,7 +105,7 @@ export default function PlatformContentForm({ initial }: { initial: PlatformSett
                 onChange={(e) => setFeatures((p) => p.map((x, j) => (j === i ? { ...x, desc: e.target.value } : x)))} />
             </div>
             <button type="button" className="pc-del" aria-label={t('apc.remove')}
-              onClick={() => setFeatures((p) => p.filter((_, j) => j !== i))}>×</button>
+              onClick={() => setFeatures((p) => p.filter((_, j) => j !== i))}><Icon name="close" size={16} /></button>
           </div>
         ))}
         {features.length < 12 && (
@@ -130,7 +131,7 @@ export default function PlatformContentForm({ initial }: { initial: PlatformSett
                 onChange={(e) => setFaqs((p) => p.map((x, j) => (j === i ? { ...x, a: e.target.value } : x)))} />
             </div>
             <button type="button" className="pc-del" aria-label={t('apc.remove')}
-              onClick={() => setFaqs((p) => p.filter((_, j) => j !== i))}>×</button>
+              onClick={() => setFaqs((p) => p.filter((_, j) => j !== i))}><Icon name="close" size={16} /></button>
           </div>
         ))}
         {faqs.length < 20 && (

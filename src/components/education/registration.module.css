@@ -1,0 +1,34 @@
+.root { color: inherit; }
+.fieldset { border: 0; padding: 0; min-width: 0; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.controls section { margin-block: 24px; }
+.consent { display: flex; align-items: flex-start; gap: 10px; margin-top: 24px; }
+.consent input { width: auto; }
+.sheet { background: white; color: #222; padding: 28px; margin: 24px auto; max-width: 800px; border: 1px solid #ddd; line-height: 1.8; }
+.header { display: flex; align-items: center; justify-content: space-between; gap: 20px; border-bottom: 3px solid var(--brand-primary); padding-bottom: 16px; }
+.sheet h3 { color: #594584; border-bottom: 1px solid #ddd; margin: 20px 0 12px; }
+.sheet footer { border-top: 1px solid #ddd; margin-top: 24px; padding-top: 12px; font-size: 11px; }
+.row { display: flex; flex-direction: column; overflow-wrap: anywhere; white-space: pre-wrap; break-inside: avoid; }
+.row strong { color: #666; font-size: 12px; }
+.photo { width: 90px; height: 115px; object-fit: contain; border: 1px solid #ddd; }
+.logo { width: 75px; height: 75px; object-fit: contain; }
+@media (max-width: 600px) { .grid { grid-template-columns: 1fr; } .sheet { padding: 14px; } }
+@media print {
+  @page student-registration { size: A4 portrait; margin: 12mm; }
+  :global(body):has(.sheet) { background: white !important; }
+  :global(body):has(.sheet)::before, :global(body):has(.sheet)::after { display: none !important; }
+  :global(body):has(.sheet) > *:has(.sheet) { display: block !important; }
+  :global(body):has(.sheet) * { visibility: hidden; }
+  .sheet, .sheet * { visibility: visible !important; }
+  .controls { display: none !important; }
+  .sheet { page: student-registration; position: absolute; top: 0; right: 0; width: 100%; max-width: none; padding: 0; margin: 0; border: 0; font-size: 11px; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 16px; }
+  .header, .row, .sheet h3 { break-inside: avoid; }
+  .sheet h3 { break-after: avoid; }
+  .sheet { line-height: 1.5; }
+  .sheet h1 { font-size: 20px; margin: 4px 0; }
+  .header h2 { font-size: 16px; margin: 0; }
+  .header p { margin: 4px 0; }
+  .sheet h3 { margin: 12px 0 6px; }
+  .sheet footer { margin-top: 12px; padding-top: 8px; break-inside: avoid; }
+}

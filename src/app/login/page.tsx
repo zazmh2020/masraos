@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { LogoMark } from '@/components/Logo';
 import LangToggle from '@/components/LangToggle';
+import Icon from '@/components/Icon';
 import { useT } from '@/lib/i18n/LocaleProvider';
 import '@/styles/login.css';
 
@@ -84,7 +85,7 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit} noValidate>
           {error && (
             <div className="lg-error" role="alert">
-              <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"><circle cx="10" cy="10" r="8" /><path d="M10 6v5M10 14v.01" /></svg>
+              <Icon name="alert" size={16} />
               <span>{error}</span>
             </div>
           )}
@@ -105,10 +106,7 @@ export default function LoginPage() {
                 value={password} onChange={(e) => setPassword(e.target.value)}
               />
               <button type="button" className="lg-eye" onClick={() => setShowPw(!showPw)} aria-label={showPw ? 'إخفاء' : 'إظهار'}>
-                <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M1 10s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z" /><circle cx="10" cy="10" r="3" />
-                  {showPw && <path d="M3 17L17 3" />}
-                </svg>
+                <Icon name={showPw ? 'hide' : 'view'} size={20} />
               </button>
             </span>
           </label>

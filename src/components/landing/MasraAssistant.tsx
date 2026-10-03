@@ -3,55 +3,52 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import type { Locale } from '@/lib/i18n/config';
+import Icon from '@/components/Icon';
 
 interface Msg { role: 'user' | 'ai'; text: string }
 
 /* مساعد مسرى مختصّ بالمنصّة فقط: يجيب عمّا يخصّها، ويرفض بلطف ما خرج عنها. */
 
 const ON_TOPIC_AR = /مسرى|مداد|midad|المنصّ|المنصة|النظام|نظام|أنظمة|وحدة|ميزة|مميز|باقة|باقات|سعر|اشترا|تكلفة|مجان|مؤسس|جمعي|منظم|مركز|قرآن|حلق|طلاب|حفظ|تعليم|مستفيد|متطوع|موظف|موارد|مشروع|برنامج|حمل|تبرع|مالية|تمويل|تقرير|تحليل|وثيق|مستند|هوية|أمان|صلاحي|تكامل|دعم|حساب|دخول|اشتراك|لوحة|إدارة|تسجيل|بدء|ابدأ|شهادة|مسابقة/;
-const ON_TOPIC_EN = /midad|platform|system|module|feature|plan|pricing|price|subscri|free|organi|associati|center|centre|quran|circle|student|memoriz|educat|beneficiar|volunteer|employee|staff|project|program|campaign|donat|financ|report|analytic|document|identit|security|permission|integrat|account|login|sign|dashboard|manage|start|begin|certificate|competition/i;
+const ON_TOPIC_EN = /masra|midad|platform|system|module|feature|plan|pricing|price|subscri|free|organi|associati|center|centre|quran|circle|student|memoriz|educat|beneficiar|volunteer|employee|staff|project|program|campaign|donat|financ|report|analytic|document|identit|security|permission|integrat|account|login|sign|dashboard|manage|start|begin|certificate|competition/i;
 
 function replyAr(q: string): string {
   if (/سعر|باقة|باقات|اشترا|تكلفة|مجان/.test(q))
-    return 'لدى مسرى أربع باقات: انطلاقة (مجانية)، نمو، تمكين، وأثر للمؤسسات الكبيرة. تصفّح قسم «الباقات» للتفاصيل، وابدأ مجانًا في أي وقت.';
-  if (/نظام|أنظمة|وحدة|ميزة|مميزات/.test(q))
-    return 'تشمل مسرى إدارة المؤسسة والموارد البشرية والمشاريع والمستفيدين والتعليم والمالية والتقارير وإدارة الوثائق، إضافةً إلى مساعد مسرى AI. فعّل ما تحتاجه فقط.';
-  if (/تبرع|حمل|مالية|تمويل/.test(q))
-    return 'نظام المالية والتبرعات في مسرى يدير الحملات والمتبرعين والعمليات المالية مع تقارير جاهزة للربط.';
-  if (/تعليم|حلق|قرآن|طلاب|حفظ|شهادة|مسابقة/.test(q))
-    return 'نظام التعليم يدير الحلقات والطلاب والحضور وتقدّم الحفظ والتقييم والمسابقات والشهادات — مناسب لمراكز القرآن والمراكز التعليمية.';
-  if (/أمان|صلاحي|خصوصي|حماية|عزل/.test(q))
-    return 'مسرى توفّر تحكّمًا دقيقًا بالصلاحيات والوصول وعزلًا كاملًا لبيانات كل مؤسسة عن غيرها.';
+    return 'انطلاقة ونمو وتمكين باقات مقترحة للمراجعة، وليست متاحة للشراء. انطلاقة دون مساعد ذكي؛ نمو وتمكين تتضمنان خدمات ذكاء اصطناعي مقترحة تحتاج التحقق من الجاهزية وحدود الاستخدام. الاستحقاق بعد 10 و8 و5 سنوات مدفوعة تصور غير معتمد، وتكلفة التشغيل اللاحقة لم تحدد.';
   if (/تكامل|ربط|api|واتس|بريد/i.test(q))
-    return 'تتكامل مسرى مع البريد الإلكتروني وبوابات الدفع وWhatsApp وGoogle وMicrosoft عبر واجهات API.';
-  if (/ابدأ|بداية|تسجيل|حساب|دخول/.test(q))
-    return 'ابدأ بتسجيل الدخول ثم إعداد بيانات مؤسستك وهيكلها، وفعّل الأنظمة التي تحتاجها. تُنشأ حسابات الجهات عبر إدارة المنصّة.';
+    return 'التكاملات المعلنة مع البريد والدفع وWhatsApp وGoogle وMicrosoft على خارطة الطريق. لا نعرضها هنا كخدمات جاهزة.';
+  if (/أبدأ|ابدأ|بدء|بداية|تسجيل|حساب|دخول|تواصل|طلب/.test(q))
+    return 'استكشف تجربة المركز والباقات المقترحة. الحسابات تنشئها إدارة المنصة، وليست هناك خدمة تسجيل ذاتي أو استقبال طلبات مفعلة هنا. موظف الذكاء الاصطناعي للرد والطلبات مخطط لاحقًا؛ راجع صفحة التواصل لحالة الخدمة.';
+  if (/ذكاء|مساعد|ذكي|ai/i.test(q))
+    return 'أنا دليل تعريفي بإجابات جاهزة، ولا أتصل ببيانات مركزك أو بنموذج ذكاء اصطناعي. مساعد المؤسسة منفصل ويتطلب التهيئة والتحقق من الجاهزية. المحادثة المعروضة في الصفحة محاكاة، وتحتاج الإجابات الفعلية إلى مراجعة بشرية.';
+  if (/أمان|صلاحي|خصوصي|حماية|عزل/.test(q))
+    return 'يستخدم النظام صلاحيات للأدوار وسجلات مرتبطة بالمؤسسة. هذه ضوابط وليست ضمانًا مطلقًا للأمان. سياسات الاستضافة والنسخ الاحتياطي وحفظ البيانات تحتاج اعتمادًا قبل البيع.';
+  if (/جمعي|خيري|إنساني|تبرع|حمل|تمويل/.test(q))
+    return 'التركيز الحالي على مراكز القرآن. القطاعات الخيرية والإنسانية والتعليمية الأخرى مخططة لاحقًا، وليست متاحة للاشتراك الآن.';
   if (ON_TOPIC_AR.test(q))
-    return 'سؤال ممتاز عن مسرى! يمكنني مساعدتك في الأنظمة والباقات وكيفية البدء والأمان والتكاملات. حدّد ما تريد معرفته بالتفصيل، أو سجّل الدخول لتجربة المساعد الكامل داخل مؤسستك.';
-  return 'أنا مساعد مسرى المتخصّص، وأجيب فقط عمّا يخصّ المنصّة: الأنظمة، الباقات، كيفية البدء، الأمان والتكاملات. اسألني عن أي شيء متعلّق بمسرى وسأكون سعيدًا بمساعدتك 🙏';
+    return 'يركز مَسرى على تنظيم مراكز القرآن: بيانات الطلاب والحلقات والحضور وسجل الحفظ والمراجعة. يمكنك استكشاف الواجهات التوضيحية ورحلة الطالب والباقات المقترحة في هذه الصفحة.';
+  return 'أقدّم إجابات جاهزة عن مَسرى فقط: تجربة المركز والباقات وحالة الخدمات وكيفية البدء. لا أستطيع تنفيذ إجراءات أو استقبال طلب اشتراك.';
 }
 
 function replyEn(q: string): string {
   if (/plan|pricing|price|subscri|free|cost/i.test(q))
-    return 'Masra has four plans: Launch (free), Growth, Empower, and Impact for large organizations. Check the “Pricing” section for details, and start free anytime.';
-  if (/system|module|feature/i.test(q))
-    return 'Masra covers organization management, HR, projects, beneficiaries, education, finance, reports and documents — plus the Masra AI assistant. Enable only what you need.';
-  if (/donat|financ|campaign|fund/i.test(q))
-    return 'Masra’s finance & donations system manages campaigns, donors and financial operations with reports ready to connect.';
-  if (/educat|circle|quran|student|memoriz|certificate|competition/i.test(q))
-    return 'The education system manages circles, students, attendance, memorization progress, assessment, competitions and certificates — ideal for Quran and educational centers.';
-  if (/secur|permission|privacy|isolat|protect/i.test(q))
-    return 'Masra provides precise control over permissions and access, with full data isolation for every organization.';
+    return 'Launch, Growth and Empower are proposed plans, not available for purchase. Launch has no AI; Growth and Empower propose AI services subject to readiness and usage limits. Entitlement after 10, 8 and 5 paid years is an unapproved concept; subsequent operating costs are not defined.';
   if (/integrat|connect|api|whatsapp|email/i.test(q))
-    return 'Masra integrates with email, payment gateways, WhatsApp, Google and Microsoft via APIs.';
-  if (/start|begin|sign|account|login/i.test(q))
-    return 'Start by signing in, then set up your organization’s data and structure and enable the systems you need. Organization accounts are created via platform administration.';
+    return 'The listed email, payment, WhatsApp, Google and Microsoft integrations are on the roadmap, not presented as ready services.';
+  if (/start|begin|sign|account|login|contact|request/i.test(q))
+    return 'Explore the center experience and proposed plans. Platform administration creates accounts; self-registration and requests are not enabled here. An AI representative for replies and requests is planned. Check the contact page for availability.';
+  if (/assistant|intelligence|\bai\b/i.test(q))
+    return 'I am a guide with prepared replies, not an AI model, and cannot access center data. The organization assistant is separate and requires configuration and readiness checks. The page conversation is simulated; real answers need human review.';
+  if (/secur|permission|privacy|isolat|protect/i.test(q))
+    return 'The system uses role-based permissions and organization-scoped records. These controls are not an absolute security guarantee. Hosting, backup and retention policies need approval before sales.';
+  if (/charit|humanitarian|donat|campaign/i.test(q))
+    return 'The current focus is Quran centers. Charity, humanitarian and other education sectors are planned, not currently available for subscription.';
   if (ON_TOPIC_EN.test(q))
-    return 'Great question about Masra! I can help with systems, pricing, getting started, security and integrations. Tell me what you’d like to know, or sign in to try the full assistant inside your organization.';
-  return 'I’m Masra’s dedicated assistant and only answer questions about the platform: systems, pricing, getting started, security and integrations. Ask me anything about Masra and I’ll be glad to help 🙏';
+    return 'Masra focuses on Quran centers: student records, circles, attendance and memorization logs. Explore the illustrative interfaces, student journey and proposed plans on this page.';
+  return 'I provide prepared replies about Masra: the center experience, plans, service availability and getting started. I cannot perform actions or accept subscriptions.';
 }
 
-function reply(locale: Locale, q: string): string {
+export function getLandingReply(locale: Locale, q: string): string {
   const t = q.trim();
   return locale === 'en' ? replyEn(t) : replyAr(t);
 }
@@ -75,7 +72,7 @@ export default function MasraAssistant() {
     setMsgs((m) => [...m, { role: 'user', text: val }]);
     setQ('');
     setTyping(true);
-    const answer = reply(locale, val);
+    const answer = getLandingReply(locale, val);
     setTimeout(() => {
       setTyping(false);
       setMsgs((m) => [...m, { role: 'ai', text: answer }]);
@@ -85,14 +82,14 @@ export default function MasraAssistant() {
   return (
     <div className="mdl-asst">
       {open && (
-        <div className="mdl-asst-panel" role="dialog" aria-label="مساعد مسرى الذكي">
+        <div className="mdl-asst-panel" role="dialog" aria-label={t('asst.title')}>
           <div className="mdl-asst-head">
             <span className="mdl-asst-ava">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z" /></svg>
+              <Icon name="assistant" size={20} />
             </span>
             <div className="mdl-asst-head-tx"><b>{t('asst.title')}</b><span>{t('asst.subtitle')}</span></div>
             <button className="mdl-asst-x" onClick={() => setOpen(false)} aria-label={locale === 'en' ? 'Close' : 'إغلاق'}>
-              <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M5 5l10 10M15 5L5 15" /></svg>
+              <Icon name="close" size={16} />
             </button>
           </div>
 
@@ -113,18 +110,14 @@ export default function MasraAssistant() {
           <form className="mdl-asst-input" onSubmit={(e) => { e.preventDefault(); send(q); }}>
             <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('asst.placeholder')} aria-label={t('asst.placeholder')} />
             <button type="submit" aria-label={locale === 'en' ? 'Send' : 'إرسال'} disabled={!q.trim() || typing}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 4L3 11l6 2 2 6z" /></svg>
+              <Icon name="send" size={20} />
             </button>
           </form>
         </div>
       )}
 
-      <button className={`mdl-asst-fab ${open ? 'is-open' : ''}`} onClick={() => setOpen((v) => !v)} aria-label="مساعد مسرى الذكي">
-        {open ? (
-          <svg width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M5 5l10 10M15 5L5 15" /></svg>
-        ) : (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z" /><path d="M19 15l.7 1.8L21.5 17.5l-1.8.7L19 20l-.7-1.8L16.5 17.5l1.8-.7z" /></svg>
-        )}
+      <button className={`mdl-asst-fab ${open ? 'is-open' : ''}`} onClick={() => setOpen((v) => !v)} aria-label={t('asst.title')} aria-expanded={open}>
+        <Icon name={open ? 'close' : 'assistant'} size={24} />
       </button>
     </div>
   );

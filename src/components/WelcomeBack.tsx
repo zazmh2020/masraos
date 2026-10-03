@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Icon from '@/components/Icon';
 
 /**
  * شاشة ترحيب تظهر عند كل دخول للموقع وعند تحديث الصفحة (تُعاد مع كل تحميل كامل
@@ -26,7 +27,7 @@ export default function WelcomeBack({ name, greeting }: { name: string; greeting
       <span className="wlc-glow wlc-glow-2" />
       <div className="wlc-stage">
         <span className="wlc-spark">
-          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z" /></svg>
+          <Icon name="assistant" size={48} />
         </span>
         <p className="wlc-greeting">{greeting}</p>
         <h1 className="wlc-name">{name}</h1>

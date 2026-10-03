@@ -42,38 +42,69 @@
 :root {
   /* ---------- لوحة الألوان البنفسجية (هوية مسرى) — مريحة للعين ----------
      فاتحة غالبًا، والغامق للضرورة. */
-  --purple-100: #C4B3D9;  /* أفتح — للنصوص الهادئة على الداكن */
-  --purple-300: #8873AF;  /* متوسط فاتح */
-  --purple-500: #6B57A0;  /* أساسي — الأزرار */
-  --purple-700: #3D2879;  /* داكن */
-  --purple-900: #2B1A4E;  /* أعمق — للضرورة (خلفيات/عناوين) */
+  --purple-100: #EEE8F5;
+  --purple-300: #A893C4;
+  --purple-500: #6B4B95;
+  --purple-700: #4B2F73;
+  --purple-900: #2C1B4F;
+
+  /* Stable brand roles, independent of legacy dark-mode palette aliases. */
+  --brand-primary: #4B2F73;
+  --brand-primary-dark: #2C1B4F;
+  --brand-primary-medium: #6B4B95;
+  --brand-primary-soft: #A893C4;
+  --brand-primary-subtle: #EEE8F5;
 
   /* ---------- المحايدات (رماديات محايدة — بلا مسحة بنفسجية، ليصفو أي لون علامة) ---------- */
   --white: #ffffff;
-  --off-white: #f7f7f8;
-  --gray-100: #f0f0f2;
-  --gray-300: #d6d5d9;
-  --gray-500: #77767c;
-  --gray-700: #413f46;
-  --gray-900: #1c1b20;
+  --gray-50: #F7F7F8;
+  --gray-100: #F0F1F3;
+  --gray-200: #E1E2E6;
+  --gray-400: #A8ABB3;
+  --gray-600: #666A75;
+  --gray-800: #343640;
+  --gray-950: #1F2026;
+  --off-white: var(--gray-50);
+  --gray-300: var(--gray-200);
+  --gray-500: var(--gray-600);
+  --gray-700: var(--gray-800);
+  --gray-900: var(--gray-950);
+
+  --text-primary: var(--gray-950);
+  --text-secondary: var(--gray-600);
+  /* Gray 400 is reserved for disabled/decorative content, not readable metadata. */
+  --text-disabled: var(--gray-400);
+  --surface-page: var(--gray-50);
+  --surface-secondary: var(--gray-100);
+  --surface-card: #FFFFFF;
+  --surface-brand-soft: var(--brand-primary-subtle);
+  --border-default: var(--gray-200);
+  --border-brand: var(--brand-primary-soft);
+  --icon-default: var(--gray-600);
+  --icon-muted: var(--gray-400);
+  --icon-brand: var(--brand-primary);
+  --focus-ring: var(--brand-primary);
+  --on-brand: #FFFFFF;
+  --shadow-card-subtle: 0 2px 6px -2px color-mix(in srgb, var(--gray-950) 6%, transparent), 0 10px 24px -12px color-mix(in srgb, var(--brand-primary-dark) 12%, transparent);
+  --on-brand-muted: var(--brand-primary-subtle);
 
   /* ---------- الأدوار ---------- */
   --bg: var(--white);
   --bg-deep: var(--purple-900);
   --surface: var(--white);
 
-  --text: var(--gray-700);
+  --text: var(--text-primary);
   --text-strong: var(--purple-900);
   --text-muted: var(--gray-500);
   --text-on-deep: rgba(255, 255, 255, 0.78);
   --text-on-deep-strong: var(--white);
   --text-on-deep-muted: var(--purple-100);
 
-  --accent: var(--purple-500);
-  --accent-strong: var(--purple-700);
+  --accent: var(--brand-primary);
+  --accent-strong: var(--brand-primary-dark);
 
-  --line: rgba(23, 21, 28, 0.1);
-  --line-strong: rgba(23, 21, 28, 0.18);
+  --line: var(--border-default);
+  --line-strong: var(--border-brand);
   --line-on-deep: rgba(255, 255, 255, 0.14);
 
   /* ---------- الخطوط ---------- */
@@ -132,9 +163,9 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* ---------- لون ثانوي مقنَّن (ذهبي) ---------- */
-  --gold-500: #B8860B;
-  --gold-600: #9a6b12;
-  --gold-soft: #fdf2e3;
+  --gold-500: var(--brand-primary-medium);
+  --gold-600: var(--brand-primary);
+  --gold-soft: var(--surface-brand-soft);
 
   /* ---------- ألوان الحالة (Semantic) ---------- */
   --success: #1c7a43;
@@ -143,8 +174,8 @@
   --warning-soft: #fdf2e3;
   --error: #b3261e;
   --error-soft: #fbeceb;
-  --info: #2f5aa8;
-  --info-soft: #eaf1fb;
+  --info: var(--brand-primary);
+  --info-soft: var(--surface-brand-soft);
 }
 
 /* احترام تفضيل تقليل الحركة على مستوى النظام */

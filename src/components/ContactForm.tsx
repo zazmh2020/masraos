@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
+import Icon from '@/components/Icon';
 
 export default function ContactForm() {
   const [sent, setSent] = useState(false);
@@ -40,7 +41,7 @@ export default function ContactForm() {
       </div>
 
       <button className="btn btn-primary" type="submit">
-        {sent ? 'تم الإرسال ✓' : 'إرسال الرسالة'}
+        {sent ? <>تم الإرسال <Icon name="check" size={16} /></> : 'إرسال الرسالة'}
       </button>
     </form>
   );

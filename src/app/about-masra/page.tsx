@@ -2,6 +2,7 @@ import Link from 'next/link';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
 import Reveal from '@/components/Reveal';
+import Icon from '@/components/Icon';
 import '@/styles/landing.css';
 
 const values = [
@@ -69,10 +70,7 @@ export default function AboutMasraPage() {
               <Reveal key={v.title} delay={i * 0.05}>
                 <article className="card">
                   <div className="card-icon">
-                    <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="14" cy="14" r="10" />
-                      <circle cx="14" cy="14" r="4" fill="currentColor" />
-                    </svg>
+                    <Icon name="target" size={24} />
                   </div>
                   <h3>{v.title}</h3>
                   <p>{v.text}</p>

@@ -10,13 +10,13 @@
 }
 
 .dc-card {
-  --dc-brand: #6b57a0;
+  --dc-brand: var(--brand-primary);
   position: relative;
   border-radius: 16px;
   padding: 1.1rem 1.2rem;
   background: linear-gradient(135deg, #ffffff 0%, #faf9fe 100%);
-  border: 1px solid var(--line, #ece9f4);
-  box-shadow: 0 10px 30px -22px rgba(23, 21, 28, 0.5);
+  border: 1px solid var(--line, var(--surface-brand-soft));
+  box-shadow: 0 10px 30px -22px color-mix(in srgb, var(--gray-950) 50%, transparent);
   overflow: hidden;
   break-inside: avoid;
 }
@@ -39,15 +39,15 @@
 
 .dc-body { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; }
 .dc-info { min-width: 0; }
-.dc-name { margin: 0; font-size: 1.1rem; color: #2b1a4e; font-family: var(--font-display); }
-.dc-role { margin: 0.2rem 0 0; font-size: 0.82rem; color: #6c6780; }
+.dc-name { margin: 0; font-size: 1.1rem; color: var(--brand-primary-dark); font-family: var(--font-display); }
+.dc-role { margin: 0.2rem 0 0; font-size: 0.82rem; color: var(--text-secondary); }
 .dc-qr { width: 84px; height: 84px; flex-shrink: 0; }
 .dc-qr svg { width: 100%; height: 100%; display: block; }
 
 .dc-foot {
   display: flex; align-items: center; justify-content: space-between;
-  margin-top: 0.9rem; padding-top: 0.7rem; border-top: 1px dashed var(--line, #ece9f4);
-  font-size: 0.68rem; color: #9a94ab;
+  margin-top: 0.9rem; padding-top: 0.7rem; border-top: 1px dashed var(--line, var(--surface-brand-soft));
+  font-size: 0.68rem; color: var(--text-disabled);
 }
 .dc-brand-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--dc-brand); }
 
@@ -61,15 +61,15 @@
 /* ---------- صفحة التحقّق العامة ---------- */
 .vf-page {
   min-height: 100vh; display: grid; place-items: center; padding: 1.5rem;
-  background: #f6f5fb; font-family: var(--font-body, system-ui, sans-serif);
+  background: var(--surface-page); font-family: var(--font-body, system-ui, sans-serif);
 }
 .vf-card {
   width: 100%; max-width: 400px; text-align: center;
   background: #fff; border-radius: 22px; padding: 2.2rem 1.8rem;
-  box-shadow: 0 24px 60px -34px rgba(23, 21, 28, 0.5);
-  border-top: 6px solid #6b57a0;
+  box-shadow: 0 24px 60px -34px color-mix(in srgb, var(--gray-950) 50%, transparent);
+  border-top: 6px solid var(--brand-primary);
 }
-.vf-logo { display: grid; place-items: center; margin-bottom: 0.6rem; color: #6b57a0; }
+.vf-logo { display: grid; place-items: center; margin-bottom: 0.6rem; color: var(--brand-primary); }
 .vf-check, .vf-cross {
   width: 62px; height: 62px; margin: 0.4rem auto 0.6rem; border-radius: 50%;
   display: grid; place-items: center; font-size: 2rem; font-weight: 800; color: #fff;
@@ -77,15 +77,15 @@
 .vf-ok .vf-check { background: #2f9e7e; }
 .vf-bad { border-top-color: #c0392b; }
 .vf-bad .vf-cross { background: #c0392b; }
-.vf-title { margin: 0.3rem 0 1rem; font-size: 1.3rem; color: #2b1a4e; font-family: var(--font-display, inherit); }
+.vf-title { margin: 0.3rem 0 1rem; font-size: 1.3rem; color: var(--brand-primary-dark); font-family: var(--font-display, inherit); }
 .vf-details { text-align: start; display: flex; flex-direction: column; gap: 0.1rem; }
 .vf-row {
   display: flex; align-items: center; justify-content: space-between; gap: 0.8rem;
   padding: 0.7rem 0; border-bottom: 1px solid #f0eef5;
 }
 .vf-row span { color: #8a83a0; font-size: 0.84rem; }
-.vf-row strong { color: #2b1a4e; font-size: 0.95rem; }
-.vf-hint { color: #6c6780; line-height: 1.8; margin: 0; }
+.vf-row strong { color: var(--brand-primary-dark); font-size: 0.95rem; }
+.vf-hint { color: var(--text-secondary); line-height: 1.8; margin: 0; }
 .vf-foot { margin-top: 1.4rem; font-size: 0.74rem; color: #a49ebb; }
 
 /* ---------- أداة التحقّق (لوحة المؤسسة) ---------- */
@@ -93,5 +93,5 @@
 .vt-form { margin-bottom: 0.4rem; }
 .vt-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
 .vt-note { margin: 0.6rem 0; }
-.vt-scanning { color: var(--purple-700, #6b57a0); font-weight: 600; }
-.vt-hint { margin-top: 0.8rem; font-size: 0.82rem; color: var(--text-muted, #6c6780); line-height: 1.8; }
+.vt-scanning { color: var(--purple-700, var(--brand-primary)); font-weight: 600; }
+.vt-hint { margin-top: 0.8rem; font-size: 0.82rem; color: var(--text-muted, var(--text-secondary)); line-height: 1.8; }

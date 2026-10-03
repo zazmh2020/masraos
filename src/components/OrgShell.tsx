@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState, type CSSProperties, type ReactNode } from 'react';
 import { LogoMark } from '@/components/Logo';
+import AppIcon from '@/components/Icon';
 import TopbarTools, { type SearchItem } from '@/components/TopbarTools';
 import WelcomeBack from '@/components/WelcomeBack';
 import PageTransition from '@/components/PageTransition';
@@ -108,44 +109,21 @@ interface Props {
   assistant?: { show: boolean; ready: boolean };
 }
 
-// ربط مفاتيح التنقّل بنظام أيقونات مسرى (public/icons)
+// مفاتيح التنقّل القديمة تُحلّ عبر خريطة Tabler المركزية.
 const ICONS = {
-  home: 'navigation/navigation-dashboard',
-  users: 'people/people-users',
-  projects: 'operations/operations-projects',
-  structure: 'organization/organization-structure',
-  programs: 'operations/operations-programs',
-  campaigns: 'operations/operations-campaigns',
-  donations: 'finance/finance-donations',
-  beneficiaries: 'people/people-beneficiaries',
-  knowledge: 'education/education-learning',
-  documents: 'documents/documents-documents',
-  assistant: 'ai/ai-ai-assistant',
-  reports: 'analytics/analytics-analytics',
-  statistics: 'analytics/analytics-statistics',
-  organization: 'organization/organization-institution',
-  operations: 'operations/operations-activities',
-  resources: 'people/people-groups',
-  education: 'education/education-education',
-  plans: 'education/education-curriculum',
-  competitions: 'operations/operations-events',
-  certificates: 'identity/identity-certificate',
-  content: 'documents/documents-document-management',
-  identity: 'identity/identity-digital-identity',
-  admin: 'administration/administration-system-settings',
-  settings: 'navigation/navigation-settings',
-  logout: 'navigation/navigation-logout',
+  home: 'dashboard', users: 'users', projects: 'projects', structure: 'structure',
+  programs: 'programs', campaigns: 'campaigns', donations: 'donations',
+  beneficiaries: 'beneficiaries', knowledge: 'knowledge', documents: 'documents',
+  assistant: 'assistant', reports: 'reports', statistics: 'statistics',
+  organization: 'organization', operations: 'operations', resources: 'resources',
+  education: 'education', plans: 'memorization', competitions: 'events',
+  certificates: 'certificates', content: 'content', identity: 'identity',
+  admin: 'administration', settings: 'settings', logout: 'logout',
+  search: 'search', notifications: 'notifications', messages: 'messages',
 } as const;
 
 function Icon({ name }: { name: keyof typeof ICONS }) {
-  const url = `url(/icons/${ICONS[name]}.svg)`;
-  return (
-    <span
-      aria-hidden="true"
-      className="app-icon org-nav-ic"
-      style={{ WebkitMaskImage: url, maskImage: url }}
-    />
-  );
+  return <AppIcon name={ICONS[name]} size={20} className="org-nav-ic" />;
 }
 
 /** صورة المستخدم — صورة مرفوعة أو أيقونة شخص افتراضية. */
@@ -222,11 +200,7 @@ export default function OrgShell({ children, org, user, nav, inbox, assistant }:
           aria-pressed={collapsed}
           title={t('shell.foldSidebar')}
         >
-          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            {collapsed
-              ? <path d="M4 5h12M4 10h12M4 15h12" />
-              : <><rect x="2.5" y="3.5" width="15" height="13" rx="2" /><path d="M12.5 3.5v13" /></>}
-          </svg>
+          <AppIcon name={collapsed ? 'menu' : 'sidebar'} size={20} />
         </button>
         {/* ملف المستخدم أعلى الشريط — للعرض فقط */}
         <div className="org-side-profile">
@@ -282,15 +256,11 @@ export default function OrgShell({ children, org, user, nav, inbox, assistant }:
       <div className="org-main">
         <header className="org-topbar">
           <button className="org-menu-toggle" onClick={() => setOpen(true)} aria-label={t('shell.menu')}>
-            <svg width="20" height="14" viewBox="0 0 20 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <path d="M1 1h18M1 7h18M1 13h18" />
-            </svg>
+            <AppIcon name="menu" size={20} />
           </button>
           {pathname !== base && (
             <button className="org-back" onClick={() => router.back()} aria-label={t('shell.back')} title={t('shell.back')}>
-              <svg className="org-back-ic" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 4l-6 6 6 6" />
-              </svg>
+              <AppIcon name="back" size={20} className="org-back-ic" />
             </button>
           )}
           <Link href={base} className="org-topbar-brand" onClick={() => setOpen(false)}>
@@ -315,7 +285,7 @@ export default function OrgShell({ children, org, user, nav, inbox, assistant }:
                 <span className="tbar-user-name">{user.name}</span>
                 <span className="tbar-user-role">{user.jobTitle || t(`role.${user.role}`)}</span>
               </span>
-              <svg className="tbar-user-chev" width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8l4 4 4-4" /></svg>
+              <AppIcon name="chevronDown" size={16} className="tbar-user-chev" />
             </button>
             {profileOpen && (
               <>
@@ -373,7 +343,7 @@ function NavGroup({
         <Icon name={entry.icon} />
         <span>{entry.label}</span>
         {!collapsed && (
-          <svg className="org-nav-chev" width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8l4 4 4-4" /></svg>
+          <AppIcon name="chevronDown" size={16} className="org-nav-chev" />
         )}
       </button>
       {expanded && !collapsed && (

@@ -77,3 +77,14 @@ export async function deleteObject(key: string): Promise<void> {
 export function orgObjectPrefix(orgId: string): string {
   return `documents/${orgId}/`;
 }
+
+/** Student portraits are private objects, served only after an admin/tenant check. */
+export async function putStudentPhoto(key: string, bytes: Uint8Array): Promise<void> {
+  await s3().send(new PutObjectCommand({ Bucket: BUCKET, Key: key, Body: bytes,
+    ContentType: 'image/jpeg', CacheControl: 'private, no-store' }));
+}
+
+export async function readStudentPhoto(key: string): Promise<Uint8Array | undefined> {
+  const object = await s3().send(new GetObjectCommand({ Bucket: BUCKET, Key: key }));
+  return object.Body?.transformToByteArray();
+}

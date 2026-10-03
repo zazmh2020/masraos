@@ -3,11 +3,12 @@ import { requireOrgAccess } from '@/lib/org';
 import { prisma } from '@/lib/prisma';
 import { canManageUsers } from '@/lib/permissions';
 import { getT } from '@/lib/i18n/server';
+import Icon from '@/components/Icon';
 
 export const dynamic = 'force-dynamic';
 
 const ACTION_ICON: Record<string, string> = {
-  created: '➕', updated: '✏️', deleted: '🗑️', approved: '✅', rejected: '⛔', published: '🌐', unpublished: '🔒',
+  created: 'add', updated: 'edit', deleted: 'delete', approved: 'completed', rejected: 'reject', published: 'world', unpublished: 'lock',
 };
 
 export default async function AuditPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -36,7 +37,7 @@ export default async function AuditPage({ params }: { params: Promise<{ slug: st
         <div className="notif-list">
           {logs.map((l) => (
             <div key={l.id} className="notif-row">
-              <span className="notif-ic">{ACTION_ICON[l.action] ?? '•'}</span>
+              <span className="notif-ic"><Icon name={ACTION_ICON[l.action] ?? 'view'} size={20} /></span>
               <span className="notif-tx">
                 <b>{l.actorName}</b> · {t(`audit.action.${l.action}`, {})} {t(`audit.entity.${l.entity}`, {})}{l.label ? ` — ${l.label}` : ''}
               </span>

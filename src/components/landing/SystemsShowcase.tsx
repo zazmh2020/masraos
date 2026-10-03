@@ -15,34 +15,26 @@ interface Sys {
 }
 
 const SYSTEMS: Sys[] = [
+  { icon: 'education/education-education', k: 'sysh.education', kind: 'education', cat: 'sysh.cat.education' },
   { icon: 'organization/organization-institution', k: 'sysh.org', kind: 'org', cat: 'sysh.cat.admin' },
-  { icon: 'people/people-employees', k: 'sysh.hr', kind: 'hr', cat: 'sysh.cat.resources' },
-  { icon: 'people/people-volunteers', k: 'sysh.people', kind: 'people', cat: 'sysh.cat.resources' },
-  { icon: 'operations/operations-projects', k: 'sysh.projects', kind: 'projects', cat: 'sysh.cat.ops' },
-  { icon: 'people/people-beneficiaries', k: 'sysh.beneficiaries', kind: 'beneficiaries', cat: 'sysh.cat.ops' },
-  { icon: 'education/education-education', k: 'sysh.education', kind: 'education', cat: 'sysh.cat.education', isNew: true },
-  { icon: 'finance/finance-donations', k: 'sysh.finance', kind: 'finance', cat: 'sysh.cat.finance' },
   { icon: 'analytics/analytics-analytics', k: 'sysh.reports', kind: 'reports', cat: 'sysh.cat.analytics' },
-  { icon: 'documents/documents-documents', k: 'sysh.documents', kind: 'documents', cat: 'sysh.cat.docs' },
-  { icon: 'ai/ai-ai-assistant', k: 'sysh.ai', kind: 'ai', cat: 'sysh.cat.ai', isNew: true },
 ];
 
 export default function SystemsShowcase() {
   const t = useT();
-  const [active, setActive] = useState(3);
+  const [active, setActive] = useState(0);
   const sys = SYSTEMS[active];
 
   return (
     <div className="mdl-sys">
-      <div className="mdl-sys-list" role="tablist">
+      <div className="mdl-sys-list">
         {SYSTEMS.map((s, i) => (
           <button
             key={s.k}
-            role="tab"
-            aria-selected={i === active}
+            type="button"
+            aria-pressed={i === active}
             className={`mdl-sys-item ${i === active ? 'is-active' : ''}`}
             onClick={() => setActive(i)}
-            onMouseEnter={() => setActive(i)}
           >
             <span className="mdl-sys-num">{String(i + 1).padStart(2, '0')}</span>
             <span className="mdl-sys-ic"><Icon name={s.icon} size={18} /></span>

@@ -65,7 +65,7 @@ export default function StudentsView({ students, halaqat, basePath }: { students
       if (!res.ok) setError(d.error ?? t('form.createErr'));
       else {
         setName(''); setPhone(''); setGuardianName(''); setGuardianPhone(''); setGuardianEmail(''); setStatus('ACTIVE'); setHalaqaId(''); setSection('');
-        setCreating(false); router.refresh();
+        setCreating(false); router.refresh(); router.push(`${basePath}/${d.id}`);
       }
     } catch { setError(t('form.netErr')); } finally { setBusyId(null); }
   }
@@ -123,6 +123,7 @@ export default function StudentsView({ students, halaqat, basePath }: { students
 
       {creating && (
         <form className="org-form" onSubmit={create}>
+          <p>بعد إضافة الطالب افتح ملفه؛ يمكن لمدير المركز استكمال الاستمارة الإدارية والصورة والطباعة.</p>
           <div className="org-field-row">
             <div className="org-field">
               <label htmlFor="s-name">{t('edu.st.name')}</label>

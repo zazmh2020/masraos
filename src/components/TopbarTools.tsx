@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import type { InboxMessage, InboxNotification } from '@/lib/inbox';
 import LangToggle from '@/components/LangToggle';
+import Icon from '@/components/Icon';
 import { useT } from '@/lib/i18n/LocaleProvider';
 
 export interface SearchItem {
@@ -34,7 +35,8 @@ function timeAgo(iso: string): string {
 type Panel = 'search' | 'messages' | 'notif' | null;
 
 const NOTIF_ICON: Record<string, string> = {
-  member: '👤', announcement: '📣', task: '✅', request: '📝', donation: '💛', student: '🎓',
+  member: 'users', announcement: 'announcement', task: 'completed',
+  request: 'notes', donation: 'heart', student: 'students',
 };
 
 export default function TopbarTools({ searchItems, messages, notifications, storageKey }: Props) {
@@ -99,7 +101,7 @@ export default function TopbarTools({ searchItems, messages, notifications, stor
     <div className="tbt" ref={wrapRef}>
       {/* البحث */}
       <div className={`tbt-search ${panel === 'search' && results.length ? 'is-open' : ''}`}>
-        <svg className="tbt-search-ic" width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="9" cy="9" r="6" /><path d="M14 14l4 4" /></svg>
+        <Icon name="search" size={16} className="tbt-search-ic" />
         <input
           type="search"
           value={q}
@@ -128,7 +130,7 @@ export default function TopbarTools({ searchItems, messages, notifications, stor
       {/* الرسائل */}
       <div className="tbt-slot">
         <button className="tbt-btn" onClick={openMessages} aria-label={t('tb.messages')} aria-expanded={panel === 'messages'}>
-          <svg width="19" height="19" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 5h16v11H7l-4 3z" /></svg>
+          <Icon name="messages" size={20} />
           {unreadMsg > 0 && <span className="tbt-dot">{unreadMsg}</span>}
         </button>
         {panel === 'messages' && (
@@ -136,7 +138,7 @@ export default function TopbarTools({ searchItems, messages, notifications, stor
             <div className="tbt-inbox-head">{t('tb.messages')}</div>
             {messages.length ? messages.map((m) => (
               <div key={m.id} className="tbt-msg">
-                <div className="tbt-msg-top"><span className="tbt-msg-title">{m.pinned ? '📌 ' : ''}{m.title}</span><span className="tbt-time">{timeAgo(m.time)}</span></div>
+                <div className="tbt-msg-top"><span className="tbt-msg-title">{m.pinned && <Icon name="pin" size={16} />}{m.title}</span><span className="tbt-time">{timeAgo(m.time)}</span></div>
                 <p className="tbt-msg-body">{m.body}</p>
               </div>
             )) : <div className="tbt-empty">{t('tb.noMessages')}</div>}
@@ -147,7 +149,7 @@ export default function TopbarTools({ searchItems, messages, notifications, stor
       {/* الجرس */}
       <div className="tbt-slot">
         <button className="tbt-btn" onClick={openNotif} aria-label={t('tb.notifications')} aria-expanded={panel === 'notif'}>
-          <svg width="19" height="19" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M11 3a5 5 0 0 0-5 5v3l-2 3h14l-2-3V8a5 5 0 0 0-5-5z" /><path d="M9 18a2 2 0 0 0 4 0" /></svg>
+          <Icon name="notifications" size={20} />
           {unreadNotif > 0 && <span className="tbt-dot">{unreadNotif}</span>}
         </button>
         {panel === 'notif' && (
@@ -155,7 +157,7 @@ export default function TopbarTools({ searchItems, messages, notifications, stor
             <div className="tbt-inbox-head">{t('tb.notifications')}</div>
             {notifications.length ? notifications.map((n) => (
               <div key={n.id} className="tbt-notif">
-                <span className={`tbt-notif-ic ${n.type}`}>{NOTIF_ICON[n.type] ?? '📣'}</span>
+                <span className={`tbt-notif-ic ${n.type}`}><Icon name={NOTIF_ICON[n.type] ?? 'announcement'} size={16} /></span>
                 <div className="tbt-notif-tx"><span>{n.title}</span><span className="tbt-time">{timeAgo(n.time)}</span></div>
               </div>
             )) : <div className="tbt-empty">{t('tb.noNotifications')}</div>}

@@ -13,7 +13,7 @@ export default function DashboardShell({
   toolbar?: ReactNode;
 }) {
   return (
-    <div className="dash">
+    <div className="dash is-glass">
       {toolbar && (
         <div className="dash-toolbar" style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.6rem', alignItems: 'center' }}>
           {toolbar}

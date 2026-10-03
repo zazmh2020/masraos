@@ -2,17 +2,17 @@
 .ps, .ps-empty {
   min-height: 100vh;
   font-family: var(--font-body, 'Qomra', system-ui, sans-serif);
-  background: #f6f5fb;
-  color: #2b1a4e;
+  background: var(--surface-page);
+  color: var(--brand-primary-dark);
 }
 .ps-empty { display: grid; place-items: center; padding: 2rem; }
 .ps-empty-card {
-  background: #fff; border: 1px solid #ece9f4; border-radius: 20px;
+  background: #fff; border: 1px solid var(--surface-brand-soft); border-radius: 20px;
   padding: 2.5rem; text-align: center; max-width: 420px;
-  box-shadow: 0 20px 50px -30px rgba(23, 21, 28, 0.4);
+  box-shadow: 0 20px 50px -30px color-mix(in srgb, var(--gray-950) 40%, transparent);
 }
 .ps-empty-card h1 { font-size: 1.4rem; margin: 0 0 0.6rem; }
-.ps-empty-card p { color: #6c6780; margin: 0; line-height: 1.7; }
+.ps-empty-card p { color: var(--text-secondary); margin: 0; line-height: 1.7; }
 
 .ps-hero {
   background: linear-gradient(150deg, var(--ps-brand) 0%, color-mix(in srgb, var(--ps-brand) 70%, #1a1030) 100%);
@@ -32,35 +32,35 @@
 
 .ps-about, .ps-contact { max-width: 1040px; margin: 0 auto; padding: 2.4rem 1.5rem 0; }
 .ps-about h2, .ps-contact h2 { font-family: var(--font-display, 'Qomra'); font-size: 1.3rem; margin: 0 0 1rem; }
-.ps-about p { color: #4c4760; line-height: 1.9; font-size: 1rem; max-width: 70ch; white-space: pre-line; }
+.ps-about p { color: var(--text-secondary); line-height: 1.9; font-size: 1rem; max-width: 70ch; white-space: pre-line; }
 .ps-contact-grid { display: flex; flex-wrap: wrap; gap: 1rem; }
 .ps-contact-item {
-  display: inline-flex; align-items: center; gap: 0.5rem; background: #fff; border: 1px solid #ece9f4;
-  border-radius: 12px; padding: 0.7rem 1rem; font-size: 0.9rem; color: #4c4760;
+  display: inline-flex; align-items: center; gap: 0.5rem; background: #fff; border: 1px solid var(--surface-brand-soft);
+  border-radius: 12px; padding: 0.7rem 1rem; font-size: 0.9rem; color: var(--text-secondary);
 }
 .ps-contact-item a { color: var(--ps-brand); font-weight: 600; }
 
 .ps-news { max-width: 1040px; margin: 0 auto; padding: 3rem 1.5rem; }
 .ps-news h2 { font-family: var(--font-display, 'Qomra'); font-size: 1.4rem; margin: 0 0 1.4rem; }
-.ps-none { color: #6c6780; }
+.ps-none { color: var(--text-secondary); }
 .ps-news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.1rem; }
 .ps-card {
-  background: #fff; border: 1px solid #ece9f4; border-radius: 16px; padding: 1.2rem;
-  box-shadow: 0 12px 30px -24px rgba(23, 21, 28, 0.4); transition: transform 0.18s, box-shadow 0.18s;
+  background: #fff; border: 1px solid var(--surface-brand-soft); border-radius: 16px; padding: 1.2rem;
+  box-shadow: 0 12px 30px -24px color-mix(in srgb, var(--gray-950) 40%, transparent); transition: transform 0.18s, box-shadow 0.18s;
 }
-.ps-card:hover { transform: translateY(-3px); box-shadow: 0 18px 40px -22px rgba(23, 21, 28, 0.5); }
+.ps-card:hover { transform: translateY(-3px); box-shadow: 0 18px 40px -22px color-mix(in srgb, var(--gray-950) 50%, transparent); }
 .ps-card-top { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; margin-bottom: 0.5rem; }
-.ps-card-top time { font-size: 0.76rem; color: #9a94ab; }
+.ps-card-top time { font-size: 0.76rem; color: var(--text-disabled); }
 .ps-pin {
   font-size: 0.68rem; font-weight: 800; padding: 0.14rem 0.55rem; border-radius: 100px;
   background: color-mix(in srgb, var(--ps-brand) 14%, #fff); color: var(--ps-brand);
 }
-.ps-card h3 { font-size: 1.02rem; margin: 0 0 0.4rem; color: #2b1a4e; }
+.ps-card h3 { font-size: 1.02rem; margin: 0 0 0.4rem; color: var(--brand-primary-dark); }
 .ps-card p { font-size: 0.86rem; color: #5c576b; line-height: 1.7; margin: 0; white-space: pre-line; }
 
 .ps-footer {
-  border-top: 1px solid #ece9f4; padding: 1.6rem; text-align: center;
-  display: flex; flex-direction: column; gap: 0.3rem; color: #6c6780;
+  border-top: 1px solid var(--surface-brand-soft); padding: 1.6rem; text-align: center;
+  display: flex; flex-direction: column; gap: 0.3rem; color: var(--text-secondary);
 }
 .ps-footer span:first-child { font-family: var(--font-display, 'Qomra'); font-weight: 700; color: var(--ps-brand); }
 .ps-by { font-size: 0.78rem; }

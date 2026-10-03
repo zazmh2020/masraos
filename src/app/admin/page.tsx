@@ -91,10 +91,7 @@ export default async function AdminOverview() {
         </div>
         <div className="empty-state">
           <div className="empty-state-icon">
-            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="8" y="8" width="32" height="32" rx="3" />
-              <path d="M16 8v32M32 8v32M8 16h32M8 32h32" />
-            </svg>
+            <Icon name="organization" size={48} />
           </div>
           <h2>{t('adm.empty.title')}</h2>
           <p>{t('adm.empty.sub')}</p>
@@ -137,13 +134,13 @@ export default async function AdminOverview() {
               <AreaChart
                 labels={labels}
                 series={[
-                  { color: '#6B57A0', values: usersSeries },
-                  { color: '#B8860B', values: orgsSeries, dashed: true },
+                  { color: 'var(--brand-primary-medium)', values: usersSeries },
+                  { color: 'var(--text-secondary)', values: orgsSeries, dashed: true },
                 ]}
               />
               <div className="dash-chart-legend">
-                <span><span className="dot" style={{ background: '#6B57A0' }} />{t('adm.newUsers')}</span>
-                <span><span className="dot" style={{ background: '#B8860B' }} />{t('adm.newOrgs')}</span>
+                <span><span className="dot" style={{ background: 'var(--brand-primary-medium)' }} />{t('adm.newUsers')}</span>
+                <span><span className="dot" style={{ background: 'var(--text-secondary)' }} />{t('adm.newOrgs')}</span>
               </div>
             </>
           ) : (

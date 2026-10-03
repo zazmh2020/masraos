@@ -34,7 +34,7 @@ export default async function OrgSettingsPage({
   const planName = plan ? (locale === 'en' ? plan.en : plan.name) : org.plan;
 
   return (
-    <div className="org-page org-page-narrow">
+    <div className="org-page org-page-narrow masra-ui">
       <div className="org-page-head">
         <div>
           <span className="org-eyebrow">{t('onav.div.system')}</span>

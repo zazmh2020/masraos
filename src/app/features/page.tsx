@@ -2,6 +2,7 @@ import Link from 'next/link';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
 import Reveal from '@/components/Reveal';
+import Icon from '@/components/Icon';
 import '@/styles/landing.css';
 
 const features = [
@@ -39,9 +40,7 @@ export default function FeaturesPage() {
               <Reveal key={f.title} delay={(i % 4) * 0.05}>
                 <article className="card">
                   <div className="card-icon">
-                    <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M14 3l3.5 7.5L25 12l-5.5 5.5L21 25l-7-3.5L7 25l1.5-7.5L3 12l7.5-1.5z" />
-                    </svg>
+                    <Icon name="star" size={24} />
                   </div>
                   <h3>{f.title}</h3>
                   <p>{f.text}</p>

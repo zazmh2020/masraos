@@ -2,6 +2,7 @@ import Link from 'next/link';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
 import Reveal from '@/components/Reveal';
+import Icon from '@/components/Icon';
 import '@/styles/landing.css';
 
 const systems = [
@@ -43,12 +44,7 @@ export default function SystemsPage() {
               <Reveal key={s.title} delay={(i % 4) * 0.05}>
                 <article className="card">
                   <div className="card-icon">
-                    <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="4" y="4" width="9" height="9" rx="1.5" />
-                      <rect x="15" y="4" width="9" height="9" rx="1.5" />
-                      <rect x="4" y="15" width="9" height="9" rx="1.5" />
-                      <rect x="15" y="15" width="9" height="9" rx="1.5" />
-                    </svg>
+                    <Icon name="apps" size={24} />
                   </div>
                   <h3>{s.title}</h3>
                   <p>{s.text}</p>

@@ -294,7 +294,7 @@
 .card:hover {
   border-color: var(--purple-300);
   transform: translateY(-4px);
-  box-shadow: 0 16px 40px -20px rgba(107, 87, 160, 0.35);
+  box-shadow: 0 16px 40px -20px color-mix(in srgb, var(--brand-primary) 35%, transparent);
 }
 
 .card-icon {
@@ -404,7 +404,7 @@
 }
 .solve-ic {
   width: 40px; height: 40px; flex: none; border-radius: 11px;
-  display: grid; place-items: center; background: rgba(107, 87, 160, 0.1); color: var(--purple-700);
+  display: grid; place-items: center; background: color-mix(in srgb, var(--brand-primary) 10%, transparent); color: var(--purple-700);
 }
 .solve-ic svg { width: 20px; height: 20px; }
 .solve-list strong {
@@ -567,7 +567,7 @@
 .contact-form textarea:focus {
   outline: none;
   border-color: var(--purple-500);
-  box-shadow: 0 0 0 3px rgba(107, 87, 160, 0.1);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-primary) 10%, transparent);
 }
 
 .contact-form textarea {

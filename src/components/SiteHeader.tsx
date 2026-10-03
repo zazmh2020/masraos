@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { LogoMark } from '@/components/Logo';
 import LangToggle from '@/components/LangToggle';
 import { useT } from '@/lib/i18n/LocaleProvider';
+import Icon from '@/components/Icon';
 
 const links = [
   { href: '#home', k: 'nav.home' },
@@ -72,9 +73,7 @@ export default function SiteHeader() {
             aria-label={t('nav.menu')}
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <svg width="22" height="16" viewBox="0 0 24 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <path d="M1 1h22M1 9h22M1 17h22" />
-            </svg>
+            <Icon name="menu" size={20} />
           </button>
         </div>
       </nav>

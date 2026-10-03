@@ -4,6 +4,7 @@ import { requireOrgAccess } from '@/lib/org';
 import { prisma } from '@/lib/prisma';
 import { canViewEducation } from '@/lib/permissions';
 import { getT } from '@/lib/i18n/server';
+import { canManageRegistration } from '@/lib/student-registration';
 
 export const dynamic = 'force-dynamic';
 
@@ -38,6 +39,7 @@ export default async function StudentProfilePage({ params }: { params: Promise<{
         <div>
           <Link href={`${base}/education/students`} className="org-back-link">← {t('pg.students.title')}</Link>
           <h1>{student.name}</h1>
+          {canManageRegistration(user) && <Link className="org-btn org-btn-primary" href={`${base}/education/students/${id}/registration`}>استمارة الطالب والطباعة</Link>}
           <p>{student.halaqa ? student.halaqa.name : t('edu.st.noHalaqa')} · {t(`status.student.${student.status}`)}</p>
         </div>
       </div>

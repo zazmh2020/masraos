@@ -2,6 +2,7 @@ import { prisma } from '@/lib/prisma';
 import { roleLabel } from '@/lib/permissions';
 import { getT } from '@/lib/i18n/server';
 import { LogoMark } from '@/components/Logo';
+import Icon from '@/components/Icon';
 import '@/styles/cards.css';
 
 export const dynamic = 'force-dynamic';
@@ -29,7 +30,7 @@ export default async function VerifyPage({ params }: { params: Promise<{ token: 
         <div className="vf-logo"><LogoMark size={30} /></div>
         {valid && member ? (
           <>
-            <div className="vf-check" aria-hidden="true">✓</div>
+            <div className="vf-check" aria-hidden="true"><Icon name="check" size={32} /></div>
             <h1 className="vf-title">{t('verify.valid')}</h1>
             <div className="vf-details">
               <div className="vf-row"><span>{t('verify.name')}</span><strong>{member.name}</strong></div>
@@ -39,7 +40,7 @@ export default async function VerifyPage({ params }: { params: Promise<{ token: 
           </>
         ) : (
           <>
-            <div className="vf-cross" aria-hidden="true">✕</div>
+            <div className="vf-cross" aria-hidden="true"><Icon name="close" size={32} /></div>
             <h1 className="vf-title">{t('verify.invalid')}</h1>
             <p className="vf-hint">{t('verify.invalidHint')}</p>
           </>

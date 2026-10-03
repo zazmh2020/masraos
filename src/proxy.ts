@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { parseSession } from '@/lib/session';
 
 /**
  * يوجّه الطلبات بحسب الدومين الفرعي ضمن دومينات مسرى الجذر فقط:
@@ -37,11 +38,13 @@ export function proxy(request: NextRequest) {
   const path = url.pathname;
 
   // العرض التجريبي: للاستعراض فقط — نمنع أي تعديل عبر الـ API (باستثناء مسارات الدخول/الخروج).
-  // الوسم كوكي غير موقّع؛ وجوده يقيّد فقط، فلا حاجة للتحقّق التوقيعي هنا.
+  // مصدر القرار هو الجلسة الموقعة؛ حذف وسم العرض لا يزيل الحماية.
   if (path.startsWith('/api')) {
     const mutating = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(request.method);
-    const isDemo = request.cookies.get('midad_demo')?.value === '1';
-    if (isDemo && mutating && !path.startsWith('/api/auth/')) {
+    const token = request.cookies.get('midad_session')?.value;
+    const isDemo = request.cookies.get('midad_demo')?.value === '1' || (token ? parseSession(token)?.demo === true : false);
+    const sessionExit = path === '/api/auth/login' || path === '/api/auth/logout';
+    if (isDemo && mutating && !sessionExit) {
       return NextResponse.json(
         { ok: false, error: 'وضع العرض التجريبي — للاستعراض فقط، لا يمكن حفظ التغييرات.', code: 'DEMO_READONLY' },
         { status: 403 },

@@ -6,10 +6,10 @@ import { useT } from '@/lib/i18n/LocaleProvider';
 
 const STEPS: { k: string; icon: string }[] = [
   { k: 'how.1', icon: 'organization/organization-institution' },
-  { k: 'how.2', icon: 'operations/operations-activities' },
-  { k: 'how.3', icon: 'operations/operations-projects' },
+  { k: 'how.2', icon: 'education/education-quran' },
+  { k: 'how.3', icon: 'education/education-education' },
   { k: 'how.4', icon: 'analytics/analytics-analytics' },
-  { k: 'how.5', icon: 'ai/ai-ai-assistant' },
+  { k: 'how.5', icon: 'analytics/analytics-reports' },
 ];
 
 export default function HowItWorks() {

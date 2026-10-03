@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { persistLocale, useLocale } from '@/lib/i18n/LocaleProvider';
 import { translate } from '@/lib/i18n/dictionaries';
 import type { Locale } from '@/lib/i18n/config';
+import Icon from '@/components/Icon';
 
 /** نافذة اختيار اللغة عند أول زيارة — على الصفحة الرئيسية فقط، لا داخل المنصّة. */
 export default function LangGate({ hasChosen }: { hasChosen: boolean }) {
@@ -38,7 +39,7 @@ export default function LangGate({ hasChosen }: { hasChosen: boolean }) {
     <div className="lang-gate-scrim" role="dialog" aria-modal="true" aria-label="Language / اللغة" onClick={dismiss}>
       <div className="lang-gate" onClick={(e) => e.stopPropagation()}>
         <button className="lang-gate-x" onClick={dismiss} aria-label="إغلاق / Close">
-          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M5 5l10 10M15 5L5 15" /></svg>
+          <Icon name="close" size={20} />
         </button>
         <div className="lang-gate-logo">مسرى · Masra</div>
         <h2>{translate('ar', 'lang.title')}</h2>

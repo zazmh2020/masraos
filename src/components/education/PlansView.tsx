@@ -131,7 +131,7 @@ export default function PlansView({
                 <input value={s.t} onChange={(e) => setStage(i, 't', e.target.value)} placeholder={t('plans.stageTitle')} />
                 <input value={s.d} onChange={(e) => setStage(i, 'd', e.target.value)} placeholder={t('plans.stageDesc')} />
                 <input value={s.meta} onChange={(e) => setStage(i, 'meta', e.target.value)} placeholder={t('plans.stageMeta')} className="plans-stage-meta" />
-                {stages.length > 1 && <button type="button" className="plans-stage-x" onClick={() => removeStage(i)} aria-label={t('view.delete')}>×</button>}
+                {stages.length > 1 && <button type="button" className="plans-stage-x" onClick={() => removeStage(i)} aria-label={t('view.delete')}><Icon name="close" size={16} /></button>}
               </div>
             ))}
 

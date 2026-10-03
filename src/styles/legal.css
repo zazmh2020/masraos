@@ -3,37 +3,37 @@
   max-width: 820px;
   margin: 0 auto;
   padding: 7.5rem 1.5rem 4rem;
-  color: var(--text, #4c4760);
+  color: var(--text, var(--text-secondary));
   line-height: 1.9;
 }
 .legal-eyebrow {
-  font-size: 0.85rem; font-weight: 700; color: var(--p, #6b57a0);
+  font-size: 0.85rem; font-weight: 700; color: var(--p, var(--brand-primary));
   letter-spacing: 0.02em;
 }
 .legal h1 {
   font-family: var(--font-display, 'Qomra');
   font-size: clamp(1.8rem, 4vw, 2.6rem);
-  color: var(--dark, #2b1a4e);
+  color: var(--dark, var(--brand-primary-dark));
   margin: 0.4rem 0 0.3rem;
 }
 .legal-updated { font-size: 0.85rem; color: var(--muted, #8b8598); margin-bottom: 1rem; }
 .legal-note {
-  background: var(--p-08, rgba(107, 87, 160, 0.08));
-  border: 1px solid var(--p-12, rgba(107, 87, 160, 0.16));
+  background: var(--p-08, color-mix(in srgb, var(--brand-primary) 8%, transparent));
+  border: 1px solid var(--p-12, color-mix(in srgb, var(--brand-primary) 16%, transparent));
   border-radius: 14px; padding: 0.9rem 1.1rem; font-size: 0.88rem;
-  color: var(--p, #6b57a0); margin: 1.4rem 0 2rem;
+  color: var(--p, var(--brand-primary)); margin: 1.4rem 0 2rem;
 }
 .legal h2 {
   font-family: var(--font-display, 'Qomra');
-  font-size: 1.25rem; color: var(--dark, #2b1a4e);
+  font-size: 1.25rem; color: var(--dark, var(--brand-primary-dark));
   margin: 2.2rem 0 0.6rem;
 }
 .legal p { margin: 0 0 0.9rem; }
 .legal ul { margin: 0 0 1rem; padding-inline-start: 1.3rem; }
 .legal li { margin-bottom: 0.4rem; }
-.legal a { color: var(--p, #6b57a0); text-decoration: underline; }
+.legal a { color: var(--p, var(--brand-primary)); text-decoration: underline; }
 .legal-foot {
-  margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border, #ece9f4);
+  margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border, var(--surface-brand-soft));
   display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between;
   font-size: 0.85rem; color: var(--muted, #8b8598);
 }

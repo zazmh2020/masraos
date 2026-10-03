@@ -1,8 +1,7 @@
 'use client';
 
 import { useLocale } from '@/lib/i18n/LocaleProvider';
-
-const GLOBE = 'url(/icons/administration/administration-language.svg)';
+import Icon from '@/components/Icon';
 
 /** زر تبديل اللغة عربي/إنجليزي — أيقونة كرة أرضية. */
 export default function LangToggle({ className = '' }: { className?: string }) {
@@ -16,7 +15,7 @@ export default function LangToggle({ className = '' }: { className?: string }) {
       aria-label={locale === 'ar' ? 'Switch to English' : 'التبديل إلى العربية'}
       title={locale === 'ar' ? 'English' : 'العربية'}
     >
-      <span className="lang-toggle-ic" aria-hidden="true" style={{ WebkitMaskImage: GLOBE, maskImage: GLOBE }} />
+      <Icon name="world" size={20} className="lang-toggle-ic" />
     </button>
   );
 }

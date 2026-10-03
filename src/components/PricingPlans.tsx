@@ -6,6 +6,7 @@ import { OFFERED_PLANS, yearlyPrice } from '@/lib/plans';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { useCurrency } from '@/components/CurrencyProvider';
 import { convertRounded, currencySymbol, formatAmount } from '@/lib/currency';
+import Icon from '@/components/Icon';
 
 export default function PricingPlans() {
   const { t, locale } = useLocale();
@@ -82,7 +83,7 @@ export default function PricingPlans() {
               <ul className="plan-features">
                 {features.map((f) => (
                   <li key={f}>
-                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 10.5l4 4 8-9" /></svg>
+                    <Icon name="check" size={16} />
                     {f}
                   </li>
                 ))}

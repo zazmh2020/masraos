@@ -1,0 +1,84 @@
+/* Color-only rules: shared interactions, no sizing or layout changes.
+   The doubled component scope intentionally wins over legacy page selectors. */
+:root {
+  --control-background: var(--surface-card);
+  --control-text: var(--text-primary);
+}
+:root[data-theme='dark'] {
+  --text-primary: var(--gray-50);
+  --text-secondary: var(--gray-200);
+  --surface-page: var(--gray-950);
+  --surface-card: var(--gray-800);
+  --surface-secondary: var(--gray-950);
+  --border-default: var(--gray-600);
+  --icon-default: var(--gray-200);
+}
+.org-app .org-btn-primary,
+.admin-app .btn-admin-primary,
+.dash .dash-btn,
+.dash.is-glass .dash-btn,
+.mdl .plan-cta.is-primary,
+.plan-card .plan-cta.is-primary,
+.mdl .mdl-btn-primary {
+  background: var(--brand-primary);
+  border-color: var(--brand-primary);
+  color: var(--on-brand);
+}
+.org-app .org-btn-primary:is(:hover,:active):not(:disabled),
+.admin-app .btn-admin-primary:is(:hover,:active):not(:disabled),
+.dash .dash-btn:is(:hover,:active),
+.dash.is-glass .dash-btn:is(:hover,:active),
+.mdl .plan-cta.is-primary:is(:hover,:active),
+.plan-card .plan-cta.is-primary:is(:hover,:active),
+.mdl .mdl-btn-primary:is(:hover,:active) {
+  background: var(--brand-primary-dark);
+  border-color: var(--brand-primary-dark);
+  color: var(--on-brand);
+}
+.org-app .org-btn-outline,
+.admin-app .btn-admin-outline {
+  background: transparent;
+  border-color: var(--border-brand);
+  color: var(--brand-primary);
+}
+.org-app .org-field :is(input,select,textarea),
+.admin-app .admin-form :is(input,select,textarea),
+.lg-page .lg-field input {
+  background: var(--control-background);
+  color: var(--control-text);
+  border-color: var(--border-default);
+}
+.org-app .org-field :is(input,select,textarea):hover,
+.admin-app .admin-form :is(input,select,textarea):hover {
+  border-color: var(--border-brand);
+}
+.org-app .org-field :is(input,select,textarea):focus,
+.admin-app .admin-form :is(input,select,textarea):focus,
+.lg-page .lg-field input:focus {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px var(--surface-brand-soft);
+}
+/* Readable hint text: approved Gray 400 does not meet text contrast on white. */
+.org-app input::placeholder, .admin-app input::placeholder,
+.lg-page input::placeholder { color: var(--text-secondary); opacity: 1; }
+.org-app .org-field :is(input,select,textarea):disabled {
+  background: var(--surface-secondary);
+  color: var(--text-disabled);
+}
+.org-app .org-table th, .dash .dash-table th {
+  background: var(--surface-secondary);
+  color: var(--text-secondary);
+}
+.org-app .org-table :is(th,td), .dash .dash-table :is(th,td) {
+  border-bottom-color: var(--border-default);
+}
+.org-app .org-table tbody tr:hover, .dash .dash-table tbody tr:hover td {
+  background: var(--surface-page);
+}
+.billing-toggle .billing-opt.is-active {
+  background: var(--brand-primary);
+  color: var(--on-brand);
+}
+.masra-ui :is(button,a,input,select,textarea,summary):focus-visible {
+  outline-color: var(--focus-ring);
+}

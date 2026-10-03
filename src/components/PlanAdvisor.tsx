@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { useCurrency } from '@/components/CurrencyProvider';
 import { convertRounded, currencySymbol, formatAmount } from '@/lib/currency';
+import Icon from '@/components/Icon';
 import {
   recommend,
   type AdvisorAnswers,
@@ -196,7 +197,7 @@ export default function PlanAdvisor() {
                   <h2>{t('advisor.title')}</h2>
                 </div>
                 <button type="button" className="adv-x" onClick={close} aria-label={t('advisor.close')}>
-                  <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M5 5l10 10M15 5L5 15" /></svg>
+                  <Icon name="close" size={20} />
                 </button>
               </div>
 
@@ -306,7 +307,7 @@ export default function PlanAdvisor() {
                           <ul>
                             {rec.reasons.map((code) => (
                               <li key={code}>
-                                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 10.5l4 4 8-9" /></svg>
+                                <Icon name="check" size={16} />
                                 {t(`advisor.reason.${code}`, { plan: planName })}
                               </li>
                             ))}
@@ -352,7 +353,7 @@ export default function PlanAdvisor() {
                     {step === 6 && (
                       <div className="adv-done">
                         <div className="adv-done-icon">
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
+                          <Icon name="completed" size={24} />
                         </div>
                         <h3>{t('advisor.done.title')}</h3>
                         <p>{t('advisor.done.sub')}</p>
@@ -418,7 +419,7 @@ const OptionCard = (function () {
         onClick={onSelect}
       >
         <span className="adv-opt-mark" aria-hidden="true">
-          {selected && <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 10.5l4 4 8-9" /></svg>}
+          {selected && <Icon name="check" size={16} />}
         </span>
         <span className="adv-opt-label">{label}</span>
       </button>

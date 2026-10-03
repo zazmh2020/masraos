@@ -5,14 +5,14 @@
    ============================================================ */
 
 .dash {
-  --d-gold: #7A5CB0;
-  --d-gold-bg: #EFE9F8;
-  --d-green: #16A34A;
-  --d-green-bg: #DCFCE7;
-  --d-blue: #2563EB;
-  --d-blue-bg: #DBEAFE;
-  --d-rose: #E11D48;
-  --d-rose-bg: #FEE2E2;
+  --d-gold: var(--brand-primary-medium);
+  --d-gold-bg: var(--surface-brand-soft);
+  --d-green: var(--brand-primary);
+  --d-green-bg: var(--surface-brand-soft);
+  --d-blue: var(--text-secondary);
+  --d-blue-bg: var(--surface-secondary);
+  --d-rose: var(--brand-primary-medium);
+  --d-rose-bg: var(--surface-brand-soft);
 
   position: relative;
   display: flex;
@@ -241,7 +241,7 @@
   --glass-bg: rgba(255, 255, 255, 0.62);
   --glass-strong: rgba(255, 255, 255, 0.75);
   --glass-border: rgba(255, 255, 255, 0.6);
-  --glass-shadow: 0 8px 30px rgba(23, 21, 28, 0.12);
+  --glass-shadow: 0 8px 30px color-mix(in srgb, var(--gray-950) 12%, transparent);
   --glass-blur: blur(18px) saturate(180%);
   isolation: isolate;
 }
@@ -249,10 +249,10 @@
   content: ''; position: absolute; inset: -1.75rem;
   z-index: -1; border-radius: 20px;
   background:
-    radial-gradient(ellipse 520px 440px at 12% 12%, rgba(136, 115, 175,0.5) 0%, transparent 60%),
+    radial-gradient(ellipse 520px 440px at 12% 12%, color-mix(in srgb, var(--brand-primary-medium) 50%, transparent) 0%, transparent 60%),
     radial-gradient(ellipse 460px 460px at 88% 18%, rgba(212,169,69,0.28) 0%, transparent 55%),
-    radial-gradient(ellipse 620px 520px at 78% 90%, rgba(107, 87, 160,0.45) 0%, transparent 60%),
-    radial-gradient(ellipse 460px 460px at 18% 92%, rgba(196,179,217,0.45) 0%, transparent 55%),
+    radial-gradient(ellipse 620px 520px at 78% 90%, color-mix(in srgb, var(--brand-primary) 45%, transparent) 0%, transparent 60%),
+    radial-gradient(ellipse 460px 460px at 18% 92%, color-mix(in srgb, var(--brand-primary-soft) 45%, transparent) 0%, transparent 55%),
     linear-gradient(135deg, #e8e3f5 0%, #f3eef8 50%, #ece5f3 100%);
 }
 .dash.is-glass .dash-card,
@@ -268,7 +268,7 @@
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent);
 }
 .dash.is-glass .dash-stat-ic {
-  background: linear-gradient(135deg, rgba(136, 115, 175,0.28), rgba(107, 87, 160,0.15));
+  background: linear-gradient(135deg, color-mix(in srgb, var(--brand-primary-medium) 28%, transparent), color-mix(in srgb, var(--brand-primary) 15%, transparent));
   border: 1px solid rgba(255,255,255,0.5);
 }
 .dash.is-glass .dash-ann,
@@ -278,7 +278,7 @@
 }
 .dash.is-glass .dash-btn {
   background: linear-gradient(135deg, var(--purple-500), var(--purple-700));
-  box-shadow: 0 6px 18px rgba(107, 87, 160,0.4);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--brand-primary) 40%, transparent);
 }
 .dash.is-glass .dash-table th,
 .dash.is-glass .dash-table td { border-bottom-color: rgba(255,255,255,0.5); }

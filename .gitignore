@@ -1,6 +1,8 @@
 node_modules
 .next
 .env
+.env.local
+.local/
 /src/generated
 *.tsbuildinfo
 next-env.d.ts

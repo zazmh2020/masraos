@@ -39,7 +39,7 @@
 .intro-glow-1 {
   width: 520px;
   height: 520px;
-  background: radial-gradient(circle, rgba(107, 87, 160, 0.5) 0%, transparent 68%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--brand-primary) 50%, transparent) 0%, transparent 68%);
   top: -160px;
   inset-inline-end: -140px;
   animation: introDrift 7s ease-in-out infinite;

@@ -7,12 +7,12 @@
 :root {
   --glass-strong: rgba(255, 255, 255, 0.72);
   --glass-border: rgba(255, 255, 255, 0.65);
-  --glass-shadow: 0 8px 30px rgba(10, 42, 46, 0.1);
+  --glass-shadow: 0 8px 30px color-mix(in srgb, var(--gray-950) 10%, transparent);
 }
 
 /* ---------- خلفية محيطة خفيفة (بنفسجية مريحة) ---------- */
 body {
-  background: #f2eef8;
+  background: var(--surface-page);
   min-height: 100vh;
 }
 body::before {
@@ -22,15 +22,16 @@ body::before {
   z-index: -2;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 560px 480px at 12% 10%, rgba(136, 115, 175, 0.24) 0%, transparent 60%),
-    radial-gradient(ellipse 620px 560px at 82% 92%, rgba(107, 87, 160, 0.2) 0%, transparent 60%),
-    radial-gradient(ellipse 480px 460px at 88% 8%, rgba(196, 179, 217, 0.12) 0%, transparent 55%),
-    linear-gradient(135deg, #efe9f6 0%, #f6f3fb 55%, #efe8f5 100%);
+    radial-gradient(ellipse 560px 480px at 12% 10%, color-mix(in srgb, var(--brand-primary-medium) 24%, transparent) 0%, transparent 60%),
+    radial-gradient(ellipse 620px 560px at 82% 92%, color-mix(in srgb, var(--brand-primary) 20%, transparent) 0%, transparent 60%),
+    radial-gradient(ellipse 480px 460px at 88% 8%, color-mix(in srgb, var(--brand-primary-soft) 12%, transparent) 0%, transparent 55%),
+    linear-gradient(135deg, var(--surface-page) 0%, var(--surface-page) 55%, var(--surface-page) 100%);
 }
 
-/* حاويات اللوحات شفافة لإظهار الخلفية المحيطة */
-.org-app,
+/* حاوية الإدارة شفافة؛ مساحة المؤسسة تستخدم خلفيتها البيضاء. */
 .admin-app { background: transparent !important; }
+
+body:has(.org-app)::before { content: none; }
 
 /* ---------- تزجيج أسطح البطاقات واللوحات فقط ---------- */
 .card,

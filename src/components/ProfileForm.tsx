@@ -6,6 +6,7 @@ import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { COUNTRIES } from '@/lib/countries';
 import { readLogoFile } from '@/lib/image-file';
 import ImageCropper from '@/components/ImageCropper';
+import Icon from '@/components/Icon';
 
 /** يفصل رقمًا مخزّنًا "+966 5xxxx" إلى مفتاح دولة ورقم محلّي. */
 function splitPhone(raw: string): { dial: string; number: string } {
@@ -124,7 +125,7 @@ export default function ProfileForm({
             <label>{t('pf.avatar')}</label>
             <div className="pf-avatar-controls">
               <button type="button" className="org-btn org-btn-outline" onClick={() => avatarRef.current?.click()}>{t('brand.uploadLogo')}</button>
-              <button type="button" className="org-btn org-btn-outline" onClick={() => { setAiErr(''); setAiOpen(true); }}>✦ {t('pf.aiGenerate')}</button>
+              <button type="button" className="org-btn org-btn-outline" onClick={() => { setAiErr(''); setAiOpen(true); }}><Icon name="assistant" size={16} />{t('pf.aiGenerate')}</button>
               {avatarUrl.trim() && <button type="button" className="org-btn org-btn-ghost" onClick={() => setAvatarUrl('')}>{t('view.delete')}</button>}
               <input ref={avatarRef} type="file" accept="image/png,image/jpeg,image/webp" hidden onChange={onPickAvatar} />
             </div>
@@ -145,7 +146,7 @@ export default function ProfileForm({
         {aiOpen && (
           <div className="crp-overlay" role="dialog" aria-modal="true" onMouseDown={(e) => { if (e.target === e.currentTarget) setAiOpen(false); }}>
             <div className="crp-box">
-              <div className="crp-title">✦ {t('pf.aiGenerate')}</div>
+              <div className="crp-title"><Icon name="assistant" size={20} /> {t('pf.aiGenerate')}</div>
               {aiErr && <div className="org-alert">{aiErr}</div>}
               <textarea className="pf-ai-prompt" rows={3} value={aiPrompt} onChange={(e) => setAiPrompt(e.target.value)} placeholder={t('pf.aiPromptPlaceholder')} />
               <p className="crp-hint">{t('pf.aiHint')}</p>
@@ -188,7 +189,7 @@ export default function ProfileForm({
                     onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }}
                   />
                   <span className="pf-dial-code">{dial}</span>
-                  <svg className="pf-dial-chev" width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8l4 4 4-4" /></svg>
+                  <Icon name="chevronDown" className="pf-dial-chev" size={16} />
                 </span>
                 <select className="pf-dial-native" value={dial} onChange={(e) => setDial(e.target.value)} aria-label={t('pf.phoneHint')}>
                   {COUNTRIES.map((c) => (

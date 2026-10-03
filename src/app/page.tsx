@@ -2,7 +2,6 @@ import Link from 'next/link';
 import Reveal from '@/components/Reveal';
 import Icon from '@/components/Icon';
 import { LogoMark } from '@/components/Logo';
-import WelcomeIntro from '@/components/WelcomeIntro';
 import MasraHeader from '@/components/landing/MasraHeader';
 import Mockup from '@/components/landing/Mockup';
 import SystemsShowcase from '@/components/landing/SystemsShowcase';
@@ -10,8 +9,7 @@ import HowItWorks from '@/components/landing/HowItWorks';
 import ProductShowcase from '@/components/landing/ProductShowcase';
 import MasraAIChat from '@/components/landing/MasraAIChat';
 import MasraAssistant from '@/components/landing/MasraAssistant';
-import PricingPlans from '@/components/PricingPlans';
-import PlanAdvisor from '@/components/PlanAdvisor';
+import PricingPreview from '@/components/landing/PricingPreview';
 import { getT } from '@/lib/i18n/server';
 import { getPlatformSettings } from '@/lib/platform-settings';
 import { getActiveHeroSlides } from '@/lib/hero';
@@ -49,16 +47,10 @@ const SECURITY: { icon: string; k: string; soon?: boolean }[] = [
 const INTEGRATIONS = ['int.email', 'int.payment', 'int.whatsapp', 'int.google', 'int.microsoft', 'int.api'];
 
 // سيناريوهات الاستخدام (بديل الشهادات الوهمية) — مراكز القرآن أولًا «متاح الآن»، والبقية «قريبًا».
-const SCENARIOS = [
-  { icon: 'education/education-quran', k: 'scen.quran' },
-  { icon: 'organization/organization-institution', k: 'scen.charity', soon: true },
-  { icon: 'education/education-education', k: 'scen.edu', soon: true },
-  { icon: 'people/people-groups', k: 'scen.dev', soon: true },
-];
 
 export default async function HomePage() {
   // جلب متوازٍ (بدل تسلسلي) — الترجمة والإعدادات وشرائح الهيرو مستقلّة
-  const [{ t }, settings, slides] = await Promise.all([
+  const [{ t, locale }, settings, slides] = await Promise.all([
     getT(),
     getPlatformSettings(),
     getActiveHeroSlides(),
@@ -99,7 +91,6 @@ export default async function HomePage() {
 
   return (
     <div className={`mdl ${showAnnounce ? 'has-announce' : ''}`}>
-      <WelcomeIntro />
       {showAnnounce && (
         settings.announcementLink
           ? settings.announcementLink.startsWith('/')
@@ -132,19 +123,17 @@ export default async function HomePage() {
                     ? (slide.ctaLink.startsWith('/')
                         ? <Link href={slide.ctaLink} className="mdl-btn mdl-btn-light">{slide.ctaText}</Link>
                         : <a href={slide.ctaLink} className="mdl-btn mdl-btn-light" target="_blank" rel="noopener noreferrer">{slide.ctaText}</a>)
-                    : <Link href="/login" className="mdl-btn mdl-btn-light">{t('hero.cta.login')}</Link>}
-                  {demoEnabled
-                    ? <a href="/api/auth/demo" className="mdl-btn mdl-btn-outline-light">{t('hero.cta.demo')}</a>
-                    : <a href="#systems" className="mdl-btn mdl-btn-outline-light">{t('hero.cta.explore')}</a>}
+                    : <a href={demoEnabled ? "/api/auth/demo" : "#systems"} className="mdl-btn mdl-btn-light">{t(demoEnabled ? 'hero.cta.demo' : 'hero.cta.explore')}</a>}
+                  <a href="#pricing" className="mdl-btn mdl-btn-outline-light">{t('nav.pricing')}</a>
                 </div>
               </Reveal>
               <Reveal delay={0.3}>
                 <div className="mdl-hero-trust">
-                  <span><strong>12</strong> {t('hero.trust.systems')}</span>
+                  <span>{t('hero.trust.systems')}</span>
                   <span className="sep" />
-                  <span><strong>100%</strong> {t('hero.trust.isolation')}</span>
+                  <span>{t('hero.trust.isolation')}</span>
                   <span className="sep" />
-                  <span><strong>RTL</strong> {t('hero.trust.rtl')}</span>
+                  <span>{t('hero.trust.rtl')}</span>
                 </div>
               </Reveal>
             </div>
@@ -155,8 +144,8 @@ export default async function HomePage() {
                 {/* مكدّس بطاقات مائل: واجهات متراكبة بزوايا */}
                 <div className="mdl-fan">
                   <div className="mdl-fan-card back-2"><Mockup kind="reports" /></div>
-                  <div className="mdl-fan-card back-1"><Mockup kind="projects" /></div>
-                  <div className="mdl-fan-card front"><Mockup kind="dashboard" /></div>
+                  <div className="mdl-fan-card back-1"><Mockup kind="org" /></div>
+                  <div className="mdl-fan-card front"><Mockup kind="education" /></div>
                 </div>
                 <div className="mdl-float mdl-float-1">
                   <span className="fic brand"><Icon name="analytics/analytics-growth" size={17} /></span>
@@ -175,6 +164,7 @@ export default async function HomePage() {
           </div>
         </section>
 
+
         {/* ========== PROBLEM → SOLUTION ========== */}
         <section className="mdl-section" style={{ background: 'var(--white)' }}>
           <div className="mdl-wrap">
@@ -188,32 +178,14 @@ export default async function HomePage() {
               <div className="mdl-ps" style={{ marginTop: '2.5rem' }}>
                 <div className="mdl-problems">
                   {['ps.p1', 'ps.p2', 'ps.p3', 'ps.p4'].map((k) => (
-                    <div key={k} className="mdl-prob"><span className="x">✕</span><span>{t(k)}</span></div>
+                    <div key={k} className="mdl-prob"><span className="x"><Icon name="close" size={16} /></span><span>{t(k)}</span></div>
                   ))}
                 </div>
                 <div className="mdl-solution">
                   <h3>{t('ps.sol.title')}</h3>
                   <p>{t('ps.sol.desc')}</p>
-                  <Link href="/login" className="mdl-btn mdl-btn-light">{t('hero.cta.login')}</Link>
+                  <a href="#how-it-works" className="mdl-btn mdl-btn-light">{t('sec.how.eyebrow')}</a>
                 </div>
-              </div>
-            </Reveal>
-          </div>
-        </section>
-
-        {/* ========== PLATFORM VALUE + AUDIENCES ========== */}
-        <section id="platform" className="mdl-section">
-          <div className="mdl-wrap mdl-center">
-            <Reveal>
-              <span className="mdl-eyebrow">{t('sec.platform.eyebrow')}</span>
-              <h2 className="mdl-h2">{t('sec.platform.title')}</h2>
-              <p className="mdl-lead">{t('sec.platform.lead')}</p>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <div className="mdl-chips">
-                {AUDIENCES.map((a) => (
-                  <span key={a.k} className="mdl-chip"><Icon name={a.icon} className="ic" size={17} />{t(a.k)}</span>
-                ))}
               </div>
             </Reveal>
           </div>
@@ -234,7 +206,7 @@ export default async function HomePage() {
         </section>
 
         {/* ========== HOW IT WORKS ========== */}
-        <section className="mdl-section" style={{ background: 'var(--white)' }}>
+        <section id="how-it-works" className="mdl-section" style={{ background: 'var(--white)' }}>
           <div className="mdl-wrap">
             <Reveal>
               <div className="mdl-center">
@@ -248,7 +220,7 @@ export default async function HomePage() {
         </section>
 
         {/* ========== PRODUCT SHOWCASE ========== */}
-        <section className="mdl-section">
+        <section id="roles" className="mdl-section">
           <div className="mdl-wrap">
             <Reveal>
               <div className="mdl-center">
@@ -261,30 +233,6 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* ========== SCENARIOS (use cases — بديل الشهادات) ========== */}
-        <section className="mdl-section" style={{ background: 'var(--white)' }}>
-          <div className="mdl-wrap">
-            <Reveal>
-              <div className="mdl-center">
-                <span className="mdl-eyebrow">{t('sec.scen.eyebrow')}</span>
-                <h2 className="mdl-h2">{t('sec.scen.title')}</h2>
-                <p className="mdl-lead">{t('sec.scen.lead')}</p>
-              </div>
-            </Reveal>
-            <div className="mdl-feats" style={{ marginTop: '2.5rem' }}>
-              {SCENARIOS.map((s, i) => (
-                <Reveal key={s.k} delay={(i % 3) * 0.06}>
-                  <div className="mdl-feat">
-                    <span className="fi"><Icon name={s.icon} size={22} /></span>
-                    <h4>{t(`${s.k}.t`)}{s.soon && <span className="mdl-soon">{t('badge.soon')}</span>}</h4>
-                    <p>{t(`${s.k}.d`)}</p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* ========== MASRA AI ========== */}
         <section id="ai" className="mdl-section mdl-ai">
           <div className="mdl-wrap mdl-ai-grid">
@@ -294,7 +242,7 @@ export default async function HomePage() {
                 <h2 className="mdl-h2">{t('sec.ai.title')}</h2>
                 <p className="mdl-lead">{t('sec.ai.lead')}</p>
                 <div className="mdl-hero-actions">
-                  <Link href="/login" className="mdl-btn mdl-btn-primary">{t('sec.ai.cta')}</Link>
+                  <a href="#pricing" className="mdl-btn mdl-btn-primary">{t('sec.ai.cta')}</a>
                 </div>
               </div>
             </Reveal>
@@ -302,8 +250,24 @@ export default async function HomePage() {
           </div>
         </section>
 
+        {/* ========== PRICING ========== */}
+        <section id="pricing" className="mdl-section">
+          <div className="mdl-wrap">
+            <Reveal>
+              <div className="mdl-center">
+                <span className="mdl-eyebrow">{t('sec.pricing.eyebrow')}</span>
+                <h2 className="mdl-h2">{t('sec.pricing.title')}</h2>
+                <p className="mdl-lead">{t('sec.pricing.lead')}</p>
+              </div>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <PricingPreview />
+            </Reveal>
+          </div>
+        </section>
+
         {/* ========== FEATURES ========== */}
-        <section className="mdl-section">
+        {settings.homeFeatures?.length ? <section className="mdl-section">
           <div className="mdl-wrap">
             <Reveal>
               <div className="mdl-center">
@@ -323,7 +287,7 @@ export default async function HomePage() {
               ))}
             </div>
           </div>
-        </section>
+        </section> : null}
 
         {/* ========== SECURITY ========== */}
         <section className="mdl-section mdl-sec">
@@ -344,8 +308,26 @@ export default async function HomePage() {
               <div className="mdl-shield">
                 <div className="mdl-shield-wrap">
                   <span className="ring" /><span className="ring two" />
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5z" /><path d="M9 12l2 2 4-4" /></svg>
+                  <Icon name="verified" size={48} />
                 </div>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ========== PLATFORM VALUE + AUDIENCES ========== */}
+        <section id="platform" className="mdl-section">
+          <div className="mdl-wrap mdl-center">
+            <Reveal>
+              <span className="mdl-eyebrow">{t('sec.platform.eyebrow')}</span>
+              <h2 className="mdl-h2">{t('sec.platform.title')}</h2>
+              <p className="mdl-lead">{t('sec.platform.lead')}</p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <div className="mdl-chips">
+                {AUDIENCES.map((a) => (
+                  <span key={a.k} className="mdl-chip"><Icon name={a.icon} className="ic" size={17} />{t(a.k)}{a.k !== 'aud.quran' && <span className="mdl-soon">{t('badge.soon')}</span>}</span>
+                ))}
               </div>
             </Reveal>
           </div>
@@ -366,27 +348,6 @@ export default async function HomePage() {
                 <span key={i} className="mdl-int"><Icon name="actions/actions-link" size={18} />{t(n)}</span>
               ))}
             </div>
-          </div>
-        </section>
-
-        {/* ========== PRICING ========== */}
-        <section id="pricing" className="mdl-section">
-          <div className="mdl-wrap">
-            <Reveal>
-              <div className="mdl-center">
-                <span className="mdl-eyebrow">{t('sec.pricing.eyebrow')}</span>
-                <h2 className="mdl-h2">{t('sec.pricing.title')}</h2>
-                <p className="mdl-lead">{t('sec.pricing.lead')}</p>
-              </div>
-            </Reveal>
-            <Reveal delay={0.08}>
-              <PlanAdvisor />
-            </Reveal>
-            <Reveal delay={0.1}>
-              <div className="mdl-pricing">
-                <PricingPlans />
-              </div>
-            </Reveal>
           </div>
         </section>
 
@@ -420,8 +381,8 @@ export default async function HomePage() {
               <h2>{t('cta.title')}</h2>
               <p>{t('cta.lead')}</p>
               <div className="mdl-cta-actions">
-                <Link href="/login" className="mdl-btn mdl-btn-light">{t('cta.login')}</Link>
-                <a href="#about" className="mdl-btn mdl-btn-outline-light">{t('cta.contact')}</a>
+                <a href="#systems" className="mdl-btn mdl-btn-light">{t('hero.cta.explore')}</a>
+                <Link href="/contact" className="mdl-btn mdl-btn-outline-light">{t('cta.contact')}</Link>
               </div>
             </Reveal>
           </div>
@@ -442,11 +403,11 @@ export default async function HomePage() {
             </div>
             <div>
               <h5>{t('footer.col.solutions')}</h5>
-              <ul><li><a href="#platform">{t('nav.orgs')}</a></li><li><a href="#systems">{t('nav.systems')}</a></li><li><a href="#about">{t('nav.about')}</a></li></ul>
+              <ul><li><a href="#platform">{t('nav.orgs')}</a></li><li><a href="#how-it-works">{t('nav.journey')}</a></li><li><a href="#roles">{t('nav.roles')}</a></li></ul>
             </div>
             <div>
               <h5>{t('footer.col.support')}</h5>
-              <ul><li><Link href="/login">{t('nav.login')}</Link></li><li><a href="#about">{t('footer.contact')}</a></li><li><Link href="/privacy">{t('footer.privacy')}</Link></li><li><Link href="/terms">{t('footer.terms')}</Link></li></ul>
+              <ul><li><Link href="/login">{t('nav.login')}</Link></li><li><Link href="/contact">{t('footer.contact')}</Link></li><li><Link href="/privacy">{t('footer.privacy')}</Link></li><li><Link href="/terms">{t('footer.terms')}</Link></li></ul>
             </div>
           </div>
           <div className="mdl-footer-bottom">{t('footer.rights')}</div>
