@@ -122,6 +122,8 @@ export default function LoginPage() {
           </button>
         </form>
 
+        <p className="lg-switch">{t('login.noAccount')} <Link href="/signup">{t('login.createAccount')}</Link></p>
+
         {/* حسابات الدخول التجريبية — للتطوير المحلّي فقط، تُخفى في الإنتاج */}
         {process.env.NODE_ENV !== 'production' && (
           <div className="lg-demo">

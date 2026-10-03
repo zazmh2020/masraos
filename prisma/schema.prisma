@@ -1307,3 +1307,33 @@ enum DonationStatus {
   PLEDGED // متعهَّد به
   RECEIVED // مستلَم
 }
+
+/// قناة إرسال رمز التحقق عند إنشاء حساب جديد.
+enum VerifyChannel {
+  EMAIL
+  PHONE
+}
+
+/// طلب إنشاء حساب قيد التحقق — لا تُنشأ المؤسسة ولا المستخدم إلا بعد إدخال الرمز الصحيح.
+/// الرمز لا يُخزَّن نصًّا: HMAC بسرّ الخادم. كلمة المرور مُجزّأة (bcrypt).
+model SignupRequest {
+  id           String        @id @default(cuid())
+  channel      VerifyChannel
+  name         String
+  email        String
+  phone        String?
+  orgName      String
+  slug         String
+  passwordHash String
+  codeHash     String
+  attempts     Int           @default(0)
+  sendCount    Int           @default(1)
+  lastSentAt   DateTime      @default(now())
+  expiresAt    DateTime
+  consumedAt   DateTime?
+  createdAt    DateTime      @default(now())
+
+  @@index([email])
+  @@index([createdAt])
+  @@map("signup_requests")
+}
