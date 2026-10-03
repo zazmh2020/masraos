@@ -15,6 +15,9 @@ import { moduleEnabled } from '@/lib/modules';
 import { isAssistantConfigured } from '@/lib/anthropic';
 import { getT } from '@/lib/i18n/server';
 import '@/styles/org.css';
+// الواجهة الهادئة: رموز مشتركة + جلد يعيد تشكيل الهيكل (يُحمَّل بعد org.css)
+import '@/styles/calm.css';
+import '@/styles/calm-org.css';
 
 export const dynamic = 'force-dynamic';
 

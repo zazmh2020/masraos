@@ -1,0 +1,137 @@
+/* ============================================================
+   مسرى — جلد الواجهة الهادئة للوحة المؤسسة (Calm skin)
+   يُحمَّل بعد org.css، ويعيد تشكيل الهيكل والمكوّنات الموجودة
+   دون تغيير الترميز أو المنطق.
+   الهوية: OrgShell يضبط --purple-* من لون هوية الجهة على .org-app،
+   ورموز --c-* (في calm.css) مشتقّة منها — فكل جهة تظهر بهويتها تلقائيًا.
+   ============================================================ */
+
+/* ---------- الهيكل: خلفية بيضاء ---------- */
+.org-app { background: #fff; gap: 12px; padding: 12px; }
+body:has(.org-app) { background: #fff; }
+
+/* ---------- الشريط الجانبي: أبيض هادئ (بدل الداكن العائم) ---------- */
+.org-app .org-sidebar {
+  background: #fff;
+  color: var(--c-text);
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  padding: 16px 12px;
+  width: 256px;
+}
+.org-app .org-fold-toggle {
+  width: 36px; height: 36px; border-radius: var(--cr-pill);
+  border: 1px solid var(--c-line-2); background: #fff; color: var(--c-text-2);
+}
+.org-app .org-fold-toggle:hover { border-color: var(--c-p-30); background: var(--c-p-3); color: var(--c-text); }
+
+.org-app .org-side-profile { border: 1px solid var(--c-line); background: var(--c-surface-2); border-radius: var(--cr-lg); }
+.org-app .org-user-name { color: var(--c-text); }
+.org-app .org-user-role { color: var(--c-muted); font-size: 12.5px; }
+.org-app .org-user-avatar.org-user-avatar-lg { border: 2px solid #fff; box-shadow: 0 0 0 1px var(--c-line-2); }
+
+.org-app .org-nav-divider {
+  font-size: 12px; font-weight: 500; letter-spacing: 0; opacity: 1;
+  color: var(--c-muted); padding: 18px 12px 6px;
+}
+.org-app .org-nav-item {
+  min-height: 42px; padding: 0 12px; border: 0; border-radius: var(--cr-pill);
+  font-size: 14px; color: var(--c-text-2);
+}
+.org-app .org-nav-item:hover { background: var(--c-p-6); color: var(--c-text); transform: none; border-color: transparent; }
+.org-app .org-nav-item.is-active { background: var(--c-p-10); color: var(--c-ink); font-weight: 600; }
+.org-app .org-nav-item.is-active .org-nav-ic { color: var(--c-brand); opacity: 1; }
+.org-app .org-nav-grouphd.is-parent-active { color: var(--c-ink); font-weight: 600; }
+.org-app .org-nav-child { color: var(--c-text-2); font-size: 13.5px; border-radius: var(--cr-pill); }
+.org-app .org-nav-child:hover { background: var(--c-p-6); color: var(--c-text); }
+.org-app .org-nav-child.is-active { background: var(--c-p-10); color: var(--c-ink); font-weight: 600; }
+.org-app .org-module-count { background: var(--c-ink); color: #fff; }
+
+@media (min-width: 961px) {
+  .org-app.is-collapsed .org-nav-item.is-active { background: var(--c-p-10); }
+  .org-app.is-collapsed .org-nav-divider { border-top-color: var(--c-line); }
+}
+
+/* ---------- الشريط العلوي: شريط مسار نظيف ---------- */
+.org-app .org-topbar {
+  background: #fff;
+  border: 1px solid var(--c-line);
+  border-radius: var(--cr-lg);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  min-height: 60px;
+  top: 12px;
+}
+.org-app .org-topbar-name { color: var(--c-text); font-weight: 600; }
+
+/* ---------- لوحة المحتوى ---------- */
+.org-app .org-main { gap: 12px; }
+.org-app .org-content {
+  border: 1px solid var(--c-line);
+  border-radius: var(--cr-xl);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  padding: clamp(20px, 2.4vw, 36px);
+}
+
+/* ---------- رأس الصفحة ---------- */
+.org-app .org-page-head { margin-bottom: 32px; gap: 16px; }
+.org-app .org-page-head h1 { font-size: 28px; line-height: 1.3; font-weight: 700; color: var(--c-text); margin: 4px 0 8px; }
+.org-app .org-page-head p { font-size: 14.5px; color: var(--c-text-2); max-width: 64ch; }
+.org-app .org-eyebrow { font-size: 12.5px; font-weight: 500; letter-spacing: 0; color: var(--c-muted); }
+
+/* ---------- الإحصاءات واللوحات والبطاقات ---------- */
+.org-app .org-stats { gap: 12px; margin-bottom: 32px; }
+.org-app .org-stat { border: 1px solid var(--c-line); border-radius: var(--cr-lg); padding: 20px 24px; }
+.org-app .org-stat-label { font-size: 13px; color: var(--c-text-2); }
+.org-app .org-stat-value { font-size: 26px; color: var(--c-text); font-variant-numeric: tabular-nums; }
+.org-app .org-panel,
+.org-app .org-card,
+.org-app .org-form { border: 1px solid var(--c-line); border-radius: var(--cr-lg); box-shadow: none; }
+.org-app .org-panel { padding: 24px; margin-bottom: 24px; }
+.org-app .org-panel h2 { font-size: 17px; font-weight: 700; color: var(--c-text); }
+
+/* ---------- الجداول ---------- */
+.org-app .org-table-wrap { border-color: var(--c-line); border-radius: var(--cr-lg); }
+/* داخل لوحة: بلا إطار مزدوج — خط علوي فقط */
+.org-app .org-panel .org-table-wrap { border: 0; border-top: 1px solid var(--c-line); border-radius: 0; }
+.org-app .org-table th {
+  font-size: 13px; font-weight: 500; color: var(--c-muted);
+  background: transparent; letter-spacing: 0; text-transform: none;
+  border-bottom: 1px solid var(--c-line);
+}
+.org-app .org-table td { border-bottom: 1px solid var(--c-line); color: var(--c-text); }
+.org-app .org-table tbody tr:hover { background: var(--c-p-3); }
+
+/* ---------- الأزرار: كبسولات، والأساسي بأعمق درجات الهوية ---------- */
+.org-app .org-btn { min-height: 40px; border-radius: var(--cr-pill); font-size: 14px; padding: 0 18px; }
+.org-app .org-btn-primary { background: var(--c-ink); color: #fff; }
+.org-app .org-btn-primary:is(:hover, :active):not(:disabled) { background: var(--c-brand-deep); }
+.org-app .org-btn-outline { border: 1px solid var(--c-line-2); color: var(--c-text); }
+.org-app .org-btn-outline:hover { border-color: var(--c-p-30); color: var(--c-ink); background: var(--c-p-3); }
+.org-app .org-btn-quiet,
+.org-app .org-btn-ghost,
+.org-app .org-btn-danger { min-height: 36px; padding: 0 14px; font-size: 13.5px; }
+.org-app .org-btn-quiet { border-color: var(--c-line-2); color: var(--c-text); }
+.org-app .org-btn-danger { border-color: var(--t-rose-2); color: var(--t-rose-ink); }
+.org-app .org-btn-danger:hover:not(:disabled) { background: var(--t-rose); border-color: var(--t-rose-2); }
+
+/* ---------- الشارات: كبسولات حالة ملوّنة خفيفًا ---------- */
+.org-app .org-badge { min-height: 24px; padding: 0 10px; display: inline-flex; align-items: center; font-size: 12.5px; background: var(--c-chip); color: var(--c-text-2); }
+.org-app .org-badge.is-on { background: var(--t-mint); color: var(--t-mint-ink); }
+
+/* ---------- الحقول ---------- */
+.org-app .org-field label { color: var(--c-text); }
+
+/* ---------- الجوال: درج أبيض بظل ناعم ---------- */
+@media (max-width: 860px) {
+  .org-app { padding: 8px; gap: 8px; }
+  .org-app .org-sidebar { border-radius: 0; box-shadow: 0 0 0 1px var(--c-line), 0 24px 48px -24px color-mix(in srgb, var(--c-ink) 35%, transparent); }
+  .org-app .org-content { border-radius: var(--cr-lg); padding: 20px 16px; }
+  .org-app .org-page-head h1 { font-size: 24px; }
+}
