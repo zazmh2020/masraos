@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore, type FormEvent } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { LogoMark } from '@/components/Logo';
@@ -13,11 +13,10 @@ import '@/styles/signup.css';
 type Channel = 'EMAIL' | 'PHONE';
 type Field = 'name' | 'orgName' | 'slug' | 'email' | 'phone' | 'password' | 'channel';
 
-/** لاحقة النطاق الظاهرة بجانب رابط المركز (تُحسب في المتصفح). */
-function hostSuffix(): string {
-  if (typeof window === 'undefined') return '';
-  return `.${window.location.hostname.replace(/^www\./, '')}`;
-}
+/** لاحقة النطاق الظاهرة بجانب رابط المركز — قيمة الخادم فارغة، والمتصفح يعطي المضيف الفعلي. */
+const noopSubscribe = () => () => {};
+const clientSuffix = () => `.${window.location.hostname.replace(/^www\./, '')}`;
+const serverSuffix = () => '';
 
 export default function SignupPage() {
   const t = useT();
@@ -35,6 +34,7 @@ export default function SignupPage() {
   const [code, setCode] = useState('');
   const [cooldown, setCooldown] = useState(0);
   const codeRef = useRef<HTMLInputElement>(null);
+  const suffix = useSyncExternalStore(noopSubscribe, clientSuffix, serverSuffix);
 
   useEffect(() => {
     if (cooldown <= 0) return;
@@ -187,7 +187,7 @@ export default function SignupPage() {
               <span className="lg-label">{t('signup.slug')}</span>
               <span className="su-slug">
                 <input dir="ltr" inputMode="url" autoCapitalize="none" spellCheck={false} placeholder="alnoor" value={form.slug} onChange={set('slug')} {...fieldProps('slug')} />
-                <span suppressHydrationWarning>{hostSuffix()}</span>
+                <span>{suffix}</span>
               </span>
               {fieldErr.slug ? fieldError('slug') : <span className="su-hint">{t('signup.slugHint')}</span>}
             </label>
