@@ -9,6 +9,8 @@ export const metadata = { title: 'سياسة الخصوصية · مسرى' };
 
 const UPDATED = '2026-09-05';
 
+// TODO(legal): النص القانوني يصف الخدمة للجمعيات والمؤسسات عمومًا، بينما التموضع الحالي «مراكز القرآن»
+// وأصبح التسجيل الذاتي متاحًا (/signup). لم يُعدَّل النص عمدًا — يحتاج مراجعة واعتمادًا قانونيًا قبل التغيير.
 export default async function PrivacyPage() {
   const locale = await getLocale();
   const en = locale === 'en';

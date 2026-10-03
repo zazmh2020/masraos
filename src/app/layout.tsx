@@ -10,9 +10,9 @@ import PWARegister from '@/components/PWARegister';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'مسرى | MASRA — منظومة مسرى الرقمية',
+  title: 'مَسرى | MASRA — منصة إدارة مراكز تعليم القرآن',
   description:
-    'منظومة رقمية متكاملة تُدير أفراد المؤسسة ومشاريعها وبرامجها ووثائقها ومعرفتها من مكان واحد.',
+    'مَسرى ينظّم عمل مراكز القرآن: الطلاب والحلقات والحضور وسجل الحفظ والمراجعة، بصلاحيات واضحة لكل دور.',
   applicationName: 'مسرى',
   appleWebApp: { capable: true, statusBarStyle: 'default', title: 'مسرى' },
   icons: {

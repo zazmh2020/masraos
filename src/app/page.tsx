@@ -16,16 +16,6 @@ import { getActiveHeroSlides } from '@/lib/hero';
 import '@/styles/masra.css';
 import '@/styles/pricing.css';
 
-// الترتيب الرسمي للقطاعات (يطابق SECTORS في lib/org-types.ts): مراكز القرآن أولًا «متاح الآن».
-const AUDIENCES = [
-  { icon: 'education/education-quran', k: 'aud.quran' },
-  { icon: 'organization/organization-institution', k: 'aud.charity' },
-  { icon: 'people/people-groups', k: 'aud.humanitarian' },
-  { icon: 'education/education-education', k: 'aud.education' },
-  { icon: 'analytics/analytics-growth', k: 'aud.development' },
-  { icon: 'organization/organization-building', k: 'aud.waqf' },
-];
-
 const FEATURES = [
   { icon: 'organization/organization-structure', k: 'feat.central' },
   { icon: 'operations/operations-activities', k: 'feat.flexible' },
@@ -46,7 +36,6 @@ const SECURITY: { icon: string; k: string; soon?: boolean }[] = [
 
 const INTEGRATIONS = ['int.email', 'int.payment', 'int.whatsapp', 'int.google', 'int.microsoft', 'int.api'];
 
-// سيناريوهات الاستخدام (بديل الشهادات الوهمية) — مراكز القرآن أولًا «متاح الآن»، والبقية «قريبًا».
 
 export default async function HomePage() {
   // جلب متوازٍ (بدل تسلسلي) — الترجمة والإعدادات وشرائح الهيرو مستقلّة
@@ -324,11 +313,11 @@ export default async function HomePage() {
               <p className="mdl-lead">{t('sec.platform.lead')}</p>
             </Reveal>
             <Reveal delay={0.1}>
+              {/* القطاع المتاح فقط، والبقية سطر ثانوي واحد بدل شارات «قريبًا» متكرّرة */}
               <div className="mdl-chips">
-                {AUDIENCES.map((a) => (
-                  <span key={a.k} className="mdl-chip"><Icon name={a.icon} className="ic" size={17} />{t(a.k)}{a.k !== 'aud.quran' && <span className="mdl-soon">{t('badge.soon')}</span>}</span>
-                ))}
+                <span className="mdl-chip"><Icon name="education/education-quran" className="ic" size={17} />{t('aud.quran')}<span className="mdl-soon">{t('aud.available')}</span></span>
               </div>
+              <p className="mdl-lead" style={{ marginTop: '1rem', fontSize: '0.95rem' }}>{t('aud.later')}</p>
             </Reveal>
           </div>
         </section>
@@ -342,12 +331,13 @@ export default async function HomePage() {
               <p className="mdl-lead">{t('sec.integrations.lead')}</p>
             </Reveal>
           </div>
-          <div className="mdl-marquee">
-            <div className="mdl-marquee-track">
-              {[...INTEGRATIONS, ...INTEGRATIONS].map((n, i) => (
-                <span key={i} className="mdl-int"><Icon name="actions/actions-link" size={18} />{t(n)}</span>
+          {/* قائمة ثابتة (بلا شريط متحرك) — التكاملات مخطط لها وليست مفعّلة */}
+          <div className="mdl-wrap">
+            <ul className="mdl-chips" aria-label={t('sec.integrations.title')} style={{ listStyle: 'none', padding: 0 }}>
+              {INTEGRATIONS.map((n) => (
+                <li key={n} className="mdl-int"><Icon name="actions/actions-link" size={18} />{t(n)}</li>
               ))}
-            </div>
+            </ul>
           </div>
         </section>
 

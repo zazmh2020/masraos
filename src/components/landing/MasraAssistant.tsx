@@ -18,7 +18,7 @@ function replyAr(q: string): string {
   if (/تكامل|ربط|api|واتس|بريد/i.test(q))
     return 'التكاملات المعلنة مع البريد والدفع وWhatsApp وGoogle وMicrosoft على خارطة الطريق. لا نعرضها هنا كخدمات جاهزة.';
   if (/أبدأ|ابدأ|بدء|بداية|تسجيل|حساب|دخول|تواصل|طلب/.test(q))
-    return 'استكشف تجربة المركز والباقات المقترحة. الحسابات تنشئها إدارة المنصة، وليست هناك خدمة تسجيل ذاتي أو استقبال طلبات مفعلة هنا. موظف الذكاء الاصطناعي للرد والطلبات مخطط لاحقًا؛ راجع صفحة التواصل لحالة الخدمة.';
+    return 'أنشئ حساب مركزك من صفحة «إنشاء حساب»: أدخل بيانات المركز وأكّد برمز يصلك على البريد أو الجوال، ثم تدخل لوحة مركزك مباشرة. الدفع غير مفعّل بعد، والباقات المعروضة مسودة. لديك سؤال؟ راجع صفحة التواصل.';
   if (/ذكاء|مساعد|ذكي|ai/i.test(q))
     return 'أنا دليل تعريفي بإجابات جاهزة، ولا أتصل ببيانات مركزك أو بنموذج ذكاء اصطناعي. مساعد المؤسسة منفصل ويتطلب التهيئة والتحقق من الجاهزية. المحادثة المعروضة في الصفحة محاكاة، وتحتاج الإجابات الفعلية إلى مراجعة بشرية.';
   if (/أمان|صلاحي|خصوصي|حماية|عزل/.test(q))
@@ -27,7 +27,7 @@ function replyAr(q: string): string {
     return 'التركيز الحالي على مراكز القرآن. القطاعات الخيرية والإنسانية والتعليمية الأخرى مخططة لاحقًا، وليست متاحة للاشتراك الآن.';
   if (ON_TOPIC_AR.test(q))
     return 'يركز مَسرى على تنظيم مراكز القرآن: بيانات الطلاب والحلقات والحضور وسجل الحفظ والمراجعة. يمكنك استكشاف الواجهات التوضيحية ورحلة الطالب والباقات المقترحة في هذه الصفحة.';
-  return 'أقدّم إجابات جاهزة عن مَسرى فقط: تجربة المركز والباقات وحالة الخدمات وكيفية البدء. لا أستطيع تنفيذ إجراءات أو استقبال طلب اشتراك.';
+  return 'أقدّم إجابات جاهزة عن مَسرى فقط: تجربة المركز والباقات وحالة الخدمات وكيفية البدء. لا أستطيع تنفيذ إجراءات نيابةً عنك.';
 }
 
 function replyEn(q: string): string {
@@ -36,7 +36,7 @@ function replyEn(q: string): string {
   if (/integrat|connect|api|whatsapp|email/i.test(q))
     return 'The listed email, payment, WhatsApp, Google and Microsoft integrations are on the roadmap, not presented as ready services.';
   if (/start|begin|sign|account|login|contact|request/i.test(q))
-    return 'Explore the center experience and proposed plans. Platform administration creates accounts; self-registration and requests are not enabled here. An AI representative for replies and requests is planned. Check the contact page for availability.';
+    return 'Create your center account from the sign-up page: enter your center details, confirm with a code sent to your email or phone, and go straight to your dashboard. Payments are not enabled yet, and the plans shown are a draft. Questions? See the contact page.';
   if (/assistant|intelligence|\bai\b/i.test(q))
     return 'I am a guide with prepared replies, not an AI model, and cannot access center data. The organization assistant is separate and requires configuration and readiness checks. The page conversation is simulated; real answers need human review.';
   if (/secur|permission|privacy|isolat|protect/i.test(q))
@@ -45,7 +45,7 @@ function replyEn(q: string): string {
     return 'The current focus is Quran centers. Charity, humanitarian and other education sectors are planned, not currently available for subscription.';
   if (ON_TOPIC_EN.test(q))
     return 'Masra focuses on Quran centers: student records, circles, attendance and memorization logs. Explore the illustrative interfaces, student journey and proposed plans on this page.';
-  return 'I provide prepared replies about Masra: the center experience, plans, service availability and getting started. I cannot perform actions or accept subscriptions.';
+  return 'I provide prepared replies about Masra: the center experience, plans, service availability and getting started. I cannot perform actions on your behalf.';
 }
 
 export function getLandingReply(locale: Locale, q: string): string {

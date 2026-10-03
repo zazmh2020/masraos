@@ -3,9 +3,9 @@ import type { MetadataRoute } from 'next';
 /** بيان تطبيق الويب — يجعل مسرى قابلًا للتثبيت على الجوال كتطبيق (PWA). */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'مسرى — منظومة إدارة المؤسسات',
+    name: 'مَسرى — إدارة مراكز تعليم القرآن',
     short_name: 'مسرى',
-    description: 'منظومة رقمية متكاملة لإدارة المؤسسات والمراكز القرآنية والجمعيات.',
+    description: 'تنظيم عمل مراكز القرآن: الطلاب والحلقات والحضور وسجل الحفظ.',
     start_url: '/',
     scope: '/',
     display: 'standalone',

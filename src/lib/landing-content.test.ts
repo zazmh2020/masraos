@@ -30,6 +30,12 @@ describe('marketing content and honest preview boundaries', () => {
     expect(pricing).toContain('لم يُرسل طلب');
   });
 
+  it('keeps the FAQ consistent with live self-serve signup', () => {
+    expect(translate('ar', 'faq.a1')).toContain('إنشاء حساب');
+    expect(translate('en', 'faq.a1')).toContain('sign-up');
+    for (const l of ['ar', 'en'] as const) expect(translate(l, 'faq.a1')).not.toMatch(/not enabled in this preview|غير مفعّلين في هذا العرض/);
+  });
+
   it('links contact to the contact page and removes numeric security guarantees', () => {
     const home = source('src/app/page.tsx');
     expect(home).toContain('href="/contact"');
@@ -39,9 +45,11 @@ describe('marketing content and honest preview boundaries', () => {
   it.each([
     ['ar', 'هل يوجد ربط واتساب؟', 'خارطة الطريق'],
     ['en', 'WhatsApp integration?', 'roadmap'],
-    ['ar', 'كيف ابدأ؟', 'ليست هناك خدمة تسجيل ذاتي'],
-    ['ar', 'كيف أبدأ؟', 'ليست هناك خدمة تسجيل ذاتي'],
-    ['en', 'How do I start?', 'not enabled'],
+    ['ar', 'كيف ابدأ؟', 'إنشاء حساب'],
+    ['ar', 'كيف أبدأ؟', 'إنشاء حساب'],
+    ['en', 'How do I start?', 'sign-up page'],
+    ['ar', 'كيف أبدأ؟', 'الدفع غير مفعّل'],
+    ['en', 'How do I start?', 'Payments are not enabled'],
     ['ar', 'هل أنت ذكاء اصطناعي؟', 'إجابات جاهزة'],
     ['en', 'Are you AI?', 'prepared replies'],
     ['ar', 'هل يخدم الجمعيات الخيرية؟', 'ليست متاحة للاشتراك'],
