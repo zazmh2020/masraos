@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 import type { OrgPlan } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
-import { getSession } from '@/lib/session';
+import { getVerifiedSession } from '@/lib/session-guard';
 import { PLAN_BY_ID } from '@/lib/plans';
 
 /** تغيير باقة مؤسسة — لمالك المنصة فقط */
 export async function PATCH(request: Request, { params }: { params: Promise<{ slug: string }> }) {
-  const session = await getSession();
+  const session = await getVerifiedSession();
   if (!session || session.role !== 'PLATFORM_OWNER') {
     return NextResponse.json({ error: 'غير مصرّح.' }, { status: 403 });
   }

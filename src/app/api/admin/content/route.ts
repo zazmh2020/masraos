@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
-import { getSession } from '@/lib/session';
+import { getVerifiedSession } from '@/lib/session-guard';
 
 const URL_RE = /^https?:\/\/.+/i;
 
@@ -48,7 +48,7 @@ function faqs(v: unknown): { q: string; a: string }[] | null {
 
 /** تخصيص المحتوى العام للمنصّة — لمالك المنصّة فقط. */
 export async function PATCH(request: Request) {
-  const session = await getSession();
+  const session = await getVerifiedSession();
   if (!session || session.role !== 'PLATFORM_OWNER') {
     return NextResponse.json({ error: 'غير مصرّح.' }, { status: 403 });
   }

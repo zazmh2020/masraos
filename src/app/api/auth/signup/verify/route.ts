@@ -33,7 +33,7 @@ export async function POST(request: Request) {
   }
 
   // إنشاء المؤسسة ومديرها في معاملة واحدة، مع "حجز" الطلب أولًا لمنع الإنشاء المزدوج
-  let user: { id: string; email: string; name: string; role: string; organizationId: string | null };
+  let user: { id: string; email: string; name: string; role: string; organizationId: string | null; sessionVersion: number };
   try {
     user = await prisma.$transaction(async (tx) => {
       const claimed = await tx.signupRequest.updateMany({ where: { id: req.id, consumedAt: null }, data: { consumedAt: new Date() } });
@@ -48,7 +48,7 @@ export async function POST(request: Request) {
             create: { name: req.name, email: req.email, phone: req.phone, passwordHash: req.passwordHash, role: 'ORG_ADMIN' },
           },
         },
-        include: { users: { select: { id: true, email: true, name: true, role: true, organizationId: true } } },
+        include: { users: { select: { id: true, email: true, name: true, role: true, organizationId: true, sessionVersion: true } } },
       });
       return org.users[0];
     });
@@ -65,7 +65,7 @@ export async function POST(request: Request) {
   const host = request.headers.get('host');
   const domain = sessionCookieDomain(host);
   await createSession(
-    { userId: user.id, email: user.email, name: user.name, role: user.role, organizationId: user.organizationId, organizationSlug: req.slug },
+    { userId: user.id, email: user.email, name: user.name, role: user.role, organizationId: user.organizationId, organizationSlug: req.slug, sessionVersion: user.sessionVersion },
     false,
     domain,
   );

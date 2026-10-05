@@ -18,6 +18,8 @@ export interface SessionData {
   role: string;
   organizationId: string | null;
   organizationSlug: string | null;
+  /** يطابق users.sessionVersion؛ أي اختلاف يعني أن الجلسة أُبطلت. */
+  sessionVersion: number;
   demo?: boolean; // جلسة عرض تجريبي (للاستعراض فقط — تُمنَع التعديلات)
 }
 
@@ -118,7 +120,8 @@ export function parseSession(token: string): SessionData | null {
       !(value.organizationId === null || (typeof value.organizationId === 'string' && value.organizationId.length > 0)) ||
       !(value.organizationSlug === null || (typeof value.organizationSlug === 'string' && value.organizationSlug.length > 0)) ||
       (value.organizationId === null) !== (value.organizationSlug === null) ||
-      (value.demo !== undefined && typeof value.demo !== 'boolean')) return null;
+      (value.demo !== undefined && typeof value.demo !== 'boolean') ||
+      typeof value.sessionVersion !== 'number' || !Number.isSafeInteger(value.sessionVersion) || value.sessionVersion < 0) return null;
     return value as unknown as SessionData;
   } catch {
     return null;

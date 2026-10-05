@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { getSession } from '@/lib/session';
+import { getVerifiedSession } from '@/lib/session-guard';
 import LogoutButton from './LogoutButton';
 
 const roleLabels: Record<string, string> = {
@@ -10,7 +10,7 @@ const roleLabels: Record<string, string> = {
 };
 
 export default async function DashboardPage() {
-  const session = await getSession();
+  const session = await getVerifiedSession();
 
   if (!session) {
     redirect('/login');

@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getSession } from '@/lib/session';
+import { getVerifiedSession } from '@/lib/session-guard';
 import { parseSlideInput } from '@/lib/hero';
 
 async function requireOwner() {
-  const session = await getSession();
+  const session = await getVerifiedSession();
   return session && session.role === 'PLATFORM_OWNER' ? session : null;
 }
 

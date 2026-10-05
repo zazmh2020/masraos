@@ -77,6 +77,7 @@ export async function POST(request: Request) {
       role: user.role,
       organizationId: user.organizationId,
       organizationSlug: user.organization?.slug ?? null,
+      sessionVersion: user.sessionVersion,
     },
     body.remember === true,
     sessionCookieDomain(request.headers.get('host')),

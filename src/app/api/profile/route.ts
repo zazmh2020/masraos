@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getSession } from '@/lib/session';
+import { getVerifiedSession } from '@/lib/session-guard';
 import { imageValue } from '@/lib/branding';
 
 /** تعديل الملف الشخصي لأي مستخدم مسجّل (بالجلسة) — الاسم والصورة. */
 export async function PATCH(request: Request) {
-  const session = await getSession();
+  const session = await getVerifiedSession();
   if (!session) return NextResponse.json({ error: 'غير مصرّح.' }, { status: 403 });
 
   const body = await request.json().catch(() => null);

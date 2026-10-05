@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
-import { getSession } from '@/lib/session';
+import { getVerifiedSession } from '@/lib/session-guard';
 import { prisma } from '@/lib/prisma';
 import { anthropic, isAssistantConfigured, ASSISTANT_MODEL, ASSISTANT_EFFORT } from '@/lib/anthropic';
 
@@ -39,7 +39,7 @@ async function buildOwnerContext(): Promise<string> {
 
 /** مساعد ذكي لمالك المنصّة — يجيب من بيانات المنصّة العامّة. */
 export async function POST(request: Request) {
-  const session = await getSession();
+  const session = await getVerifiedSession();
   if (!session || session.role !== 'PLATFORM_OWNER') {
     return NextResponse.json({ error: 'غير مصرّح.' }, { status: 403 });
   }

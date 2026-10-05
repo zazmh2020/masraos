@@ -12,6 +12,7 @@ export async function requireUser() {
   });
 
   if (!user || !user.isActive) redirect('/login');
+  if (user.sessionVersion !== session.sessionVersion) redirect('/login'); // جلسة أُبطلت
   if (user.organization && !user.organization.isActive) redirect('/login');
   return user;
 }

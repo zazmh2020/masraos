@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/prisma';
-import { getSession } from '@/lib/session';
+import { getVerifiedSession } from '@/lib/session-guard';
 import { isOrgModule } from '@/lib/modules';
 
 const RESERVED_SLUGS = ['www', 'admin', 'api', 'app', 'midad', 'mail', 'ftp'];
 
 export async function POST(request: Request) {
-  const session = await getSession();
+  const session = await getVerifiedSession();
   if (!session || session.role !== 'PLATFORM_OWNER') {
     return NextResponse.json({ error: 'غير مصرّح.' }, { status: 403 });
   }

@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getSession } from '@/lib/session';
+import { getVerifiedSession } from '@/lib/session-guard';
 
 /** إلغاء انضمام مؤسسة لبرنامج الاستحقاق الدائم — لمالك المنصّة حصراً. */
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
-  const session = await getSession();
+  const session = await getVerifiedSession();
   if (!session || session.role !== 'PLATFORM_OWNER') {
     return NextResponse.json({ error: 'غير مصرّح.' }, { status: 403 });
   }

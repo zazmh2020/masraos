@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { getSession } from '@/lib/session';
+import { getVerifiedSession } from '@/lib/session-guard';
 import { prisma } from '@/lib/prisma';
 import ProfileForm from '@/components/ProfileForm';
 import LogoutButton from '@/components/LogoutButton';
@@ -10,7 +10,7 @@ import '@/styles/org.css';
 export const dynamic = 'force-dynamic';
 
 export default async function AdminSettingsPage() {
-  const session = await getSession();
+  const session = await getVerifiedSession();
   if (!session) redirect('/login');
   if (session.role !== 'PLATFORM_OWNER') redirect('/login');
   const { t } = await getT();

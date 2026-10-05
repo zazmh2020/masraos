@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getSession } from '@/lib/session';
+import { getVerifiedSession } from '@/lib/session-guard';
 import { imageValue } from '@/lib/branding';
 import { planAllowsCustomDomain } from '@/lib/plans';
 
@@ -30,7 +30,7 @@ function text(value: unknown, max: number): string | null {
 
 /** تخصيص الهوية البصرية والرقمية والدومين لمؤسسة — لمالك المنصة فقط. */
 export async function PATCH(request: Request, { params }: { params: Promise<{ slug: string }> }) {
-  const session = await getSession();
+  const session = await getVerifiedSession();
   if (!session || session.role !== 'PLATFORM_OWNER') {
     return NextResponse.json({ error: 'غير مصرّح.' }, { status: 403 });
   }

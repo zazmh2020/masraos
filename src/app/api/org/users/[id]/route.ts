@@ -104,6 +104,11 @@ export async function PATCH(
     }
   }
 
-  await prisma.user.update({ where: { id: target.id }, data });
+  // تغيير الدور أو الحالة أو الدور المخصّص يُبطل جلسات المستخدم القائمة فورًا
+  const revoke = data.role !== undefined || data.isActive !== undefined || data.customRoleId !== undefined;
+  await prisma.user.update({
+    where: { id: target.id },
+    data: revoke ? { ...data, sessionVersion: { increment: 1 } } : data,
+  });
   return NextResponse.json({ ok: true });
 }

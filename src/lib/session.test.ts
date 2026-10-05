@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { parseSession, serializeSession, type SessionData } from './session';
 
 const secret = 'test-only-session-key';
-const user: SessionData = { userId: 'u1', email: 'test@example.test', name: 'Test', role: 'TEACHER', organizationId: 'o1', organizationSlug: 'center' };
+const user: SessionData = { userId: 'u1', email: 'test@example.test', name: 'Test', role: 'TEACHER', organizationId: 'o1', organizationSlug: 'center', sessionVersion: 0 };
 const signed = (data: unknown) => {
   const payload = Buffer.from(JSON.stringify(data)).toString('base64url');
   return `${payload}.${createHmac('sha256', secret).update(payload).digest('base64url')}`;
@@ -35,6 +35,7 @@ describe('server-enforced session lifetime', () => {
   it.each([
     { userId: '' }, { role: 'INVALID_ROLE' }, { demo: 'false' }, { organizationSlug: null },
     { expiresAt: 0 }, { issuedAt: 9999999999 }, { expiresAt: 9999999999 }, { issuedAt: 1.5 },
+    { sessionVersion: -1 }, { sessionVersion: 1.5 }, { sessionVersion: '0' }, { sessionVersion: undefined },
   ])('rejects malformed signed claims %j', override => {
     const token = serializeSession(user);
     const data = JSON.parse(Buffer.from(token.split('.')[0], 'base64url').toString());

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getSession } from '@/lib/session';
+import { getVerifiedSession } from '@/lib/session-guard';
 
 export const maxDuration = 60;
 
@@ -9,7 +9,7 @@ export const maxDuration = 60;
  * عبر متغيّر البيئة OPENAI_API_KEY (نموذج قابل للضبط بـ OPENAI_IMAGE_MODEL).
  */
 export async function POST(request: Request) {
-  const session = await getSession();
+  const session = await getVerifiedSession();
   if (!session) return NextResponse.json({ error: 'غير مصرّح.' }, { status: 403 });
 
   const key = process.env.OPENAI_API_KEY;

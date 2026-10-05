@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import type { ReactNode } from 'react';
-import { getSession } from '@/lib/session';
+import { getVerifiedSession } from '@/lib/session-guard';
 import { prisma } from '@/lib/prisma';
 import AdminShell from './AdminShell';
 import { getAdminInbox } from '@/lib/inbox';
@@ -11,7 +11,7 @@ import '@/styles/org.css';
 export const dynamic = 'force-dynamic';
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
-  const session = await getSession();
+  const session = await getVerifiedSession();
 
   // فقط مالك المنصة يصل هنا
   if (!session) redirect('/login');

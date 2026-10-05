@@ -778,6 +778,8 @@ model User {
   passwordHash String
   role         Role      @default(MEMBER)
   isActive     Boolean   @default(true)
+  // رقم إصدار الجلسات: زيادته تُبطل كل الجلسات السابقة (تغيير كلمة المرور/الدور/التعطيل)
+  sessionVersion Int     @default(0)
   avatarUrl    String?
   jobTitle     String?
   phone        String?

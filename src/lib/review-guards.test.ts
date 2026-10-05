@@ -8,7 +8,7 @@ afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); });
 describe('review fixes: demo write protection', () => {
   it('blocks a signed demo even after its unsigned marker is removed', async () => {
     vi.stubEnv('AUTH_SECRET', 'unit-test-only-secret');
-    const token = serializeSession({ userId: 'demo', email: 'demo@example.test', name: 'Demo', role: 'ORG_ADMIN', organizationId: 'org', organizationSlug: 'demo', demo: true });
+    const token = serializeSession({ userId: 'demo', email: 'demo@example.test', name: 'Demo', role: 'ORG_ADMIN', organizationId: 'org', organizationSlug: 'demo', sessionVersion: 0, demo: true });
     for (const method of ['POST', 'PATCH', 'PUT', 'DELETE']) {
       const res = proxy(new NextRequest('http://localhost:3000/api/profile', { method, headers: { cookie: `midad_session=${token}` } }));
       expect(res.status).toBe(403);

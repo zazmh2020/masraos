@@ -37,6 +37,7 @@ export const getOrgContext = cache(
     });
 
     if (!user || !user.isActive) return null;
+    if (user.sessionVersion !== session.sessionVersion) return null; // جلسة أُبطلت
     if (!user.organization) return null;
     if (session.organizationId !== user.organization.id || user.organization.slug !== slug || !user.organization.isActive) {
       return null;
@@ -71,6 +72,7 @@ export async function getOrgActor(): Promise<
   });
 
   if (!user || !user.isActive) return null;
+  if (user.sessionVersion !== session.sessionVersion) return null; // جلسة أُبطلت
   if (!user.organization || !user.organization.isActive) return null;
   // لا تسمح لجلسة قديمة بالانتقال إلى مؤسسة جديدة بعد نقل الحساب.
   if (session.organizationId !== user.organization.id || session.organizationSlug !== user.organization.slug) return null;

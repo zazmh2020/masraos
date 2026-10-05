@@ -8,8 +8,8 @@ import { getOrgActor, getOrgContext } from './org';
 
 beforeEach(() => {
   vi.clearAllMocks();
-  mocks.session.mockResolvedValue({ userId: 'u1', organizationId: 'org-a', organizationSlug: 'center-a' });
-  mocks.user.mockResolvedValue({ id: 'u1', isActive: true, role: 'TEACHER', organizationId: 'org-a', organization: { id: 'org-a', slug: 'center-a', isActive: true }, customRole: null });
+  mocks.session.mockResolvedValue({ userId: 'u1', organizationId: 'org-a', organizationSlug: 'center-a', sessionVersion: 0 });
+  mocks.user.mockResolvedValue({ id: 'u1', isActive: true, sessionVersion: 0, role: 'TEACHER', organizationId: 'org-a', organization: { id: 'org-a', slug: 'center-a', isActive: true }, customRole: null });
 });
 describe('organization guard boundaries', () => {
   it('accepts an active matching organization', async () => {
@@ -32,6 +32,10 @@ describe('organization guard boundaries', () => {
   });
   it('denies a stale session even if the slug is reused by another organization', async () => {
     const user = await mocks.user(); mocks.user.mockResolvedValue({ ...user, organizationId: 'org-b', organization: { ...user.organization, id: 'org-b' } });
+    expect(await getOrgContext('center-a')).toBeNull(); expect(await getOrgActor()).toBeNull();
+  });
+  it('denies a session revoked by a password, role or status change', async () => {
+    const user = await mocks.user(); mocks.user.mockResolvedValue({ ...user, sessionVersion: 1 });
     expect(await getOrgContext('center-a')).toBeNull(); expect(await getOrgActor()).toBeNull();
   });
   it('denies deleted accounts', async () => {

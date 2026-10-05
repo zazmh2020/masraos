@@ -36,6 +36,7 @@ export async function GET(request: Request) {
       role: user.role,
       organizationId: user.organizationId,
       organizationSlug: user.organization?.slug ?? null,
+      sessionVersion: user.sessionVersion,
       demo: true,
     },
     true,
