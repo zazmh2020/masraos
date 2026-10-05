@@ -98,14 +98,16 @@ export default async function OrgLayout({
     ...(canScanPoints(r)
       ? ([{ kind: 'link', href: `${base}/points`, label: t('onav.points'), icon: 'identity', match: [`${base}/points`] }] as NavEntry[])
       : []),
-    ...(canViewFinance(r)
+    ...(canViewFinance(r) && moduleEnabled(md, 'finance')
       ? ([{ kind: 'link', href: `${base}/finance`, label: t('onav.finance'), icon: 'donations', match: [`${base}/finance`] }] as NavEntry[])
       : []),
-    ...(canViewRequests(r)
+    ...(canViewRequests(r) && moduleEnabled(md, 'requests')
       ? ([{ kind: 'link', href: `${base}/requests`, label: t('onav.requests'), icon: 'documents',
           match: [`${base}/requests`] }] as NavEntry[])
       : []),
-    { kind: 'link', href: `${base}/events`, label: t('onav.events'), icon: 'competitions', match: [`${base}/events`] },
+    ...(moduleEnabled(md, 'events')
+      ? ([{ kind: 'link', href: `${base}/events`, label: t('onav.events'), icon: 'competitions', match: [`${base}/events`] }] as NavEntry[])
+      : []),
 
     // الطبقة الثانية — المعرفة والذكاء
     { kind: 'divider', label: t('onav.div.knowledge') },

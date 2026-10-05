@@ -14,6 +14,8 @@ import AreaChart from '@/components/dash/AreaChart';
 import DonutRing from '@/components/dash/DonutRing';
 import TeacherDashboard from './TeacherDashboard';
 import StudentDashboard from './StudentDashboard';
+import EducationHome from './EducationHome';
+import { moduleEnabled } from '@/lib/modules';
 import { getT } from '@/lib/i18n/server';
 import { orgKey } from '@/lib/i18n/dictionaries';
 
@@ -62,6 +64,11 @@ export default async function OrgDashboard({
   }
   if (user.role === 'STUDENT') {
     return <StudentDashboard orgId={org.id} slug={org.slug} userId={user.id} userName={user.name} />;
+  }
+
+  // جهة مفعَّل فيها التعليم: الصفحة الرئيسية حول الطلاب والحلقات والحضور
+  if (moduleEnabled(org.disabledModules, 'education') && canViewProjects(user)) {
+    return <EducationHome org={{ id: org.id, slug: org.slug, name: org.name, type: org.type }} user={{ name: user.name, role: user.role }} canManage={canManageUsers(user) || canViewProjects(user)} />;
   }
 
   const { t, locale } = await getT();

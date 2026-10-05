@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import { useMemo, useState, type FormEvent } from 'react';
+import { useMemo, useRef, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { STUDENT_STATUSES } from '@/lib/permissions';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
@@ -27,6 +27,12 @@ export default function StudentsView({ students, halaqat, basePath }: { students
   const [filter, setFilter] = useState('ALL'); // ALL | NONE | <halaqaId>
   const [sectionFilter, setSectionFilter] = useState('ALL'); // ALL | BOYS | GIRLS
   const [query, setQuery] = useState(''); // بحث بالاسم أو الرقم التسلسلي
+  // تعديل صف واحد في كل مرة (بدل قوائم منسدلة دائمة في كل صف)
+  const [editId, setEditId] = useState<string | null>(null);
+  const [draft, setDraft] = useState({ section: '', status: 'ACTIVE', halaqaId: '' });
+  // حوار تأكيد الحذف (بدل confirm الافتراضي للمتصفح)
+  const confirmRef = useRef<HTMLDialogElement>(null);
+  const [pendingDelete, setPendingDelete] = useState<Student | null>(null);
 
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -77,17 +83,27 @@ export default function StudentsView({ students, halaqat, basePath }: { students
         method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
       });
       const d = await res.json().catch(() => ({}));
-      if (!res.ok) setError(d.error ?? t('form.saveErr')); else router.refresh();
+      if (!res.ok) setError(d.error ?? t('form.saveErr')); else { setEditId(null); router.refresh(); }
     } catch { setError(t('form.netErr')); } finally { setBusyId(null); }
   }
 
+  function startEdit(st: Student) {
+    setError(''); setEditId(st.id);
+    setDraft({ section: st.section ?? '', status: st.status, halaqaId: st.halaqaId ?? '' });
+  }
+
+  function askDelete(st: Student) {
+    setPendingDelete(st);
+    confirmRef.current?.showModal();
+  }
+
   async function remove(id: string) {
-    if (!confirm(t('edu.st.deleteConfirm'))) return;
+    confirmRef.current?.close();
     setError(''); setBusyId(id);
     try {
       const res = await fetch(`/api/org/education/students/${id}`, { method: 'DELETE' });
       const d = await res.json().catch(() => ({}));
-      if (!res.ok) setError(d.error ?? t('form.deleteErr')); else router.refresh();
+      if (!res.ok) setError(d.error ?? t('form.deleteErr')); else { setEditId(null); router.refresh(); }
     } catch { setError(t('form.netErr')); } finally { setBusyId(null); }
   }
 
@@ -179,7 +195,12 @@ export default function StudentsView({ students, halaqat, basePath }: { students
       )}
 
       {shown.length === 0 ? (
-        <div className="org-empty">{students.length === 0 ? t('edu.st.none') : t('edu.st.noneInHalaqa')}</div>
+        <div className="org-empty">
+          <p>{students.length === 0 ? t('edu.st.none') : t('edu.st.noneInHalaqa')}</p>
+          {students.length === 0 && !creating && (
+            <button className="org-btn org-btn-primary" onClick={() => setCreating(true)}>{t('edu.st.addFirst')}</button>
+          )}
+        </div>
       ) : (
         <div className="org-table-wrap">
           <table className="org-table org-table-center st-table">
@@ -190,48 +211,76 @@ export default function StudentsView({ students, halaqat, basePath }: { students
                 <th>{t('edu.st.section')}</th>
                 <th>{t('view.status')}</th>
                 <th>{t('edu.st.halaqa')}</th>
-                <th className="st-col-actions">{t('view.delete')}</th>
+                <th className="st-col-actions"><span className="sr-only">{t('edu.st.actions')}</span></th>
               </tr>
             </thead>
             <tbody>
-              {shown.map((s) => (
-                <tr key={s.id}>
-                  <td className="st-col-serial"><span className="st-serial" dir="ltr">{s.serial != null ? `#${String(s.serial).padStart(4, '0')}` : '—'}</span></td>
-                  <td className="st-col-name">
-                    <Link href={`${basePath}/${s.id}`} className="org-link"><strong>{s.name}</strong></Link>
-                    {s.phone && <small dir="ltr">{s.phone}</small>}
-                  </td>
-                  <td>
-                    <select className="org-inline-select" value={s.section ?? ''} disabled={busyId === s.id}
-                      onChange={(e) => patch(s.id, { section: e.target.value || null })} aria-label={t('edu.st.section')}>
-                      <option value="">{t('edu.st.noSection')}</option>
-                      {SECTIONS.map((v) => <option key={v} value={v}>{sectionLabel(v)}</option>)}
-                    </select>
-                  </td>
-                  <td>
-                    <select className="org-inline-select" value={s.status} disabled={busyId === s.id}
-                      onChange={(e) => patch(s.id, { status: e.target.value })}>
-                      {STUDENT_STATUSES.map((v) => <option key={v} value={v}>{statusLabel(v)}</option>)}
-                    </select>
-                  </td>
-                  <td>
-                    {halaqat.length > 0 ? (
-                      <select className="org-inline-select" value={s.halaqaId ?? ''} disabled={busyId === s.id}
-                        onChange={(e) => patch(s.id, { halaqaId: e.target.value || null })} aria-label={t('edu.st.halaqa')}>
-                        <option value="">{t('edu.st.noHalaqaOpt')}</option>
-                        {halaqat.map((h) => <option key={h.id} value={h.id}>{h.name}</option>)}
-                      </select>
-                    ) : halaqaName(s.halaqaId)}
-                  </td>
-                  <td className="st-col-actions">
-                    <button className="org-btn org-btn-danger" disabled={busyId === s.id} onClick={() => remove(s.id)}>{t('view.delete')}</button>
-                  </td>
-                </tr>
-              ))}
+              {shown.map((s) => {
+                const editing = editId === s.id;
+                const busy = busyId === s.id;
+                return (
+                  <tr key={s.id} className={editing ? 'is-editing' : ''}>
+                    <td className="st-col-serial" data-label={t('edu.st.thSerial')}><span className="st-serial" dir="ltr">{s.serial != null ? `#${String(s.serial).padStart(4, '0')}` : '—'}</span></td>
+                    <td className="st-col-name" data-label={t('edu.st.thStudent')}>
+                      <Link href={`${basePath}/${s.id}`} className="org-link"><strong>{s.name}</strong></Link>
+                      {s.phone && <small dir="ltr">{s.phone}</small>}
+                    </td>
+                    <td data-label={t('edu.st.section')}>
+                      {editing ? (
+                        <select className="org-inline-select" value={draft.section} disabled={busy}
+                          onChange={(e) => setDraft((d) => ({ ...d, section: e.target.value }))} aria-label={t('edu.st.section')}>
+                          <option value="">{t('edu.st.noSection')}</option>
+                          {SECTIONS.map((v) => <option key={v} value={v}>{sectionLabel(v)}</option>)}
+                        </select>
+                      ) : sectionLabel(s.section)}
+                    </td>
+                    <td data-label={t('view.status')}>
+                      {editing ? (
+                        <select className="org-inline-select" value={draft.status} disabled={busy}
+                          onChange={(e) => setDraft((d) => ({ ...d, status: e.target.value }))} aria-label={t('view.status')}>
+                          {STUDENT_STATUSES.map((v) => <option key={v} value={v}>{statusLabel(v)}</option>)}
+                        </select>
+                      ) : <span className={`org-badge ${s.status === 'ACTIVE' ? 'is-on' : ''}`}>{statusLabel(s.status)}</span>}
+                    </td>
+                    <td data-label={t('edu.st.halaqa')}>
+                      {editing && halaqat.length > 0 ? (
+                        <select className="org-inline-select" value={draft.halaqaId} disabled={busy}
+                          onChange={(e) => setDraft((d) => ({ ...d, halaqaId: e.target.value }))} aria-label={t('edu.st.halaqa')}>
+                          <option value="">{t('edu.st.noHalaqaOpt')}</option>
+                          {halaqat.map((h) => <option key={h.id} value={h.id}>{h.name}</option>)}
+                        </select>
+                      ) : halaqaName(s.halaqaId)}
+                    </td>
+                    <td className="st-col-actions">
+                      {editing ? (
+                        <div className="st-row-actions">
+                          <button className="org-btn org-btn-primary" disabled={busy}
+                            onClick={() => patch(s.id, { section: draft.section || null, status: draft.status, halaqaId: draft.halaqaId || null })}>
+                            {busy ? t('form.saving') : t('edu.st.save')}
+                          </button>
+                          <button className="org-btn org-btn-quiet" disabled={busy} onClick={() => setEditId(null)}>{t('shell.cancel')}</button>
+                          <button className="org-btn org-btn-danger" disabled={busy} onClick={() => askDelete(s)}>{t('view.delete')}</button>
+                        </div>
+                      ) : (
+                        <button className="org-btn org-btn-quiet" onClick={() => startEdit(s)} aria-label={t('edu.st.editStudent', { name: s.name })}>{t('edu.st.edit')}</button>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
       )}
+
+      <dialog ref={confirmRef} className="org-dialog" aria-labelledby="st-del-title" onClose={() => setPendingDelete(null)}>
+        <h2 id="st-del-title">{t('edu.st.deleteTitle')}</h2>
+        <p>{t('edu.st.deleteConfirm')}{pendingDelete ? <> <strong>{pendingDelete.name}</strong></> : null}</p>
+        <div className="org-form-actions">
+          <button className="org-btn org-btn-quiet" onClick={() => confirmRef.current?.close()} autoFocus>{t('shell.cancel')}</button>
+          <button className="org-btn org-btn-danger" onClick={() => pendingDelete && remove(pendingDelete.id)}>{t('edu.st.deleteYes')}</button>
+        </div>
+      </dialog>
     </>
   );
 }

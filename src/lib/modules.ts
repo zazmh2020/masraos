@@ -14,6 +14,10 @@ export const ORG_MODULES = [
   'reports',
   'assistant',
   'content',
+  // أنظمة تشغيلية كانت تظهر دائمًا — صارت قابلة للإيقاف (المؤسسات الحالية: مفعّلة كما كانت)
+  'finance',
+  'requests',
+  'events',
 ] as const;
 
 export type OrgModule = (typeof ORG_MODULES)[number];
@@ -28,6 +32,9 @@ export const MODULE_LABEL_KEY: Record<OrgModule, string> = {
   reports: 'onav.reports',
   assistant: 'onav.assistant',
   content: 'onav.content',
+  finance: 'onav.finance',
+  requests: 'onav.requests',
+  events: 'onav.events',
 };
 
 /** مفتاح ترجمة وصف مختصر للوحدة. */
@@ -40,6 +47,9 @@ export const MODULE_DESC_KEY: Record<OrgModule, string> = {
   reports: 'mod.desc.reports',
   assistant: 'mod.desc.assistant',
   content: 'mod.desc.content',
+  finance: 'mod.desc.finance',
+  requests: 'mod.desc.requests',
+  events: 'mod.desc.events',
 };
 
 export function isOrgModule(value: string): value is OrgModule {
@@ -143,6 +153,21 @@ export const MODULE_REGISTRY: Record<OrgModule, ModuleDef> = {
   content: {
     id: 'content', labelKey: MODULE_LABEL_KEY.content, descKey: MODULE_DESC_KEY.content,
     icon: 'documents/documents-document-management', category: 'SYSTEM',
+    organizationTypes: [], requiredPlan: 'STARTER', dependencies: [],
+  },
+  finance: {
+    id: 'finance', labelKey: MODULE_LABEL_KEY.finance, descKey: MODULE_DESC_KEY.finance,
+    icon: 'finance/finance-donations', category: 'OPERATIONS',
+    organizationTypes: [], requiredPlan: 'STARTER', dependencies: [],
+  },
+  requests: {
+    id: 'requests', labelKey: MODULE_LABEL_KEY.requests, descKey: MODULE_DESC_KEY.requests,
+    icon: 'operations/operations-requests', category: 'OPERATIONS',
+    organizationTypes: [], requiredPlan: 'STARTER', dependencies: [],
+  },
+  events: {
+    id: 'events', labelKey: MODULE_LABEL_KEY.events, descKey: MODULE_DESC_KEY.events,
+    icon: 'operations/operations-events', category: 'OPERATIONS',
     organizationTypes: [], requiredPlan: 'STARTER', dependencies: [],
   },
 };

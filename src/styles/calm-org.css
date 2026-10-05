@@ -201,3 +201,51 @@ body:has(.org-app) { background: #fff; }
   .org-app .org-table .org-link { min-height: 44px; }
   .org-app .org-back { min-width: 44px; }
 }
+
+/* ---------- الصفحة الرئيسية للمراكز (EducationHome) ---------- */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.org-app .eh-setup { margin-bottom: 24px; }
+.org-app .eh-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.org-app .eh-steps li { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; border: 1px solid var(--c-line); border-radius: var(--cr-lg); font-size: 14px; font-weight: 600; color: var(--c-text); }
+.org-app .eh-steps li a { color: var(--c-ink); text-decoration: underline; text-underline-offset: 4px; }
+.org-app .eh-steps li.is-done { background: var(--c-p-3); color: var(--c-muted); font-weight: 500; }
+.org-app .eh-step-n { display: inline-grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--c-p-10); color: var(--c-ink); font-size: 13px; font-weight: 700; }
+.org-app .eh-steps li.is-done .eh-step-n { background: var(--t-mint); color: var(--t-mint-ink); }
+.org-app .eh-empty { display: grid; justify-items: start; gap: 16px; padding: 8px 0; }
+.org-app .eh-empty p { margin: 0; font-size: 14px; color: var(--c-text-2); }
+.org-app .eh-list { list-style: none; margin: 0; padding: 0; display: grid; }
+.org-app .eh-list li { display: grid; gap: 2px; padding: 12px 0; border-bottom: 1px solid var(--c-line); font-size: 14px; }
+.org-app .eh-list li:last-child { border-bottom: 0; }
+.org-app .eh-muted { font-size: 12.5px; color: var(--c-muted); }
+@media (max-width: 960px) { .org-app .eh-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .org-app .eh-steps { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- جدول الطلاب: عرض للقراءة، تعديل صف واحد، بطاقات على الجوال ---------- */
+.org-app .st-table tr.is-editing td { background: var(--c-p-3); }
+.org-app .st-row-actions { display: inline-flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.org-app .org-empty { display: grid; justify-items: center; gap: 16px; }
+.org-app .org-empty p { margin: 0; }
+
+/* حوار التأكيد */
+.org-dialog {
+  max-width: 420px; width: calc(100% - 32px); padding: 24px; border: 0; border-radius: var(--cr-lg);
+  box-shadow: var(--c-shadow); color: var(--c-text);
+}
+.org-dialog::backdrop { background: color-mix(in srgb, var(--c-ink) 40%, transparent); }
+.org-dialog h2 { margin: 0 0 8px; font-size: 18px; font-weight: 700; color: var(--c-text); }
+.org-dialog p { margin: 0 0 24px; font-size: 14.5px; line-height: 1.8; color: var(--c-text-2); }
+.org-dialog .org-form-actions { justify-content: flex-end; gap: 8px; }
+
+@media (max-width: 640px) {
+  .org-app .st-table thead { display: none; }
+  .org-app .st-table, .org-app .st-table tbody, .org-app .st-table tr, .org-app .st-table td { display: block; width: 100%; }
+  .org-app .st-table tr { padding: 12px 16px; border-bottom: 1px solid var(--c-line); }
+  .org-app .st-table td { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 0; border: 0; text-align: start; }
+  .org-app .st-table td[data-label]::before { content: attr(data-label); flex: none; font-size: 12.5px; color: var(--c-muted); }
+  .org-app .st-table td.st-col-name { flex-direction: column; align-items: flex-start; }
+  .org-app .st-table td.st-col-name::before { display: none; }
+  .org-app .st-table td.st-col-actions { justify-content: flex-start; padding-top: 12px; }
+  .org-app .st-table .org-inline-select { min-width: 0; flex: 1 1 auto; max-width: 60%; }
+  .org-app .st-row-actions { justify-content: flex-start; }
+  .org-app .st-table-wrap, .org-app .org-table-wrap:has(.st-table) { overflow: visible; }
+}
