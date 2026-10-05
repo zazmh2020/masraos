@@ -1464,6 +1464,8 @@ const ar: Dict = {
   'role.ORG_ADMIN': 'مدير المؤسسة',
   // مصطلحات حسب نوع الجهة (orgKey): المراكز «مركز» بدل «مؤسسة»
   'od.eyebrow.MOSQUE': 'لوحة المركز',
+  'onav.organization.MOSQUE': 'المركز',
+  'onav.organization.SCHOOL': 'المركز',
   'od.activity7.MOSQUE': 'نشاط المركز — آخر ٧ أيام',
   'tb.search.MOSQUE': 'ابحث في مركزك…',
   'role.ORG_ADMIN.MOSQUE': 'مدير المركز',
@@ -3364,6 +3366,8 @@ const en: Dict = {
   'role.ORG_ADMIN': 'Organization admin',
   // مصطلحات حسب نوع الجهة (orgKey): المراكز «مركز» بدل «مؤسسة»
   'od.eyebrow.MOSQUE': 'Center dashboard',
+  'onav.organization.MOSQUE': 'Center',
+  'onav.organization.SCHOOL': 'Center',
   'od.activity7.MOSQUE': 'Center activity — last 7 days',
   'tb.search.MOSQUE': 'Search your center…',
   'role.ORG_ADMIN.MOSQUE': 'Center admin',

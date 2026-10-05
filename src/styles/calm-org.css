@@ -222,7 +222,8 @@ body:has(.org-app) { background: #fff; }
 
 /* ---------- جدول الطلاب: عرض للقراءة، تعديل صف واحد، بطاقات على الجوال ---------- */
 .org-app .st-table tr.is-editing td { background: var(--c-p-3); }
-.org-app .st-row-actions { display: inline-flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.org-app .st-table .st-col-actions { width: auto; white-space: nowrap; }
+.org-app .st-row-actions { display: inline-flex; flex-wrap: nowrap; gap: 8px; justify-content: flex-end; }
 .org-app .org-empty { display: grid; justify-items: center; gap: 16px; }
 .org-app .org-empty p { margin: 0; }
 
@@ -237,6 +238,7 @@ body:has(.org-app) { background: #fff; }
 .org-dialog .org-form-actions { justify-content: flex-end; gap: 8px; }
 
 @media (max-width: 640px) {
+  .org-app .st-table { min-width: 0; }
   .org-app .st-table thead { display: none; }
   .org-app .st-table, .org-app .st-table tbody, .org-app .st-table tr, .org-app .st-table td { display: block; width: 100%; }
   .org-app .st-table tr { padding: 12px 16px; border-bottom: 1px solid var(--c-line); }
@@ -246,6 +248,6 @@ body:has(.org-app) { background: #fff; }
   .org-app .st-table td.st-col-name::before { display: none; }
   .org-app .st-table td.st-col-actions { justify-content: flex-start; padding-top: 12px; }
   .org-app .st-table .org-inline-select { min-width: 0; flex: 1 1 auto; max-width: 60%; }
-  .org-app .st-row-actions { justify-content: flex-start; }
+  .org-app .st-row-actions { flex-wrap: wrap; justify-content: flex-start; }
   .org-app .st-table-wrap, .org-app .org-table-wrap:has(.st-table) { overflow: visible; }
 }

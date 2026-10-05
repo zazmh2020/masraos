@@ -14,6 +14,7 @@ import { getOrgInbox } from '@/lib/inbox';
 import { moduleEnabled } from '@/lib/modules';
 import { isAssistantConfigured } from '@/lib/anthropic';
 import { getT } from '@/lib/i18n/server';
+import { orgKey } from '@/lib/i18n/dictionaries';
 import '@/styles/org.css';
 // الواجهة الهادئة: رموز مشتركة + جلد يعيد تشكيل الهيكل (يُحمَّل بعد org.css)
 import '@/styles/calm.css';
@@ -66,7 +67,7 @@ export default async function OrgLayout({
   const nav: NavEntry[] = [
     { kind: 'link', href: base, label: t('onav.dashboard'), icon: 'home' },
     ...(orgSection
-      ? ([{ kind: 'link', href: `${base}/organization`, label: t('onav.organization'), icon: 'organization',
+      ? ([{ kind: 'link', href: `${base}/organization`, label: t(orgKey('onav.organization', org.type)), icon: 'organization',
           match: [`${base}/organization`, `${base}/structure`, `${base}/users`] }] as NavEntry[])
       : []),
     ...(opsSection
