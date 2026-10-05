@@ -2,7 +2,7 @@
 .invitation { border-color: transparent; box-shadow: var(--shadow-card-subtle); }
 .emblem { display:grid; place-items:center; flex:0 0 52px; height:52px; border-radius:16px; background:var(--brand-primary); color:white; font-size:1.7rem; }
 .invitationText { flex:1; }
-.eyebrow { color:var(--brand-primary-medium); font-size:.78rem; font-weight:500; }
+.eyebrow { color:var(--brand-primary); font-size:.78rem; font-weight:500; }
 .invitation h3 { margin:.15rem 0; font-size:1.25rem; color:var(--brand-primary-dark); }
 .invitation p { margin:0; color:var(--text-secondary); font-size:.9rem; line-height:1.7; }
 .launch,.primary { display:inline-flex; align-items:center; justify-content:center; gap:1rem; padding:.75rem 1.25rem; border:1px solid var(--brand-primary); border-radius:11px; background:var(--brand-primary); color:white; cursor:pointer; font:inherit; font-weight:600; min-height:46px; }

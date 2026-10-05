@@ -21,7 +21,7 @@ export default function BrandingForm({
 }) {
   const t = useT();
   const router = useRouter();
-  const [color, setColor] = useState((initialColor ?? '') || '#6B57A0');
+  const [color, setColor] = useState((initialColor ?? '') || '#61428C');
   const [enabled, setEnabled] = useState(!!initialColor);
   const [logoUrl, setLogoUrl] = useState(initialLogo ?? '');
   const [status, setStatus] = useState<{ kind: 'ok' | 'error'; msg: string } | null>(null);
@@ -60,7 +60,7 @@ export default function BrandingForm({
     } finally { setBusy(false); }
   }
 
-  const shown = enabled ? color : '#6B57A0';
+  const shown = enabled ? color : '#61428C';
 
   return (
     <form className="org-form brand-form" onSubmit={save}>
@@ -101,7 +101,7 @@ export default function BrandingForm({
           <label htmlFor="bc">{t('brand.primaryColor')}</label>
           <div className="brand-color-row">
             <input id="bc" type="color" value={color} onChange={(e) => setColor(e.target.value)} />
-            <input type="text" dir="ltr" value={color} onChange={(e) => setColor(e.target.value)} placeholder="#6B57A0" />
+            <input type="text" dir="ltr" value={color} onChange={(e) => setColor(e.target.value)} placeholder="#61428C" />
           </div>
         </div>
       )}

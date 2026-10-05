@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#6b57a0',
+  themeColor: '#61428C',
 };
 
 // مؤقّتًا: الموقع مقفول على الوضع الفاتح (أُزيل مبدّل الثيم — سيُعاد لاحقًا).

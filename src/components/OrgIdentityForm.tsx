@@ -28,7 +28,7 @@ export default function OrgIdentityForm(p: Props) {
   const router = useRouter();
 
   const [enabled, setEnabled] = useState(!!p.brandColor);
-  const [color, setColor] = useState((p.brandColor ?? '') || '#6B57A0');
+  const [color, setColor] = useState((p.brandColor ?? '') || '#61428C');
   const [accent, setAccent] = useState((p.brandAccent ?? '') || '#2F9E7E');
   const [logoUrl, setLogoUrl] = useState(p.logoUrl ?? '');
   const [faviconUrl, setFaviconUrl] = useState(p.faviconUrl ?? '');
@@ -68,7 +68,7 @@ export default function OrgIdentityForm(p: Props) {
     } finally { setBusy(false); }
   }
 
-  const primary = enabled ? color : '#6B57A0';
+  const primary = enabled ? color : '#61428C';
   const secondary = enabled ? accent : '#2F9E7E';
 
   return (
@@ -111,7 +111,7 @@ export default function OrgIdentityForm(p: Props) {
             <label htmlFor="oid-color">{t('brand.primaryColor')}</label>
             <div className="brand-color-row">
               <input id="oid-color" type="color" value={color} onChange={(e) => setColor(e.target.value)} />
-              <input type="text" dir="ltr" value={color} onChange={(e) => setColor(e.target.value)} placeholder="#6B57A0" />
+              <input type="text" dir="ltr" value={color} onChange={(e) => setColor(e.target.value)} placeholder="#61428C" />
             </div>
           </div>
           <div className="org-field">

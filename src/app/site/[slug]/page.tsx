@@ -39,7 +39,7 @@ export default async function PublicSitePage({ params }: { params: Promise<{ slu
     select: { id: true, title: true, body: true, createdAt: true, pinned: true },
   });
 
-  const brand = org.brandColor || '#6b57a0';
+  const brand = org.brandColor || '#61428C';
 
   return (
     <main className="ps" style={{ ['--ps-brand' as string]: brand }}>

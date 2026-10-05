@@ -201,7 +201,7 @@ export default async function OrgReportsPage({ params }: { params: Promise<{ slu
           title={t('rep.trends.donations')}
           labels={monthLabels}
           values={donationsSeries}
-          color="#6B57A0"
+          color="#61428C"
           noData={t('rep.noData')}
           fmt={(v) => numFmt.format(v)}
         />

@@ -40,30 +40,50 @@
 }
 
 :root {
-  /* ---------- لوحة الألوان البنفسجية (هوية مسرى) — مريحة للعين ----------
-     فاتحة غالبًا، والغامق للضرورة. */
-  --purple-100: #EEE8F5;
-  --purple-300: #A893C4;
-  --purple-500: #6B4B95;
-  --purple-700: #4B2F73;
-  --purple-900: #2C1B4F;
+  /* ---------- نظام الألوان الرسمي لمسرى (Brand Color System) ----------
+     القاعدة: 80% ألوان محايدة (خلفيات، نصوص، مساحات، بطاقات) و20% ألوان الهوية
+     (عناصر بارزة، أزرار، تفاصيل). المرجع: DESIGN.md §2. */
+  --masra-soft: #D3B3F2;      /* Soft Purple — خلفيات خفيفة، مساحات ثانوية، حالات Hover، عناصر توضيحية */
+  --masra-primary: #61428C;   /* Primary Purple — الأزرار الرئيسية، العناصر المهمة، الروابط البارزة، هوية العلامة */
+  --masra-deep: #1B0140;      /* Deep Purple — خلفيات الهيرو، الفوتر، العناصر الداكنة، العناوين القوية */
+  --masra-support: #AE8FD9;   /* Support Purple — عناصر تفاعلية، أزرار ثانوية، تدرجات، رسوم بيانية */
+  --masra-ink: #1A1126;       /* Near Black — النصوص الرئيسية، العناوين المهمة، بيانات الرسوم */
 
-  /* Stable brand roles, independent of legacy dark-mode palette aliases. */
-  --brand-primary: #4B2F73;
-  --brand-primary-dark: #2C1B4F;
-  --brand-primary-medium: #6B4B95;
-  --brand-primary-soft: #A893C4;
-  --brand-primary-subtle: #EEE8F5;
+  /* سلّم البنفسجي (يعيد OrgShell تعريفه لكل جهة بلون هويتها داخل لوحتها) */
+  --purple-100: var(--masra-soft);
+  --purple-300: var(--masra-support);
+  --purple-500: var(--masra-primary);
+  --purple-700: var(--masra-primary);
+  --purple-900: var(--masra-deep);
 
-  /* ---------- المحايدات (رماديات محايدة — بلا مسحة بنفسجية، ليصفو أي لون علامة) ---------- */
-  --white: #ffffff;
-  --gray-50: #F7F7F8;
-  --gray-100: #F0F1F3;
-  --gray-200: #E1E2E6;
-  --gray-400: #A8ABB3;
-  --gray-600: #666A75;
-  --gray-800: #343640;
-  --gray-950: #1F2026;
+  /* أدوار ثابتة للعلامة */
+  --brand-primary: var(--masra-primary);
+  --brand-primary-dark: var(--masra-deep);
+  --brand-primary-medium: var(--masra-support);
+  --brand-primary-soft: var(--masra-soft);
+  --brand-primary-subtle: #F8F5FF; /* نهاية «التدرج الخفيف» — أسطح ملوّنة خفيفة جدًا */
+
+  /* التدرجات اللونية الرسمية — للهيرو والخلفيات والعناصر البصرية */
+  --gradient-primary: linear-gradient(135deg, var(--masra-primary), var(--masra-deep));
+  --gradient-soft: linear-gradient(135deg, var(--masra-soft), var(--masra-support));
+  --gradient-subtle: linear-gradient(180deg, #FFFFFF, #F8F5FF);
+
+  /* ألوان المناسبات والحملات — للتصاميم الموسمية والمناسبات الخاصة فقط، لا للواجهة اليومية */
+  --occasion-golden: #C9A86A; /* رمضان، تميز، القيم، مناسبات رسمية */
+  --occasion-green: #6F9B7A;  /* اليوم الوطني، المبادرات، النمو، الاستدامة */
+  --occasion-blue: #7FA7D9;   /* المحتوى التعليمي، الهدوء، التطبيقات، المعلومات */
+  --occasion-pink: #C78FBF;   /* المناسبات الاجتماعية، المجتمع، الأسرة، الحملات */
+  --occasion-beige: #E7D9C8;  /* خلفيات المطبوعات، تصاميم الإنفوجرافيك */
+
+  /* ---------- الألوان المحايدة (للخلفيات والبطاقات والحدود والنصوص) ---------- */
+  --white: #FFFFFF;
+  --gray-50: #FAF7FE;   /* Off White */
+  --gray-100: #F0F5F9;  /* Light Gray */
+  --gray-200: color-mix(in srgb, #94A3B8 32%, #FFFFFF); /* حدود — مشتق من Gray ليبقى ظاهرًا */
+  --gray-400: #94A3B8;  /* Gray — للمعطّل والزخرفي فقط (تباينه أقل من 4.5:1) */
+  --gray-600: color-mix(in srgb, #334155 78%, #94A3B8); /* نص ثانوي مقروء (مشتق من Charcoal) */
+  --gray-800: #334155;  /* Charcoal */
+  --gray-950: var(--masra-ink); /* Near Black */
   --off-white: var(--gray-50);
   --gray-300: var(--gray-200);
   --gray-500: var(--gray-600);
@@ -167,15 +187,20 @@
   --gold-600: var(--brand-primary);
   --gold-soft: var(--surface-brand-soft);
 
-  /* ---------- ألوان الحالة (Semantic) ---------- */
-  --success: #1c7a43;
-  --success-soft: #e6f6ec;
-  --warning: #9a6b12;
-  --warning-soft: #fdf2e3;
-  --error: #b3261e;
-  --error-soft: #fbeceb;
-  --info: var(--brand-primary);
-  --info-soft: var(--surface-brand-soft);
+  /* ---------- الألوان الدلالية (الحالات) — للتنبيهات والرسائل فقط ----------
+     *-base هو اللون الرسمي (نقاط، أيقونات، حدود). اللون النصي مشتق أغمق ليحقق تباين 4.5:1. */
+  --success-base: #22C55E;
+  --error-base: #EF4444;
+  --warning-base: #F59E0B;
+  --info-base: #3B82F6;
+  --success: color-mix(in srgb, var(--success-base) 52%, #000);
+  --success-soft: color-mix(in srgb, var(--success-base) 12%, #FFFFFF);
+  --warning: color-mix(in srgb, var(--warning-base) 50%, #000);
+  --warning-soft: color-mix(in srgb, var(--warning-base) 12%, #FFFFFF);
+  --error: color-mix(in srgb, var(--error-base) 72%, #000);
+  --error-soft: color-mix(in srgb, var(--error-base) 10%, #FFFFFF);
+  --info: color-mix(in srgb, var(--info-base) 72%, #000);
+  --info-soft: color-mix(in srgb, var(--info-base) 10%, #FFFFFF);
 }
 
 /* احترام تفضيل تقليل الحركة على مستوى النظام */

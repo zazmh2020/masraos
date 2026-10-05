@@ -20,7 +20,7 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
           <p style={{ color: '#6c6780', lineHeight: 1.8, margin: 0 }}>واجهنا مشكلة غير متوقّعة.<br />An unexpected error occurred.</p>
           {error.digest && <code style={{ display: 'inline-block', marginTop: '0.9rem', fontSize: '0.78rem', color: '#9a94ab', direction: 'ltr' }}>#{error.digest}</code>}
           <div style={{ marginTop: '1.2rem' }}>
-            <button onClick={reset} style={{ padding: '0.65rem 1.4rem', borderRadius: 12, border: 'none', background: '#6b57a0', color: '#fff', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>إعادة المحاولة · Retry</button>
+            <button onClick={reset} style={{ padding: '0.65rem 1.4rem', borderRadius: 12, border: 'none', background: '#61428C', color: '#fff', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>إعادة المحاولة · Retry</button>
           </div>
         </div>
       </body>

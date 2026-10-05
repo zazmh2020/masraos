@@ -4,7 +4,7 @@
  * مكوّن خادمي بحت (بلا تفاعل) — مجرّد رسم.
  */
 
-const P = 'var(--purple-500, #6b57a0)';
+const P = 'var(--purple-500, #61428C)';
 const PD = 'var(--purple-700, #4a357e)';
 const PL = 'var(--purple-100, #efeaf7)';
 const LINE = 'var(--line, #e6e3ee)';

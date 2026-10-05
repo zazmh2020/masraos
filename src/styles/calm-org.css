@@ -110,8 +110,9 @@ body:has(.org-app) { background: #fff; }
 
 /* ---------- الأزرار: كبسولات، والأساسي بأعمق درجات الهوية ---------- */
 .org-app .org-btn { min-height: 40px; border-radius: var(--cr-pill); font-size: 14px; padding: 0 18px; }
-.org-app .org-btn-primary { background: var(--c-ink); color: #fff; }
-.org-app .org-btn-primary:is(:hover, :active):not(:disabled) { background: var(--c-brand-deep); }
+/* الزر الرئيسي بلون الهوية الأساسي (نظام الألوان الرسمي)، والداكن عند التمرير */
+.org-app .org-btn-primary { background: var(--c-brand); color: var(--on-brand, #fff); }
+.org-app .org-btn-primary:is(:hover, :active):not(:disabled) { background: var(--c-ink); }
 .org-app .org-btn-outline { border: 1px solid var(--c-line-2); color: var(--c-text); }
 .org-app .org-btn-outline:hover { border-color: var(--c-p-30); color: var(--c-ink); background: var(--c-p-3); }
 .org-app .org-btn-quiet,
@@ -143,8 +144,8 @@ body:has(.org-app) { background: #fff; }
 .org-app .dash.is-glass .dash-stat-ic { background: var(--c-p-10); border: 0; color: var(--c-brand); }
 .org-app .dash.is-glass .dash-ann,
 .org-app .dash.is-glass .dash-module { background: var(--c-surface-2); border-color: var(--c-line); }
-.org-app .dash.is-glass .dash-btn { background: var(--c-ink); box-shadow: none; }
-.org-app .dash.is-glass .dash-btn:hover { background: var(--c-brand-deep); }
+.org-app .dash.is-glass .dash-btn { background: var(--c-brand); color: var(--on-brand, #fff); box-shadow: none; }
+.org-app .dash.is-glass .dash-btn:hover { background: var(--c-ink); }
 .org-app .dash.is-glass .dash-table th,
 .org-app .dash.is-glass .dash-table td { border-bottom-color: var(--c-line); }
 .org-app .dash.is-glass .dash-table tbody tr:hover td { background: var(--c-p-3); }

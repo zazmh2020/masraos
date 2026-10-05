@@ -30,7 +30,7 @@ export default async function CardsPage({ params }: { params: Promise<{ slug: st
   const h = await headers();
   const host = h.get('host') ?? '';
   const proto = h.get('x-forwarded-proto') ?? (host.includes('localhost') ? 'http' : 'https');
-  const color = org.brandColor && /^#[0-9a-fA-F]{6}$/.test(org.brandColor) ? org.brandColor : '#6b57a0';
+  const color = org.brandColor && /^#[0-9a-fA-F]{6}$/.test(org.brandColor) ? org.brandColor : '#61428C';
 
   const cards = await Promise.all(
     members.map(async (m) => {

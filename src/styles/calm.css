@@ -8,7 +8,7 @@
    في .org-app يضبط OrgShell قيم --purple-* من لون هوية الجهة، فتتلوّن الواجهة تلقائيًا بهويتها. */
 .calm, .org-app {
   /* ---- الهوية: مشتقّة من tokens.css ---- */
-  --c-brand: var(--purple-500, #6B57A0);
+  --c-brand: var(--purple-500, #61428C);
   --c-ink: var(--purple-900, #2B1A4E);          /* بديل "الأسود" للحالات النشطة */
   --c-brand-deep: var(--purple-700, #3D2879);
 
@@ -175,8 +175,8 @@
   transition: background var(--dur, 200ms) var(--ease), transform var(--dur-fast, 150ms) var(--ease), border-color var(--dur, 200ms) var(--ease);
 }
 .calm-btn:active { transform: translateY(1px); }
-.calm-btn-primary { background: var(--c-ink); color: #fff; }
-.calm-btn-primary:hover { background: var(--c-brand-deep); }
+.calm-btn-primary { background: var(--c-brand); color: var(--on-brand, #fff); }
+.calm-btn-primary:hover { background: var(--c-ink); }
 .calm-btn-soft { background: var(--c-p-6); color: var(--c-ink); }
 .calm-btn-soft:hover { background: var(--c-p-10); }
 

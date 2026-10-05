@@ -81,7 +81,7 @@ export default async function StatisticsPage({ params }: { params: Promise<{ slu
         {/* منحنى الحفظ والمراجعة */}
         <section className="org-panel">
           <div className="astat-head"><h3>{t('astat.memoTrend')}</h3>
-            <span className="fin-legend"><span className="fin-dot" style={{ background: '#6b57a0' }} />{t('status.memoKind.NEW')}<span className="fin-dot" style={{ background: '#2f9e7e', marginInlineStart: '0.5rem' }} />{t('status.memoKind.REVIEW')}</span>
+            <span className="fin-legend"><span className="fin-dot" style={{ background: '#61428C' }} />{t('status.memoKind.NEW')}<span className="fin-dot" style={{ background: '#2f9e7e', marginInlineStart: '0.5rem' }} />{t('status.memoKind.REVIEW')}</span>
           </div>
           {memos.length === 0 ? <p className="org-panel-sub">{t('rep.noData')}</p> : (
             <div className="astat-bars">
@@ -89,7 +89,7 @@ export default async function StatisticsPage({ params }: { params: Promise<{ slu
                 <div key={m.key} className="astat-bar-col">
                   <div className="astat-stack" title={`${memoNew[i]} + ${memoReview[i]}`}>
                     <span className="astat-seg" style={{ height: `${(memoReview[i] / memoMax) * 100}%`, background: '#2f9e7e' }} />
-                    <span className="astat-seg" style={{ height: `${(memoNew[i] / memoMax) * 100}%`, background: '#6b57a0' }} />
+                    <span className="astat-seg" style={{ height: `${(memoNew[i] / memoMax) * 100}%`, background: '#61428C' }} />
                   </div>
                   <span className="astat-lbl">{m.label}</span>
                 </div>
