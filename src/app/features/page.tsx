@@ -1,109 +1,64 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
+import SiteHeader from '@/components/SiteHeader';
+import SiteFooter from '@/components/SiteFooter';
 import Reveal from '@/components/Reveal';
-import MasraHeader from '@/components/landing/MasraHeader';
-import MasraFooter from '@/components/landing/MasraFooter';
-import { getT } from '@/lib/i18n/server';
-import '@/styles/masra.css';
-import '@/styles/home.css';
+import Icon from '@/components/Icon';
+import '@/styles/landing.css';
 
-export async function generateMetadata(): Promise<Metadata> {
-  const { t } = await getT();
-  return { title: t('features.meta.title'), description: t('features.meta.desc') };
-}
+const features = [
+  { title: 'منصة واحدة', text: 'كل شيء في مكان واحد بدل مجموعة أنظمة منفصلة تعمل بمفردها.' },
+  { title: 'وحدات معيارية', text: 'تُفعّل ما تحتاجه فقط، ويبقى الباقي مطفأً حتى يأتي وقته.' },
+  { title: 'عزل كامل للبيانات', text: 'كل مؤسسة تعمل في بيئة مستقلة تمامًا — بياناتها لها وحدها.' },
+  { title: 'صلاحيات دقيقة', text: 'المستخدم لا يرى إلا ما يحقّ له الوصول إليه، بلا استثناءات.' },
+  { title: 'ذكاء اصطناعي محترم للصلاحيات', text: 'المساعد يعمل ضمن حدود ما يحقّ للمستخدم رؤيته، لا خارجها.' },
+  { title: 'واجهة عربية أصيلة', text: 'مصمّمة من اليمين لليسار منذ البداية، بخطوط ونصوص واضحة.' },
+  { title: 'قابلية للتوسّع', text: 'تبدأ بمؤسسة واحدة، وتضيف عشرات المؤسسات دون إعادة بناء.' },
+  { title: 'تحديثات مستمرة', text: 'المنصة تتطوّر باستمرار، والتحديثات تصل لكل المؤسسات تلقائيًا.' },
+];
 
-// الوحدات الموجودة فعلًا في مساحة المركز (src/app/org/[slug]/*)
-const GROUPS = [
-  {
-    k: 'edu', img: '/shots/attendance.webp',
-    items: [
-      ['students', 'students'], ['teachers', 'teachers'], ['halaqat', 'halaqat'], ['attendance', 'attendance'],
-      ['memorization', 'memo'], ['assessment', 'exams'], ['target', 'plans'], ['users', 'guardians'],
-      ['certificates', 'certs'], ['reports', 'monthly'],
-    ],
-  },
-  {
-    k: 'motivation', img: '/shots/exams.webp',
-    items: [['qr', 'points'], ['identity', 'cards'], ['statistics', 'display'], ['verified', 'identity']],
-  },
-  {
-    k: 'admin', img: '/shots/orgshell.webp',
-    items: [['people/people-permissions', 'users'], ['structure', 'branches'], ['apps', 'modules'], ['identity/identity-digital-identity', 'brand'], ['activities', 'audit']],
-  },
-  {
-    k: 'comms', img: '/shots/schedule.webp',
-    items: [['messages', 'messages'], ['events', 'events'], ['documents', 'docs'], ['donations', 'fees'], ['analytics', 'reports'], ['search', 'search']],
-  },
-] as const;
-
-export default async function FeaturesPage() {
-  const { t } = await getT();
-  const demoLabel = t('mockup.demo');
+export default function FeaturesPage() {
   return (
-    <div className="mdl mh">
-      <MasraHeader />
+    <>
+      <SiteHeader />
       <main>
-        <section className="mh-page-hero">
-          <div className="mh-wrap">
+        <section className="page-header">
+          <div className="page-header-inner">
             <Reveal>
-              <span className="mh-eyebrow">{t('features.eyebrow')}</span>
-              <h1 className="mh-h1">{t('features.title')}</h1>
-              <p className="mh-lead">{t('features.lead')}</p>
-              <nav className="mh-jump" aria-label={t('features.eyebrow')}>
-                {GROUPS.map((g) => <a key={g.k} href={`#${g.k}`}>{t(`features.g.${g.k}`)}</a>)}
-              </nav>
+              <span className="eyebrow">المميزات</span>
+              <h1>لماذا مسرى</h1>
+              <p>
+                ثمانية أسباب تجعل مسرى الخيار المناسب للمؤسسات التي تريد
+                الانتقال من الفوضى إلى النظام.
+              </p>
             </Reveal>
           </div>
         </section>
 
-        {GROUPS.map((g, gi) => (
-          <section key={g.k} id={g.k} className={`mh-section ${gi % 2 ? 'mh-lilac' : ''}`}>
-            <div className="mh-wrap">
-              <div className={`mh-role ${gi % 2 ? 'is-flip' : ''}`}>
-                <Reveal className="mh-role-copy">
-                  <h2 className="mh-h2">{t(`features.g.${g.k}`)}</h2>
-                  <p className="mh-p">{t(`features.g.${g.k}.d`)}</p>
-                </Reveal>
-                <Reveal delay={0.1} className="mh-role-media">
-                  <figure className="mh-shot">
-                    <div className="mh-shot-bar" aria-hidden="true"><i /><i /><i /></div>
-                    <Image src={g.img} alt={t(`features.g.${g.k}.d`)} width={1600} height={1000} sizes="(max-width: 960px) 100vw, 600px" />
-                    <figcaption className="mh-shot-tag">{demoLabel}</figcaption>
-                  </figure>
-                </Reveal>
-              </div>
-              <ul className="mh-cards mh-modules">
-                {g.items.map(([, k], i) => (
-                  <Reveal key={k} delay={(i % 3) * 0.05}>
-                    <li className="mh-card">
-                      <h3>{t(`features.m.${k}.t`)}</h3>
-                      <p>{t(`features.m.${k}.d`)}</p>
-                    </li>
-                  </Reveal>
-                ))}
-              </ul>
-            </div>
-          </section>
-        ))}
-
-        <section className="mh-section">
-          <div className="mh-wrap">
-            <p className="mh-muted mh-center-text">{t('features.note')}</p>
-            <Reveal>
-              <div className="mh-cta" style={{ marginTop: 32 }}>
-                <h2>{t('cta.title')}</h2>
-                <p>{t('cta.lead')}</p>
-                <div className="mh-actions">
-                  <Link href="/signup" className="mh-btn mh-btn-light">{t('home.cta.signup')}</Link>
-                  <Link href="/#pricing" className="mh-link">{t('nav.pricing')}</Link>
-                </div>
-              </div>
-            </Reveal>
+        <section className="section">
+          <div className="card-grid">
+            {features.map((f, i) => (
+              <Reveal key={f.title} delay={(i % 4) * 0.05}>
+                <article className="card">
+                  <div className="card-icon">
+                    <Icon name="star" size={24} />
+                  </div>
+                  <h3>{f.title}</h3>
+                  <p>{f.text}</p>
+                </article>
+              </Reveal>
+            ))}
           </div>
+        </section>
+
+        <section className="cta-band">
+          <Reveal>
+            <h2>جاهز لتجربة مسرى؟</h2>
+            <p>تواصل معنا لإنشاء مساحة مؤسستك.</p>
+            <Link className="btn btn-light" href="/contact">تواصل معنا</Link>
+          </Reveal>
         </section>
       </main>
-      <MasraFooter />
-    </div>
+      <SiteFooter />
+    </>
   );
 }

@@ -1,48 +1,45 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import MasraHeader from '@/components/landing/MasraHeader';
-import MasraFooter from '@/components/landing/MasraFooter';
 import { getT } from '@/lib/i18n/server';
 import '@/styles/masra.css';
-import '@/styles/home.css';
 
-export async function generateMetadata(): Promise<Metadata> {
-  const { t } = await getT();
-  return { title: t('contact.meta.title'), description: t('contact.meta.desc') };
-}
-
-// لا نموذج ولا جمع بيانات هنا: استقبال الطلبات غير مفعّل بعد (يفرضه landing-content.test.ts).
 export default async function ContactPage() {
   const { t } = await getT();
   return (
-    <div className="mdl mh">
+    <div className="mdl">
       <MasraHeader />
-      <main>
-        <section className="mh-page-hero">
-          <div className="mh-wrap">
-            <span className="mh-eyebrow">{t('contact.preview')}</span>
-            <h1 className="mh-h1">{t('contact.title')}</h1>
-            <p className="mh-lead">{t('contact.lead')}</p>
-          </div>
-        </section>
-        <section className="mh-section mh-section-tight">
-          <div className="mh-wrap mh-status">
-            <section className="mh-card" aria-labelledby="contact-status">
+      <main className="mdl-contact">
+        <div className="mdl-wrap">
+          <span className="mdl-eyebrow">{t('contact.preview')}</span>
+          <h1>{t('contact.title')}</h1>
+          <p className="mdl-lead">{t('contact.lead')}</p>
+          <div className="mdl-contact-grid">
+            <section className="mdl-contact-card" aria-labelledby="contact-status">
               <h2 id="contact-status">{t('contact.status')}</h2>
               <p>{t('contact.detail')}</p>
             </section>
-            <section className="mh-card mh-status-now" aria-labelledby="contact-next">
+            <section className="mdl-contact-card" aria-labelledby="contact-next">
               <h2 id="contact-next">{t('contact.next')}</h2>
               <p>{t('contact.nextDetail')}</p>
-              <div className="mh-actions">
-                <Link className="mh-btn mh-btn-primary" href="/signup">{t('home.cta.signup')}</Link>
-                <Link className="mh-link" href="/#pricing">{t('nav.pricing')}</Link>
+              <div className="mdl-hero-actions">
+                <Link className="mdl-btn mdl-btn-primary" href="/#systems">{t('hero.cta.explore')}</Link>
+                <Link className="mdl-btn" href="/#pricing">{t('nav.pricing')}</Link>
               </div>
             </section>
           </div>
-        </section>
+        </div>
       </main>
-      <MasraFooter />
+      <footer className="mdl-footer">
+        <div className="mdl-wrap">
+          <p>{t('footer.desc')}</p>
+          <div className="mdl-contact-footer">
+            <Link href="/">{t('nav.home')}</Link>
+            <Link href="/privacy">{t('footer.privacy')}</Link>
+            <Link href="/terms">{t('footer.terms')}</Link>
+          </div>
+          <p>{t('footer.rights')}</p>
+        </div>
+      </footer>
     </div>
   );
 }

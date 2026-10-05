@@ -1,9 +1,7 @@
 import Link from 'next/link';
 import MasraHeader from '@/components/landing/MasraHeader';
-import MasraFooter from '@/components/landing/MasraFooter';
 import { getLocale } from '@/lib/i18n/server';
 import '@/styles/masra.css';
-import '@/styles/home.css';
 import '@/styles/legal.css';
 
 export const dynamic = 'force-dynamic';
@@ -18,7 +16,7 @@ export default async function TermsPage() {
   const en = locale === 'en';
 
   return (
-    <div className="mdl mh">
+    <div className="mdl">
       <MasraHeader />
       <main className="legal">
         <span className="legal-eyebrow">{en ? 'Legal' : 'قانوني'}</span>
@@ -121,7 +119,6 @@ export default async function TermsPage() {
           <span>مسرى © 2026</span>
         </div>
       </main>
-      <MasraFooter />
     </div>
   );
 }

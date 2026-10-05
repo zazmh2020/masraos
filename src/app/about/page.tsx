@@ -1,106 +1,101 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
+import SiteHeader from '@/components/SiteHeader';
+import SiteFooter from '@/components/SiteFooter';
 import Reveal from '@/components/Reveal';
-import MasraHeader from '@/components/landing/MasraHeader';
-import MasraFooter from '@/components/landing/MasraFooter';
-import { getT } from '@/lib/i18n/server';
-import '@/styles/masra.css';
-import '@/styles/home.css';
+import Icon from '@/components/Icon';
+import '@/styles/landing.css';
 
-export async function generateMetadata(): Promise<Metadata> {
-  const { t } = await getT();
-  return { title: t('about.meta.title'), description: t('about.meta.desc') };
-}
+const problems = [
+  { title: 'تشتت المعلومات', text: 'ملفات ورقية، جداول، تطبيقات تواصل، وأنظمة منفصلة لكل مهمة.' },
+  { title: 'تكرار العمل', text: 'نفس البيانات تُدخل مرات، ونفس الإجراء يُعاد شرحه لكل موظف جديد.' },
+  { title: 'ضعف المتابعة', text: 'قرارات تُتخذ بدون بيانات، ومهام تُنسى، وتقارير تتأخر أسابيع.' },
+  { title: 'فقدان المعرفة', text: 'الخبرة تخرج من الباب مع الموظف، ولا يتراكم شيء للمؤسسة.' },
+];
 
-const PRINCIPLES = ['arabic', 'roles', 'honest', 'ai'];
+const pillars = [
+  { title: 'توحيد', text: 'جمع العمليات والمعلومات في بيئة واحدة، بدل أنظمة متفرقة.' },
+  { title: 'تنظيم', text: 'تحويل الإجراءات المتفرقة إلى عمليات واضحة وقابلة للمتابعة.' },
+  { title: 'تمكين', text: 'توفير الأدوات التي تساعد كل موظف على أداء عمله بكفاءة.' },
+  { title: 'تطوير', text: 'استخدام البيانات والذكاء الاصطناعي لبناء مؤسسة أكثر قدرة.' },
+];
 
-export default async function AboutPage() {
-  const { t } = await getT();
+export default function AboutPage() {
   return (
-    <div className="mdl mh">
-      <MasraHeader />
+    <>
+      <SiteHeader />
       <main>
-        <section className="mh-page-hero">
-          <div className="mh-wrap">
+        <section className="page-header">
+          <div className="page-header-inner">
             <Reveal>
-              <span className="mh-eyebrow">{t('about.eyebrow')}</span>
-              <h1 className="mh-h1">{t('about.title')}</h1>
-              <p className="mh-lead">{t('about.lead')}</p>
+              <span className="eyebrow">عن المنصة</span>
+              <h1>ما هي مسرى؟</h1>
+              <p>
+                منظومة رقمية متكاملة للتحول المؤسسي، تساعد المؤسسات على إدارة
+                عملياتها وبياناتها وأفرادها وبرامجها ومشاريعها من منصة واحدة.
+              </p>
             </Reveal>
           </div>
         </section>
 
-        <section className="mh-section">
-          <div className="mh-wrap mh-people">
-            <Reveal className="mh-people-copy">
-              <h2 className="mh-h2">{t('about.why.title')}</h2>
-              <p className="mh-p">{t('about.why.lead')}</p>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <h2 className="mh-h3">{t('about.promise.title')}</h2>
-              <ul className="mh-lines">
-                {[1, 2, 3, 4, 5, 6].map((n) => <li key={n}>{t(`about.promise.${n}`)}</li>)}
-              </ul>
+        <section className="section">
+          <div className="section-heading">
+            <Reveal>
+              <span className="eyebrow">لماذا مسرى</span>
+              <h2>مشكلات تعرفها كل مؤسسة</h2>
+              <p>
+                معلومات متفرقة، عمل مكرّر، ومعرفة تضيع — هذه ليست تفاصيل صغيرة،
+                بل ما يُبطئ المؤسسات ويستنزفها.
+              </p>
             </Reveal>
           </div>
-        </section>
 
-        <section className="mh-section mh-lilac">
-          <div className="mh-wrap">
-            <Reveal>
-              <div className="mh-head"><h2 className="mh-h2">{t('about.principles.title')}</h2></div>
-            </Reveal>
-            <div className="mh-cards mh-cards-4">
-              {PRINCIPLES.map((p, i) => (
-                <Reveal key={p} delay={i * 0.05}>
-                  <div className="mh-card">
-                    <h3>{t(`about.p.${p}.t`)}</h3>
-                    <p>{t(`about.p.${p}.d`)}</p>
+          <div className="card-grid">
+            {problems.map((p, i) => (
+              <Reveal key={p.title} delay={i * 0.05}>
+                <article className="card">
+                  <div className="card-icon">
+                    <Icon name="alert" size={24} />
                   </div>
-                </Reveal>
-              ))}
-            </div>
+                  <h3>{p.title}</h3>
+                  <p>{p.text}</p>
+                </article>
+              </Reveal>
+            ))}
           </div>
         </section>
 
-        <section className="mh-section">
-          <div className="mh-wrap">
+        <section className="section section-dark">
+          <div className="section-heading">
             <Reveal>
-              <div className="mh-head"><h2 className="mh-h2">{t('about.status.title')}</h2></div>
+              <span className="eyebrow">فلسفة مسرى</span>
+              <h2>أربعة مفاهيم تحكم كل ما نبنيه</h2>
             </Reveal>
-            <div className="mh-status">
-              <Reveal>
-                <div className="mh-card mh-status-now">
-                  <span className="mh-status-label">{t('about.status.now')}</span>
-                  <p>{t('about.status.now.d')}</p>
-                </div>
+          </div>
+
+          <div className="card-grid">
+            {pillars.map((p, i) => (
+              <Reveal key={p.title} delay={i * 0.05}>
+                <article className="card">
+                  <div className="card-icon">
+                    <Icon name="check" size={24} />
+                  </div>
+                  <h3>{p.title}</h3>
+                  <p>{p.text}</p>
+                </article>
               </Reveal>
-              <Reveal delay={0.08}>
-                <div className="mh-card">
-                  <span className="mh-status-label">{t('about.status.next')}</span>
-                  <p>{t('about.status.next.d')}</p>
-                </div>
-              </Reveal>
-            </div>
+            ))}
           </div>
         </section>
 
-        <section className="mh-section">
-          <div className="mh-wrap">
-            <Reveal>
-              <div className="mh-cta">
-                <h2>{t('cta.title')}</h2>
-                <p>{t('cta.lead')}</p>
-                <div className="mh-actions">
-                  <Link href="/signup" className="mh-btn mh-btn-light">{t('home.cta.signup')}</Link>
-                  <Link href="/features" className="mh-link">{t('nav.features')}</Link>
-                </div>
-              </div>
-            </Reveal>
-          </div>
+        <section className="cta-band">
+          <Reveal>
+            <h2>مستعد للبدء؟</h2>
+            <p>اكتشف الأنظمة والوحدات التي يمكن أن تخدم مؤسستك.</p>
+            <Link className="btn btn-light" href="/systems">استكشف الأنظمة</Link>
+          </Reveal>
         </section>
       </main>
-      <MasraFooter />
-    </div>
+      <SiteFooter />
+    </>
   );
 }
