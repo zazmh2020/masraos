@@ -1,9 +1,8 @@
-import type { CSSProperties } from 'react';
+import { useId, type CSSProperties } from 'react';
 
 /**
- * علامة مسرى — مستطيل مستدير بمربع مقتطع (فراغ سالب).
- * يُلوَّن بلون النص (currentColor): بنفسجي على الفاتح، أبيض على الداكن.
- * المربع يُظهر لون الخلفية خلفه (تمامًا كالشعار الرسمي).
+ * Official supplied transparent artwork, without its empty canvas margins.
+ * Alpha masking preserves the artwork and inherits the surrounding brand color.
  */
 export function LogoMark({
   size = 28,
@@ -14,23 +13,25 @@ export function LogoMark({
   className?: string;
   style?: CSSProperties;
 }) {
-  const h = Math.round(size * (54 / 46));
+  const maskId = `masra-logo-${useId()}`;
+  const h = size * (50 / 58);
   return (
     <svg
       width={size}
       height={h}
-      viewBox="0 0 46 54"
+      viewBox="21 25 58 50"
       fill="currentColor"
       className={className}
-      style={style}
+      style={{ flexShrink: 0, ...style }}
       aria-hidden="true"
       role="img"
     >
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M9 0H37A9 9 0 0 1 46 9V45A9 9 0 0 1 37 54H9A9 9 0 0 1 0 45V9A9 9 0 0 1 9 0ZM16 20H30V34H16V20Z"
-      />
+      <defs>
+        <mask id={maskId} x="21" y="25" width="58" height="50" maskUnits="userSpaceOnUse" style={{ maskType: 'alpha' }}>
+          <image href="/masra-logo.png" width="101" height="101" />
+        </mask>
+      </defs>
+      <rect x="21" y="25" width="58" height="50" mask={`url(#${maskId})`} />
     </svg>
   );
 }

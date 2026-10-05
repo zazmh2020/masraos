@@ -156,20 +156,35 @@
 .mdl-header.is-scrolled { padding-top: 0.5rem; }
 .mdl-navbar {
   max-width: 1380px; margin-inline: auto;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.85);
+  background: color-mix(in srgb, var(--brand-primary-dark) 88%, transparent);
+  backdrop-filter: blur(22px) saturate(125%);
+  -webkit-backdrop-filter: blur(22px) saturate(125%);
+  border: 1px solid transparent;
   border-radius: 20px;
-  box-shadow: 0 10px 40px -12px color-mix(in srgb, var(--brand-primary-dark) 22%, transparent);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 10px 32px -16px color-mix(in srgb, var(--brand-primary-dark) 35%, transparent);
   padding: 0.6rem 0.7rem 0.6rem 0.6rem;
   display: flex; align-items: center; gap: 1rem;
   transition: box-shadow 0.3s var(--ease);
 }
-.mdl-header.is-scrolled .mdl-navbar { box-shadow: 0 14px 46px -14px color-mix(in srgb, var(--brand-primary-dark) 32%, transparent); }
+.mdl-header.is-scrolled .mdl-navbar { background: color-mix(in srgb, var(--brand-primary-dark) 94%, transparent); box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 12px 32px -16px color-mix(in srgb, var(--brand-primary-dark) 40%, transparent); }
+
+/* Glass treatment is scoped to the top bar; the mobile dialog stays readable. */
+.mdl-navbar .mdl-brand :is(.mark, .name),
+.mdl-navbar .mdl-menu-btn,
+.mdl-navbar .mdl-nav-link { color: var(--on-brand); }
+.mdl-navbar .mdl-nav-link:hover { color: var(--on-brand); background: rgba(255,255,255,.09); text-decoration: underline; text-underline-offset: .4em; }
+.mdl-navbar :is(.lang-toggle, .cur-toggle) { color: var(--on-brand); background: rgba(255,255,255,.07); border-color: transparent; }
+.mdl-navbar :is(.lang-toggle, .cur-toggle):hover { background: rgba(255,255,255,.15); color: var(--on-brand); }
+.mdl-navbar :is(a,button):focus-visible { outline: 2px solid var(--on-brand); outline-offset: 3px; }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .mdl-header .mdl-navbar { background: var(--brand-primary-dark); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .mdl-header .mdl-navbar { background: var(--brand-primary-dark); backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
 
 .mdl-brand { display: inline-flex; align-items: center; gap: 0.5rem; flex-shrink: 0; padding-inline-start: 0.4rem; }
-.mdl-brand .mark { width: 24px; height: 28px; color: var(--p); }
+.mdl-brand .mark { width: 34px; height: auto; aspect-ratio: 58 / 50; color: var(--p); }
 .mdl-brand .name { font-size: 1.3rem; font-weight: 700; color: var(--dark); }
 
 .mdl-nav-links { display: flex; align-items: center; gap: 0.15rem; flex: 1; justify-content: center; }
@@ -679,7 +694,7 @@
 }
 .mdl-footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 2rem; }
 .mdl-footer .fb-name { display: flex; align-items: center; gap: 0.55rem; color: #fff; font-size: 1.3rem; font-weight: 700; }
-.mdl-footer .fb-name .mark { width: 26px; height: 30px; color: #fff; }
+.mdl-footer .fb-name .mark { width: 34px; height: auto; aspect-ratio: 58 / 50; color: #fff; }
 .mdl-footer .fb-desc { margin-top: 0.9rem; font-size: 0.88rem; max-width: 34ch; line-height: 1.8; color: rgba(255,255,255,0.68); }
 .mdl-footer h5 { color: #fff; font-size: 0.92rem; margin: 0 0 1rem; }
 .mdl-footer ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
