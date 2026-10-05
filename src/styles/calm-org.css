@@ -172,7 +172,7 @@ body:has(.org-app) { background: #fff; }
 
 .org-app .tbt-dot { font-size: 11.5px; min-width: 18px; }
 .org-app .tbar-user-role { font-size: 12px; }
-.org-app .dash-eyebrow { font-size: 12.5px; letter-spacing: 0; }
+.org-app .dash-hd .dash-eyebrow, .org-app .dash-eyebrow { font-size: 12.5px; letter-spacing: 0; }
 .org-app .dash-ring-label,
 .org-app .dash-ann-time,
 .org-app .dash-cell-user .s { font-size: 12px; }
@@ -193,5 +193,11 @@ body:has(.org-app) { background: #fff; }
   .org-app .org-nav-child,
   .org-app .dash-btn,
   .org-app .dash-promo-btn,
-  .org-app .dash-link { min-height: 44px; }
+  .org-app .dash-link,
+  .org-app .org-back,
+  .org-app .org-btn,
+  .org-app .org-inline-search,
+  .org-app .org-inline-select,
+  .org-app .org-table .org-link { min-height: 44px; }
+  .org-app .org-back { min-width: 44px; }
 }
