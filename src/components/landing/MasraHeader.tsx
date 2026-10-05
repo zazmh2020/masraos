@@ -9,7 +9,7 @@ import CurrencyToggle from '@/components/CurrencyToggle';
 import { useT } from '@/lib/i18n/LocaleProvider';
 
 const LINKS = [
-  ['/#systems', 'nav.platform'],
+  ['/#platform', 'nav.platform'],
   ['/#how-it-works', 'nav.journey'],
   ['/#roles', 'nav.roles'],
   ['/#pricing', 'nav.pricing'],
@@ -48,7 +48,8 @@ export default function MasraHeader() {
         </div>
         <div className="mdl-nav-actions">
           <CurrencyToggle /><LangToggle />
-          <Link href="/login" className="mdl-btn mdl-btn-primary">{t('nav.login')}</Link>
+          <Link href="/login" className="mdl-nav-link mdl-nav-login">{t('nav.login')}</Link>
+          <Link href="/signup" className="mdl-btn mdl-btn-primary">{t('home.cta.signup')}</Link>
         </div>
       </nav>
       <dialog id="marketing-navigation" ref={drawer} className="mdl-mobile-dialog" aria-label={t('nav.menu')} onClose={() => { setOpen(false); trigger.current?.focus(); }} onClick={e => { if (e.target === e.currentTarget) closeMenu(); }}>
@@ -58,7 +59,8 @@ export default function MasraHeader() {
             <button type="button" className="mdl-btn" onClick={closeMenu}>{t('nav.closeMenu')}</button>
           </div>
           {LINKS.map(([href, key]) => <Link key={key} href={href} onClick={closeMenu}>{t(key)}</Link>)}
-          <Link href="/login" className="mdl-btn mdl-btn-primary" onClick={closeMenu}>{t('nav.login')}</Link>
+          <Link href="/login" onClick={closeMenu}>{t('nav.login')}</Link>
+          <Link href="/signup" className="mdl-btn mdl-btn-primary" onClick={closeMenu}>{t('home.cta.signup')}</Link>
         </div>
       </dialog>
     </header>

@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import type { ReactNode } from 'react';
 
 interface RevealProps {
@@ -12,9 +12,11 @@ interface RevealProps {
 
 /**
  * غلاف بسيط: يُدخل عناصره بلطف عند ظهورها في النافذة.
- * الحركة هادئة ودقيقة — 0.5s + إزاحة صغيرة للأعلى.
+ * الحركة هادئة ودقيقة — 0.5s + إزاحة صغيرة للأعلى، وتُلغى لمن يفضّل تقليل الحركة.
  */
 export default function Reveal({ children, delay = 0, y = 20, className }: RevealProps) {
+  const reduce = useReducedMotion();
+  if (reduce) return <div className={className}>{children}</div>;
   return (
     <motion.div
       className={className}
