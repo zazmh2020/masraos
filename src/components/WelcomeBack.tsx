@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Icon from '@/components/Icon';
 
 const WELCOME_COOKIE = 'midad_welcome';
+let welcomePending = false; // أُخذت العلامة ولم يُعرض الترحيب بعد
 
 /** يحذف علامة الترحيب بكل نطاقات المضيف الممكنة (تُضبط على نطاق الجذر عند الدخول). */
 function consumeWelcomeCookie() {
@@ -24,14 +25,19 @@ export default function WelcomeBack({ name, greeting }: { name: string; greeting
   const [leaving, setLeaving] = useState(false);
 
   useEffect(() => {
-    if (!document.cookie.split('; ').some((c) => c.startsWith(`${WELCOME_COOKIE}=`))) return;
-    consumeWelcomeCookie();
+    // الحالة على مستوى الوحدة لا الكوكي وحده: React (Strict Mode) قد يشغّل التأثير مرتين،
+    // فتحذف المرة الأولى الكوكي ويجب ألا تفقد المرة الثانية الترحيب.
+    if (document.cookie.split('; ').some((c) => c.startsWith(`${WELCOME_COOKIE}=`))) {
+      consumeWelcomeCookie();
+      welcomePending = true;
+    }
+    if (!welcomePending) return;
     const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
     const hold = reduce ? 500 : 1200;
     // تأجيل الإظهار لدورة لاحقة يتجنّب setState متزامنًا داخل التأثير
     const showT = setTimeout(() => setShow(true), 0);
     const leaveT = setTimeout(() => setLeaving(true), hold);
-    const doneT = setTimeout(() => setShow(false), hold + 500);
+    const doneT = setTimeout(() => { setShow(false); welcomePending = false; }, hold + 500);
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setLeaving(true); };
     window.addEventListener('keydown', onKey);
     return () => { clearTimeout(showT); clearTimeout(leaveT); clearTimeout(doneT); window.removeEventListener('keydown', onKey); };
