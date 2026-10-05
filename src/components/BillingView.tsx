@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
+import RiyalSign from '@/components/RiyalSign';
 
 type PlanOpt = { id: string; name: string; price: number | null; paid: boolean; current: boolean };
 
@@ -62,7 +63,7 @@ export default function BillingView({
         {plans.map((p) => (
           <div key={p.id} className={`org-panel bill-plan ${p.current ? 'is-current' : ''}`}>
             <h3>{p.name}</h3>
-            <div className="bill-price">{p.price === null ? t('plan.custom') : p.price === 0 ? t('plan.free') : `${p.price} ${currency}`}<small>{p.price ? `/${t('plan.perMonthShort')}` : ''}</small></div>
+            <div className="bill-price">{p.price === null ? t('plan.custom') : p.price === 0 ? t('plan.free') : <>{p.price} {currency === 'ر.س' ? <RiyalSign /> : currency}</>}<small>{p.price ? `/${t('plan.perMonthShort')}` : ''}</small></div>
             {p.current ? (
               <span className="bill-current-tag">{t('bill.yourPlan')}</span>
             ) : p.paid ? (

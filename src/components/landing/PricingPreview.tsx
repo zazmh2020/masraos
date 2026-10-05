@@ -3,7 +3,8 @@
 import { useRef, useState } from 'react';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import { useCurrency } from '@/components/CurrencyProvider';
-import { CURRENCIES, convertRounded, currencySymbol, formatAmount } from '@/lib/currency';
+import { CURRENCIES, convertRounded, formatAmount } from '@/lib/currency';
+import { CurrencySymbol } from '@/components/RiyalSign';
 import styles from './pricing-preview.module.css';
 import PreviewPlanAdvisor from './PreviewPlanAdvisor';
 import Icon from '@/components/Icon';
@@ -57,7 +58,7 @@ export default function PricingPreview() {
   const [yearly, setYearly] = useState(false);
   const { locale } = useLocale();
   const { currency } = useCurrency();
-  const symbol = currencySymbol(currency, locale);
+  const symbol = <CurrencySymbol code={currency} locale={locale} />;
   // Draft prices are USD; the shared converter accepts SAR amounts.
   const money = (usd: number) => formatAmount(convertRounded(usd / CURRENCIES.USD.rate, currency), locale);
   const lang = locale === 'en' ? 1 : 0;

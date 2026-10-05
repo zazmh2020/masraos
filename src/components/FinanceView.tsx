@@ -4,6 +4,7 @@ import { useMemo, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { FINANCE_CATEGORIES } from '@/lib/permissions';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
+import RiyalSign from '@/components/RiyalSign';
 
 type Tx = {
   id: string; kind: string; category: string; amount: number;
@@ -23,7 +24,8 @@ export default function FinanceView({
   const router = useRouter();
   const nf = new Intl.NumberFormat(locale === 'en' ? 'en-US' : 'ar-u-nu-latn', { maximumFractionDigits: 0 });
   const dateFmt = new Intl.DateTimeFormat(locale === 'en' ? 'en' : 'ar-u-nu-latn', { year: 'numeric', month: 'short', day: 'numeric' });
-  const money = (n: number) => `${nf.format(n)} ${t('unit.sar')}`;
+  const moneyText = (n: number) => `${nf.format(n)} ${t('unit.sar')}`; // للسمات النصية (title)
+  const money = (n: number) => <>{nf.format(n)} <RiyalSign title={t('unit.sar')} /></>;
   const catLabel = (v: string) => t(`fin.cat.${v}`);
   const kindLabel = (v: string) => t(`fin.kind.${v}`);
 
@@ -91,8 +93,8 @@ export default function FinanceView({
             {monthly.map((m) => (
               <div key={m.label} className="fin-bar-col">
                 <div className="fin-bar-pair">
-                  <span className="fin-bar fin-bar-in" style={{ height: `${(m.income / chartMax) * 100}%` }} title={money(m.income)} />
-                  <span className="fin-bar fin-bar-ex" style={{ height: `${(m.expense / chartMax) * 100}%` }} title={money(m.expense)} />
+                  <span className="fin-bar fin-bar-in" style={{ height: `${(m.income / chartMax) * 100}%` }} title={moneyText(m.income)} />
+                  <span className="fin-bar fin-bar-ex" style={{ height: `${(m.expense / chartMax) * 100}%` }} title={moneyText(m.expense)} />
                 </div>
                 <span className="fin-bar-lbl">{m.label}</span>
               </div>

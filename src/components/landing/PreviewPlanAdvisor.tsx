@@ -4,11 +4,12 @@ import { useEffect, useRef, useState } from 'react';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import styles from './plan-advisor-preview.module.css';
 import Icon from '@/components/Icon';
+import type { ReactNode } from 'react';
 
 type Plan = { name: string[]; description: string[]; price: number };
 
 export default function PreviewPlanAdvisor({ plans, price, period, symbol }: {
-  plans: Plan[]; price: (amount: number) => string; period: string; symbol: string;
+  plans: Plan[]; price: (amount: number) => string; period: string; symbol: ReactNode;
 }) {
   const { locale } = useLocale();
   const en = locale === 'en';

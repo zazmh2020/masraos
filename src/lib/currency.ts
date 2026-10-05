@@ -4,7 +4,7 @@
    rate = كم وحدة من هذه العملة تعادل ١ ريال سعودي.
    ============================================================ */
 
-export type CurrencyCode = 'SAR' | 'USD' | 'SYP';
+export type CurrencyCode = 'SAR' | 'USD';
 
 export interface CurrencyDef {
   code: CurrencyCode;
@@ -25,14 +25,13 @@ export const CURRENCIES: Record<CurrencyCode, CurrencyDef> = {
   SAR: { code: 'SAR', rate: 1, step: 1, symbolAr: 'ر.س', symbolEn: 'SAR', nameAr: 'ريال سعودي', nameEn: 'Saudi Riyal' },
   // الدولار الأمريكي — الربط الثابت ٣٫٧٥ ر.س للدولار
   USD: { code: 'USD', rate: 1 / 3.75, step: 1, symbolAr: '$', symbolEn: '$', nameAr: 'دولار أمريكي', nameEn: 'US Dollar' },
-  // الليرة السورية الجديدة — سعر تقريبي قابل للتحديث حسب السوق
-  SYP: { code: 'SYP', rate: 34.7, step: 5, symbolAr: 'ل.س', symbolEn: 'SYP', nameAr: 'ليرة سورية جديدة', nameEn: 'New Syrian Lira' },
 };
 
-export const CURRENCY_ORDER: CurrencyCode[] = ['SAR', 'USD', 'SYP'];
+export const CURRENCY_ORDER: CurrencyCode[] = ['SAR', 'USD'];
 
 export function isCurrency(v: string | undefined | null): v is CurrencyCode {
-  return v === 'SAR' || v === 'USD' || v === 'SYP';
+  // كوكي قديم بقيمة SYP (أُزيلت) يعود تلقائيًا إلى الريال
+  return v === 'SAR' || v === 'USD';
 }
 
 /** يحوّل مبلغًا بالريال إلى العملة المطلوبة ويقرّبه لعرض أنيق. */
@@ -42,7 +41,7 @@ export function convertRounded(amountSar: number, code: CurrencyCode): number {
   return Math.round(raw / def.step) * def.step;
 }
 
-/** رمز العملة حسب اللغة (ر.س / $ / ل.س). */
+/** رمز العملة حسب اللغة (ر.س / $). */
 export function currencySymbol(code: CurrencyCode, locale = 'ar'): string {
   const def = CURRENCIES[code];
   return locale === 'en' ? def.symbolEn : def.symbolAr;

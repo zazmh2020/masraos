@@ -4,6 +4,7 @@ import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { APPROVAL_CATEGORIES } from '@/lib/permissions';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
+import RiyalSign from '@/components/RiyalSign';
 
 type Approval = {
   id: string; title: string; description: string | null; category: string;
@@ -77,7 +78,7 @@ export default function ApprovalsView({
         <span className={`org-pill apr-badge-${a.status.toLowerCase()}`}>{statusLabel(a.status)}</span>
       </div>
       <h4>{a.title}</h4>
-      {a.amount && <div className="apr-amount">{Number(a.amount).toLocaleString(locale === 'en' ? 'en' : 'ar-u-nu-latn')} {t('unit.sar')}</div>}
+      {a.amount && <div className="apr-amount">{Number(a.amount).toLocaleString(locale === 'en' ? 'en' : 'ar-u-nu-latn')} <RiyalSign title={t('unit.sar')} /></div>}
       {a.description && <p className="apr-desc">{a.description}</p>}
       <div className="apr-meta">
         <span>{t('approval.by')}: {a.requestedByName ?? '—'}</span>

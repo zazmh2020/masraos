@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { PLAN_BY_ID, CURRENCY, planAllowsCustomDomain } from '@/lib/plans';
+import RiyalSign from '@/components/RiyalSign';
 import PlanSelector from './PlanSelector';
 import OrgIdentityForm from '@/components/OrgIdentityForm';
 import { getT, getLocale } from '@/lib/i18n/server';
@@ -57,7 +58,7 @@ export default async function OrgDetailPage({
                 const p = PLAN_BY_ID[org.plan];
                 if (!p || p.price === null) return t('plan.custom');
                 if (p.price === 0) return t('plan.free');
-                return `${numFmt.format(p.price)} ${CURRENCY}`;
+                return <>{numFmt.format(p.price)} {CURRENCY === 'ر.س' ? <RiyalSign /> : CURRENCY}</>;
               })()}
             </div>
           </div>

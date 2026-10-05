@@ -36,3 +36,6 @@
 .icon-box-sm { width: var(--icon-box-sm); height: var(--icon-box-sm); }
 .icon-box-md { width: var(--icon-box-md); height: var(--icon-box-md); }
 .icon-box-lg { width: var(--icon-box-lg); height: var(--icon-box-lg); }
+
+/* رمز الريال السعودي الرسمي (RiyalSign) — بحجم النص ولونه */
+.riyal-sign { display: inline-block; width: auto; height: 0.82em; vertical-align: -0.06em; flex: none; }

@@ -2,9 +2,10 @@
 
 import { useCurrency } from '@/components/CurrencyProvider';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
-import { CURRENCY_ORDER, currencyName, currencySymbol } from '@/lib/currency';
+import { CURRENCY_ORDER, currencyName } from '@/lib/currency';
+import { CurrencySymbol } from '@/components/RiyalSign';
 
-/** أيقونة تبديل العملة — تتنقّل بين ر.س / $ / ل.س عند الضغط. */
+/** أيقونة تبديل العملة — تتنقّل بين الريال والدولار عند الضغط. */
 export default function CurrencyToggle({ className = '' }: { className?: string }) {
   const { currency, setCurrency } = useCurrency();
   const { locale } = useLocale();
@@ -20,7 +21,7 @@ export default function CurrencyToggle({ className = '' }: { className?: string 
       aria-label={locale === 'en' ? `Currency: ${currencyName(currency, 'en')} — switch to ${currencyName(next, 'en')}` : `العملة: ${currencyName(currency, 'ar')} — بدّل إلى ${currencyName(next, 'ar')}`}
       title={`${currencyName(currency, locale)} → ${currencyName(next, locale)}`}
     >
-      <span className="cur-toggle-sym" aria-hidden="true">{currencySymbol(currency, locale)}</span>
+      <span className="cur-toggle-sym" aria-hidden="true"><CurrencySymbol code={currency} locale={locale} /></span>
     </button>
   );
 }
