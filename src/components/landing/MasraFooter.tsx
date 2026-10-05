@@ -12,7 +12,6 @@ export default async function MasraFooter() {
           <div className="mh-footer-brand">
             <span className="mh-footer-logo"><LogoMark size={28} /> {t('brand')}</span>
             <p>{t('footer.desc')}</p>
-            <Link href="/signup" className="mh-btn mh-btn-primary mh-btn-sm">{t('home.footer.cta')}</Link>
           </div>
           <nav aria-label={t('home.footer.product')}>
             <h2>{t('home.footer.product')}</h2>

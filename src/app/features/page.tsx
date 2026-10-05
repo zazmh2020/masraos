@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import Reveal from '@/components/Reveal';
-import Icon from '@/components/Icon';
 import MasraHeader from '@/components/landing/MasraHeader';
 import MasraFooter from '@/components/landing/MasraFooter';
 import { getT } from '@/lib/i18n/server';
@@ -59,7 +58,7 @@ export default async function FeaturesPage() {
         </section>
 
         {GROUPS.map((g, gi) => (
-          <section key={g.k} id={g.k} className={`mh-section ${gi % 2 ? 'mh-tint' : ''}`}>
+          <section key={g.k} id={g.k} className={`mh-section ${gi % 2 ? 'mh-lilac' : ''}`}>
             <div className="mh-wrap">
               <div className={`mh-role ${gi % 2 ? 'is-flip' : ''}`}>
                 <Reveal className="mh-role-copy">
@@ -75,10 +74,9 @@ export default async function FeaturesPage() {
                 </Reveal>
               </div>
               <ul className="mh-cards mh-modules">
-                {g.items.map(([icon, k], i) => (
+                {g.items.map(([, k], i) => (
                   <Reveal key={k} delay={(i % 3) * 0.05}>
                     <li className="mh-card">
-                      <span className="mh-ic"><Icon name={icon} size={20} /></span>
                       <h3>{t(`features.m.${k}.t`)}</h3>
                       <p>{t(`features.m.${k}.d`)}</p>
                     </li>
@@ -97,8 +95,8 @@ export default async function FeaturesPage() {
                 <h2>{t('cta.title')}</h2>
                 <p>{t('cta.lead')}</p>
                 <div className="mh-actions">
-                  <Link href="/signup" className="mh-btn mh-btn-primary">{t('home.cta.signup')}</Link>
-                  <Link href="/#pricing" className="mh-btn mh-btn-ghost">{t('nav.pricing')}</Link>
+                  <Link href="/signup" className="mh-btn mh-btn-light">{t('home.cta.signup')}</Link>
+                  <Link href="/#pricing" className="mh-link">{t('nav.pricing')}</Link>
                 </div>
               </div>
             </Reveal>
