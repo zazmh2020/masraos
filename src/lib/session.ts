@@ -8,6 +8,8 @@ import { createHmac, timingSafeEqual } from 'crypto';
 
 const COOKIE_NAME = 'midad_session';
 const MAX_AGE_DAYS = 7;
+const MAX_AGE_SECONDS = MAX_AGE_DAYS * 24 * 60 * 60;
+const SESSION_ROLES = new Set(['PLATFORM_OWNER', 'ORG_ADMIN', 'SUPERVISOR', 'STAFF', 'TEACHER', 'MEMBER', 'STUDENT']);
 
 export interface SessionData {
   userId: string;
@@ -83,11 +85,13 @@ function sign(payload: string): string {
 }
 
 export function serializeSession(data: SessionData): string {
-  const payload = Buffer.from(JSON.stringify(data)).toString('base64url');
+  const issuedAt = Math.floor(Date.now() / 1000);
+  const payload = Buffer.from(JSON.stringify({ ...data, issuedAt, expiresAt: issuedAt + MAX_AGE_SECONDS })).toString('base64url');
   return payload + '.' + sign(payload);
 }
 
 export function parseSession(token: string): SessionData | null {
+  if (token.length > 8192) return null;
   const dot = token.lastIndexOf('.');
   if (dot < 1) return null;
 
@@ -100,7 +104,22 @@ export function parseSession(token: string): SessionData | null {
   if (a.length !== b.length || !timingSafeEqual(a, b)) return null;
 
   try {
-    return JSON.parse(Buffer.from(payload, 'base64url').toString()) as SessionData;
+    const data: unknown = JSON.parse(Buffer.from(payload, 'base64url').toString());
+    if (!data || typeof data !== 'object' || Array.isArray(data)) return null;
+    const value = data as Record<string, unknown>;
+    const now = Math.floor(Date.now() / 1000);
+    if (typeof value.issuedAt !== 'number' || typeof value.expiresAt !== 'number' ||
+      !Number.isSafeInteger(value.issuedAt) || !Number.isSafeInteger(value.expiresAt) ||
+      value.issuedAt > now || value.expiresAt <= now ||
+      value.expiresAt <= value.issuedAt || value.expiresAt - value.issuedAt > MAX_AGE_SECONDS) return null;
+    if (typeof value.userId !== 'string' || !value.userId ||
+      typeof value.email !== 'string' || !value.email || typeof value.name !== 'string' ||
+      typeof value.role !== 'string' || !SESSION_ROLES.has(value.role) ||
+      !(value.organizationId === null || (typeof value.organizationId === 'string' && value.organizationId.length > 0)) ||
+      !(value.organizationSlug === null || (typeof value.organizationSlug === 'string' && value.organizationSlug.length > 0)) ||
+      (value.organizationId === null) !== (value.organizationSlug === null) ||
+      (value.demo !== undefined && typeof value.demo !== 'boolean')) return null;
+    return value as unknown as SessionData;
   } catch {
     return null;
   }
@@ -118,7 +137,7 @@ export async function createSession(
     secure: process.env.NODE_ENV === 'production',
     path: '/',
     domain, // مشترك بين الدومينات الفرعية عند تمريره
-    maxAge: remember ? MAX_AGE_DAYS * 24 * 60 * 60 : undefined,
+    maxAge: remember ? MAX_AGE_SECONDS : undefined,
   });
 }
 

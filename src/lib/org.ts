@@ -38,7 +38,7 @@ export const getOrgContext = cache(
 
     if (!user || !user.isActive) return null;
     if (!user.organization) return null;
-    if (user.organization.slug !== slug || !user.organization.isActive) {
+    if (session.organizationId !== user.organization.id || user.organization.slug !== slug || !user.organization.isActive) {
       return null;
     }
 
