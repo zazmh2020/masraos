@@ -157,3 +157,41 @@ body:has(.org-app) { background: #fff; }
   .org-app .org-content { border-radius: var(--cr-lg); padding: 20px 16px; }
   .org-app .org-page-head h1 { font-size: 24px; }
 }
+
+/* ============================================================
+   مراجعة UI UX Pro Max (2026-10-05): أهداف لمس وحد أدنى للخط
+   - أهداف اللمس: ≥24px على الكمبيوتر (WCAG 2.2 AA)، و44px للتحكم الأساسي على الجوال.
+     الروابط داخل جملة نصية مستثناة (مثل «صفحة الأسعار»).
+   - لا نص أصغر من 11.5px (DESIGN.md).
+   ============================================================ */
+.org-app .tbt-search input { min-height: 40px; }
+.org-app .dash-link,
+.org-app .org-table .org-link,
+.org-app .org-card .org-link { display: inline-flex; align-items: center; min-height: 32px; }
+.org-app .brand-toggle input[type='checkbox'] { width: 20px; height: 20px; accent-color: var(--c-brand); }
+
+.org-app .tbt-dot { font-size: 11.5px; min-width: 18px; }
+.org-app .tbar-user-role { font-size: 12px; }
+.org-app .dash-eyebrow { font-size: 12.5px; letter-spacing: 0; }
+.org-app .dash-ring-label,
+.org-app .dash-ann-time,
+.org-app .dash-cell-user .s { font-size: 12px; }
+.org-app .dash-table th { font-size: 12.5px; }
+.org-app .dash-badge,
+.org-app .org-chip { font-size: 12px; }
+.org-app .org-tag-self { font-size: 11.5px; }
+
+/* زر المساعد العائم: مساحة أسفل المحتوى كي لا يغطي آخر عناصره */
+.org-app:has(.oaf) .org-content { padding-bottom: 96px; }
+
+@media (max-width: 860px) {
+  .org-app .org-menu-toggle { display: inline-grid; place-items: center; min-width: 44px; min-height: 44px; }
+  .org-app .tbt-btn,
+  .org-app .tbt .lang-toggle { min-width: 44px; min-height: 44px; }
+  .org-app .tbt-search input { min-height: 44px; }
+  .org-app .org-nav-item,
+  .org-app .org-nav-child,
+  .org-app .dash-btn,
+  .org-app .dash-promo-btn,
+  .org-app .dash-link { min-height: 44px; }
+}

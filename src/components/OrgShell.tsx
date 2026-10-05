@@ -10,6 +10,7 @@ import WelcomeBack from '@/components/WelcomeBack';
 import PageTransition from '@/components/PageTransition';
 import OrgAssistantFab from '@/components/OrgAssistantFab';
 import { useT } from '@/lib/i18n/LocaleProvider';
+import { orgKey } from '@/lib/i18n/dictionaries';
 import type { OrgInbox } from '@/lib/inbox';
 import '@/styles/welcome.css';
 
@@ -102,7 +103,7 @@ export type NavEntry =
 
 interface Props {
   children: ReactNode;
-  org: { name: string; slug: string; brandColor?: string | null; brandAccent?: string | null; logoUrl?: string | null };
+  org: { name: string; slug: string; type?: string | null; brandColor?: string | null; brandAccent?: string | null; logoUrl?: string | null };
   user: { name: string; role: string; email?: string; avatarUrl?: string | null; jobTitle?: string | null };
   nav: NavEntry[];
   inbox: OrgInbox;
@@ -191,6 +192,7 @@ export default function OrgShell({ children, org, user, nav, inbox, assistant }:
   return (
     <div className={`org-app ${collapsed ? 'is-collapsed' : ''}`} style={brandVars(org.brandColor, org.brandAccent)}>
       <WelcomeBack name={user.name} greeting={t('welcome.greeting')} />
+      <a href="#org-main" className="skip-link">{t('a11y.skip')}</a>
       <aside className={`org-sidebar ${open ? 'is-open' : ''}`}>
         {/* زر طيّ/فرد الشريط الجانبي (ضمن القائمة نفسها) */}
         <button
@@ -209,7 +211,7 @@ export default function OrgShell({ children, org, user, nav, inbox, assistant }:
               <Avatar url={user.avatarUrl} />
             </span>
             <span className="org-user-name">{user.name}</span>
-            <span className="org-user-role">{t(`role.${user.role}`)}</span>
+            <span className="org-user-role">{t(orgKey(`role.${user.role}`, org.type))}</span>
           </div>
         </div>
 
@@ -277,13 +279,14 @@ export default function OrgShell({ children, org, user, nav, inbox, assistant }:
             messages={inbox.messages}
             notifications={inbox.notifications}
             storageKey={`midad_org_${org.slug}`}
+            orgType={org.type}
           />
           <div className="org-topbar-profile">
             <button className="tbar-user" onClick={() => setProfileOpen((v) => !v)} aria-expanded={profileOpen} aria-label={t('shell.profile')}>
               <span className="tbar-user-ava"><Avatar url={user.avatarUrl} /></span>
               <span className="tbar-user-tx">
                 <span className="tbar-user-name">{user.name}</span>
-                <span className="tbar-user-role">{user.jobTitle || t(`role.${user.role}`)}</span>
+                <span className="tbar-user-role">{user.jobTitle || t(orgKey(`role.${user.role}`, org.type))}</span>
               </span>
               <AppIcon name="chevronDown" size={16} className="tbar-user-chev" />
             </button>
@@ -293,7 +296,7 @@ export default function OrgShell({ children, org, user, nav, inbox, assistant }:
                 <div className="org-profile-menu org-profile-menu-top">
                   <div className="org-profile-head">
                     <span className="org-profile-name">{user.name}</span>
-                    <span className="org-profile-role">{user.jobTitle || t(`role.${user.role}`)}</span>
+                    <span className="org-profile-role">{user.jobTitle || t(orgKey(`role.${user.role}`, org.type))}</span>
                   </div>
                   <Link href={`${base}/settings`} className="org-profile-link" onClick={() => setProfileOpen(false)}>
                     <Icon name="settings" />
@@ -308,7 +311,7 @@ export default function OrgShell({ children, org, user, nav, inbox, assistant }:
             )}
           </div>
         </header>
-        <main className="org-content"><PageTransition>{children}</PageTransition></main>
+        <main id="org-main" tabIndex={-1} className="org-content"><PageTransition>{children}</PageTransition></main>
       </div>
       {assistant?.show && <OrgAssistantFab ready={assistant.ready} />}
     </div>

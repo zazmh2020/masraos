@@ -106,7 +106,7 @@ export default async function StatisticsPage({ params }: { params: Promise<{ slu
               {[0, 50, 100].map((g) => { const y = top0 + usableH * (1 - g / 100); return <line key={g} x1="0" y1={y} x2={W} y2={y} stroke="rgba(43,26,78,0.08)" strokeDasharray="3 5" />; })}
               <path d={line} fill="none" stroke="#1f7a5a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
               {pts.map((p, i) => attRate[i] !== null ? <g key={i}><circle cx={p[0]} cy={p[1]} r="3.5" fill="#1f7a5a" /><text x={p[0]} y={p[1] - 8} textAnchor="middle" fontSize="11" fill="#1f7a5a">{attRate[i]}%</text></g> : null)}
-              {months.map((m, i) => <text key={m.key} x={pts[i][0]} y={H - 8} textAnchor="middle" fontSize="11" fill="#8a83a0">{m.label}</text>)}
+              {months.map((m, i) => <text key={m.key} x={pts[i][0]} y={H - 8} textAnchor="middle" fontSize="12" fill="#8a83a0">{m.label}</text>)}
             </svg>
           )}
         </section>

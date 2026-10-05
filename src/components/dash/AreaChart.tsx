@@ -83,7 +83,7 @@ export default function AreaChart({
           return <circle key={i} cx={x} cy={y} r="3.5" fill={primary.color} />;
         })}
 
-      <g fontFamily="Qomra, Segoe UI, sans-serif" fontSize="11" fill="var(--gray-500)" textAnchor="middle">
+      <g fontFamily="Qomra, Segoe UI, sans-serif" fontSize="12" fill="var(--gray-500)" textAnchor="middle">
         {labels.map((lab, i) => (
           <text key={i} x={PAD_X + i * stepX} y={H - 14}>
             {lab}

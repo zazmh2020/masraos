@@ -98,6 +98,7 @@ export default function AdminShell({ children, session, avatarUrl, inbox, assist
     <div className={`admin-app ${collapsed ? 'is-collapsed' : ''}`}>
       <WelcomeBack name={session.name} greeting={t('welcome.greeting')} />
       {/* Sidebar */}
+      <a href="#admin-main" className="skip-link">{t('a11y.skip')}</a>
       <aside className={`admin-sidebar ${sidebarOpen ? 'is-open' : ''}`}>
         <button
           className="org-fold-toggle"
@@ -214,7 +215,7 @@ export default function AdminShell({ children, session, avatarUrl, inbox, assist
           </div>
         </header>
 
-        <main className="admin-content"><PageTransition>{children}</PageTransition></main>
+        <main id="admin-main" tabIndex={-1} className="admin-content"><PageTransition>{children}</PageTransition></main>
       </div>
 
       <OrgAssistantFab

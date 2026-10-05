@@ -60,7 +60,7 @@ function TrendChart({
           <path d={area} fill={`url(#${gid})`} />
           <path d={line} fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
           {values.map((v, i) => <circle key={i} cx={pt(v, i)[0]} cy={pt(v, i)[1]} r="3.2" fill={color} />)}
-          <g fontFamily="Tahoma, sans-serif" fontSize="11" fill="#7c7788" textAnchor="middle">
+          <g fontFamily="Tahoma, sans-serif" fontSize="12" fill="#7c7788" textAnchor="middle">
             {labels.map((l, i) => <text key={i} x={padX + i * stepX} y={H - 12}>{l}</text>)}
           </g>
         </svg>

@@ -6,6 +6,7 @@ import type { InboxMessage, InboxNotification } from '@/lib/inbox';
 import LangToggle from '@/components/LangToggle';
 import Icon from '@/components/Icon';
 import { useT } from '@/lib/i18n/LocaleProvider';
+import { orgKey } from '@/lib/i18n/dictionaries';
 
 export interface SearchItem {
   label: string;
@@ -18,6 +19,7 @@ interface Props {
   messages: InboxMessage[];
   notifications: InboxNotification[];
   storageKey: string; // للفصل بين الجهة والأدمن في تتبّع «المقروء»
+  orgType?: string | null; // لمصطلحات حسب نوع الجهة (مركز/مؤسسة)
 }
 
 function timeAgo(iso: string): string {
@@ -39,7 +41,7 @@ const NOTIF_ICON: Record<string, string> = {
   request: 'notes', donation: 'heart', student: 'students',
 };
 
-export default function TopbarTools({ searchItems, messages, notifications, storageKey }: Props) {
+export default function TopbarTools({ searchItems, messages, notifications, storageKey, orgType }: Props) {
   const router = useRouter();
   const t = useT();
   const [panel, setPanel] = useState<Panel>(null);
@@ -105,11 +107,11 @@ export default function TopbarTools({ searchItems, messages, notifications, stor
         <input
           type="search"
           value={q}
-          placeholder={t('tb.search')}
+          placeholder={t(orgKey('tb.search', orgType))}
           onChange={(e) => { setQ(e.target.value); setPanel('search'); }}
           onFocus={() => setPanel('search')}
           onKeyDown={(e) => { if (e.key === 'Enter' && results[0]) go(results[0].href); }}
-          aria-label={t('tb.search')}
+          aria-label={t(orgKey('tb.search', orgType))}
         />
         {panel === 'search' && q.trim() && (
           <div className="tbt-drop tbt-results">

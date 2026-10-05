@@ -15,6 +15,7 @@ import DonutRing from '@/components/dash/DonutRing';
 import TeacherDashboard from './TeacherDashboard';
 import StudentDashboard from './StudentDashboard';
 import { getT } from '@/lib/i18n/server';
+import { orgKey } from '@/lib/i18n/dictionaries';
 
 export const dynamic = 'force-dynamic';
 
@@ -151,11 +152,11 @@ export default async function OrgDashboard({
         {/* رأس الصفحة */}
         <div className="dash-hd">
           <div>
-            <span className="dash-eyebrow">{t('od.eyebrow')}</span>
+            <span className="dash-eyebrow">{t(orgKey('od.eyebrow', org.type))}</span>
             <h1>{t('od.welcome', { name: user.name })}</h1>
             <p className="dash-sub">
               {org.name} — {TYPE_KEYS[org.type] ? t(TYPE_KEYS[org.type]) : org.type} · {t('od.role')}{' '}
-              <strong>{t(`role.${user.role}`)}</strong>
+              <strong>{t(orgKey(`role.${user.role}`, org.type))}</strong>
             </p>
           </div>
           {canManage && (
@@ -214,7 +215,7 @@ export default async function OrgDashboard({
           <div className="dash-grid-main">
             <div className="dash-card">
               <div className="dash-card-hd">
-                <h3>{t('od.activity7')}</h3>
+                <h3>{t(orgKey('od.activity7', org.type))}</h3>
                 {canReports && <Link href={`/org/${org.slug}/reports`} className="dash-link">{t('od.viewDetails')} ←</Link>}
               </div>
               {hasSeries ? (
@@ -277,7 +278,7 @@ export default async function OrgDashboard({
                             </div>
                           </div>
                         </td>
-                        <td>{t(`role.${u.role}`)}</td>
+                        <td>{t(orgKey(`role.${u.role}`, org.type))}</td>
                         <td><span className={`dash-badge ${u.isActive ? 'green' : 'muted'}`}>{u.isActive ? t('od.status.active') : t('od.status.inactive')}</span></td>
                         <td>{dateFmt.format(u.createdAt)}</td>
                       </tr>

@@ -1157,6 +1157,7 @@ const ar: Dict = {
 
   // شريط أدوات التطبيق (TopbarTools)
   'tb.search': 'ابحث في مؤسستك…',
+  'a11y.skip': 'تخطَّ إلى المحتوى',
   'tb.messages': 'الرسائل والإعلانات',
   'tb.notifications': 'الإشعارات',
   'tb.noMessages': 'لا توجد رسائل بعد.',
@@ -1414,6 +1415,15 @@ const ar: Dict = {
   // الأدوار
   'role.PLATFORM_OWNER': 'مالك المنصة',
   'role.ORG_ADMIN': 'مدير المؤسسة',
+  // مصطلحات حسب نوع الجهة (orgKey): المراكز «مركز» بدل «مؤسسة»
+  'od.eyebrow.MOSQUE': 'لوحة المركز',
+  'od.activity7.MOSQUE': 'نشاط المركز — آخر ٧ أيام',
+  'tb.search.MOSQUE': 'ابحث في مركزك…',
+  'role.ORG_ADMIN.MOSQUE': 'مدير المركز',
+  'od.eyebrow.SCHOOL': 'لوحة المركز',
+  'od.activity7.SCHOOL': 'نشاط المركز — آخر ٧ أيام',
+  'tb.search.SCHOOL': 'ابحث في مركزك…',
+  'role.ORG_ADMIN.SCHOOL': 'مدير المركز',
   'role.SUPERVISOR': 'مشرف',
   'role.STAFF': 'موظف',
   'role.TEACHER': 'معلم',
@@ -3007,6 +3017,7 @@ const en: Dict = {
   'login.err.network': 'Could not reach the server. Check your connection and try again.',
 
   'tb.search': 'Search your organization…',
+  'a11y.skip': 'Skip to content',
   'tb.messages': 'Messages & announcements',
   'tb.notifications': 'Notifications',
   'tb.noMessages': 'No messages yet.',
@@ -3257,6 +3268,15 @@ const en: Dict = {
 
   'role.PLATFORM_OWNER': 'Platform owner',
   'role.ORG_ADMIN': 'Organization admin',
+  // مصطلحات حسب نوع الجهة (orgKey): المراكز «مركز» بدل «مؤسسة»
+  'od.eyebrow.MOSQUE': 'Center dashboard',
+  'od.activity7.MOSQUE': 'Center activity — last 7 days',
+  'tb.search.MOSQUE': 'Search your center…',
+  'role.ORG_ADMIN.MOSQUE': 'Center admin',
+  'od.eyebrow.SCHOOL': 'Center dashboard',
+  'od.activity7.SCHOOL': 'Center activity — last 7 days',
+  'tb.search.SCHOOL': 'Search your center…',
+  'role.ORG_ADMIN.SCHOOL': 'Center admin',
   'role.SUPERVISOR': 'Supervisor',
   'role.STAFF': 'Staff',
   'role.TEACHER': 'Teacher',
@@ -3701,6 +3721,11 @@ const en: Dict = {
 export const DICTIONARIES: Record<Locale, Dict> = { ar, en };
 
 /** ترجمة مفتاح مع استبدال بسيط للمتغيّرات {name}. */
+/** مفتاح خاص بنوع الجهة إن وُجد (مثل od.eyebrow.MOSQUE)، وإلا المفتاح العام — لا يغيّر شيئًا للأنواع الأخرى. */
+export function orgKey(key: string, orgType?: string | null): string {
+  return orgType && DICTIONARIES.ar[`${key}.${orgType}`] !== undefined ? `${key}.${orgType}` : key;
+}
+
 export function translate(locale: Locale, key: string, vars?: Record<string, string | number>): string {
   let s = DICTIONARIES[locale]?.[key] ?? DICTIONARIES.ar[key] ?? key;
   if (vars) for (const [k, v] of Object.entries(vars)) s = s.replace(`{${k}}`, String(v));

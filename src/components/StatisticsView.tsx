@@ -51,7 +51,7 @@ function Chart({ labels, a, b }: { labels: string[]; a: number[]; b: number[] })
       <path d={line(a)} fill="none" stroke={NEW_C} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
       <path d={line(b)} fill="none" stroke={REV_C} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="6 4" />
       {a.map((v, i) => <circle key={i} cx={pt(v, i)[0]} cy={pt(v, i)[1]} r="3.2" fill={NEW_C} />)}
-      <g fontFamily="Qomra, Segoe UI, sans-serif" fontSize="11" fill="var(--gray-500)" textAnchor="middle">
+      <g fontFamily="Qomra, Segoe UI, sans-serif" fontSize="12" fill="var(--gray-500)" textAnchor="middle">
         {labels.map((l, i) => <text key={i} x={padX + i * stepX} y={H - 14}>{l}</text>)}
       </g>
     </svg>
