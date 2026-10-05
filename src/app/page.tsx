@@ -4,6 +4,7 @@ import Reveal from '@/components/Reveal';
 import Icon from '@/components/Icon';
 import { LogoMark } from '@/components/Logo';
 import MasraHeader from '@/components/landing/MasraHeader';
+import MasraFooter from '@/components/landing/MasraFooter';
 import MasraAIChat from '@/components/landing/MasraAIChat';
 import MasraAssistant from '@/components/landing/MasraAssistant';
 import PricingPreview from '@/components/landing/PricingPreview';
@@ -396,45 +397,7 @@ export default async function HomePage() {
         </section>
       </main>
 
-      {/* ========== FOOTER ========== */}
-      <footer className="mh-footer">
-        <div className="mh-wrap">
-          <div className="mh-footer-grid">
-            <div className="mh-footer-brand">
-              <span className="mh-footer-logo"><LogoMark size={28} /> {t('brand')}</span>
-              <p>{t('footer.desc')}</p>
-              <Link href="/signup" className="mh-btn mh-btn-primary mh-btn-sm">{t('home.footer.cta')}</Link>
-            </div>
-            <nav aria-label={t('home.footer.product')}>
-              <h2>{t('home.footer.product')}</h2>
-              <ul>
-                <li><a href="#platform">{t('nav.platform')}</a></li>
-                <li><a href="#how-it-works">{t('nav.journey')}</a></li>
-                <li><a href="#roles">{t('nav.roles')}</a></li>
-                <li><a href="#pricing">{t('nav.pricing')}</a></li>
-              </ul>
-            </nav>
-            <nav aria-label={t('home.footer.account')}>
-              <h2>{t('home.footer.account')}</h2>
-              <ul>
-                <li><Link href="/signup">{t('home.footer.signup')}</Link></li>
-                <li><Link href="/login">{t('nav.login')}</Link></li>
-                <li><a href="#faq">{t('home.footer.faq')}</a></li>
-              </ul>
-            </nav>
-            <nav aria-label={t('home.footer.legal')}>
-              <h2>{t('home.footer.legal')}</h2>
-              <ul>
-                <li><Link href="/contact">{t('footer.contact')}</Link></li>
-                <li><Link href="/privacy">{t('footer.privacy')}</Link></li>
-                <li><Link href="/terms">{t('footer.terms')}</Link></li>
-              </ul>
-            </nav>
-          </div>
-          <div className="mh-wordmark" aria-hidden="true">{t('brand')}</div>
-          <div className="mh-footer-bottom">{t('footer.rights')}</div>
-        </div>
-      </footer>
+      <MasraFooter />
 
       <MasraAssistant />
     </div>

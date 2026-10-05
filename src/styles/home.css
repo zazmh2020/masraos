@@ -347,3 +347,30 @@
 @media (prefers-reduced-motion: reduce) {
   .mh-btn, .mh-card, .mh-faq-mark::before, .mh-faq-mark::after { transition: none; }
 }
+
+/* ---------- الصفحات الثانوية (عن مَسرى، المميزات، التواصل) ---------- */
+.mh-page-hero { padding: 152px 0 48px; text-align: center; background: linear-gradient(180deg, var(--mh-tint), var(--white)); }
+.mh.has-announce .mh-page-hero { padding-top: 192px; }
+.mh-page-hero .mh-h1 { font-size: clamp(32px, 4.4vw, 56px); max-width: 20ch; margin-inline: auto; }
+.mh-page-hero .mh-lead { margin-inline: auto; }
+.mh-section-tight { padding-top: 32px; }
+.mh-jump { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 32px; }
+.mh-jump a { display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--mh-line); background: var(--white); font-size: 14px; font-weight: 600; color: var(--mh-ink); }
+.mh-jump a:hover { border-color: var(--mh-soft); background: var(--mh-subtle); }
+.mh-modules { list-style: none; padding: 0; margin: 48px 0 0; }
+.mh-status { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.mh-status .mh-card h2 { font-size: 18px; font-weight: 700; color: var(--mh-ink); margin: 16px 0 8px; }
+.mh-status .mh-card p { font-size: 15px; margin-top: 12px; }
+.mh-status-now { border-color: var(--mh-soft); background: var(--mh-tint); }
+@media (max-width: 960px) {
+  .mh-page-hero { padding-top: 128px; }
+  .mh-status { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* الهيدر على الشاشات المتوسطة: روابط أضيق، و«عن مَسرى» يبقى في الفوتر */
+@media (min-width: 961px) and (max-width: 1180px) {
+  .mh .mdl-navbar { gap: 8px; }
+  .mh .mdl-nav-link { padding-inline: 8px; font-size: 14px; }
+  .mh .mdl-nav-links a[href='/about'] { display: none; }
+  .mh .mdl-navbar .mdl-btn-primary { padding-inline: 16px; }
+}

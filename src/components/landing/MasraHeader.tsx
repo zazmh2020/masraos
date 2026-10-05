@@ -9,10 +9,11 @@ import CurrencyToggle from '@/components/CurrencyToggle';
 import { useT } from '@/lib/i18n/LocaleProvider';
 
 const LINKS = [
-  ['/#platform', 'nav.platform'],
+  ['/features', 'nav.features'],
   ['/#how-it-works', 'nav.journey'],
   ['/#roles', 'nav.roles'],
   ['/#pricing', 'nav.pricing'],
+  ['/about', 'nav.about'],
   ['/contact', 'nav.contact'],
 ];
 
