@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Icon, { IconShape, type IconTone, type IconShapeVariant } from '@/components/Icon';
 import { icons, filledIcons, type IconName } from '@/lib/icons';
+import { ICON_GROUPS as GROUPS } from './icon-catalog';
 
 /* ============================================================
    معاينة أيقونات مسرى بألوان الهوية — للتطوير فقط.
@@ -9,15 +10,6 @@ import { icons, filledIcons, type IconName } from '@/lib/icons';
    ============================================================ */
 
 export const metadata: Metadata = { title: 'أيقونات مسرى — معاينة', robots: { index: false, follow: false } };
-
-const GROUPS: { title: string; names: IconName[] }[] = [
-  { title: 'التنقّل والحساب', names: ['home', 'dashboard', 'user', 'login', 'logout', 'settings', 'notifications', 'messages', 'search', 'menu', 'sidebar', 'language', 'apps'] },
-  { title: 'التعليم', names: ['education', 'quran', 'students', 'teachers', 'halaqat', 'attendance', 'memorization', 'recitation', 'review', 'assessment', 'certificates', 'knowledge'] },
-  { title: 'الجهة والإدارة', names: ['organization', 'building', 'office', 'structure', 'users', 'group', 'activeUser', 'administration', 'verified', 'identity', 'qr', 'lock'] },
-  { title: 'العمليات والمحتوى', names: ['operations', 'resources', 'projects', 'programs', 'campaigns', 'donations', 'beneficiaries', 'events', 'announcement', 'documents', 'content', 'folders', 'folder', 'notes'] },
-  { title: 'التحليلات', names: ['analytics', 'statistics', 'reports', 'growth', 'activities', 'target', 'assistant', 'star', 'heart', 'leaf', 'world', 'pin', 'completed', 'alert'] },
-  { title: 'إجراءات التحكّم', names: ['add', 'edit', 'delete', 'copy', 'link', 'view', 'hide', 'send', 'check', 'close', 'reject', 'back', 'forward', 'chevronDown', 'expand', 'collapse', 'sun', 'moon'] },
-];
 
 const TONES: { tone: IconTone; label: string }[] = [
   { tone: 'line', label: 'خط' },
