@@ -1,5 +1,6 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
 import { useMemo, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { CAMPAIGN_TYPES, CAMPAIGN_STATUSES } from '@/lib/permissions';
@@ -159,7 +160,7 @@ export default function CampaignsView({
       )}
 
       {shown.length === 0 ? (
-        <div className="org-empty">{campaigns.length === 0 ? t('camp.none') : t('camp.noneInStatus')}</div>
+        <div className="org-empty"><IconShape name="campaigns" variant="soft" size="xl" /><p>{campaigns.length === 0 ? t('camp.none') : t('camp.noneInStatus')}</p></div>
       ) : (
         <div className="org-cards">
           {shown.map((c) => (

@@ -1,5 +1,6 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
 import { useMemo, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { PROJECT_STATUSES } from '@/lib/permissions';
@@ -197,6 +198,7 @@ export default function ProjectsView({
 
       {shown.length === 0 ? (
         <div className="org-empty">
+          <IconShape name="projects" variant="soft" size="xl" />
           {projects.length === 0 ? t('proj.none') : t('proj.noneInUnit')}
         </div>
       ) : (

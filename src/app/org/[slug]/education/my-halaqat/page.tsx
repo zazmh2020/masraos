@@ -1,3 +1,4 @@
+import { IconShape } from '@/components/Icon';
 import { redirect } from 'next/navigation';
 import { requireOrgAccess } from '@/lib/org';
 import { prisma } from '@/lib/prisma';
@@ -36,9 +37,9 @@ export default async function MyHalaqatPage({ params }: { params: Promise<{ slug
       </div>
 
       {!teacher ? (
-        <div className="org-empty">{t('myh.notTeacherBody')}</div>
+        <div className="org-empty"><IconShape name="halaqat" variant="soft" size="xl" /><p>{t('myh.notTeacherBody')}</p></div>
       ) : halaqat.length === 0 ? (
-        <div className="org-empty">{t('myh.none')}</div>
+        <div className="org-empty"><IconShape name="halaqat" variant="soft" size="xl" /><p>{t('myh.none')}</p></div>
       ) : (
         <div className="org-table-wrap">
           <table className="org-table">

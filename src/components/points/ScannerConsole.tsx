@@ -1,5 +1,6 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import Link from 'next/link';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
@@ -131,7 +132,7 @@ export default function ScannerConsole({ slug, perScan, canRedeem, orgName }: { 
 
       <h2 className="org-settings-h2">{t('pts.recent')}</h2>
       {recent.length === 0 ? (
-        <div className="org-empty">{t('pts.none')}</div>
+        <div className="org-empty"><IconShape name="qr" variant="soft" size="xl" /><p>{t('pts.none')}</p></div>
       ) : (
         <div className="pts-recent">
           {recent.map((r, i) => (

@@ -1,5 +1,6 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { VOLUNTEER_STATUSES } from '@/lib/permissions';
@@ -88,7 +89,7 @@ export default function VolunteersView({ volunteers }: { volunteers: Volunteer[]
       )}
 
       {volunteers.length === 0 ? (
-        <div className="org-empty">{t('res.vol.none')}</div>
+        <div className="org-empty"><IconShape name="heart" variant="soft" size="xl" /><p>{t('res.vol.none')}</p></div>
       ) : (
         <div className="org-table-wrap">
           <table className="org-table">

@@ -3,7 +3,7 @@ import { requireOrgAccess } from '@/lib/org';
 import { prisma } from '@/lib/prisma';
 import { canManageUsers } from '@/lib/permissions';
 import { getT } from '@/lib/i18n/server';
-import Icon from '@/components/Icon';
+import Icon, { IconShape } from '@/components/Icon';
 
 export const dynamic = 'force-dynamic';
 
@@ -32,7 +32,7 @@ export default async function AuditPage({ params }: { params: Promise<{ slug: st
         </div>
       </div>
       {logs.length === 0 ? (
-        <div className="org-empty">{t('audit.none')}</div>
+        <div className="org-empty"><IconShape name="activities" variant="soft" size="xl" /><p>{t('audit.none')}</p></div>
       ) : (
         <div className="notif-list">
           {logs.map((l) => (

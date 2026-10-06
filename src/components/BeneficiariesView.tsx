@@ -1,5 +1,6 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
 import { useMemo, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { BENEFICIARY_CATEGORIES, BENEFICIARY_STATUSES } from '@/lib/permissions';
@@ -160,7 +161,7 @@ export default function BeneficiariesView({
       )}
 
       {shown.length === 0 ? (
-        <div className="org-empty">{beneficiaries.length === 0 ? t('ben.none') : t('ben.noneInCategory')}</div>
+        <div className="org-empty"><IconShape name="beneficiaries" variant="soft" size="xl" /><p>{beneficiaries.length === 0 ? t('ben.none') : t('ben.noneInCategory')}</p></div>
       ) : (
         <div className="org-table-wrap">
           <table className="org-table">

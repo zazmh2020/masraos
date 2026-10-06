@@ -1,5 +1,6 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { EMPLOYEE_STATUSES } from '@/lib/permissions';
@@ -108,7 +109,7 @@ export default function EmployeesView({ employees, departments }: { employees: E
       )}
 
       {employees.length === 0 ? (
-        <div className="org-empty">{t('res.emp.none')}</div>
+        <div className="org-empty"><IconShape name="users" variant="soft" size="xl" /><p>{t('res.emp.none')}</p></div>
       ) : (
         <div className="org-table-wrap">
           <table className="org-table">

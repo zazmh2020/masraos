@@ -1,3 +1,4 @@
+import { IconShape } from '@/components/Icon';
 import Link from 'next/link';
 import { requireOrgAccess } from '@/lib/org';
 import { prisma } from '@/lib/prisma';
@@ -49,9 +50,9 @@ export default async function SearchPage({
       </form>
 
       {!canSearch ? (
-        <div className="org-empty">{t('search.hint')}</div>
+        <div className="org-empty"><IconShape name="search" variant="soft" size="xl" /><p>{t('search.hint')}</p></div>
       ) : total === 0 ? (
-        <div className="org-empty">{t('search.noResults', { q: term })}</div>
+        <div className="org-empty"><IconShape name="search" variant="soft" size="xl" /><p>{t('search.noResults', { q: term })}</p></div>
       ) : (
         <div className="srch-results">
           {students.length > 0 && (

@@ -1,3 +1,4 @@
+import { IconShape } from '@/components/Icon';
 import { requireOrgAccess } from '@/lib/org';
 import { prisma } from '@/lib/prisma';
 import { memoKindLabel, memoRatingLabel, attendanceStatusLabel } from '@/lib/permissions';
@@ -43,7 +44,7 @@ export default async function GuardianPortal({ params }: { params: Promise<{ slu
       </div>
 
       {children.length === 0 ? (
-        <div className="org-empty">{guardian ? t('gp.noChildren') : t('gp.noLinkHint')}</div>
+        <div className="org-empty"><IconShape name="users" variant="soft" size="xl" /><p>{guardian ? t('gp.noChildren') : t('gp.noLinkHint')}</p></div>
       ) : (
         <div className="gp-grid">
           {children.map((s) => {

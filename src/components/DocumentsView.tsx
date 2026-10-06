@@ -1,5 +1,6 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
 import { useMemo, useRef, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
@@ -169,7 +170,7 @@ export default function DocumentsView({
       {error && <div className="org-alert">{error}</div>}
 
       {shown.length === 0 ? (
-        <div className="org-empty">{documents.length === 0 ? t('doc.none') : t('doc.noneInCat')}</div>
+        <div className="org-empty"><IconShape name="documents" variant="soft" size="xl" /><p>{documents.length === 0 ? t('doc.none') : t('doc.noneInCat')}</p></div>
       ) : (
         <div className="org-table-wrap">
           <table className="org-table">

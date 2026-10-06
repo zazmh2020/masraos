@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
-import Icon from '@/components/Icon';
+import Icon, { IconShape } from '@/components/Icon';
 
 interface Row { name: string; serial: number | null; balance: number }
 
@@ -96,7 +96,7 @@ export default function StandingsBoard({ orgName, logoUrl, rotateSec = 15 }: { o
       </div>
 
       {loaded && rows.length === 0 ? (
-        <div className="org-empty">{t('pts.none')}</div>
+        <div className="org-empty"><IconShape name="star" variant="soft" size="xl" /><p>{t('pts.none')}</p></div>
       ) : (
         <>
           <div className="pts-podium">

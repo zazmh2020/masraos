@@ -1,5 +1,6 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
 import { useMemo, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { PROGRAM_CATEGORIES, PROGRAM_STATUSES } from '@/lib/permissions';
@@ -192,6 +193,7 @@ export default function ProgramsView({
 
       {shown.length === 0 ? (
         <div className="org-empty">
+          <IconShape name="programs" variant="soft" size="xl" />
           {programs.length === 0 ? t('prog.none') : t('prog.noneInCategory')}
         </div>
       ) : (

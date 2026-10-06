@@ -1,4 +1,5 @@
 'use client';
+import { IconShape } from '@/components/Icon';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { attendanceLabels } from '@/lib/attendance-statistics';
 import styles from './statistics.module.css';
@@ -69,7 +70,7 @@ export default function AttendanceStatistics({ orgName, halaqat, teachers, displ
       <p>المصدر: كشف الحضور أولًا، والكشف الشهري عند غياب سجل الحضور. لم يُسجّل لا يعني غائبًا.</p>
       <p>عدم التسجيل ليوم واحد يُقارن بقائمة الطلاب المنتظمين الحالية المسندين للحلقات والمسجلين حتى ذلك اليوم، وليس بجدول حصص معتمد. لا يُحسب للفترة لأن مواعيد الحلقات وصفية ولأن عضوية الطلاب التاريخية غير محفوظة.</p>
       {data.conflicts > 0 && <p role="alert" className="org-alert">يوجد {data.conflicts} سجلًا مختلفًا بين المصادر أو الحلقات؛ استُخدم كشف الحضور دون مضاعفة الطالب. راجع الاختلاف قبل اعتماد التقرير.</p>}
-      {data.total === 0 && <p className="org-empty">لا توجد سجلات حضور في الفترة المحددة. لا تُعدّ الأرقام الصفرية دليلًا على الغياب.</p>}
+      {data.total === 0 && <div className="org-empty"><IconShape name="attendance" variant="soft" size="xl" /><p>لا توجد سجلات حضور في الفترة المحددة. لا تُعدّ الأرقام الصفرية دليلًا على الغياب.</p></div>}
       <h2>المقارنة بين الحلقات</h2><div className="org-table-wrap"><table className="org-table"><thead><tr><th>الحلقة</th><th>حاضر</th><th>متأخر</th><th>غائب</th><th>بعذر</th><th>لم يُسجّل</th><th>نسبة الحضور</th></tr></thead><tbody>
         {data.groups.map(g => <tr key={g.id}><td>{g.name}</td><td>{g.PRESENT}</td><td>{g.LATE}</td><td>{g.ABSENT}</td><td>{g.EXCUSED}</td><td>{g.unrecorded ?? '—'}</td><td>{g.attendanceRate == null ? '—' : `${g.attendanceRate}%`}</td></tr>)}
       </tbody></table></div>

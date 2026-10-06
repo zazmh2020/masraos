@@ -1101,3 +1101,52 @@
 .entadm-cancelbox textarea { width: 100%; border: 1px solid var(--line); border-radius: 10px; padding: 0.6rem 0.8rem; font-family: inherit; resize: vertical; }
 .entadm-cancelbtns { display: flex; gap: 0.6rem; justify-content: flex-end; }
 .entadm-cancelnote { margin: 0.8rem 0 0; font-size: 0.85rem; color: #991b1b; }
+
+/* ============================================================
+   لوحة مالك المنصة على النظام الموحّد (2026-10-06)
+   شريط جانبي بلون الهوية الأساسي، أيقونات ثنائية اللون، أزرار بمقاسات وحالات موحّدة.
+   ============================================================ */
+.admin-sidebar { background: var(--brand-primary); }
+.admin-nav-item { min-height: 42px; border-radius: 999px; color: color-mix(in srgb, #fff 82%, transparent); }
+.admin-nav-item:hover { background: color-mix(in srgb, #fff 12%, transparent); }
+.admin-nav-item.is-active { background: #fff; color: var(--brand-primary-dark); font-weight: 600; }
+.admin-nav-item .icon-duo { --icon-line: #fff; --icon-fill: color-mix(in srgb, #fff 32%, var(--brand-primary)); opacity: 1; }
+.admin-nav-item.is-active .icon-duo { --icon-line: var(--brand-primary); --icon-fill: var(--brand-primary-soft); }
+
+/* قائمة الملف الشخصي: الخروج مفصول */
+.admin-profile-logout { margin-top: 4px; border-top: 1px solid var(--border-default); color: var(--error); }
+.admin-profile-logout:hover { background: var(--error-soft); color: var(--error); }
+
+/* الشريط العلوي: دوائر بحد */
+.admin-app .tbt-btn, .admin-app .tbt .lang-toggle { border: 1.5px solid var(--brand-primary-medium); border-radius: 50%; color: var(--brand-primary); background: #fff; }
+.admin-app .tbt-btn:hover, .admin-app .tbt .lang-toggle:hover { border-color: var(--brand-primary); background: var(--brand-primary-subtle); }
+
+/* الحالة الفارغة */
+.empty-state .empty-state-shape { margin-inline: auto; margin-bottom: 16px; }
+
+/* الأزرار: نفس نظام اللوحات (40، كبسولة، تركيز ظاهر، ضغط، معطّل) */
+:is(.btn-admin-primary, .btn-admin-outline, .btn-admin-danger) {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 40px; padding: 0 16px; border-radius: 999px; font-size: 14px; font-weight: 600; line-height: 1;
+  box-shadow: none; transition: background-color .15s, color .15s, border-color .15s, transform .1s;
+}
+:is(.btn-admin-primary, .btn-admin-outline, .btn-admin-danger):hover:not(:disabled) { transform: none; box-shadow: none; }
+:is(.btn-admin-primary, .btn-admin-outline, .btn-admin-danger):active:not(:disabled) { transform: scale(.98); }
+:is(.btn-admin-primary, .btn-admin-outline, .btn-admin-danger):focus-visible { outline: 2px solid var(--brand-primary); outline-offset: 2px; }
+:is(.btn-admin-primary, .btn-admin-outline, .btn-admin-danger):disabled { opacity: .45; cursor: not-allowed; transform: none; }
+.btn-admin-primary { background: var(--brand-primary); color: var(--on-brand, #fff); border: 0; }
+.btn-admin-primary:hover:not(:disabled) { background: var(--brand-primary-dark); }
+.btn-admin-outline { background: #fff; border: 1px solid var(--border-default); color: var(--text-primary); }
+.btn-admin-outline:hover { border-color: var(--brand-primary); color: var(--brand-primary-dark); background: var(--brand-primary-subtle); }
+.btn-admin-danger { background: #fff; border: 1px solid color-mix(in srgb, var(--error) 30%, #fff); color: var(--error); }
+.btn-admin-danger:hover:not(:disabled) { background: var(--error-soft); }
+.admin-app :is(.org-btn, .dash-btn) { border-radius: 999px; }
+@media (max-width: 860px) {
+  :is(.btn-admin-primary, .btn-admin-outline, .btn-admin-danger) { min-height: 44px; }
+  .admin-nav-item { min-height: 44px; }
+  .admin-menu-toggle { min-width: 44px; min-height: 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.btn-admin-primary, .btn-admin-outline, .btn-admin-danger) { transition: none; }
+  :is(.btn-admin-primary, .btn-admin-outline, .btn-admin-danger):active { transform: none; }
+}

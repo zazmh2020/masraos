@@ -1,5 +1,6 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
 import { useMemo, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { DONATION_METHODS, DONATION_STATUSES } from '@/lib/permissions';
@@ -164,7 +165,7 @@ export default function DonationsView({
       )}
 
       {shown.length === 0 ? (
-        <div className="org-empty">{donations.length === 0 ? t('don.none') : t('don.noneInStatus')}</div>
+        <div className="org-empty"><IconShape name="donations" variant="soft" size="xl" /><p>{donations.length === 0 ? t('don.none') : t('don.noneInStatus')}</p></div>
       ) : (
         <div className="org-table-wrap">
           <table className="org-table">

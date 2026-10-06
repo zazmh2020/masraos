@@ -1,5 +1,6 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useT } from '@/lib/i18n/LocaleProvider';
@@ -141,7 +142,7 @@ export default function HeroManager({ initial }: { initial: Slide[] }) {
             <button className="btn-admin-primary" onClick={startNew}>{t('hero.new')}</button>
           </div>
           {initial.length === 0 ? (
-            <div className="org-empty">{t('hero.none')}</div>
+            <div className="org-empty"><IconShape name="content" variant="soft" size="xl" /><p>{t('hero.none')}</p></div>
           ) : (
             <div className="hero-list">
               {initial.map((s, i) => (

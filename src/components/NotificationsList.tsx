@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 import type { InboxNotification } from '@/lib/inbox';
-import Icon from '@/components/Icon';
+import Icon, { IconShape } from '@/components/Icon';
 
 const ICON: Record<string, string> = {
   member: 'users', announcement: 'announcement', task: 'completed', request: 'notes', donation: 'heart', student: 'students',
@@ -35,7 +35,7 @@ export default function NotificationsList({ notifications, storageKey }: { notif
         <button className="org-btn org-btn-outline" disabled={unread === 0} onClick={markAll}>{t('notif.markAll')}</button>
       </div>
       {notifications.length === 0 ? (
-        <div className="org-empty">{t('notif.none')}</div>
+        <div className="org-empty"><IconShape name="notifications" variant="soft" size="xl" /><p>{t('notif.none')}</p></div>
       ) : (
         <div className="notif-list">
           {notifications.map((n) => {

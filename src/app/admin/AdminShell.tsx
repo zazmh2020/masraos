@@ -33,7 +33,7 @@ const ASSISTANT_SUGGESTIONS = [
 // مفاتيح التنقّل القديمة تُحلّ عبر خريطة Tabler المركزية.
 const ICONS = {
   home: 'dashboard', building: 'organization', content: 'content',
-  settings: 'settings', entitlement: 'administration', logout: 'logout',
+  settings: 'settings', entitlement: 'administration', logout: 'logout', profile: 'profile',
 } as const;
 
 const navItems = [
@@ -46,7 +46,7 @@ const navItems = [
 ];
 
 function Icon({ name }: { name: keyof typeof ICONS }) {
-  return <AppIcon name={ICONS[name]} size={20} className="admin-nav-ic" />;
+  return <AppIcon name={ICONS[name]} size={20} className="admin-nav-ic" tone="duo" />;
 }
 
 function Avatar({ url }: { url?: string | null }) {
@@ -202,7 +202,7 @@ export default function AdminShell({ children, session, avatarUrl, inbox, assist
                     <span className="admin-profile-email" dir="ltr">{session.email}</span>
                   </div>
                   <Link href="/admin/settings" className="admin-profile-link" onClick={() => setProfileOpen(false)}>
-                    <Icon name="settings" />
+                    <Icon name="profile" />
                     <span>{t('shell.profile')}</span>
                   </Link>
                   <button className="admin-profile-link admin-profile-logout" onClick={() => { setProfileOpen(false); setConfirmLogout(true); }}>

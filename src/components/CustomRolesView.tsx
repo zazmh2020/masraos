@@ -1,5 +1,6 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { CAP_GROUPS } from '@/lib/permissions';
@@ -94,7 +95,7 @@ export default function CustomRolesView({ roles }: { roles: Role[] }) {
       )}
 
       {roles.length === 0 ? (
-        editing === null && <div className="org-empty">{t('crole.none')}</div>
+        editing === null && <div className="org-empty"><IconShape name="administration" variant="soft" size="xl" /><p>{t('crole.none')}</p></div>
       ) : (
         <div className="crole-list">
           {roles.map((r) => (

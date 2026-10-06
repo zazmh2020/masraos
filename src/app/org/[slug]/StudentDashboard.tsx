@@ -1,3 +1,4 @@
+import { IconShape } from '@/components/Icon';
 import { prisma } from '@/lib/prisma';
 import { getT } from '@/lib/i18n/server';
 
@@ -69,7 +70,7 @@ export default async function StudentDashboard({
       <h2 className="org-settings-h2">{t('sd.memorization')}</h2>
       <div className="org-panel">
         {student.memorization.length === 0 ? (
-          <div className="org-empty">{t('sd.noMemo')}</div>
+          <div className="org-empty"><IconShape name="memorization" variant="soft" size="xl" /><p>{t('sd.noMemo')}</p></div>
         ) : student.memorization.map((m) => (
           <div key={m.id} className="org-kv"><span>{dateFmt.format(m.date)} · {m.content}</span></div>
         ))}
@@ -78,7 +79,7 @@ export default async function StudentDashboard({
       <h2 className="org-settings-h2">{t('sd.assessments')}</h2>
       <div className="org-panel">
         {student.assessments.length === 0 ? (
-          <div className="org-empty">{t('sd.noAssess')}</div>
+          <div className="org-empty"><IconShape name="assessment" variant="soft" size="xl" /><p>{t('sd.noAssess')}</p></div>
         ) : student.assessments.map((a) => (
           <div key={a.id} className="org-kv">
             <span>{dateFmt.format(a.date)} · {a.title}</span>

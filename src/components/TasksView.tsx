@@ -1,5 +1,6 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
 import { useMemo, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { TASK_STATUSES, TASK_PRIORITIES } from '@/lib/permissions';
@@ -159,7 +160,7 @@ export default function TasksView({
       )}
 
       {tasks.length === 0 ? (
-        <div className="org-empty">{t('task.none')}</div>
+        <div className="org-empty"><IconShape name="assessment" variant="soft" size="xl" /><p>{t('task.none')}</p></div>
       ) : (
         <div className="org-board">
           {TASK_STATUSES.map((s) => (

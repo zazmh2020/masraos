@@ -1,5 +1,6 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
@@ -80,7 +81,7 @@ export default function TeamsView({ teams, departments }: { teams: Team[]; depar
       )}
 
       {teams.length === 0 ? (
-        <div className="org-empty">{t('res.team.none')}</div>
+        <div className="org-empty"><IconShape name="group" variant="soft" size="xl" /><p>{t('res.team.none')}</p></div>
       ) : (
         <div className="org-cards">
           {teams.map((tm) => (

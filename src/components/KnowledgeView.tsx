@@ -1,5 +1,6 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
@@ -107,7 +108,7 @@ export default function KnowledgeView({
       )}
 
       {articles.length === 0 ? (
-        <div className="org-empty">{t('know.none')}</div>
+        <div className="org-empty"><IconShape name="knowledge" variant="soft" size="xl" /><p>{t('know.none')}</p></div>
       ) : (
         <div className="org-articles">
           {articles.map((a) => {

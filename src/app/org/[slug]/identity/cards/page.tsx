@@ -1,3 +1,4 @@
+import { IconShape } from '@/components/Icon';
 import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
 import { requireOrgAccess } from '@/lib/org';
@@ -53,7 +54,7 @@ export default async function CardsPage({ params }: { params: Promise<{ slug: st
       <CardsToolbar />
 
       {cards.length === 0 ? (
-        <div className="org-empty">{t('card.none')}</div>
+        <div className="org-empty"><IconShape name="identity" variant="soft" size="xl" /><p>{t('card.none')}</p></div>
       ) : (
         <div className="dc-grid" id="dc-print-area">
           {cards.map((c) => (

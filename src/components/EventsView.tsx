@@ -1,5 +1,6 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
@@ -104,7 +105,7 @@ export default function EventsView({ events, canManage }: { events: Ev[]; canMan
       )}
 
       {events.length === 0 ? (
-        <div className="org-empty">{t('ev.none')}</div>
+        <div className="org-empty"><IconShape name="events" variant="soft" size="xl" /><p>{t('ev.none')}</p></div>
       ) : (
         <>
           <h2 className="org-section-title">{t('ev.upcoming')}</h2>

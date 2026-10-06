@@ -1,3 +1,4 @@
+import { IconShape } from '@/components/Icon';
 import { redirect } from 'next/navigation';
 import { requireOrgAccess } from '@/lib/org';
 import { prisma } from '@/lib/prisma';
@@ -87,7 +88,7 @@ export default async function MonthlySheetPage({
       </div>
 
       {students.length === 0 ? (
-        <div className="org-empty">{t('qm.noStudents')}</div>
+        <div className="org-empty"><IconShape name="students" variant="soft" size="xl" /><p>{t('qm.noStudents')}</p></div>
       ) : (
         <MonthlySheetView
           key={`${selectedId}-${ym}`}

@@ -1,5 +1,6 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
 import { useMemo, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
@@ -92,7 +93,7 @@ export default function FeesView({ fees, students, canManage }: { fees: Fee[]; s
       )}
 
       {shown.length === 0 ? (
-        <div className="org-empty">{t('fee.none')}</div>
+        <div className="org-empty"><IconShape name="donations" variant="soft" size="xl" /><p>{t('fee.none')}</p></div>
       ) : (
         <div className="org-table-wrap">
           <table className="org-table">

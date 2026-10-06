@@ -1,5 +1,6 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { APPROVAL_CATEGORIES } from '@/lib/permissions';
@@ -148,11 +149,11 @@ export default function ApprovalsView({
       )}
 
       {approvals.length === 0 ? (
-        <div className="org-empty">{t('approval.none')}</div>
+        <div className="org-empty"><IconShape name="completed" variant="soft" size="xl" /><p>{t('approval.none')}</p></div>
       ) : (
         <>
           <h3 className="apr-section">{t('approval.pending')} <span className="org-board-count">{pending.length}</span></h3>
-          {pending.length === 0 ? <div className="org-empty">{t('approval.noPending')}</div> : <div className="apr-grid">{pending.map(card)}</div>}
+          {pending.length === 0 ? <div className="org-empty"><IconShape name="completed" variant="soft" size="xl" /><p>{t('approval.noPending')}</p></div> : <div className="apr-grid">{pending.map(card)}</div>}
           {decided.length > 0 && (
             <>
               <h3 className="apr-section">{t('approval.decided')} <span className="org-board-count">{decided.length}</span></h3>

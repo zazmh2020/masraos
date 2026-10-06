@@ -1,5 +1,6 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
 import { useMemo, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { FINANCE_CATEGORIES } from '@/lib/permissions';
@@ -146,7 +147,7 @@ export default function FinanceView({
       )}
 
       {rows.length === 0 ? (
-        <div className="org-empty">{t('fin.none')}</div>
+        <div className="org-empty"><IconShape name="analytics" variant="soft" size="xl" /><p>{t('fin.none')}</p></div>
       ) : (
         <div className="org-table-wrap">
           <table className="org-table">

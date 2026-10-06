@@ -1,5 +1,6 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
 import { useMemo, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useT } from '@/lib/i18n/LocaleProvider';
@@ -214,7 +215,7 @@ export default function StructureView({
       {renderForm()}
 
       {departments.length === 0 ? (
-        <div className="org-empty">{t('struct.none')}</div>
+        <div className="org-empty"><IconShape name="structure" variant="soft" size="xl" /><p>{t('struct.none')}</p></div>
       ) : (
         <div className="org-panel">
           <ul className="org-tree org-tree-root">{tree.map(renderNode)}</ul>

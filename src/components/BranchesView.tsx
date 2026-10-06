@@ -1,5 +1,6 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
@@ -102,7 +103,7 @@ export default function BranchesView({ branches, canManage }: { branches: Branch
       )}
 
       {branches.length === 0 ? (
-        <div className="org-empty">{t('branch.none')}</div>
+        <div className="org-empty"><IconShape name="building" variant="soft" size="xl" /><p>{t('branch.none')}</p></div>
       ) : (
         <div className="org-table-wrap">
           <table className="org-table">

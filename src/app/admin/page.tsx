@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
-import Icon from '@/components/Icon';
+import Icon, { IconShape } from '@/components/Icon';
 import DashboardShell from '@/components/dash/DashboardShell';
 import StatCard from '@/components/dash/StatCard';
 import AreaChart from '@/components/dash/AreaChart';
@@ -90,9 +90,7 @@ export default async function AdminOverview() {
           <Link href="/admin/organizations/new" className="btn-admin-primary">+ {t('adm.create')}</Link>
         </div>
         <div className="empty-state">
-          <div className="empty-state-icon">
-            <Icon name="organization" size={48} />
-          </div>
+          <IconShape name="organization" variant="soft" size="xl" className="empty-state-shape" />
           <h2>{t('adm.empty.title')}</h2>
           <p>{t('adm.empty.sub')}</p>
           <Link href="/admin/organizations/new" className="btn-admin-primary">{t('adm.empty.cta')}</Link>

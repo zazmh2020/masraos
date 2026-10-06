@@ -1,5 +1,6 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { REQUEST_TYPES } from '@/lib/permissions';
@@ -92,7 +93,7 @@ export default function RequestsView({
       )}
 
       {requests.length === 0 ? (
-        <div className="org-empty">{t('req.none')}</div>
+        <div className="org-empty"><IconShape name="documents" variant="soft" size="xl" /><p>{t('req.none')}</p></div>
       ) : (
         <div className="org-cards">
           {requests.map((r) => (

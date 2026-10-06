@@ -1,5 +1,6 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ASSIGNABLE_ROLES } from '@/lib/permissions';
@@ -64,7 +65,7 @@ export default function OrgUsersTable({
   }
 
   if (users.length === 0) {
-    return <div className="org-empty">{t('ousers.none')}</div>;
+    return <div className="org-empty"><IconShape name="users" variant="soft" size="xl" /><p>{t('ousers.none')}</p></div>;
   }
 
   return (

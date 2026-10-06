@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Icon from '@/components/Icon';
+import Icon, { IconShape } from '@/components/Icon';
 import { prisma } from '@/lib/prisma';
 import { getT } from '@/lib/i18n/server';
 
@@ -48,7 +48,7 @@ export default async function TeacherDashboard({
 
       <h2 className="org-settings-h2">{t('td.myHalaqat')}</h2>
       {teacher.halaqat.length === 0 ? (
-        <div className="org-empty">{t('td.noHalaqat')}</div>
+        <div className="org-empty"><IconShape name="halaqat" variant="soft" size="xl" /><p>{t('td.noHalaqat')}</p></div>
       ) : (
         <div className="mod-grid">
           {teacher.halaqat.map((h) => (

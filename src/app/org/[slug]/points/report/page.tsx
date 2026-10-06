@@ -1,3 +1,4 @@
+import { IconShape } from '@/components/Icon';
 import { redirect } from 'next/navigation';
 import { requireOrgAccess } from '@/lib/org';
 import { canViewPoints } from '@/lib/permissions';
@@ -35,7 +36,7 @@ export default async function PointsReportPage({ params }: { params: Promise<{ s
       </div>
 
       {rows.length === 0 ? (
-        <div className="org-empty">{t('pts.none')}</div>
+        <div className="org-empty"><IconShape name="qr" variant="soft" size="xl" /><p>{t('pts.none')}</p></div>
       ) : (
         <div className="dash-card">
           <table className="dash-table">
