@@ -40,12 +40,11 @@
   z-index: 1;
   width: 100%;
   max-width: 410px;
-  background: rgba(255, 255, 255, 0.97);
+  background: #fff;
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 22px;
   box-shadow: var(--shadow-card-subtle);
   padding: 2.4rem 2.2rem 2rem;
-  backdrop-filter: blur(6px);
 }
 
 .lg-brand { display: flex; justify-content: center; align-items: center; gap: 0.55rem; margin-bottom: 1.6rem; }

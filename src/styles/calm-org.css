@@ -129,10 +129,10 @@ body:has(.org-app) { background: #fff; }
 /* ---------- الحقول ---------- */
 .org-app .org-field label { color: var(--c-text); }
 
-/* ---------- لوحة الرئيسية (.dash.is-glass): بلا خلفية متدرّجة ولا زجاج ---------- */
-.org-app .dash.is-glass::before { display: none; }
-.org-app .dash.is-glass .dash-card,
-.org-app .dash.is-glass .dash-stat {
+/* ---------- لوحة الرئيسية (.dash): بلا خلفية متدرّجة ولا زجاج ---------- */
+.org-app .dash::before { display: none; }
+.org-app .dash .dash-card,
+.org-app .dash .dash-stat {
   background: #fff;
   border: 1px solid var(--c-line);
   border-radius: var(--cr-lg);
@@ -140,16 +140,16 @@ body:has(.org-app) { background: #fff; }
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
-.org-app .dash.is-glass .dash-card::before { display: none; }
-.org-app .dash.is-glass .dash-stat-ic { background: var(--c-p-10); border: 0; color: var(--c-brand); }
-.org-app .dash.is-glass .dash-ann,
-.org-app .dash.is-glass .dash-module { background: var(--c-surface-2); border-color: var(--c-line); }
-.org-app .dash.is-glass .dash-btn { background: var(--c-brand); color: var(--on-brand, #fff); box-shadow: none; }
-.org-app .dash.is-glass .dash-btn:hover { background: var(--c-ink); }
-.org-app .dash.is-glass .dash-table th,
-.org-app .dash.is-glass .dash-table td { border-bottom-color: var(--c-line); }
-.org-app .dash.is-glass .dash-table tbody tr:hover td { background: var(--c-p-3); }
-.org-app .dash.is-glass .dash-skin { background: var(--c-chip); border-color: var(--c-line); }
+.org-app .dash .dash-card::before { display: none; }
+.org-app .dash .dash-stat-ic { background: var(--c-p-10); border: 0; color: var(--c-brand); }
+.org-app .dash .dash-ann,
+.org-app .dash .dash-module { background: var(--c-surface-2); border-color: var(--c-line); }
+.org-app .dash .dash-btn { background: var(--c-brand); color: var(--on-brand, #fff); box-shadow: none; }
+.org-app .dash .dash-btn:hover { background: var(--c-ink); }
+.org-app .dash .dash-table th,
+.org-app .dash .dash-table td { border-bottom-color: var(--c-line); }
+.org-app .dash .dash-table tbody tr:hover td { background: var(--c-p-3); }
+.org-app .dash .dash-skin { background: var(--c-chip); border-color: var(--c-line); }
 
 /* ---------- الجوال: درج أبيض بظل ناعم ---------- */
 @media (max-width: 860px) {
@@ -389,3 +389,7 @@ body:has(.org-app) { background: #fff; }
 
 /* ---------- شكل الأزرار: كبسولة (الافتراضي) أو حواف دائرية ---------- */
 [data-buttons='rounded'] :is(.org-btn, .dash-btn, .dash-promo-btn, .calm-btn, .org-icon-btn, .tbt-btn) { border-radius: 12px; }
+
+/* لا نمط زجاجي: أسطح الهيكل صلبة دائمًا */
+.org-app .org-content, .org-app .org-topbar, .org-app .org-sidebar { -webkit-backdrop-filter: none; backdrop-filter: none; }
+.org-app .org-content { background: #fff; }

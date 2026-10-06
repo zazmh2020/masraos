@@ -39,7 +39,7 @@
 }
 :root[data-theme="dark"] body::after { opacity: 0.5; }
 
-/* ---------- أسطح صلبة (تتجاوز #fff الصريح وتزجيج glass) ---------- */
+/* ---------- أسطح صلبة (تتجاوز #fff الصريح) ---------- */
 :root[data-theme="dark"] .org-topbar,
 :root[data-theme="dark"] .org-stat,
 :root[data-theme="dark"] .org-panel,

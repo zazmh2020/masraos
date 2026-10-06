@@ -3,7 +3,7 @@ import '@/styles/dashboard.css';
 
 /**
  * غلاف لوحة التحكم — يوفّر بنية اللوحة.
- * المظهر الزجاجي مُطبَّق عالميًا عبر glass.css.
+ * أسطح صلبة بيضاء — لا نمط زجاجي في المنصة.
  */
 export default function DashboardShell({
   children,
@@ -13,7 +13,7 @@ export default function DashboardShell({
   toolbar?: ReactNode;
 }) {
   return (
-    <div className="dash is-glass">
+    <div className="dash">
       {toolbar && (
         <div className="dash-toolbar" style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.6rem', alignItems: 'center' }}>
           {toolbar}

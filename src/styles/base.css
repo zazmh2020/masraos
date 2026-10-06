@@ -274,7 +274,7 @@ svg {
 
 .lang-gate-scrim {
   position: fixed; inset: 0; z-index: 300; display: grid; place-items: center; padding: 1.5rem;
-  background: rgba(20, 12, 40, 0.55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  background: rgba(20, 12, 40, 0.55);
   animation: langGateFade 0.25s ease both;
 }
 @keyframes langGateFade { from { opacity: 0; } to { opacity: 1; } }

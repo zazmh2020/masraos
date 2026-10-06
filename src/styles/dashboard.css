@@ -234,57 +234,6 @@
 .dash-skin button.is-active { background: var(--purple-500); color: #fff; }
 .dash-skin button .app-icon { width: 13px; height: 13px; }
 
-/* ============================================================
-   الوضع الزجاجي — .dash.is-glass
-   ============================================================ */
-.dash.is-glass {
-  --glass-bg: rgba(255, 255, 255, 0.62);
-  --glass-strong: rgba(255, 255, 255, 0.75);
-  --glass-border: rgba(255, 255, 255, 0.6);
-  --glass-shadow: 0 8px 30px color-mix(in srgb, var(--gray-950) 12%, transparent);
-  --glass-blur: blur(18px) saturate(180%);
-  isolation: isolate;
-}
-.dash.is-glass::before {
-  content: ''; position: absolute; inset: -1.75rem;
-  z-index: -1; border-radius: 20px;
-  background:
-    radial-gradient(ellipse 520px 440px at 12% 12%, color-mix(in srgb, var(--brand-primary-medium) 50%, transparent) 0%, transparent 60%),
-    radial-gradient(ellipse 460px 460px at 88% 18%, rgba(212,169,69,0.28) 0%, transparent 55%),
-    radial-gradient(ellipse 620px 520px at 78% 90%, color-mix(in srgb, var(--brand-primary) 45%, transparent) 0%, transparent 60%),
-    radial-gradient(ellipse 460px 460px at 18% 92%, color-mix(in srgb, var(--brand-primary-soft) 45%, transparent) 0%, transparent 55%),
-    linear-gradient(135deg, #e8e3f5 0%, #f3eef8 50%, #ece5f3 100%);
-}
-.dash.is-glass .dash-card,
-.dash.is-glass .dash-stat {
-  background: var(--glass-strong);
-  backdrop-filter: blur(18px) saturate(180%);
-  -webkit-backdrop-filter: blur(18px) saturate(180%);
-  border-color: var(--glass-border);
-  box-shadow: var(--glass-shadow);
-}
-.dash.is-glass .dash-card::before {
-  content: ''; position: absolute; top: 0; inset-inline: 12%; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent);
-}
-.dash.is-glass .dash-stat-ic {
-  background: linear-gradient(135deg, color-mix(in srgb, var(--brand-primary-medium) 28%, transparent), color-mix(in srgb, var(--brand-primary) 15%, transparent));
-  border: 1px solid rgba(255,255,255,0.5);
-}
-.dash.is-glass .dash-ann,
-.dash.is-glass .dash-module {
-  background: rgba(255,255,255,0.42);
-  border-color: rgba(255,255,255,0.55);
-}
-.dash.is-glass .dash-btn {
-  background: linear-gradient(135deg, var(--purple-500), var(--purple-700));
-  box-shadow: 0 6px 18px color-mix(in srgb, var(--brand-primary) 40%, transparent);
-}
-.dash.is-glass .dash-table th,
-.dash.is-glass .dash-table td { border-bottom-color: rgba(255,255,255,0.5); }
-.dash.is-glass .dash-table tbody tr:hover td { background: rgba(255,255,255,0.35); }
-.dash.is-glass .dash-skin { background: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.6); }
-
 /* ---------- استجابة ---------- */
 @media (max-width: 1100px) {
   .dash-stats { grid-template-columns: repeat(2, 1fr); }

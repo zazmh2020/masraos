@@ -16,7 +16,6 @@
 .org-app .org-btn-primary,
 .admin-app .btn-admin-primary,
 .dash .dash-btn,
-.dash.is-glass .dash-btn,
 .mdl .plan-cta.is-primary,
 .plan-card .plan-cta.is-primary,
 .mdl .mdl-btn-primary {
@@ -27,7 +26,6 @@
 .org-app .org-btn-primary:is(:hover,:active):not(:disabled),
 .admin-app .btn-admin-primary:is(:hover,:active):not(:disabled),
 .dash .dash-btn:is(:hover,:active),
-.dash.is-glass .dash-btn:is(:hover,:active),
 .mdl .plan-cta.is-primary:is(:hover,:active),
 .plan-card .plan-cta.is-primary:is(:hover,:active),
 .mdl .mdl-btn-primary:is(:hover,:active) {

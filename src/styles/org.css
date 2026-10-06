@@ -27,8 +27,6 @@ body:has(.org-app) {
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 24px;
   box-shadow: 0 26px 64px -34px color-mix(in srgb, var(--gray-950) 68%, transparent), inset 0 1px 0 rgba(255,255,255,.1);
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
   /* يمتد ليملأ كامل ارتفاع العمود (بلا فراغ أسفله) مع حدٍّ أدنى بارتفاع الشاشة */
   align-self: stretch;
   min-height: calc(100vh - 2rem);
@@ -289,8 +287,6 @@ body:has(.org-app) {
   align-items: center;
   gap: 1rem;
   box-shadow: 0 18px 44px -34px color-mix(in srgb, var(--gray-950) 45%, transparent), inset 0 1px 0 rgba(255,255,255,.8);
-  backdrop-filter: blur(18px) saturate(150%);
-  -webkit-backdrop-filter: blur(18px) saturate(150%);
   position: sticky;
   top: 1rem;
   z-index: 20;
@@ -357,8 +353,6 @@ body:has(.org-app) {
   flex: 1;
   width: 100%;
   box-shadow: 0 18px 44px -36px color-mix(in srgb, var(--gray-950) 45%, transparent), inset 0 1px 0 rgba(255,255,255,.68);
-  backdrop-filter: blur(18px) saturate(150%);
-  -webkit-backdrop-filter: blur(18px) saturate(150%);
 }
 
 /* ---------- Page ---------- */
@@ -1396,7 +1390,7 @@ a.org-module:hover {
 /* ===== معاينة قبل تصدير PDF ===== */
 .qm-preview {
   position: fixed; inset: 0; z-index: 80; display: flex; flex-direction: column;
-  background: rgba(30, 22, 54, 0.55); backdrop-filter: blur(2px);
+  background: rgba(30, 22, 54, 0.55);
 }
 .qm-preview-bar {
   display: flex; align-items: center; justify-content: space-between; gap: 0.8rem;
@@ -1890,7 +1884,6 @@ a.org-module:hover {
   inset: 0;
   z-index: 200;
   background: rgba(30, 18, 64, 0.5);
-  backdrop-filter: blur(3px);
   display: grid;
   place-items: center;
   padding: 1.5rem;
@@ -1982,7 +1975,7 @@ a.org-module:hover {
 /* ===== أداة معاينة وضبط الصورة ===== */
 .crp-overlay {
   position: fixed; inset: 0; z-index: 95; display: grid; place-items: center;
-  background: rgba(30, 22, 54, 0.6); backdrop-filter: blur(2px); padding: 1rem;
+  background: rgba(30, 22, 54, 0.6); padding: 1rem;
 }
 .crp-box {
   background: var(--surface, #fff); border-radius: 18px; padding: 1.1rem; width: 340px; max-width: 100%;
@@ -2557,7 +2550,7 @@ a.org-module:hover {
 .ent-enrolled { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-top: 1.2rem; }
 
 /* مودال الاتفاقية — قابل للتمرير بالكامل */
-.ent-modal-scrim { position: fixed; inset: 0; z-index: 210; background: color-mix(in srgb, var(--gray-950) 50%, transparent); backdrop-filter: blur(3px); display: grid; place-items: center; padding: 1.2rem; }
+.ent-modal-scrim { position: fixed; inset: 0; z-index: 210; background: color-mix(in srgb, var(--gray-950) 50%, transparent); display: grid; place-items: center; padding: 1.2rem; }
 .ent-modal { width: min(680px, calc(100vw - 2rem)); max-height: min(86vh, 800px); display: flex; flex-direction: column; background: #fff; border-radius: 18px; box-shadow: var(--shadow-lift); overflow: hidden; }
 .ent-modal-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.1rem 1.4rem; border-bottom: 1px solid var(--line); }
 .ent-modal-head h3 { margin: 0; font-family: var(--font-display); font-size: 1.15rem; color: var(--purple-900); }

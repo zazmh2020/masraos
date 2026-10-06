@@ -1031,7 +1031,6 @@
   inset: 0;
   z-index: 200;
   background: rgba(30, 18, 64, 0.5);
-  backdrop-filter: blur(3px);
   display: grid;
   place-items: center;
   padding: 1.5rem;
@@ -1152,8 +1151,8 @@
 }
 
 /* لوحة «نظرة عامة»: بلا خلفية متدرّجة ولا زجاج — مثل لوحة الجهة */
-.admin-app .dash.is-glass::before, .admin-app .dash.is-glass .dash-card::before { display: none; }
-.admin-app .dash.is-glass .dash-card,
-.admin-app .dash.is-glass .dash-stat { background: #fff; border: 1px solid var(--border-default); box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
-.admin-app .dash.is-glass .dash-btn { background: var(--brand-primary); box-shadow: none; }
-.admin-app .dash.is-glass .dash-btn:hover { background: var(--brand-primary-dark); }
+.admin-app .dash::before, .admin-app .dash .dash-card::before { display: none; }
+.admin-app .dash .dash-card,
+.admin-app .dash .dash-stat { background: #fff; border: 1px solid var(--border-default); box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+.admin-app .dash .dash-btn { background: var(--brand-primary); box-shadow: none; }
+.admin-app .dash .dash-btn:hover { background: var(--brand-primary-dark); }
