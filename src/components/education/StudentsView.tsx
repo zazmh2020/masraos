@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useMemo, useRef, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { STUDENT_STATUSES } from '@/lib/permissions';
+import { IconShape } from '@/components/Icon';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
 
 type Student = {
@@ -196,6 +197,7 @@ export default function StudentsView({ students, halaqat, basePath }: { students
 
       {shown.length === 0 ? (
         <div className="org-empty">
+          <IconShape name="students" variant="soft" size="xl" />
           <p>{students.length === 0 ? t('edu.st.none') : t('edu.st.noneInHalaqa')}</p>
           {students.length === 0 && !creating && (
             <button className="org-btn org-btn-primary" onClick={() => setCreating(true)}>{t('edu.st.addFirst')}</button>

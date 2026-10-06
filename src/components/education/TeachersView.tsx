@@ -1,5 +1,7 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
+
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
@@ -92,7 +94,7 @@ export default function TeachersView({ teachers, users }: { teachers: Teacher[];
       )}
 
       {teachers.length === 0 ? (
-        <div className="org-empty">{t('edu.tc.none')}</div>
+        <div className="org-empty"><IconShape name="teachers" variant="soft" size="xl" /><p>{t('edu.tc.none')}</p></div>
       ) : (
         <div className="org-table-wrap">
           <table className="org-table">

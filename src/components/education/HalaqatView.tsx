@@ -1,5 +1,7 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
+
 import Link from 'next/link';
 
 import { useState, type FormEvent } from 'react';
@@ -125,7 +127,7 @@ export default function HalaqatView({ halaqat, teachers, basePath }: { halaqat: 
       )}
 
       {halaqat.length === 0 ? (
-        <div className="org-empty">{t('edu.hq.none')}</div>
+        <div className="org-empty"><IconShape name="halaqat" variant="soft" size="xl" /><p>{t('edu.hq.none')}</p></div>
       ) : (
         <div className="org-cards">
           {halaqat.map((h) => (

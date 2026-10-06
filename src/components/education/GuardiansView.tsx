@@ -1,5 +1,7 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
+
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
@@ -112,7 +114,7 @@ export default function GuardiansView({
       )}
 
       {guardians.length === 0 ? (
-        editing === null && <div className="org-empty">{t('guardian.none')}</div>
+        editing === null && <div className="org-empty"><IconShape name="users" variant="soft" size="xl" /><p>{t('guardian.none')}</p></div>
       ) : (
         <div className="org-table-wrap">
           <table className="org-table">

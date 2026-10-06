@@ -164,3 +164,11 @@
 .lg-switch { text-align: center; margin: 1.1rem 0 0; font-size: 0.86rem; color: var(--gray-500); }
 .lg-switch a { color: var(--purple-500); font-weight: 600; }
 .lg-switch a:hover { color: var(--purple-700); }
+
+/* زر الدخول/الإنشاء على نظام الأزرار الموحّد: كبسولة 48، تركيز ظاهر، بلا قفز عند التمرير */
+.lg-submit { min-height: 48px; padding: 0 24px; border-radius: 999px; box-shadow: none; transition: background-color .15s, transform .1s; }
+.lg-submit:hover:not(:disabled) { transform: none; box-shadow: none; background: var(--brand-primary-dark); }
+.lg-submit:active:not(:disabled) { transform: scale(.98); }
+.lg-submit:focus-visible { outline: 2px solid var(--brand-primary-medium); outline-offset: 3px; }
+.lg-submit:disabled { opacity: .45; cursor: not-allowed; }
+@media (prefers-reduced-motion: reduce) { .lg-submit { transition: none; } .lg-submit:active:not(:disabled) { transform: none; } }

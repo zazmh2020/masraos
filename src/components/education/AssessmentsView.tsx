@@ -1,5 +1,7 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
+
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { ASSESSMENT_KINDS } from '@/lib/permissions';
@@ -78,7 +80,7 @@ export default function AssessmentsView({
       </div>
 
       {error && <div className="org-alert">{error}</div>}
-      {students.length === 0 && <div className="org-empty">{t('assess.needStudents')}</div>}
+      {students.length === 0 && <div className="org-empty"><IconShape name="assessment" variant="soft" size="xl" /><p>{t('assess.needStudents')}</p></div>}
 
       {creating && (
         <form className="org-form" onSubmit={create}>
@@ -138,7 +140,7 @@ export default function AssessmentsView({
       )}
 
       {assessments.length === 0 ? (
-        students.length > 0 && <div className="org-empty">{t('assess.none')}</div>
+        students.length > 0 && <div className="org-empty"><IconShape name="assessment" variant="soft" size="xl" /><p>{t('assess.none')}</p></div>
       ) : (
         <div className="org-table-wrap">
           <table className="org-table">

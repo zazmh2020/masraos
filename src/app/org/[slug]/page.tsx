@@ -7,7 +7,7 @@ import {
   canViewDocuments, canUseAssistant, canManageSettings,
 } from '@/lib/permissions';
 import { getOrgEntitlement } from '@/lib/entitlement-load';
-import Icon from '@/components/Icon';
+import Icon, { IconShape } from '@/components/Icon';
 import DashboardShell from '@/components/dash/DashboardShell';
 import StatCard, { type StatColor } from '@/components/dash/StatCard';
 import AreaChart from '@/components/dash/AreaChart';
@@ -209,12 +209,12 @@ export default async function OrgDashboard({
 
         {/* إجراءات سريعة */}
         <div className="dash-quick">
-          <Link href={`/org/${org.slug}/education/monthly`} className="dash-quick-tile"><Icon name="education/education-quran-memorization" size={18} />{t('od.q.monthly')}</Link>
-          <Link href={`/org/${org.slug}/tasks`} className="dash-quick-tile"><Icon name="operations/operations-tasks" size={18} />{t('od.q.tasks')}</Link>
-          <Link href={`/org/${org.slug}/education/students`} className="dash-quick-tile"><Icon name="people/people-students" size={18} />{t('od.q.students')}</Link>
-          <Link href={`/org/${org.slug}/events`} className="dash-quick-tile"><Icon name="operations/operations-events" size={18} />{t('od.q.events')}</Link>
-          <Link href={`/org/${org.slug}/requests`} className="dash-quick-tile"><Icon name="operations/operations-requests" size={18} />{t('od.q.requests')}</Link>
-          <Link href={`/org/${org.slug}/search`} className="dash-quick-tile"><Icon name="navigation/navigation-search" size={18} />{t('od.q.search')}</Link>
+          <Link href={`/org/${org.slug}/education/monthly`} className="dash-quick-tile"><IconShape name="education/education-quran-memorization" variant="soft" size="md" />{t('od.q.monthly')}</Link>
+          <Link href={`/org/${org.slug}/tasks`} className="dash-quick-tile"><IconShape name="operations/operations-tasks" variant="soft" size="md" />{t('od.q.tasks')}</Link>
+          <Link href={`/org/${org.slug}/education/students`} className="dash-quick-tile"><IconShape name="people/people-students" variant="soft" size="md" />{t('od.q.students')}</Link>
+          <Link href={`/org/${org.slug}/events`} className="dash-quick-tile"><IconShape name="operations/operations-events" variant="soft" size="md" />{t('od.q.events')}</Link>
+          <Link href={`/org/${org.slug}/requests`} className="dash-quick-tile"><IconShape name="operations/operations-requests" variant="soft" size="md" />{t('od.q.requests')}</Link>
+          <Link href={`/org/${org.slug}/search`} className="dash-quick-tile"><IconShape name="navigation/navigation-search" variant="soft" size="md" />{t('od.q.search')}</Link>
         </div>
 
         {/* الشبكة الرئيسية: رسم + حلقة */}
@@ -300,7 +300,7 @@ export default async function OrgDashboard({
               <div className="dash-modules">
                 {modules.map((m) => (
                   <Link key={m.href} href={m.href} className="dash-module">
-                    <span className="dash-module-ic"><Icon name={m.icon} size={18} /></span>
+                    <IconShape name={m.icon} variant="soft" size="md" />
                     <span><strong>{m.title}</strong><span>{m.text}</span></span>
                   </Link>
                 ))}

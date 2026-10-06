@@ -252,3 +252,92 @@ body:has(.org-app) { background: #fff; }
   .org-app .st-row-actions { flex-wrap: wrap; justify-content: flex-start; }
   .org-app .st-table-wrap, .org-app .org-table-wrap:has(.st-table) { overflow: visible; }
 }
+
+/* ============================================================
+   الأيقونات والأشكال والأزرار التفاعلية — نظام موحّد (2026-10-06)
+   الألوان مشتقة من لون هوية الجهة (--c-brand / --c-ink) لا من ألوان ثابتة.
+   مقاسات الأشكال والأزرار على شبكة 4px: 32 · 40 · 48 · 64 (و44 للمس على الجوال).
+   ============================================================ */
+
+/* ---------- ألوان الأيقونات الثنائية داخل لوحة الجهة ---------- */
+.org-app .icon-duo { --icon-line: var(--c-brand); --icon-fill: color-mix(in srgb, var(--c-brand) 26%, #fff); }
+.org-app .icon-shape.is-soft { background: var(--c-p-6); color: var(--c-brand); --icon-fill: color-mix(in srgb, var(--c-brand) 26%, #fff); }
+.org-app .icon-shape.is-solid { background: var(--c-brand); --icon-line: var(--on-brand, #fff); --icon-fill: color-mix(in srgb, var(--on-brand, #fff) 28%, var(--c-brand)); }
+.org-app .icon-shape.is-deep { background: var(--c-ink); --icon-line: #fff; --icon-fill: color-mix(in srgb, var(--c-brand) 60%, #fff); }
+.org-app .icon-shape.is-outline { border-color: var(--c-p-30); color: var(--c-brand); }
+
+/* ---------- القائمة الجانبية: مربع أبيض صغير خلف أيقونة الرابط النشط ---------- */
+.org-app .org-nav-item .org-nav-ic { border-radius: 8px; transition: background-color .15s, box-shadow .15s; }
+.org-app .org-nav-item.is-active .org-nav-ic,
+.org-app .org-nav-grouphd.is-parent-active .org-nav-ic { background: #fff; box-shadow: 0 0 0 6px #fff; }
+
+/* ---------- الشريط العلوي: دوائر بحد ---------- */
+.org-app .tbt-btn,
+.org-app .tbt .lang-toggle { border: 1.5px solid var(--c-p-30); border-radius: 50%; background: #fff; color: var(--c-brand); }
+.org-app .tbt-btn:hover,
+.org-app .tbt .lang-toggle:hover { border-color: var(--c-brand); background: var(--c-p-3); color: var(--c-ink); }
+
+/* ---------- قائمة الملف الشخصي: الخروج مفصول بخط ---------- */
+.org-app .org-profile-logout { margin-top: 4px; border-top: 1px solid var(--c-line); border-radius: 0 0 var(--cr-sm, 8px) var(--cr-sm, 8px); color: var(--t-rose-ink); }
+.org-app .org-profile-logout .icon-duo { --icon-line: var(--t-rose-ink); --icon-fill: var(--t-rose); }
+.org-app .org-profile-logout:hover { background: var(--t-rose); color: var(--t-rose-ink); }
+
+/* ---------- بطاقات الإحصاء: مربع فاتح متوسط ---------- */
+.org-app .dash-stat-label { gap: 12px; margin-bottom: 12px; font-size: 13px; }
+.org-app .dash-stat-shape { flex: none; }
+
+/* ---------- الاختصارات والأنظمة ---------- */
+.org-app .dash-quick-tile { gap: 12px; }
+.org-app .dash-quick-tile .icon-shape { font-size: inherit; }
+.org-app .dash-module { align-items: center; gap: 12px; }
+
+/* ---------- الحالات الفارغة: مربع كبير فوق الرسالة ---------- */
+.org-app .org-empty { display: grid; justify-items: center; gap: 16px; text-align: center; padding: 40px 24px; }
+.org-app .org-empty p { margin: 0; max-width: 48ch; }
+.org-app .eh-empty { justify-items: center; text-align: center; }
+
+/* ============================================================
+   الأزرار التفاعلية — مقاسات وحالات موحّدة
+   sm 32 · md 40 (الافتراضي) · lg 48 — كبسولة، تركيز ظاهر، ضغط خفيف، معطّل واضح
+   ============================================================ */
+.org-app :is(.org-btn, .dash-btn, .dash-promo-btn, .calm-btn) {
+  min-height: 40px; padding-inline: 16px; border-radius: 999px;
+  font-size: 14px; font-weight: 600; line-height: 1;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  transition: background-color .15s, color .15s, border-color .15s, transform .1s;
+}
+.org-app :is(.org-btn, .dash-btn, .dash-promo-btn, .calm-btn):active:not(:disabled) { transform: scale(.98); }
+.org-app :is(.org-btn, .dash-btn, .dash-promo-btn, .calm-btn, .org-icon-btn, .tbt-btn):focus-visible {
+  outline: 2px solid var(--c-brand); outline-offset: 2px;
+}
+.org-app :is(.org-btn, .dash-btn, .calm-btn):disabled { opacity: .45; cursor: not-allowed; transform: none; }
+.org-app .org-btn-sm { min-height: 32px; padding-inline: 12px; font-size: 13px; }
+.org-app .org-btn-lg { min-height: 48px; padding-inline: 24px; font-size: 15px; }
+.org-app :is(.org-btn, .dash-btn) .app-icon { width: 16px; height: 16px; }
+
+/* المتغيّرات */
+.org-app .org-btn-outline,
+.org-app .org-btn-quiet { background: #fff; border: 1px solid var(--c-line-2); color: var(--c-text); }
+.org-app .org-btn-outline:hover:not(:disabled),
+.org-app .org-btn-quiet:hover:not(:disabled) { border-color: var(--c-brand); color: var(--c-ink); background: var(--c-p-3); }
+.org-app .org-btn-ghost { background: transparent; border: 0; color: var(--c-brand); }
+.org-app .org-btn-ghost:hover:not(:disabled) { background: var(--c-p-6); }
+.org-app .org-btn-danger { background: #fff; border: 1px solid var(--t-rose-2); color: var(--t-rose-ink); }
+.org-app .org-btn-danger:hover:not(:disabled) { background: var(--t-rose); }
+.org-app .dash-promo-btn { background: #fff; color: var(--c-ink); }
+
+/* زر أيقونة فقط: دائرة 40 (و44 على الجوال) — يحتاج aria-label */
+.org-icon-btn {
+  display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+  border: 1.5px solid var(--c-p-30, var(--brand-primary-medium)); background: #fff; color: var(--c-brand, var(--brand-primary)); cursor: pointer;
+}
+.org-icon-btn:hover { border-color: var(--c-brand, var(--brand-primary)); background: var(--c-p-3, var(--brand-primary-subtle)); }
+
+@media (max-width: 860px) {
+  .org-app :is(.org-btn, .dash-btn, .dash-promo-btn, .calm-btn, .org-btn-sm) { min-height: 44px; }
+  .org-icon-btn { width: 44px; height: 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .org-app :is(.org-btn, .dash-btn, .dash-promo-btn, .calm-btn) { transition: none; }
+  .org-app :is(.org-btn, .dash-btn, .dash-promo-btn, .calm-btn):active { transform: none; }
+}

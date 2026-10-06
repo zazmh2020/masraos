@@ -1,5 +1,7 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
+
 import { useEffect, useState } from 'react';
 import { ATTENDANCE_STATUSES } from '@/lib/permissions';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
@@ -63,7 +65,7 @@ export default function AttendanceView({ halaqat }: { halaqat: Halaqa[] }) {
   }
 
   if (halaqat.length === 0) {
-    return <div className="org-empty">{t('edu.at.empty')}</div>;
+    return <div className="org-empty"><IconShape name="attendance" variant="soft" size="xl" /><p>{t('edu.at.empty')}</p></div>;
   }
 
   return (
@@ -86,7 +88,7 @@ export default function AttendanceView({ halaqat }: { halaqat: Halaqa[] }) {
       {msg && <div className={`org-alert ${msg.kind === 'ok' ? 'is-ok' : ''}`}>{msg.text}</div>}
 
       {students.length === 0 ? (
-        <div className="org-empty">{t('edu.at.noStudents')}</div>
+        <div className="org-empty"><IconShape name="attendance" variant="soft" size="xl" /><p>{t('edu.at.noStudents')}</p></div>
       ) : (
         <>
           <div className="org-table-wrap" style={{ opacity: loading ? 0.5 : 1 }}>

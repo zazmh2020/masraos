@@ -120,11 +120,11 @@ const ICONS = {
   education: 'education', plans: 'memorization', competitions: 'events',
   certificates: 'certificates', content: 'content', identity: 'identity',
   admin: 'administration', settings: 'settings', logout: 'logout',
-  search: 'search', notifications: 'notifications', messages: 'messages',
+  search: 'search', notifications: 'notifications', messages: 'messages', profile: 'profile',
 } as const;
 
 function Icon({ name }: { name: keyof typeof ICONS }) {
-  return <AppIcon name={ICONS[name]} size={20} className="org-nav-ic" />;
+  return <AppIcon name={ICONS[name]} size={20} className="org-nav-ic" tone="duo" />;
 }
 
 /** صورة المستخدم — صورة مرفوعة أو أيقونة شخص افتراضية. */
@@ -299,7 +299,7 @@ export default function OrgShell({ children, org, user, nav, inbox, assistant }:
                     <span className="org-profile-role">{user.jobTitle || t(orgKey(`role.${user.role}`, org.type))}</span>
                   </div>
                   <Link href={`${base}/settings`} className="org-profile-link" onClick={() => setProfileOpen(false)}>
-                    <Icon name="settings" />
+                    <Icon name="profile" />
                     <span>{t('shell.profile')}</span>
                   </Link>
                   <button className="org-profile-link org-profile-logout" onClick={() => { setProfileOpen(false); setConfirmLogout(true); }}>

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
-import Icon from '@/components/Icon';
+import Icon, { IconShape } from '@/components/Icon';
 import DashboardShell from '@/components/dash/DashboardShell';
 import StatCard from '@/components/dash/StatCard';
 import { getT } from '@/lib/i18n/server';
@@ -137,6 +137,7 @@ export default async function EducationHome({
             </div>
             {halaqat.length === 0 ? (
               <div className="eh-empty">
+                <IconShape name="halaqat" variant="soft" size="xl" />
                 <p>{t('eh.halaqat.empty')}</p>
                 <Link href={`${base}/education/halaqat`} className="dash-btn">{t('eh.cta.firstHalaqa')}</Link>
               </div>

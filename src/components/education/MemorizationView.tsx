@@ -1,5 +1,7 @@
 'use client';
 
+import { IconShape } from '@/components/Icon';
+
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { MEMO_KINDS, MEMO_RATINGS } from '@/lib/permissions';
@@ -109,7 +111,7 @@ export default function MemorizationView({ entries, students }: { entries: Entry
       )}
 
       {entries.length === 0 ? (
-        <div className="org-empty">{t('edu.mz.none')}</div>
+        <div className="org-empty"><IconShape name="memorization" variant="soft" size="xl" /><p>{t('edu.mz.none')}</p></div>
       ) : (
         <div className="org-table-wrap">
           <table className="org-table">

@@ -941,3 +941,43 @@ a.mdl-announce.is-link:hover { filter: brightness(1.12); }
 /* عند وجود الإعلان: تُدفَع الترويسة للأسفل ويُزاد الحيّز العلوي للبطل حتى لا يختفي أيّهما */
 .mdl.has-announce .mdl-header { top: var(--announce-h, 40px); }
 .mdl.has-announce .mdl-hero { padding-top: calc(8.5rem + var(--announce-h, 40px)); }
+
+/* ============================================================
+   الأيقونات والأشكال والأزرار التفاعلية — نظام موحّد (2026-10-06)
+   الأشكال على شبكة 4px: 32 · 40 · 48 · 64. الأزرار: 40 (الشريط) · 48 (الأقسام).
+   ============================================================ */
+
+/* ---------- الأزرار ---------- */
+.mdl .mdl-btn {
+  min-height: 48px; padding: 0 24px; border-radius: 999px; font-size: 15px; font-weight: 700; line-height: 1;
+  transition: background-color .15s var(--ease), color .15s var(--ease), border-color .15s var(--ease), transform .1s var(--ease);
+}
+.mdl .mdl-btn:hover { transform: none; box-shadow: none; }
+.mdl .mdl-btn:active { transform: scale(.98); }
+.mdl .mdl-btn:focus-visible { outline: 2px solid var(--brand-primary-medium); outline-offset: 3px; }
+.mdl .mdl-btn:disabled, .mdl .mdl-btn[aria-disabled='true'] { opacity: .45; cursor: not-allowed; transform: none; }
+.mdl .mdl-btn-primary:hover { background: var(--pd); }
+.mdl .mdl-btn.mdl-btn-light:hover { background: var(--brand-primary-subtle); }
+.mdl .mdl-btn-white:hover { background: var(--brand-primary-subtle); color: var(--p); }
+.mdl .mdl-navbar .mdl-btn { min-height: 40px; padding: 0 16px; font-size: 14px; box-shadow: none; }
+.mdl .mdl-btn .ic, .mdl .mdl-btn .app-icon { width: 16px; height: 16px; }
+
+/* ---------- أيقونات المميزات والأنظمة: مربع أساسي (بنفسجي + أيقونة بيضاء) ---------- */
+.mdl .mdl-feat .fi { width: 48px; height: 48px; border-radius: 12px; background: var(--p); color: #fff; }
+.mdl .mdl-feat .fi .app-icon { width: 24px; height: 24px; }
+.mdl .mdl-sys-ic { width: 40px; height: 40px; border-radius: 12px; background: var(--brand-primary-subtle); color: var(--p); }
+.mdl .mdl-sys-item.is-active .mdl-sys-ic { background: var(--p); color: #fff; box-shadow: none; }
+.mdl .mdl-sys-ic .app-icon { width: 20px; height: 20px; }
+.mdl .mdl-stepc-ic { width: 40px; height: 40px; border-radius: 12px; background: var(--p); color: #fff; }
+.mdl .mdl-stepc-ic .app-icon { width: 20px; height: 20px; }
+.mdl .mdl-float .fic { width: 32px; height: 32px; border-radius: 8px; }
+.mdl .mdl-float .fic .app-icon { width: 16px; height: 16px; }
+
+/* ---------- أزرار الأيقونة (اللغة/العملة/القائمة): دائرة 40 ---------- */
+.mdl .mdl-navbar :is(.lang-toggle, .cur-toggle) { width: 40px; height: 40px; border-radius: 50%; }
+.mdl .mdl-menu-btn { min-width: 44px; min-height: 44px; border-radius: 50%; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mdl .mdl-btn { transition: none; }
+  .mdl .mdl-btn:active { transform: none; }
+}

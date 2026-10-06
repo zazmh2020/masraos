@@ -1,4 +1,4 @@
-import Icon from '@/components/Icon';
+import { IconShape } from '@/components/Icon';
 
 export type StatColor = 'purple' | 'gold' | 'green' | 'blue';
 
@@ -16,14 +16,12 @@ export default function StatCard({
   value: string | number;
   trend?: string;
 }) {
-  const cls = color === 'purple' ? '' : color;
+  // الأيقونة داخل مربع فاتح بألوان الهوية (نمط ثنائي اللون)؛ اللون يبقى للتوافق مع المستدعين
   return (
-    <div className="dash-stat">
+    <div className={`dash-stat dash-stat-${color}`}>
       <div className="dash-stat-label">
-        <span className={`dash-stat-ic ${cls}`}>
-          <Icon name={icon} size={15} />
-        </span>
-        {label}
+        <IconShape name={icon} shape="square" variant="soft" size="md" className="dash-stat-shape" />
+        <span>{label}</span>
       </div>
       <div className="dash-stat-value">{value}</div>
       {trend && <span className="dash-stat-trend up">▲ {trend}</span>}
