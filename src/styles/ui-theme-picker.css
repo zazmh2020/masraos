@@ -61,3 +61,4 @@
 .theme-swatch { width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--c-line-2); flex: none; }
 @media (max-width: 860px) { .theme-option { min-height: 44px; } .bm { grid-template-columns: 104px minmax(0, 1fr); } }
 .org-label-strong { display: block; font-size: 14px; font-weight: 600; color: var(--c-text); }
+.ui-theme-options { display: grid; gap: 0; margin-bottom: 16px; }

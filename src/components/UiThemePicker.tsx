@@ -52,8 +52,9 @@ export function UiThemePreview({ theme, color, logoUrl, name }: { theme: UiTheme
 export function UiThemeOptions({ theme, onChange, color }: { theme: UiTheme; onChange: (next: UiTheme) => void; color: string }) {
   const t = useT();
   const set = <K extends keyof UiTheme>(k: K, v: UiTheme[K]) => onChange({ ...theme, [k]: v });
+  // غلاف .calm يعرّف رموز --c-* حتى تعمل الأزرار خارج لوحة الجهة (لوحة مالك المنصة)
   return (
-    <>
+    <div className="calm ui-theme-options" style={brandVars(color)}>
       <div className="org-field">
         <span className="org-label-strong">{t('theme.title')}</span>
         <span className="org-hint">{t('theme.hint')}</span>
@@ -64,7 +65,7 @@ export function UiThemeOptions({ theme, onChange, color }: { theme: UiTheme; onC
       <ThemeChoice legend={t('theme.shape')} value={theme.shape} options={SHAPE_STYLES} label={(v) => t(`theme.shape.${v}`)} onChange={(v) => set('shape', v)} />
       <ThemeChoice legend={t('theme.shapeForm')} value={theme.shapeForm} options={SHAPE_FORMS} label={(v) => t(`theme.shapeForm.${v}`)} onChange={(v) => set('shapeForm', v)} />
       <ThemeChoice legend={t('theme.buttons')} value={theme.buttons} options={BUTTON_STYLES} label={(v) => t(`theme.buttons.${v}`)} onChange={(v) => set('buttons', v)} />
-    </>
+    </div>
   );
 }
 
