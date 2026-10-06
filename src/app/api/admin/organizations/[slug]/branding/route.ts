@@ -3,6 +3,8 @@ import { prisma } from '@/lib/prisma';
 import { getVerifiedSession } from '@/lib/session-guard';
 import { imageValue } from '@/lib/branding';
 import { planAllowsCustomDomain } from '@/lib/plans';
+import { parseUiThemeInput } from '@/lib/ui-theme';
+import type { Prisma } from '@/generated/prisma/client';
 
 type OrgData = Record<string, string | null>;
 
@@ -43,6 +45,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ sl
   if (!org) return NextResponse.json({ error: 'المؤسسة غير موجودة.' }, { status: 404 });
 
   const data: OrgData = {};
+  let uiTheme: Prisma.InputJsonValue | undefined;
   try {
     // الهوية البصرية
     if (body.brandColor !== undefined) data.brandColor = hex(body.brandColor);
@@ -50,6 +53,12 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ sl
     if (body.logoUrl !== undefined) data.logoUrl = imageValue(body.logoUrl, 'الشعار');
     if (body.faviconUrl !== undefined) data.faviconUrl = imageValue(body.faviconUrl, 'الأيقونة');
     if (body.coverUrl !== undefined) data.coverUrl = imageValue(body.coverUrl, 'الغلاف');
+    // النمط العام لواجهة لوحة الجهة — تحقق صارم من القيم
+    if (body.uiTheme !== undefined) {
+      const theme = parseUiThemeInput(body.uiTheme);
+      if (!theme) throw new Error('نمط الواجهة غير صالح.');
+      uiTheme = theme;
+    }
     // الهوية الرقمية
     if (body.tagline !== undefined) data.tagline = text(body.tagline, 160);
     if (body.websiteUrl !== undefined) data.websiteUrl = url(body.websiteUrl, 'الموقع');
@@ -80,6 +89,6 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ sl
     return NextResponse.json({ error: e instanceof Error ? e.message : 'بيانات غير صالحة.' }, { status: 400 });
   }
 
-  await prisma.organization.update({ where: { id: org.id }, data });
+  await prisma.organization.update({ where: { id: org.id }, data: { ...data, ...(uiTheme !== undefined ? { uiTheme } : {}) } });
   return NextResponse.json({ ok: true });
 }

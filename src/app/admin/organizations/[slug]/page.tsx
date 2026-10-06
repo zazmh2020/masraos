@@ -91,6 +91,7 @@ export default async function OrgDetailPage({
             instagramUrl={org.instagramUrl}
             whatsapp={org.whatsapp}
             customDomain={org.customDomain}
+            uiTheme={org.uiTheme}
             allowCustomDomain={planAllowsCustomDomain(org.plan)}
           />
         </div>

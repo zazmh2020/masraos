@@ -3,6 +3,8 @@
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useT } from '@/lib/i18n/LocaleProvider';
+import { UiThemeOptions, UiThemePreview } from '@/components/UiThemePicker';
+import { normalizeUiTheme, type UiTheme } from '@/lib/ui-theme';
 
 type Props = {
   apiBase: string;
@@ -18,6 +20,7 @@ type Props = {
   instagramUrl?: string | null;
   whatsapp?: string | null;
   customDomain?: string | null;
+  uiTheme?: unknown; // النمط العام للواجهة (organizations.uiTheme)
   allowCustomDomain?: boolean; // تسمح باقة المؤسسة بالدومين المخصّص؟
   name: string;
 };
@@ -39,6 +42,7 @@ export default function OrgIdentityForm(p: Props) {
   const [instagramUrl, setInstagramUrl] = useState(p.instagramUrl ?? '');
   const [whatsapp, setWhatsapp] = useState(p.whatsapp ?? '');
   const [customDomain, setCustomDomain] = useState(p.customDomain ?? '');
+  const [theme, setTheme] = useState<UiTheme>(() => normalizeUiTheme(p.uiTheme));
 
   const [status, setStatus] = useState<{ kind: 'ok' | 'error'; msg: string } | null>(null);
   const [busy, setBusy] = useState(false);
@@ -56,6 +60,7 @@ export default function OrgIdentityForm(p: Props) {
           brandAccent: enabled ? accent : '',
           logoUrl, faviconUrl, coverUrl,
           tagline, websiteUrl, twitterUrl, instagramUrl, whatsapp,
+          uiTheme: theme,
           // لا نرسل الدومين إلا إن كانت الباقة تسمح (وإلا يبقى بلا تغيير)
           ...(p.allowCustomDomain ? { customDomain } : {}),
         }),
@@ -137,6 +142,10 @@ export default function OrgIdentityForm(p: Props) {
         <label htmlFor="oid-cover">{t('aorg.id.cover')}</label>
         <input id="oid-cover" dir="ltr" value={coverUrl} onChange={(e) => setCoverUrl(e.target.value)} placeholder="https://…/cover.jpg" />
       </div>
+
+      {/* ===== النمط العام لواجهة لوحة الجهة ===== */}
+      <UiThemeOptions theme={theme} onChange={setTheme} color={primary} />
+      <UiThemePreview theme={theme} color={primary} logoUrl={logoUrl} name={p.name} />
 
       {/* ===== الهوية الرقمية ===== */}
       <h3 className="oid-h">{t('aorg.id.digital')}</h3>

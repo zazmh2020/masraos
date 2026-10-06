@@ -1,16 +1,12 @@
 'use client';
 
-import { useRef, useState, type ChangeEvent, type FormEvent, type KeyboardEvent } from 'react';
+import { useRef, useState, type ChangeEvent, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useT } from '@/lib/i18n/LocaleProvider';
 import { readLogoFile, removeBackground } from '@/lib/image-file';
 import ImageCropper from '@/components/ImageCropper';
-import Icon, { IconShape } from '@/components/Icon';
-import { brandVars } from '@/lib/brand-palette';
-import {
-  BUTTON_STYLES, ICON_STYLES, SHAPE_FORMS, SHAPE_STYLES, SIDEBAR_STYLES,
-  normalizeUiTheme, uiThemeAttrs, type UiTheme,
-} from '@/lib/ui-theme';
+import { UiThemeOptions, UiThemePreview } from '@/components/UiThemePicker';
+import { normalizeUiTheme, type UiTheme } from '@/lib/ui-theme';
 
 /**
  * تخصيص الهوية البصرية للجهة: لون أساسي + شعار + النمط العام للواجهة
@@ -39,7 +35,6 @@ export default function BrandingForm({
   const [cropSrc, setCropSrc] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const [theme, setTheme] = useState<UiTheme>(() => normalizeUiTheme(initialTheme));
-  const setPart = <K extends keyof UiTheme>(k: K, v: UiTheme[K]) => setTheme((th) => ({ ...th, [k]: v }));
 
   async function onPickLogo(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -86,31 +81,7 @@ export default function BrandingForm({
       )}
 
       {/* معاينة حيّة: نفس قواعد اللوحة الفعلية بألوان الجهة المختارة */}
-      <div className="calm bm" style={brandVars(shown)} {...uiThemeAttrs(theme)} aria-label={t('theme.preview')} role="img">
-        <div className="bm-side">
-          <span className="bm-logo">
-            {logoUrl.trim()
-              // eslint-disable-next-line @next/next/no-img-element
-              ? <img src={logoUrl} alt="" />
-              : <span className="ph">م</span>}
-            {t('brand.previewName')}
-          </span>
-          <span className="bm-nav is-active"><Icon name="home" size={16} tone="duo" />{t('onav.dashboard')}</span>
-          <span className="bm-nav"><Icon name="students" size={16} tone="duo" />{t('home.strip.students')}</span>
-          <span className="bm-nav"><Icon name="halaqat" size={16} tone="duo" />{t('home.strip.halaqat')}</span>
-          <span className="bm-nav"><Icon name="settings" size={16} tone="duo" />{t('onav.settings')}</span>
-        </div>
-        <div className="bm-main">
-          <div className="bm-stats">
-            <span className="bm-stat"><IconShape name="students" variant="soft" size="sm" /><span><b>24</b>{t('home.strip.students')}</span></span>
-            <span className="bm-stat"><IconShape name="attendance" variant="soft" size="sm" /><span><b>92%</b>{t('home.strip.attendance')}</span></span>
-          </div>
-          <div className="bm-btns">
-            <span className="bm-btn is-primary">{t('brand.previewBtn')}</span>
-            <span className="bm-btn">{t('shell.cancel')}</span>
-          </div>
-        </div>
-      </div>
+      <UiThemePreview theme={theme} color={shown} logoUrl={logoUrl} />
 
       <label className="brand-toggle">
         <input type="checkbox" checked={enabled} onChange={(e) => setEnabled(e.target.checked)} />
@@ -128,16 +99,7 @@ export default function BrandingForm({
       )}
 
       {/* النمط العام للواجهة */}
-      <div className="org-field">
-        <span className="org-label-strong">{t('theme.title')}</span>
-        <span className="org-hint">{t('theme.hint')}</span>
-      </div>
-      <ThemeChoice legend={t('theme.sidebar')} value={theme.sidebar} options={SIDEBAR_STYLES} label={(v) => t(`theme.sidebar.${v}`)} onChange={(v) => setPart('sidebar', v)}
-        swatch={(v) => (v === 'brand' ? shown : v === 'deep' ? 'var(--c-ink)' : '#ffffff')} />
-      <ThemeChoice legend={t('theme.icons')} value={theme.icons} options={ICON_STYLES} label={(v) => t(`theme.icons.${v}`)} onChange={(v) => setPart('icons', v)} />
-      <ThemeChoice legend={t('theme.shape')} value={theme.shape} options={SHAPE_STYLES} label={(v) => t(`theme.shape.${v}`)} onChange={(v) => setPart('shape', v)} />
-      <ThemeChoice legend={t('theme.shapeForm')} value={theme.shapeForm} options={SHAPE_FORMS} label={(v) => t(`theme.shapeForm.${v}`)} onChange={(v) => setPart('shapeForm', v)} />
-      <ThemeChoice legend={t('theme.buttons')} value={theme.buttons} options={BUTTON_STYLES} label={(v) => t(`theme.buttons.${v}`)} onChange={(v) => setPart('buttons', v)} />
+      <UiThemeOptions theme={theme} onChange={setTheme} color={shown} />
 
       <div className="org-field">
         <label htmlFor="lg">{t('brand.logo')}</label>
@@ -173,38 +135,3 @@ export default function BrandingForm({
   );
 }
 
-/** مجموعة اختيار واحدة للنمط — أزرار راديو بلوحة المفاتيح (أسهم) وعلامة اختيار واضحة. */
-function ThemeChoice<T extends string>({
-  legend, value, options, label, onChange, swatch,
-}: {
-  legend: string;
-  value: T;
-  options: readonly T[];
-  label: (v: T) => string;
-  onChange: (v: T) => void;
-  swatch?: (v: T) => string;
-}) {
-  function onKey(e: KeyboardEvent<HTMLDivElement>) {
-    const i = options.indexOf(value);
-    const next = e.key === 'ArrowLeft' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowRight' || e.key === 'ArrowUp' ? -1 : 0;
-    if (!next) return;
-    e.preventDefault();
-    // RTL: السهم الأيسر يتقدّم للخيار التالي
-    const dir = document.documentElement.dir === 'rtl' ? next : -next;
-    onChange(options[(i + dir + options.length) % options.length]);
-  }
-  return (
-    <fieldset className="theme-group">
-      <legend>{legend}</legend>
-      <div className="theme-options" role="radiogroup" aria-label={legend} onKeyDown={onKey}>
-        {options.map((o) => (
-          <button key={o} type="button" role="radio" aria-checked={value === o} tabIndex={value === o ? 0 : -1}
-            className="theme-option" onClick={() => onChange(o)}>
-            {swatch && <span className="theme-swatch" style={{ background: swatch(o) }} aria-hidden="true" />}
-            {label(o)}
-          </button>
-        ))}
-      </div>
-    </fieldset>
-  );
-}
