@@ -51,3 +51,32 @@
 .skip-link:focus, .skip-link:focus-visible { transform: none; outline: 2px solid var(--brand-primary-soft); outline-offset: 2px; }
 :is(#org-main, #admin-main):focus { outline: none; }
 @media (prefers-reduced-motion: no-preference) { .skip-link { transition: transform .15s ease; } }
+
+/* أيقونات ثنائية اللون بألوان الهوية (<Icon tone="duo" />) */
+.icon-duo {
+  --icon-line: var(--brand-primary);
+  --icon-fill: var(--brand-primary-soft);
+  position: relative; display: inline-grid; flex: none; vertical-align: middle;
+}
+.icon-duo > svg { grid-area: 1 / 1; width: 100%; height: 100%; }
+.icon-duo .icon-duo-fill { color: var(--icon-fill); }
+.icon-duo .icon-duo-line { color: var(--icon-line); }
+/* على الأسطح الداكنة */
+.on-deep .icon-duo, .icon-duo.on-deep { --icon-line: #FFFFFF; --icon-fill: var(--brand-primary-medium); }
+.icon-solid { color: var(--icon-line, var(--brand-primary)); }
+
+/* أيقونة داخل شكل (<IconShape />) — مسافات من شبكة 4px */
+.icon-shape { display: inline-grid; place-items: center; flex: none; }
+.icon-shape.is-sm { width: 32px; height: 32px; }
+.icon-shape.is-md { width: 40px; height: 40px; }
+.icon-shape.is-lg { width: 48px; height: 48px; }
+.icon-shape.is-xl { width: 64px; height: 64px; }
+.icon-shape.is-circle { border-radius: 50%; }
+.icon-shape.is-square { border-radius: 12px; }
+.icon-shape.is-square.is-xl { border-radius: 16px; }
+.icon-shape.is-soft { background: var(--brand-primary-subtle); color: var(--brand-primary); --icon-fill: var(--brand-primary-soft); }
+.icon-shape.is-solid { background: var(--brand-primary); color: var(--on-brand, #FFFFFF); --icon-line: #FFFFFF; --icon-fill: var(--brand-primary-medium); }
+.icon-shape.is-deep { background: var(--brand-primary-dark); color: var(--brand-primary-soft); --icon-line: #FFFFFF; --icon-fill: var(--brand-primary-medium); }
+.icon-shape.is-outline { background: var(--white); border: 1.5px solid var(--brand-primary-medium); color: var(--brand-primary); }
+/* المعبّأ المركّب: التعبئة والخط بلون واحد */
+.icon-solid-composite { --icon-fill: var(--brand-primary-medium); } /* تعبئة مساندة قوية تحت خط أساسي: معبّأ مع بقاء التفاصيل */

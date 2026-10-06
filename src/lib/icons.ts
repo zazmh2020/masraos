@@ -12,8 +12,12 @@ import {
   IconPresentation, IconQrcode, IconRefresh, IconReportAnalytics,
   IconSchool, IconSearch, IconSettings, IconShield, IconShieldCheck, IconSitemap, IconSpeakerphone,
   IconSparkles, IconStar, IconTarget, IconTrendingUp, IconUserCheck, IconUserHeart,
-  IconUsers, IconUsersGroup, IconWorld, IconX,
+  IconUser, IconUsers, IconUsersGroup, IconWorld, IconX,
   type TablerIcon,
+} from '@tabler/icons-react';
+import {
+  IconUserFilled, IconXFilled, IconCheckFilled, IconMenu2Filled, IconPlusFilled, IconEditFilled, IconTrashFilled, IconSearchFilled, IconLockFilled, IconLinkFilled, IconEyeFilled, IconCopyFilled, IconSendFilled, IconPinFilled, IconSunFilled, IconMoonFilled, IconChevronDownFilled, IconLayoutSidebarFilled,
+  IconLayoutDashboardFilled, IconBriefcaseFilled, IconSchoolFilled, IconBookFilled, IconPresentationFilled, IconCirclesFilled, IconClipboardCheckFilled, IconBookmarkFilled, IconMicrophoneFilled, IconFileTextFilled, IconIdFilled, IconSparklesFilled, IconShieldFilled, IconShieldCheckFilled, IconSettingsFilled, IconBellFilled, IconSitemapFilled, IconClipboardListFilled, IconReportAnalyticsFilled, IconCalendarEventFilled, IconMessagesFilled, IconFoldersFilled, IconFolderFilled, IconWorldFilled, IconCircleCheckFilled, IconHeartFilled, IconHomeFilled, IconLeafFilled, IconAlertCircleFilled, IconAppsFilled, IconStarFilled,
 } from '@tabler/icons-react';
 
 /** Semantic icon names used by new code. Keep all Tabler imports in this file. */
@@ -100,6 +104,8 @@ export const icons = {
   apps: IconApps,
   star: IconStar,
   target: IconTarget,
+  user: IconUser, // الملف الشخصي
+  profile: IconUser,
 } as const satisfies Record<string, TablerIcon>;
 
 export type IconName = keyof typeof icons;
@@ -179,4 +185,109 @@ export function normalizeIconSize(size: number): 16 | 20 | 24 | 32 | 40 | 48 {
   if (size <= 35) return 32;
   if (size <= 43) return 40;
   return 48;
+}
+
+/* ============================================================
+   نمط الأيقونات بألوان الهوية (Duotone)
+   - أيقونات المحتوى: خط بالبنفسجي الأساسي فوق تعبئة بالبنفسجي الفاتح
+     (من النسخة المعبّأة في Tabler نفسها؛ وإن لم توجد فدائرة خفيفة خلفها).
+   - تنطبق الأنماط على كل الأيقونات بلا استثناء، ومنها أيقونات التحكّم والتنقّل.
+   ============================================================ */
+
+/** النسخة المعبّأة لكل أيقونة محتوى تملكها. */
+export const filledIcons: Partial<Record<IconName, TablerIcon>> = {
+  dashboard: IconLayoutDashboardFilled,
+  resources: IconBriefcaseFilled,
+  education: IconSchoolFilled,
+  quran: IconBookFilled,
+  teachers: IconPresentationFilled,
+  halaqat: IconCirclesFilled,
+  attendance: IconClipboardCheckFilled,
+  memorization: IconBookmarkFilled,
+  recitation: IconMicrophoneFilled,
+  documents: IconFileTextFilled,
+  identity: IconIdFilled,
+  assistant: IconSparklesFilled,
+  administration: IconShieldFilled,
+  verified: IconShieldCheckFilled,
+  settings: IconSettingsFilled,
+  notifications: IconBellFilled,
+  projects: IconBriefcaseFilled,
+  structure: IconSitemapFilled,
+  programs: IconClipboardListFilled,
+  knowledge: IconBookFilled,
+  reports: IconReportAnalyticsFilled,
+  events: IconCalendarEventFilled,
+  messages: IconMessagesFilled,
+  content: IconFileTextFilled,
+  folders: IconFoldersFilled,
+  folder: IconFolderFilled,
+  world: IconWorldFilled,
+  completed: IconCircleCheckFilled,
+  heart: IconHeartFilled,
+  home: IconHomeFilled,
+  leaf: IconLeafFilled,
+  alert: IconAlertCircleFilled,
+  apps: IconAppsFilled,
+  star: IconStarFilled,
+  user: IconUserFilled,
+  profile: IconUserFilled,
+  close: IconXFilled,
+  check: IconCheckFilled,
+  menu: IconMenu2Filled,
+  add: IconPlusFilled,
+  edit: IconEditFilled,
+  delete: IconTrashFilled,
+  search: IconSearchFilled,
+  lock: IconLockFilled,
+  link: IconLinkFilled,
+  view: IconEyeFilled,
+  copy: IconCopyFilled,
+  send: IconSendFilled,
+  pin: IconPinFilled,
+  sun: IconSunFilled,
+  moon: IconMoonFilled,
+  chevronDown: IconChevronDownFilled,
+  sidebar: IconLayoutSidebarFilled,
+};
+
+/** تعبئات مصمَّمة لأيقونات بلا نسخة معبّأة في Tabler — مسارات SVG على شبكة 24×24. */
+export const iconFillPaths: Partial<Record<IconName, string>> = {
+  login: 'M6 4h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2z',
+  logout: 'M5 4h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2z',
+  back: 'M5 12l6 -6v12z',
+  forward: 'M19 12l-6 -6v12z',
+  hide: 'M12 6c3.6 0 6.6 2 9 6c-2.4 4 -5.4 6 -9 6s-6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6z',
+  expand: 'M7 7h10v10h-10z',
+  collapse: 'M9 9h6v6h-6z',
+  reject: 'M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0z',
+  students: 'M5 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0z M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2z',
+  users: 'M5 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0z M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2z',
+  organization: 'M7 3h10a2 2 0 0 1 2 2v16h-14v-16a2 2 0 0 1 2 -2z',
+  building: 'M10 3h10a1 1 0 0 1 1 1v17h-8v-7l-4 -4v-6a1 1 0 0 1 1 -1z M8 9l5 5v7h-10v-7z',
+  office: 'M5 21v-14l8 -4v18z M13 7l6 4v10h-6z',
+  certificates: 'M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2z',
+  analytics: 'M4 12h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1z M16 8h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1z M10 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-14a1 1 0 0 1 1 -1z',
+  statistics: 'M4 12h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1z M16 8h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1z M10 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-14a1 1 0 0 1 1 -1z',
+  growth: 'M4 15l4 -6l4 2l4 -5l4 4v9h-16z',
+  campaigns: 'M3 17l6 -6l4 4l8 -8v14h-18z',
+  target: 'M7 12a5 5 0 1 0 10 0a5 5 0 1 0 -10 0z',
+  qr: 'M5 4h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1z M15 4h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1z M5 14h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1z',
+  language: 'M12 20l4 -9l4 9z M4 4.5h8v8.5h-8z',
+  notes: 'M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2z',
+  assessment: 'M7 4h8a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2z',
+  donations: 'M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572z',
+  beneficiaries: 'M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0z M18 22l3.35 -3.284a2.143 2.143 0 0 0 .005 -3.071a2.242 2.242 0 0 0 -3.129 -.006l-.224 .22l-.223 -.22a2.242 2.242 0 0 0 -3.128 -.006a2.143 2.143 0 0 0 -.006 3.071z',
+  activeUser: 'M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0z M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2z',
+  group: 'M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0z M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0z M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0z M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1z',
+  announcement: 'M12 8l4.524 -3.77a.9 .9 0 0 1 1.476 .692v12.156a.9 .9 0 0 1 -1.476 .692l-4.524 -3.77h-8a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1z',
+  activities: 'M5 12a7 7 0 1 0 14 0a7 7 0 1 0 -14 0z',
+  review: 'M5 12a7 7 0 1 0 14 0a7 7 0 1 0 -14 0z',
+  operations: 'M5 12a7 7 0 1 0 14 0a7 7 0 1 0 -14 0z',
+};
+
+/** يحوّل أي اسم (دلالي أو قديم) إلى الاسم الدلالي. */
+export function resolveIconName(name: string): IconName {
+  if (name in icons) return name as IconName;
+  return legacyNames[name] ?? categoryFallbacks[name.split('/')[0]] ?? 'view';
 }
