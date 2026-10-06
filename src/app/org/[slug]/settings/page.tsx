@@ -97,7 +97,7 @@ export default async function OrgSettingsPage({
         <>
           <h2 className="org-settings-h2">{t('oset.branding')}</h2>
           <p className="org-panel-sub" style={{ marginBottom: '0.8rem' }}>{t('oset.brandingSub')}</p>
-          <BrandingForm brandColor={org.brandColor} logoUrl={org.logoUrl} />
+          <BrandingForm brandColor={org.brandColor} logoUrl={org.logoUrl} uiTheme={org.uiTheme} />
         </>
       )}
 

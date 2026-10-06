@@ -3,6 +3,8 @@ import { prisma } from '@/lib/prisma';
 import { getOrgActor } from '@/lib/org';
 import { canCustomize } from '@/lib/permissions';
 import { imageValue } from '@/lib/branding';
+import { parseUiThemeInput } from '@/lib/ui-theme';
+import type { Prisma } from '@/generated/prisma/client';
 
 /** تخصيص الهوية البصرية للجهة — من يملك صلاحية التخصيص. */
 export async function PATCH(request: Request) {
@@ -14,7 +16,7 @@ export async function PATCH(request: Request) {
   const body = await request.json().catch(() => null);
   if (!body) return NextResponse.json({ error: 'طلب غير صالح.' }, { status: 400 });
 
-  const data: { brandColor?: string | null; logoUrl?: string | null } = {};
+  const data: Prisma.OrganizationUpdateInput = {};
 
   if (body.brandColor !== undefined) {
     const c = String(body.brandColor ?? '').trim();
@@ -25,6 +27,12 @@ export async function PATCH(request: Request) {
   if (body.logoUrl !== undefined) {
     try { data.logoUrl = imageValue(body.logoUrl, 'الشعار'); }
     catch (e) { return NextResponse.json({ error: e instanceof Error ? e.message : 'شعار غير صالح.' }, { status: 400 }); }
+  }
+
+  if (body.uiTheme !== undefined) {
+    const theme = parseUiThemeInput(body.uiTheme);
+    if (!theme) return NextResponse.json({ error: 'نمط الواجهة غير صالح.' }, { status: 400 });
+    data.uiTheme = theme;
   }
 
   await prisma.organization.update({ where: { id: actor.organizationId! }, data });

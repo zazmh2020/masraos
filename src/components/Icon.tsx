@@ -58,7 +58,7 @@ export default function Icon({
   }
 
   return (
-    <span className={`icon-duo ${className}`.trim()} style={box} aria-hidden="true">
+    <span className={`icon-duo ${Filled ? 'is-tabler-fill' : 'is-path-fill'} ${className}`.trim()} style={box} aria-hidden="true">
       {fillLayer('icon-duo-fill')}
       {createElement(icons[semantic], { 'aria-hidden': true, focusable: false, className: 'icon-duo-line', size: normalizedSize, stroke: 2 })}
     </span>

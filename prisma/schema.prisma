@@ -25,6 +25,8 @@ model Organization {
   brandColor           String? // لون الهوية الأساسي للجهة (hex)
   brandAccent          String? // لون ثانوي/مميّز (hex)
   logoUrl              String? // شعار الجهة (رابط)
+  // النمط العام للواجهة (الشريط الجانبي، الأيقونات، الأشكال، الأزرار) — يُتحقَّق منه في src/lib/ui-theme.ts
+  uiTheme              Json?
   faviconUrl           String? // أيقونة التبويب (رابط)
   coverUrl             String? // صورة غلاف للموقع العام (رابط)
   tagline              String? // شعار نصّي قصير

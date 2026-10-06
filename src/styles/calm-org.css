@@ -341,3 +341,102 @@ body:has(.org-app) { background: #fff; }
   .org-app :is(.org-btn, .dash-btn, .dash-promo-btn, .calm-btn) { transition: none; }
   .org-app :is(.org-btn, .dash-btn, .dash-promo-btn, .calm-btn):active { transform: none; }
 }
+
+/* ============================================================
+   النمط العام للجهة (organizations.uiTheme → data-* على .org-app)
+   كل الألوان مشتقة من لون هوية الجهة (brand-palette.ts) — لا ألوان ثابتة.
+   ============================================================ */
+
+/* ---------- الشريط الجانبي: بلون الهوية (الافتراضي) أو داكن أو أبيض ---------- */
+[data-sidebar='brand'] { --sb-bg: var(--c-brand); --sb-fg: var(--on-brand, #fff); }
+[data-sidebar='deep'] { --sb-bg: var(--c-ink); --sb-fg: #fff; }
+:is([data-sidebar='brand'], [data-sidebar='deep']) {
+  --sb-fg-2: color-mix(in srgb, var(--sb-fg) 82%, transparent);
+  --sb-fg-3: color-mix(in srgb, var(--sb-fg) 62%, transparent);
+  --sb-hover: color-mix(in srgb, var(--sb-fg) 12%, transparent);
+  --sb-line: color-mix(in srgb, var(--sb-fg) 18%, transparent);
+}
+.org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-sidebar { background: var(--sb-bg); color: var(--sb-fg); border-radius: var(--cr-lg); }
+.org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-side-profile { background: var(--sb-hover); border-color: transparent; }
+.org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-sidebar :is(.org-user-name) { color: var(--sb-fg); }
+.org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-sidebar :is(.org-user-role, .org-nav-divider) { color: var(--sb-fg-3); }
+.org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-sidebar :is(.org-nav-item, .org-nav-child, .org-nav-chev) { color: var(--sb-fg-2); }
+.org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-sidebar :is(.org-nav-item, .org-nav-child):hover { background: var(--sb-hover); color: var(--sb-fg); }
+.org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-sidebar :is(.org-nav-item, .org-nav-child).is-active { background: var(--sb-fg); color: var(--sb-bg); font-weight: 600; }
+.org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-sidebar .org-nav-grouphd.is-parent-active { color: var(--sb-fg); }
+.org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-sidebar .icon-duo { --icon-line: var(--sb-fg); --icon-fill: color-mix(in srgb, var(--sb-fg) 32%, var(--sb-bg)); }
+.org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-sidebar .is-active .icon-duo { --icon-line: var(--sb-bg); --icon-fill: color-mix(in srgb, var(--sb-bg) 26%, var(--sb-fg)); }
+.org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-sidebar :is(.org-nav-item.is-active, .org-nav-grouphd.is-parent-active) .org-nav-ic { background: transparent; box-shadow: none; }
+.org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-fold-toggle { background: transparent; border-color: var(--sb-line); color: var(--sb-fg); }
+.org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-fold-toggle:hover { background: var(--sb-hover); border-color: var(--sb-fg-3); color: var(--sb-fg); }
+.org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-module-count { background: var(--sb-fg); color: var(--sb-bg); }
+.org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-nav-dot { background: var(--sb-fg); }
+@media (min-width: 961px) {
+  .org-app.is-collapsed:is([data-sidebar='brand'], [data-sidebar='deep']) .org-nav-item.is-active { background: var(--sb-fg); }
+  .org-app.is-collapsed:is([data-sidebar='brand'], [data-sidebar='deep']) .org-nav-divider { border-top-color: var(--sb-line); }
+}
+
+/* ---------- نمط الأيقونات (للأيقونات المهيّأة: القائمة والأشكال) ---------- */
+[data-icons='line'] .icon-duo .icon-duo-fill { display: none; }
+[data-icons='solid'] .icon-duo.is-tabler-fill { --icon-fill: var(--icon-line); }
+[data-icons='solid'] .icon-duo.is-path-fill { --icon-fill: color-mix(in srgb, var(--icon-line) 45%, #fff); }
+
+/* ---------- شكل الأيقونة: النمط المختار يحلّ محلّ «الفاتح» الافتراضي ---------- */
+[data-shape='solid'] .icon-shape.is-soft { background: var(--c-brand); color: var(--on-brand, #fff); --icon-line: var(--on-brand, #fff); --icon-fill: color-mix(in srgb, var(--on-brand, #fff) 28%, var(--c-brand)); }
+[data-shape='deep'] .icon-shape.is-soft { background: var(--c-ink); color: #fff; --icon-line: #fff; --icon-fill: color-mix(in srgb, var(--c-brand) 60%, #fff); }
+[data-shape='outline'] .icon-shape.is-soft { background: #fff; border: 1.5px solid var(--c-p-30); }
+[data-shape-form='circle'] .icon-shape { border-radius: 50%; }
+
+/* ---------- شكل الأزرار: كبسولة (الافتراضي) أو حواف دائرية ---------- */
+[data-buttons='rounded'] :is(.org-btn, .dash-btn, .dash-promo-btn, .calm-btn, .org-icon-btn, .tbt-btn) { border-radius: 12px; }
+[data-sidebar='white'] { --sb-bg: #fff; --sb-fg: var(--c-text); --sb-fg-2: var(--c-text-2); --sb-fg-3: var(--c-muted); --sb-hover: var(--c-p-6); --sb-line: var(--c-line); }
+
+/* ============================================================
+   معاينة النمط في الإعدادات (.bm) — قواعد صريحة لكل قيمة حتى لا يتسرّب
+   نمط اللوحة المحيطة إلى المعاينة.
+   ============================================================ */
+.bm { display: grid; grid-template-columns: 132px minmax(0, 1fr); min-height: 220px; border: 1px solid var(--c-line); border-radius: var(--cr-lg); overflow: hidden; background: #fff; }
+.bm-side { background: var(--sb-bg); color: var(--sb-fg); padding: 12px 8px; display: grid; align-content: start; gap: 4px; border-inline-end: 1px solid var(--c-line); }
+.bm-logo { display: flex; align-items: center; gap: 8px; padding: 4px 8px 12px; font-weight: 700; font-size: 13px; color: var(--sb-fg); }
+.bm-logo img { width: 24px; height: 24px; object-fit: contain; border-radius: 6px; background: #fff; }
+.bm-logo .ph { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 6px; background: var(--sb-hover); }
+.bm-nav { display: flex; align-items: center; gap: 8px; min-height: 32px; padding: 0 8px; border-radius: 999px; font-size: 12.5px; color: var(--sb-fg-2); }
+.bm-nav.is-active { background: var(--sb-fg); color: var(--sb-bg); font-weight: 600; }
+.bm[data-sidebar='white'] .bm-nav.is-active { background: var(--c-p-10); color: var(--c-ink); }
+.bm .bm-side .icon-duo { --icon-line: var(--sb-fg); --icon-fill: color-mix(in srgb, var(--sb-fg) 32%, var(--sb-bg)); }
+.bm .bm-side .is-active .icon-duo { --icon-line: var(--sb-bg); --icon-fill: color-mix(in srgb, var(--sb-bg) 26%, var(--sb-fg)); }
+.bm[data-sidebar='white'] .bm-side .icon-duo { --icon-line: var(--c-brand); --icon-fill: color-mix(in srgb, var(--c-brand) 26%, #fff); }
+.bm-main { padding: 16px; display: grid; align-content: start; gap: 12px; }
+.bm-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.bm-stat { display: flex; align-items: center; gap: 8px; padding: 12px; border: 1px solid var(--c-line); border-radius: 12px; font-size: 12px; color: var(--c-text-2); }
+.bm-stat b { display: block; font-size: 16px; color: var(--c-text); }
+.bm-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.bm-btn { display: inline-flex; align-items: center; min-height: 32px; padding: 0 12px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--c-line-2); background: #fff; color: var(--c-text); }
+.bm-btn.is-primary { background: var(--c-brand); border-color: var(--c-brand); color: var(--on-brand, #fff); }
+.bm[data-buttons='pill'] .bm-btn { border-radius: 999px; }
+.bm[data-buttons='rounded'] .bm-btn { border-radius: 12px; }
+/* الأيقونات */
+.bm[data-icons] .icon-duo .icon-duo-fill { display: block; }
+.bm[data-icons='line'] .icon-duo .icon-duo-fill { display: none; }
+.bm[data-icons='solid'] .bm-main .icon-duo.is-tabler-fill { --icon-fill: var(--icon-line); }
+.bm[data-icons='solid'] .bm-main .icon-duo.is-path-fill { --icon-fill: color-mix(in srgb, var(--icon-line) 45%, #fff); }
+/* الأشكال */
+.bm[data-shape] .icon-shape.is-soft { border: 0; }
+.bm[data-shape='soft'] .icon-shape.is-soft { background: var(--c-p-6); --icon-line: var(--c-brand); --icon-fill: color-mix(in srgb, var(--c-brand) 26%, #fff); }
+.bm[data-shape='solid'] .icon-shape.is-soft { background: var(--c-brand); --icon-line: var(--on-brand, #fff); --icon-fill: color-mix(in srgb, var(--on-brand, #fff) 28%, var(--c-brand)); }
+.bm[data-shape='deep'] .icon-shape.is-soft { background: var(--c-ink); --icon-line: #fff; --icon-fill: color-mix(in srgb, var(--c-brand) 60%, #fff); }
+.bm[data-shape='outline'] .icon-shape.is-soft { background: #fff; border: 1.5px solid var(--c-p-30); --icon-line: var(--c-brand); --icon-fill: color-mix(in srgb, var(--c-brand) 26%, #fff); }
+.bm[data-shape-form='square'] .icon-shape { border-radius: 12px; }
+.bm[data-shape-form='circle'] .icon-shape { border-radius: 50%; }
+
+/* خيارات النمط في الإعدادات */
+.theme-group { border: 0; margin: 0 0 16px; padding: 0; }
+.theme-group legend { font-size: 13.5px; font-weight: 600; color: var(--c-text); margin-bottom: 8px; padding: 0; }
+.theme-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.theme-option { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--c-line-2); background: #fff; color: var(--c-text); font: inherit; font-size: 13.5px; cursor: pointer; }
+.theme-option:hover { border-color: var(--c-brand); background: var(--c-p-3); }
+.theme-option[aria-checked='true'] { border-color: var(--c-brand); background: var(--c-p-10); color: var(--c-ink); font-weight: 600; }
+.theme-option:focus-visible { outline: 2px solid var(--c-brand); outline-offset: 2px; }
+.theme-swatch { width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--c-line-2); flex: none; }
+@media (max-width: 860px) { .theme-option { min-height: 44px; } .bm { grid-template-columns: 104px minmax(0, 1fr); } }
+.org-label-strong { display: block; font-size: 14px; font-weight: 600; color: var(--c-text); }
