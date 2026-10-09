@@ -89,3 +89,6 @@
 @media (prefers-reduced-motion: reduce) {
   .au-card { animation: none; }
 }
+/* زر إظهار كلمة المرور: هدف لمس 40px */
+.au-page .lg-eye { inline-size: 40px; block-size: 40px; inset-inline-end: 0.35rem; border-radius: 10px; }
+.au-page .lg-input-wrap input { padding-inline-end: 3rem; }

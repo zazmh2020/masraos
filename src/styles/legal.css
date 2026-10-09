@@ -38,3 +38,5 @@
   font-size: 0.85rem; color: var(--muted, #8b8598);
 }
 .legal-foot a { font-weight: 600; }
+/* أهداف لمس ≥ 40px */
+.legal-foot a { display: inline-flex; align-items: center; min-height: 40px; }

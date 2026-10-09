@@ -183,3 +183,5 @@
 /* برنامج الاستحقاق: لوحة مسطّحة بحدّ خفيف بدل البطاقة الطافية */
 .preview .policy, .preview .durations > div { border: 1px solid var(--gray-200); box-shadow: none; }
 .preview .policy { background: #fff; border-radius: 18px; }
+/* هدف لمس ≥ 40px لزر طيّ برنامج الاستحقاق */
+.preview .policyToggle { display: flex; align-items: center; gap: .5rem; min-height: 44px; }

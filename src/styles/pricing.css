@@ -407,3 +407,5 @@
 @media (prefers-reduced-motion: reduce) {
   .mdl .adv-opt, .mdl .adv-progress-bar span { transition: none; }
 }
+/* أهداف لمس ≥ 40px */
+.billing-opt { min-height: 40px; }
