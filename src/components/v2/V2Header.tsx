@@ -8,17 +8,27 @@ import LangToggle from '@/components/LangToggle';
 import CurrencyToggle from '@/components/CurrencyToggle';
 import { useT } from '@/lib/i18n/LocaleProvider';
 
-// روابط داخل الصفحة + صفحة التواصل — نفس ترتيب الرأس الحالي
+// روابط مطلقة (‎/#قسم‎) لتعمل من الرئيسية وأي صفحة — نفس أقسام الرأس السابق
 const LINKS = [
-  ['#tour', 'nav.platform'],
-  ['#how', 'nav.journey'],
-  ['#roles', 'nav.roles'],
-  ['#pricing', 'nav.pricing'],
+  ['/#systems', 'nav.platform'],
+  ['/#how-it-works', 'nav.journey'],
+  ['/#roles', 'nav.roles'],
+  ['/#pricing', 'nav.pricing'],
   ['/contact', 'nav.contact'],
 ];
 
-/** رأس الصفحة الرئيسية v2: شفاف فوق الواجهة الأولى، صلب بنفسجي عميق عند التمرير، ودرج للجوال. */
-export default function V2Header() {
+type Announcement = { text: string; link: string | null } | null;
+
+/** شريط الإعلان (من لوحة المالك) — نص ثابت هادئ بلا حركة مستمرّة. */
+function AnnounceBar({ a }: { a: NonNullable<Announcement> }) {
+  if (!a.link) return <div className="v2-announce" role="status"><span>{a.text}</span></div>;
+  return a.link.startsWith('/')
+    ? <Link href={a.link} className="v2-announce is-link"><span>{a.text}</span></Link>
+    : <a href={a.link} className="v2-announce is-link" target="_blank" rel="noopener noreferrer"><span>{a.text}</span></a>;
+}
+
+/** رأس الموقع: شفاف فوق الواجهة الأولى، صلب بنفسجي عميق عند التمرير، ودرج للجوال. يُطوى شريط الإعلان عند التمرير. */
+export default function V2Header({ announcement = null }: { announcement?: Announcement }) {
   const t = useT();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -37,8 +47,9 @@ export default function V2Header() {
   return (
     <header className={`v2-header ${scrolled ? 'is-scrolled' : ''}`}>
       <a href="#main" className="v2-skip">{t('v2.skip')}</a>
+      {announcement && <AnnounceBar a={announcement} />}
       <nav className="v2-nav v2-wrap" aria-label={t('nav.menu')}>
-        <Link href="/v2" className="v2-brand" aria-label={t('brand')}>
+        <Link href="/" className="v2-brand" aria-label={t('brand')}>
           <LogoMark size={26} /><span>{t('brand')}</span>
         </Link>
         <div className="v2-nav-links">

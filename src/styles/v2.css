@@ -147,7 +147,7 @@
   max-width: 760px; margin-block: 20px 20px !important;
   font-size: clamp(2.1rem, 1.3rem + 3.2vw, 3.6rem); font-weight: 700; line-height: 1.22; color: var(--white); text-wrap: balance;
 }
-.v2-hero h1 span { color: var(--brand-primary-soft); }
+.v2-hero h1 .v2-hl { color: var(--brand-primary-soft); } /* الشطر المميّز فقط */
 .v2-hero-sub { max-width: 600px; font-size: 18px; line-height: 1.85; color: var(--v2-on-deep); }
 .v2-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-block-start: 32px; }
 .v2-hero-shot { margin-block-start: 64px; }
@@ -375,4 +375,44 @@
 @media (prefers-reduced-motion: reduce) {
   .v2-fade, .v2-drawer[open], .v2-rise, .v2-word > span { animation: none; }
   .v2 * { transition: none !important; }
+}
+
+/* ---------- الرئيسية: عناصر تُدار من لوحة المالك ---------- */
+.v2-contents { display: contents; }
+
+/* شريط الإعلان — نص ثابت (بلا حركة مستمرّة)، يُطوى عند التمرير */
+.v2-announce {
+  display: block; padding: 8px 16px; text-align: center; text-decoration: none;
+  font-size: 13px; font-weight: 500; line-height: 1.55; color: var(--on-brand); background: var(--brand-primary);
+}
+.v2-announce span { display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.v2-announce.is-link:hover span { text-decoration: underline; text-underline-offset: 3px; }
+.v2-header.is-scrolled .v2-announce { display: none; }
+.v2.has-announce .v2-hero { padding-block-start: 192px; }
+
+/* المميزات (homeFeatures) — خطوط فاصلة لا بطاقات */
+.v2-section-rule { padding-block-start: 0; }
+.v2-section-rule > .v2-wrap::before { content: ''; display: block; margin-block-end: 72px; border-block-start: 1px solid var(--v2-line); }
+.v2-feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 40px; }
+.v2-feature { padding-block: 24px; border-block-start: 1px solid var(--v2-line); }
+.v2-feature h3 { font-size: 18px; font-weight: 700; color: var(--v2-deep); }
+.v2-feature p { margin-block-start: 6px; font-size: 14.5px; color: var(--v2-muted); }
+
+/* رأس الصفحات الثانوية (الباقات) */
+.v2-page-hero {
+  padding-block: 152px 72px; color: var(--white);
+  background: radial-gradient(60% 90% at 80% 0%, color-mix(in srgb, var(--brand-primary) 65%, transparent) 0%, transparent 70%), var(--v2-deep);
+}
+[dir='ltr'] .v2-page-hero { background: radial-gradient(60% 90% at 20% 0%, color-mix(in srgb, var(--brand-primary) 65%, transparent) 0%, transparent 70%), var(--v2-deep); }
+.v2-page-hero h1 { max-width: 720px; margin-block: 16px !important; font-size: clamp(2rem, 1.4rem + 2.4vw, 3rem); font-weight: 700; line-height: 1.25; color: var(--white); text-wrap: balance; }
+.v2-page-hero .v2-draft { margin-block-start: 24px; }
+
+@media (max-width: 960px) {
+  .v2-feature-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .v2.has-announce .v2-hero { padding-block-start: 164px; }
+  .v2-feature-grid { grid-template-columns: 1fr; }
+  .v2-section-rule > .v2-wrap::before { margin-block-end: 56px; }
+  .v2-page-hero { padding-block: 112px 56px; }
 }

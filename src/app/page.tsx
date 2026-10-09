@@ -1,410 +1,260 @@
+import type { ReactNode } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import Reveal from '@/components/Reveal';
 import Icon from '@/components/Icon';
-import { LogoMark } from '@/components/Logo';
-import MasraHeader from '@/components/landing/MasraHeader';
-import Mockup from '@/components/landing/Mockup';
-import SystemsShowcase from '@/components/landing/SystemsShowcase';
-import HowItWorks from '@/components/landing/HowItWorks';
-import ProductShowcase from '@/components/landing/ProductShowcase';
-import MasraAIChat from '@/components/landing/MasraAIChat';
+import V2Header from '@/components/v2/V2Header';
+import V2Tour from '@/components/v2/V2Tour';
+import V2Pricing from '@/components/v2/V2Pricing';
+import V2Faq from '@/components/v2/V2Faq';
+import V2Footer from '@/components/v2/V2Footer';
 import MasraAssistant from '@/components/landing/MasraAssistant';
-import PricingPreview from '@/components/landing/PricingPreview';
+import WordReveal from '@/components/v2/motion/WordReveal';
+import ScrollScale from '@/components/v2/motion/ScrollScale';
+import ScrollLine from '@/components/v2/motion/ScrollLine';
 import { getT } from '@/lib/i18n/server';
 import { getPlatformSettings } from '@/lib/platform-settings';
 import { getActiveHeroSlides } from '@/lib/hero';
-import '@/styles/masra.css';
-import '@/styles/pricing.css';
+import '@/styles/masra.css'; // أنماط مساعد الموقع العائم (.mdl-asst)
+import '@/styles/v2.css';
 
-const FEATURES = [
-  { icon: 'organization/organization-structure', k: 'feat.central' },
-  { icon: 'operations/operations-activities', k: 'feat.flexible' },
-  { icon: 'people/people-permissions', k: 'feat.perms' },
-  { icon: 'analytics/analytics-analytics', k: 'feat.reports' },
-  { icon: 'analytics/analytics-growth', k: 'feat.scale' },
-  { icon: 'identity/identity-digital-identity', k: 'feat.arabic' },
-];
+// الصفحة الرئيسية — مبنية وفق «الدليل الشامل»: لقطات حقيقية ببيانات توضيحية، حركة هادئة،
+// وكل ما يُدار من لوحة المالك (الإعلان، شريحة الواجهة، المميزات، الأسئلة، نصوص الهيرو).
 
-const SECURITY: { icon: string; k: string; soon?: boolean }[] = [
-  { icon: 'people/people-permissions', k: 'sec2.perms' },
-  { icon: 'organization/organization-office', k: 'sec2.workspaces' },
-  { icon: 'actions/actions-lock', k: 'sec2.access' },
-  { icon: 'analytics/analytics-reports', k: 'sec2.audit' },
-  { icon: 'identity/identity-security', k: 'sec2.mfa', soon: true },
-  { icon: 'identity/identity-digital-identity', k: 'sec2.sso', soon: true },
-];
+const PILLARS = [['hero.trust.systems', 'v2.pillar.1.d'], ['hero.trust.isolation', 'v2.pillar.2.d'], ['hero.trust.rtl', 'v2.pillar.3.d']];
+const PROBLEMS = ['ps.p1', 'ps.p2', 'ps.p3', 'ps.p4'];
+const ROLES = ['manager', 'teacher', 'staff', 'guardian'];
+const SECURITY: [string, boolean][] = [['sec2.perms', false], ['sec2.workspaces', false], ['sec2.access', false], ['sec2.audit', false], ['sec2.mfa', true], ['sec2.sso', true]];
 
-const INTEGRATIONS = ['int.email', 'int.payment', 'int.whatsapp', 'int.google', 'int.microsoft', 'int.api'];
-
+function Eyebrow({ children, onDeep }: { children: ReactNode; onDeep?: boolean }) {
+  return <span className={`v2-eyebrow ${onDeep ? 'is-onDeep' : ''}`}>{children}</span>;
+}
 
 export default async function HomePage() {
-  // جلب متوازٍ (بدل تسلسلي) — الترجمة والإعدادات وشرائح الهيرو مستقلّة
-  const [{ t, locale }, settings, slides] = await Promise.all([
-    getT(),
-    getPlatformSettings(),
-    getActiveHeroSlides(),
-  ]);
+  const [{ t, locale }, settings, slides] = await Promise.all([getT(), getPlatformSettings(), getActiveHeroSlides()]);
   const slide = slides[0] ?? null; // شريحة الواجهة المنشورة تقود الهيرو إن وُجدت
-
-  // المميزات: محتوى مالك المنصّة إن وُجد، وإلا النصوص الافتراضية (أيقونات دوّارة للمخصّصة)
-  const features = settings.homeFeatures?.length
-    ? settings.homeFeatures.map((f, i) => ({ icon: FEATURES[i % FEATURES.length].icon, title: f.title, desc: f.desc }))
-    : FEATURES.map((f) => ({ icon: f.icon, title: t(`${f.k}.t`), desc: t(`${f.k}.d`) }));
-
-  // الأسئلة الشائعة: محتوى المالك إن وُجد، وإلا الأسئلة الافتراضية
-  const faqs = settings.homeFaqs?.length
-    ? settings.homeFaqs
-    : [1, 2, 3, 4, 5].map((n) => ({ q: t(`faq.q${n}`), a: t(`faq.a${n}`) }));
-
-  const showAnnounce = settings.announcementActive && !!settings.announcement;
-  const demoEnabled = !!process.env.DEMO_LOGIN_EMAIL; // زر «شاهد المنصة» يظهر عند تهيئة حساب العرض
-
-  // محتوى شريط الإعلان المتحرك — نِصفان متطابقان (كلٌّ يكرّر النصّ عدّة مرّات ليملأ العرض)،
-  // والحركة تُزيح بمقدار نصف المسار فيبدو دورانًا متّصلًا بلا فراغ مهما كان طول النصّ.
-  const announceHalf = (side: string) => (
-    <span className="mdl-announce-half" key={side} aria-hidden={side === 'b' || undefined}>
-      {[0, 1, 2, 3].map((i) => (
-        <span className="mdl-announce-run" key={i}>
-          <span>{settings.announcement}</span>
-          <span className="mdl-announce-star" aria-hidden="true">✦</span>
-        </span>
-      ))}
-    </span>
-  );
-  const announceInner = (
-    <span className="mdl-announce-track">
-      {announceHalf('a')}
-      {announceHalf('b')}
-    </span>
-  );
+  const announcement = settings.announcementActive && settings.announcement
+    ? { text: settings.announcement, link: settings.announcementLink || null }
+    : null;
+  const demoEnabled = !!process.env.DEMO_LOGIN_EMAIL;
+  const primaryHref = demoEnabled ? '/api/auth/demo' : '/signup';
+  const primaryLabel = t(demoEnabled ? 'hero.cta.demo' : 'hero.cta.explore');
+  const faqs = settings.homeFaqs?.length ? settings.homeFaqs : [1, 2, 3, 4, 5].map((n) => ({ q: t(`faq.q${n}`), a: t(`faq.a${n}`) }));
 
   return (
-    <div className={`mdl ${showAnnounce ? 'has-announce' : ''}`}>
-      {showAnnounce && (
-        settings.announcementLink
-          ? settings.announcementLink.startsWith('/')
-            ? <Link href={settings.announcementLink} className="mdl-announce is-link">{announceInner}</Link>
-            : <a href={settings.announcementLink} target="_blank" rel="noopener noreferrer" className="mdl-announce is-link">{announceInner}</a>
-          : <div className="mdl-announce" role="status">{announceInner}</div>
-      )}
-      <MasraHeader />
-
-      <main>
-        {/* ========== HERO ========== */}
-        <section id="home" className="mdl-hero">
-          <div className="mdl-wrap mdl-hero-grid">
-            <div>
-              <Reveal><span className="mdl-hero-eyebrow">{t('hero.eyebrow')}</span></Reveal>
-              <Reveal><h1>
-                {slide
-                  ? slide.title
-                  : <>{settings.heroTitle1 || t('hero.title1')}<br /><span className="hl">{settings.heroTitle2 || t('hero.title2')}</span></>}
-              </h1></Reveal>
-              <Reveal delay={0.1}>
-                <p className="mdl-hero-sub">{slide?.subtitle || settings.heroSubtitle || t('hero.sub')}</p>
-              </Reveal>
-              <Reveal delay={0.15}>
-                <p className="mdl-hero-tagline">{t('hero.tagline')}</p>
-              </Reveal>
-              <Reveal delay={0.2}>
-                <div className="mdl-hero-actions">
-                  {slide?.ctaText && slide.ctaLink
-                    ? (slide.ctaLink.startsWith('/')
-                        ? <Link href={slide.ctaLink} className="mdl-btn mdl-btn-light">{slide.ctaText}</Link>
-                        : <a href={slide.ctaLink} className="mdl-btn mdl-btn-light" target="_blank" rel="noopener noreferrer">{slide.ctaText}</a>)
-                    : <a href={demoEnabled ? "/api/auth/demo" : "#systems"} className="mdl-btn mdl-btn-light">{t(demoEnabled ? 'hero.cta.demo' : 'hero.cta.explore')}</a>}
-                  <a href="#pricing" className="mdl-btn mdl-btn-outline-light">{t('nav.pricing')}</a>
-                </div>
-              </Reveal>
-              <Reveal delay={0.3}>
-                <div className="mdl-hero-trust">
-                  <span>{t('hero.trust.systems')}</span>
-                  <span className="sep" />
-                  <span>{t('hero.trust.isolation')}</span>
-                  <span className="sep" />
-                  <span>{t('hero.trust.rtl')}</span>
-                </div>
-              </Reveal>
-            </div>
-
-            <Reveal delay={0.2} y={30}>
-              <div className="mdl-hero-stage">
-                <span className="mdl-demo-tag">{t('mockup.demo')}</span>
-                {/* مكدّس بطاقات مائل: واجهات متراكبة بزوايا */}
-                <div className="mdl-fan">
-                  <div className="mdl-fan-card back-2"><Mockup kind="reports" /></div>
-                  <div className="mdl-fan-card back-1"><Mockup kind="org" /></div>
-                  <div className="mdl-fan-card front"><Mockup kind="education" /></div>
-                </div>
-                <div className="mdl-float mdl-float-1">
-                  <span className="fic brand"><Icon name="analytics/analytics-growth" size={17} /></span>
-                  <div><div className="ftitle">{t('hero.float.completion')}</div><div className="fval">86%</div></div>
-                </div>
-                <div className="mdl-float mdl-float-2">
-                  <span className="fic gold"><Icon name="analytics/analytics-reports" size={17} /></span>
-                  <div><div className="ftitle">{t('hero.float.report')}</div><div className="fval">{t('hero.float.reportVal')}</div></div>
-                </div>
-                <div className="mdl-float mdl-float-3">
-                  <span className="fic brand"><Icon name="people/people-users" size={17} /></span>
-                  <div><div className="ftitle">{t('hero.float.newMembers')}</div><div className="fval">+12</div></div>
-                </div>
+    <div className={`v2 ${announcement ? 'has-announce' : ''}`}>
+      <V2Header announcement={announcement} />
+      <main id="main">
+        {/* 01 — الواجهة الأولى: رسالة واحدة + لقطة حقيقية */}
+        <section id="home" className="v2-hero">
+          <div className="v2-wrap v2-hero-copy">
+            <div className="v2-rise"><Eyebrow onDeep>{t('hero.eyebrow')}</Eyebrow></div>
+            <h1>
+              {slide
+                ? <WordReveal text={slide.title} delay={0.05} />
+                : <>
+                    <WordReveal text={settings.heroTitle1 || t('hero.title1')} delay={0.05} />{' '}
+                    <span className="v2-hl"><WordReveal text={settings.heroTitle2 || t('hero.title2')} delay={0.3} /></span>
+                  </>}
+            </h1>
+            <p className="v2-hero-sub v2-rise" style={{ animationDelay: '0.45s' }}>{slide?.subtitle || settings.heroSubtitle || t('hero.sub')}</p>
+            <div className="v2-rise" style={{ animationDelay: '0.55s' }}>
+              <div className="v2-actions">
+                {slide?.ctaText && slide.ctaLink
+                  ? (slide.ctaLink.startsWith('/')
+                      ? <Link href={slide.ctaLink} className="v2-btn v2-btn-light">{slide.ctaText}</Link>
+                      : <a href={slide.ctaLink} className="v2-btn v2-btn-light" target="_blank" rel="noopener noreferrer">{slide.ctaText}</a>)
+                  : <a href={primaryHref} className="v2-btn v2-btn-light">{primaryLabel}</a>}
+                <a href="#pricing" className="v2-link v2-link-onDeep">{t('nav.pricing')} <span className="v2-arrow" aria-hidden="true">←</span></a>
               </div>
-            </Reveal>
-          </div>
-        </section>
-
-
-        {/* ========== PROBLEM → SOLUTION ========== */}
-        <section className="mdl-section" style={{ background: 'var(--white)' }}>
-          <div className="mdl-wrap">
-            <Reveal>
-              <div className="mdl-center">
-                <span className="mdl-eyebrow">{t('sec.ps.eyebrow')}</span>
-                <h2 className="mdl-h2">{t('sec.ps.title')}</h2>
-              </div>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <div className="mdl-ps" style={{ marginTop: '2.5rem' }}>
-                <div className="mdl-problems">
-                  {['ps.p1', 'ps.p2', 'ps.p3', 'ps.p4'].map((k) => (
-                    <div key={k} className="mdl-prob"><span className="x"><Icon name="close" size={16} /></span><span>{t(k)}</span></div>
-                  ))}
-                </div>
-                <div className="mdl-solution">
-                  <h3>{t('ps.sol.title')}</h3>
-                  <p>{t('ps.sol.desc')}</p>
-                  <a href="#how-it-works" className="mdl-btn mdl-btn-light">{t('sec.how.eyebrow')}</a>
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </section>
-
-        {/* ========== SYSTEMS (interactive) ========== */}
-        <section id="systems" className="mdl-section">
-          <div className="mdl-wrap">
-            <Reveal>
-              <div className="mdl-center">
-                <span className="mdl-eyebrow">{t('sec.systems.eyebrow')}</span>
-                <h2 className="mdl-h2">{t('sec.systems.title')}</h2>
-                <p className="mdl-lead">{t('sec.systems.lead')}</p>
-              </div>
-            </Reveal>
-            <SystemsShowcase />
-          </div>
-        </section>
-
-        {/* ========== HOW IT WORKS ========== */}
-        <section id="how-it-works" className="mdl-section" style={{ background: 'var(--white)' }}>
-          <div className="mdl-wrap">
-            <Reveal>
-              <div className="mdl-center">
-                <span className="mdl-eyebrow">{t('sec.how.eyebrow')}</span>
-                <h2 className="mdl-h2">{t('sec.how.title')}</h2>
-                <p className="mdl-lead">{t('sec.how.lead')}</p>
-              </div>
-            </Reveal>
-            <HowItWorks />
-          </div>
-        </section>
-
-        {/* ========== PRODUCT SHOWCASE ========== */}
-        <section id="roles" className="mdl-section">
-          <div className="mdl-wrap">
-            <Reveal>
-              <div className="mdl-center">
-                <span className="mdl-eyebrow">{t('sec.product.eyebrow')}</span>
-                <h2 className="mdl-h2">{t('sec.product.title')}</h2>
-                <p className="mdl-lead">{t('sec.product.lead')}</p>
-              </div>
-            </Reveal>
-            <ProductShowcase />
-          </div>
-        </section>
-
-        {/* ========== MASRA AI ========== */}
-        <section id="ai" className="mdl-section mdl-ai">
-          <div className="mdl-wrap mdl-ai-grid">
-            <Reveal>
-              <div>
-                <span className="mdl-eyebrow">{t('sec.ai.eyebrow')}</span>
-                <h2 className="mdl-h2">{t('sec.ai.title')}</h2>
-                <p className="mdl-lead">{t('sec.ai.lead')}</p>
-                <div className="mdl-hero-actions">
-                  <a href="#pricing" className="mdl-btn mdl-btn-primary">{t('sec.ai.cta')}</a>
-                </div>
-              </div>
-            </Reveal>
-            <Reveal delay={0.15} y={30}><MasraAIChat /></Reveal>
-          </div>
-        </section>
-
-        {/* ========== PRICING ========== */}
-        <section id="pricing" className="mdl-section">
-          <div className="mdl-wrap">
-            <Reveal>
-              <div className="mdl-center">
-                <span className="mdl-eyebrow">{t('sec.pricing.eyebrow')}</span>
-                <h2 className="mdl-h2">{t('sec.pricing.title')}</h2>
-                <p className="mdl-lead">{t('sec.pricing.lead')}</p>
-              </div>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <PricingPreview />
-            </Reveal>
-          </div>
-        </section>
-
-        {/* ========== FEATURES ========== */}
-        {settings.homeFeatures?.length ? <section className="mdl-section">
-          <div className="mdl-wrap">
-            <Reveal>
-              <div className="mdl-center">
-                <span className="mdl-eyebrow">{t('sec.features.eyebrow')}</span>
-                <h2 className="mdl-h2">{t('sec.features.title')}</h2>
-              </div>
-            </Reveal>
-            <div className="mdl-feats">
-              {features.map((f, i) => (
-                <Reveal key={i} delay={(i % 3) * 0.06}>
-                  <div className="mdl-feat">
-                    <span className="fi"><Icon name={f.icon} size={22} /></span>
-                    <h4>{f.title}</h4>
-                    <p>{f.desc}</p>
-                  </div>
-                </Reveal>
-              ))}
             </div>
           </div>
-        </section> : null}
+          <ScrollScale className="v2-wrap v2-hero-shot">
+            <figure className="v2-hero-fig v2-rise" style={{ animationDelay: '0.35s' }}>
+              <div className="v2-frame">
+                <div className="v2-frame-bar" aria-hidden="true"><i /><i /><i /><span dir="ltr">masraos.com</span></div>
+                <Image src={`/v2/dashboard-${locale}.webp`} width={1920} height={1200} priority sizes="(max-width: 1200px) 100vw, 1160px"
+                  alt={t('v2.shot.tag')} className="v2-shot-img" />
+              </div>
+              <figcaption className="v2-tag">{t('v2.shot.tag')}</figcaption>
+            </figure>
+          </ScrollScale>
+        </section>
 
-        {/* ========== SECURITY ========== */}
-        <section className="mdl-section mdl-sec">
-          <div className="mdl-wrap mdl-sec-grid">
-            <Reveal>
-              <div>
-                <span className="mdl-eyebrow">{t('sec.security.eyebrow')}</span>
-                <h2 className="mdl-h2">{t('sec.security.title')}</h2>
-                <p className="mdl-lead" style={{ marginBottom: '1.5rem' }}>{t('sec.security.lead')}</p>
-                <div className="mdl-sec-list">
-                  {SECURITY.map((s) => (
-                    <div key={s.k} className="mdl-sec-item"><Icon name={s.icon} size={20} /><span>{t(s.k)}{s.soon && <span className="mdl-soon">{t('badge.soon')}</span>}</span></div>
-                  ))}
-                </div>
-              </div>
-            </Reveal>
-            <Reveal delay={0.15}>
-              <div className="mdl-shield">
-                <div className="mdl-shield-wrap">
-                  <span className="ring" /><span className="ring two" />
-                  <Icon name="verified" size={48} />
-                </div>
-              </div>
-            </Reveal>
+        <section className="v2-pillars" aria-label={t('hero.eyebrow')}>
+          <div className="v2-wrap v2-pillars-row">
+            {PILLARS.map(([k, d]) => <div key={k}><b>{t(k)}</b><span>{t(d)}</span></div>)}
           </div>
         </section>
 
-        {/* ========== PLATFORM VALUE + AUDIENCES ========== */}
-        <section id="platform" className="mdl-section">
-          <div className="mdl-wrap mdl-center">
+        {/* 02 — المشكلة والحل */}
+        <section className="v2-section">
+          <div className="v2-wrap v2-split">
             <Reveal>
-              <span className="mdl-eyebrow">{t('sec.platform.eyebrow')}</span>
-              <h2 className="mdl-h2">{t('sec.platform.title')}</h2>
-              <p className="mdl-lead">{t('sec.platform.lead')}</p>
+              <Eyebrow>{t('sec.ps.eyebrow')}</Eyebrow>
+              <h2 className="v2-h2">{t('sec.ps.title')}</h2>
+              <p className="v2-lead">{t('ps.sol.desc')}</p>
             </Reveal>
             <Reveal delay={0.1}>
-              {/* القطاع المتاح فقط، والبقية سطر ثانوي واحد بدل شارات «قريبًا» متكرّرة */}
-              <div className="mdl-chips">
-                <span className="mdl-chip"><Icon name="education/education-quran" className="ic" size={17} />{t('aud.quran')}<span className="mdl-soon">{t('aud.available')}</span></span>
-              </div>
-              <p className="mdl-lead" style={{ marginTop: '1rem', fontSize: '0.95rem' }}>{t('aud.later')}</p>
+              <ol className="v2-numbered">
+                {PROBLEMS.map((k, i) => <li key={k}><span className="v2-num">{String(i + 1).padStart(2, '0')}</span><span>{t(k)}</span></li>)}
+              </ol>
             </Reveal>
           </div>
         </section>
 
-        {/* ========== INTEGRATIONS ========== */}
-        <section className="mdl-section" style={{ background: 'var(--white)' }}>
-          <div className="mdl-wrap mdl-center">
-            <Reveal>
-              <span className="mdl-eyebrow">{t('sec.integrations.eyebrow')}</span>
-              <h2 className="mdl-h2">{t('sec.integrations.title')}</h2>
-              <p className="mdl-lead">{t('sec.integrations.lead')}</p>
+        {/* 03 — جولة المنتج: لقطات حقيقية */}
+        <section id="systems" className="v2-section v2-tint">
+          <div className="v2-wrap">
+            <Reveal className="v2-head">
+              <Eyebrow>{t('sec.systems.eyebrow')}</Eyebrow>
+              <h2 className="v2-h2">{t('v2.tour.title')}</h2>
+              <p className="v2-lead">{t('v2.tour.lead')}</p>
             </Reveal>
+            <Reveal delay={0.1}><V2Tour /></Reveal>
           </div>
-          {/* قائمة ثابتة (بلا شريط متحرك) — التكاملات مخطط لها وليست مفعّلة */}
-          <div className="mdl-wrap">
-            <ul className="mdl-chips" aria-label={t('sec.integrations.title')} style={{ listStyle: 'none', padding: 0 }}>
-              {INTEGRATIONS.map((n) => (
-                <li key={n} className="mdl-int"><Icon name="actions/actions-link" size={18} />{t(n)}</li>
+        </section>
+
+        {/* 04 — كيف يعمل */}
+        <section id="how-it-works" className="v2-section">
+          <div className="v2-wrap">
+            <Reveal className="v2-head">
+              <Eyebrow>{t('sec.how.eyebrow')}</Eyebrow>
+              <h2 className="v2-h2">{t('sec.how.title')}</h2>
+              <p className="v2-lead">{t('sec.how.lead')}</p>
+            </Reveal>
+            <ScrollLine className="v2-steps">
+              {[1, 2, 3, 4, 5].map((n) => (
+                <li key={n}>
+                  <Reveal delay={n * 0.05}><span className="v2-step-num">{n}</span><h3>{t(`how.${n}.t`)}</h3><p>{t(`how.${n}.d`)}</p></Reveal>
+                </li>
               ))}
-            </ul>
+            </ScrollLine>
           </div>
         </section>
 
-        {/* ========== FAQ ========== */}
-        <section id="faq" className="mdl-section" style={{ background: 'var(--white)' }}>
-          <div className="mdl-wrap mdl-faq-wrap">
-            <Reveal>
-              <div className="mdl-center">
-                <span className="mdl-eyebrow">{t('sec.faq.eyebrow')}</span>
-                <h2 className="mdl-h2">{t('sec.faq.title')}</h2>
-                <p className="mdl-lead">{t('sec.faq.lead')}</p>
-              </div>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <div className="mdl-faq">
-                {faqs.map((f, i) => (
-                  <details key={i} className="mdl-faq-item">
-                    <summary>{f.q}<span className="mdl-faq-mark" aria-hidden="true" /></summary>
-                    <div className="mdl-faq-a">{f.a}</div>
-                  </details>
+        {/* المميزات — من لوحة المالك عند إضافتها */}
+        {settings.homeFeatures?.length ? (
+          <section id="features" className="v2-section v2-section-rule">
+            <div className="v2-wrap">
+              <Reveal className="v2-head">
+                <Eyebrow>{t('sec.features.eyebrow')}</Eyebrow>
+                <h2 className="v2-h2">{t('sec.features.title')}</h2>
+              </Reveal>
+              <div className="v2-feature-grid">
+                {settings.homeFeatures.map((f, i) => (
+                  <Reveal key={i} delay={(i % 3) * 0.05}>
+                    <div className="v2-feature"><h3>{f.title}</h3><p>{f.desc}</p></div>
+                  </Reveal>
                 ))}
               </div>
+            </div>
+          </section>
+        ) : null}
+
+        {/* 05 — الأدوار + الجوال */}
+        <section id="roles" className="v2-section v2-tint">
+          <div className="v2-wrap v2-roles">
+            <div>
+              <Reveal>
+                <Eyebrow>{t('sec.product.eyebrow')}</Eyebrow>
+                <h2 className="v2-h2">{t('sec.product.title')}</h2>
+                <p className="v2-lead">{t('v2.roles.lead')}</p>
+              </Reveal>
+              <div className="v2-role-grid">
+                {ROLES.map((r, i) => (
+                  <Reveal key={r} delay={i * 0.05}>
+                    <div className="v2-role">
+                      <h3>{t(`v2.roles.${r}.t`)}</h3>
+                      <p>{t(`v2.roles.${r}.d`)}</p>
+                      <ul className="v2-checks">{[1, 2, 3].map((n) => <li key={n}><Icon name="check" size={16} />{t(`v2.roles.${r}.b${n}`)}</li>)}</ul>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+            <Reveal delay={0.15} y={28}>
+              <figure className="v2-phone">
+                <Image src={`/v2/mobile-${locale}.webp`} width={600} height={1298} sizes="300px" alt={t('v2.roles.phone')} className="v2-shot-img" />
+                <figcaption className="v2-tag">{t('v2.roles.phone')}</figcaption>
+              </figure>
             </Reveal>
           </div>
         </section>
 
-        {/* ========== FINAL CTA ========== */}
-        <section className="mdl-cta">
-          <div className="mdl-wrap mdl-cta-inner">
+        {/* 06 — المساعد والأمان */}
+        <section id="ai" className="v2-section v2-deep">
+          <div className="v2-wrap v2-duo">
+            <Reveal>
+              <div className="v2-duo-col">
+                <Eyebrow onDeep>{t('sec.ai.eyebrow')}</Eyebrow>
+                <h2 className="v2-h2">{t('sec.ai.title')}</h2>
+                <p className="v2-lead">{t('sec.ai.lead')}</p>
+              </div>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <div className="v2-duo-col">
+                <Eyebrow onDeep>{t('sec.security.eyebrow')}</Eyebrow>
+                <h2 className="v2-h2">{t('sec.security.title')}</h2>
+                <p className="v2-lead">{t('sec.security.lead')}</p>
+                <ul className="v2-sec-list">
+                  {SECURITY.map(([k, soon]) => (
+                    <li key={k}><Icon name="check" size={16} />{t(k)}{soon && <span className="v2-soon">{t('badge.soon')}</span>}</li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* 07 — الباقات */}
+        <section id="pricing" className="v2-section">
+          <div className="v2-wrap">
+            <Reveal className="v2-head">
+              <Eyebrow>{t('sec.pricing.eyebrow')}</Eyebrow>
+              <h2 className="v2-h2">{t('sec.pricing.title')}</h2>
+              <p className="v2-lead">{t('sec.pricing.lead')}</p>
+              <span className="v2-draft">{t('v2.pricing.tag')}</span>
+            </Reveal>
+            <Reveal delay={0.1}><V2Pricing /></Reveal>
+          </div>
+        </section>
+
+        {/* 08 — الأسئلة الشائعة */}
+        <section id="faq" className="v2-section v2-tint">
+          <div className="v2-wrap v2-split">
+            <Reveal>
+              <Eyebrow>{t('sec.faq.eyebrow')}</Eyebrow>
+              <h2 className="v2-h2">{t('sec.faq.title')}</h2>
+              <p className="v2-lead">{t('sec.faq.lead')}</p>
+              <p className="v2-faq-more">{t('v2.faq.more')} <Link href="/contact" className="v2-link">{t('cta.contact')} <span className="v2-arrow" aria-hidden="true">←</span></Link></p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <V2Faq items={faqs} />
+            </Reveal>
+          </div>
+        </section>
+
+        {/* 09 — الدعوة الأخيرة */}
+        <section className="v2-cta">
+          <div className="v2-wrap v2-cta-inner">
             <Reveal>
               <h2>{t('cta.title')}</h2>
               <p>{t('cta.lead')}</p>
-              <div className="mdl-cta-actions">
-                <a href="#systems" className="mdl-btn mdl-btn-light">{t('hero.cta.explore')}</a>
-                <Link href="/contact" className="mdl-btn mdl-btn-outline-light">{t('cta.contact')}</Link>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <div className="v2-actions">
+                <a href={primaryHref} className="v2-btn v2-btn-light">{primaryLabel}</a>
+                <Link href="/contact" className="v2-link v2-link-onDeep">{t('cta.contact')} <span className="v2-arrow" aria-hidden="true">←</span></Link>
               </div>
             </Reveal>
           </div>
         </section>
       </main>
 
-      {/* ========== FOOTER ========== */}
-      <footer id="about" className="mdl-footer">
-        <div className="mdl-wrap">
-          <div className="mdl-footer-grid">
-            <div>
-              <div className="fb-name"><LogoMark size={26} className="mark" /> {t('brand')}</div>
-              <p className="fb-desc">{t('footer.desc')}</p>
-            </div>
-            <div>
-              <h5>{t('footer.col.platform')}</h5>
-              <ul><li><a href="#platform">{t('footer.overview')}</a></li><li><a href="#systems">{t('nav.systems')}</a></li><li><a href="#ai">{t('nav.ai')}</a></li></ul>
-            </div>
-            <div>
-              <h5>{t('footer.col.solutions')}</h5>
-              <ul><li><a href="#platform">{t('nav.orgs')}</a></li><li><a href="#how-it-works">{t('nav.journey')}</a></li><li><a href="#roles">{t('nav.roles')}</a></li></ul>
-            </div>
-            <div>
-              <h5>{t('footer.col.support')}</h5>
-              <ul><li><Link href="/login">{t('nav.login')}</Link></li><li><Link href="/contact">{t('footer.contact')}</Link></li><li><Link href="/privacy">{t('footer.privacy')}</Link></li><li><Link href="/terms">{t('footer.terms')}</Link></li></ul>
-            </div>
-          </div>
-          <div className="mdl-footer-bottom">{t('footer.rights')}</div>
-        </div>
-      </footer>
-
-      <MasraAssistant />
+      <V2Footer />
+      {/* مساعد الموقع العائم — أنماطه تحت .mdl؛ display:contents يمرّر المتغيّرات دون صندوق */}
+      <div className="mdl v2-contents"><MasraAssistant /></div>
     </div>
   );
 }
