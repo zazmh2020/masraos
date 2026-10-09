@@ -74,7 +74,6 @@ export default async function HomePage() {
                 <div className="v2-frame-bar" aria-hidden="true"><i /><i /><i /><span dir="ltr">masraos.com</span></div>
                 <picture>
                   <source media="(max-width: 640px)" srcSet={mobileShot} sizes="320px" />
-                  {/* eslint-disable-next-line @next/next/no-img-element -- picture للتوجيه الفني (getImageProps) */}
                   <img {...heroShot} alt={shotAlt} className="v2-shot-img v2-hero-img" />
                 </picture>
               </div>
