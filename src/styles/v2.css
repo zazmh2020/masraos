@@ -513,3 +513,15 @@
 @media (max-width: 640px) {
   .v2-roles .v2-phone { display: none; } /* لقطة الجوال ظاهرة في الهيرو — لا تكرار */
 }
+
+/* الهيرو موسّط: العنوان الصغير والعنوان والوصف والأزرار في منتصف الصفحة */
+.v2-hero-copy { text-align: center; }
+.v2-hero-copy .v2-eyebrow::after { content: ''; inline-size: 24px; block-size: 2px; border-radius: 2px; background: var(--brand-primary-medium); }
+.v2-hero h1, .v2-hero .v2-hero-sub { margin-inline: auto; }
+.v2-hero .v2-actions { justify-content: center; }
+.v2-hero::before,
+[dir='ltr'] .v2-hero::before {
+  background:
+    radial-gradient(60% 70% at 50% 0%, color-mix(in srgb, var(--brand-primary) 70%, transparent) 0%, transparent 70%),
+    var(--v2-deep);
+}
