@@ -1,61 +1,62 @@
 /* =========================================================
-   الدخول وإنشاء الحساب — الدليل ص25–26
-   جانب بنفسجي (الرسالة) + جانب فاتح (بطاقة صلبة) · لا زجاج ولا عناصر عائمة
-   البطاقة وحقولها من login.css/signup.css؛ هنا الغلاف وبعض التعديلات فقط
+   الدخول وإنشاء الحساب — بطاقة واحدة في المنتصف على خلفية بنفسجية عميقة
+   نفس توهّج الصفحة الرئيسية · بطاقة صلبة (لا زجاج) · بلا عناصر عائمة متحركة
+   حقول البطاقة وأزرارها من login.css/signup.css؛ هنا الغلاف والتعديلات فقط
    ========================================================= */
 
 .au-page {
   min-height: 100vh; min-height: 100dvh;
-  display: grid; grid-template-columns: minmax(360px, 42%) 1fr;
-  font-family: var(--font-body); color: var(--masra-ink); background: var(--brand-primary-subtle);
+  display: grid; grid-template-rows: auto 1fr auto;
+  padding: 20px 24px; font-family: var(--font-body); color: var(--white);
+  background:
+    radial-gradient(60% 55% at 50% 0%, color-mix(in srgb, var(--brand-primary) 70%, transparent) 0%, transparent 72%),
+    var(--brand-primary-dark);
 }
 .au-page *, .au-page *::before, .au-page *::after { box-sizing: border-box; }
 
-/* ---------- الجانب البنفسجي ---------- */
-.au-panel {
-  display: flex; flex-direction: column; justify-content: space-between; gap: 48px;
-  padding: 40px 48px; color: var(--white);
-  background: radial-gradient(70% 55% at 85% 0%, color-mix(in srgb, var(--brand-primary) 70%, transparent) 0%, transparent 70%), var(--brand-primary-dark);
-}
-[dir='ltr'] .au-panel { background: radial-gradient(70% 55% at 15% 0%, color-mix(in srgb, var(--brand-primary) 70%, transparent) 0%, transparent 70%), var(--brand-primary-dark); }
-.au-brand { display: inline-flex; align-items: center; gap: 10px; inline-size: fit-content; color: var(--white); font-weight: 700; font-size: 19px; text-decoration: none; }
-.au-brand-mark { display: grid; place-items: center; inline-size: 40px; block-size: 40px; border-radius: 12px; background: color-mix(in srgb, #fff 10%, var(--brand-primary-dark)); }
-.au-panel-title {
-  max-width: 440px; margin: 0; font-family: var(--font-display);
-  font-size: clamp(1.8rem, 1.1rem + 1.7vw, 2.6rem); font-weight: 700; line-height: 1.3; text-wrap: balance;
-}
-.au-panel-title span { color: var(--brand-primary-soft); }
-.au-panel-sub { margin: 16px 0 0; font-size: 17px; color: color-mix(in srgb, #fff 78%, transparent); }
-.au-panel-steps { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 10px; max-width: 440px; }
-.au-panel-steps li {
-  display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 14px; font-size: 15px;
-  background: color-mix(in srgb, #fff 6%, var(--brand-primary-dark)); border: 1px solid color-mix(in srgb, #fff 12%, transparent);
-}
-.au-panel-steps i {
-  flex: none; display: grid; place-items: center; inline-size: 26px; block-size: 26px; border-radius: 50%;
-  font-style: normal; font-size: 13px; font-weight: 700; color: var(--brand-primary-soft); border: 1.5px solid var(--brand-primary-medium);
-}
-.au-panel-foot { margin: 0; font-size: 13px; color: color-mix(in srgb, #fff 55%, transparent); }
-
-/* ---------- الجانب الفاتح ---------- */
-.au-side { display: flex; flex-direction: column; min-width: 0; padding: 24px 32px 40px; }
-.au-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+/* الشريط العلوي */
+.au-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; inline-size: 100%; max-inline-size: 1200px; margin-inline: auto; }
 .au-home {
   display: inline-flex; align-items: center; gap: 8px; min-block-size: 40px;
-  font-size: 14.5px; font-weight: 600; color: var(--brand-primary); text-decoration: none;
+  font-size: 14.5px; font-weight: 600; color: color-mix(in srgb, #fff 85%, transparent); text-decoration: none;
 }
-.au-home:hover { text-decoration: underline; text-underline-offset: 4px; }
-.au-top .lang-toggle { inline-size: 40px; block-size: 40px; background: var(--white); border-color: var(--gray-200); }
-.au-main { flex: 1; display: grid; place-items: center; padding-block: 32px 0; }
+.au-home:hover { color: var(--white); text-decoration: underline; text-underline-offset: 4px; }
+.au-top .lang-toggle { inline-size: 40px; block-size: 40px; color: var(--white); border-color: transparent; background: color-mix(in srgb, #fff 10%, transparent); }
+.au-top .lang-toggle:hover { color: var(--white); background: color-mix(in srgb, #fff 18%, transparent); border-color: transparent; }
 .au-arrow { display: inline-block; }
 [dir='ltr'] .au-page .au-arrow { transform: scaleX(-1); }
 
-/* البطاقة: صلبة بحدّ خفيف (الظل للعناصر الطافية فقط) — دخول هادئ بـ CSS */
-.lg-card.au-card { box-shadow: none; border: 1px solid var(--gray-200); animation: au-rise 0.5s var(--ease-out) both; }
-.au-card .lg-head { text-align: start; }
-.au-card .su-steps { justify-content: flex-start; }
-.au-card .lg-switch, .au-card .su-switch { text-align: start; }
+/* البطاقة في المنتصف */
+.au-main { display: grid; place-items: center; padding-block: 32px; }
+.lg-card.au-card {
+  inline-size: 100%; max-inline-size: 440px; padding: 40px 36px 32px; border: 0; border-radius: 24px;
+  background: var(--white); color: var(--masra-ink);
+  box-shadow: 0 30px 80px -40px color-mix(in srgb, #000 70%, transparent);
+  animation: au-rise 0.5s var(--ease-out) both;
+}
+.lg-card.au-card.su-card { max-inline-size: 500px; }
 @keyframes au-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+.au-brand {
+  display: flex; align-items: center; justify-content: center; gap: 10px; inline-size: fit-content;
+  min-block-size: 40px; margin: 0 auto 20px; text-decoration: none;
+  font-family: var(--font-display); font-size: 21px; font-weight: 700; color: var(--brand-primary-dark);
+}
+.au-brand-mark {
+  display: grid; place-items: center; inline-size: 44px; block-size: 44px; border-radius: 13px;
+  color: var(--white); background: var(--brand-primary-dark);
+}
+.au-card .lg-head { text-align: center; }
+.au-card .su-steps { justify-content: center; }
+.au-card :is(.lg-switch, .su-switch) { text-align: center; }
+
+.au-foot { margin: 0; text-align: center; font-size: 13px; color: color-mix(in srgb, #fff 55%, transparent); }
+.au-page :is(a, button):focus-visible { outline: 2px solid var(--brand-primary-soft); outline-offset: 3px; }
+.au-card :is(a, button, input):focus-visible { outline-color: var(--brand-primary-medium); }
+
+/* زر إظهار كلمة المرور: هدف لمس 40px */
+.au-page .lg-eye { inline-size: 40px; block-size: 40px; inset-inline-end: 0.35rem; border-radius: 10px; }
+.au-page .lg-input-wrap input { padding-inline-end: 3rem; }
 
 /* رمز التحقق: ست خانات فوق حقل واحد حقيقي — يحافظ على التعبئة التلقائية واللصق */
 .su-otp-wrap { position: relative; display: block; direction: ltr; }
@@ -75,20 +76,12 @@
 .su-otp-wrap:focus-within .su-otp-box.is-next { border-color: var(--brand-primary); box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-primary) 18%, transparent); }
 .su-otp-wrap[data-invalid='true'] .su-otp-box { border-color: var(--error); }
 
-@media (max-width: 960px) {
-  .au-page { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
-  .au-panel { padding: 14px 20px; gap: 0; }
-  .au-panel-copy, .au-panel-foot { display: none; }
-  .au-side { padding: 12px 16px 32px; }
-  .au-main { place-items: start center; padding-block: 16px 0; }
-}
 @media (max-width: 480px) {
-  .lg-card.au-card { padding: 1.6rem 1.2rem; border-radius: 18px; }
+  .au-page { padding: 12px 12px 16px; }
+  .au-main { padding-block: 20px; place-items: start center; }
+  .lg-card.au-card { padding: 28px 20px 24px; border-radius: 20px; }
   .su-otp-box { block-size: 48px; font-size: 1.3rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .au-card { animation: none; }
+  .lg-card.au-card { animation: none; }
 }
-/* زر إظهار كلمة المرور: هدف لمس 40px */
-.au-page .lg-eye { inline-size: 40px; block-size: 40px; inset-inline-end: 0.35rem; border-radius: 10px; }
-.au-page .lg-input-wrap input { padding-inline-end: 3rem; }

@@ -50,72 +50,70 @@ export default function LoginPage() {
   }
 
   return (
-    <AuthShell variant="login">
-      <div className="lg-card au-card">
+    <AuthShell>
 
-        <div className="lg-head">
-          <h1>{t('login.welcome')}</h1>
-          <p>{t('login.sub')}</p>
-        </div>
+      <div className="lg-head">
+        <h1>{t('login.welcome')}</h1>
+        <p>{t('login.sub')}</p>
+      </div>
 
-        <form onSubmit={handleSubmit} noValidate>
-          {error && (
-            <div className="lg-error" role="alert">
-              <Icon name="alert" size={16} />
-              <span>{error}</span>
-            </div>
-          )}
-
-          <label className="lg-field">
-            <span className="lg-label">{t('login.email')}</span>
-            <input
-              type="email" autoComplete="email" placeholder="name@example.com"
-              value={email} onChange={(e) => setEmail(e.target.value)}
-            />
-          </label>
-
-          <label className="lg-field">
-            <span className="lg-label">{t('login.password')}</span>
-            <span className="lg-input-wrap">
-              <input
-                type={showPw ? 'text' : 'password'} autoComplete="current-password" placeholder="••••••••"
-                value={password} onChange={(e) => setPassword(e.target.value)}
-              />
-              <button type="button" className="lg-eye" onClick={() => setShowPw(!showPw)} aria-label={showPw ? 'إخفاء' : 'إظهار'}>
-                <Icon name={showPw ? 'hide' : 'view'} size={20} />
-              </button>
-            </span>
-          </label>
-
-          <label className="lg-remember">
-            <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
-            {t('login.remember')}
-          </label>
-
-          <button className="lg-submit" type="submit" disabled={busy}>
-            {busy ? t('login.submitting') : t('login.submit')}
-            {!busy && <span className="au-arrow" aria-hidden="true">←</span>}
-          </button>
-        </form>
-
-        <p className="lg-switch">{t('login.noAccount')} <Link href="/signup">{t('login.createAccount')}</Link></p>
-
-        {/* حسابات الدخول التجريبية — للتطوير المحلّي فقط، تُخفى في الإنتاج */}
-        {process.env.NODE_ENV !== 'production' && (
-          <div className="lg-demo">
-            <div className="lg-demo-head"><span>{t('login.demo.head')}</span></div>
-            <div className="lg-demo-grid">
-              {DEMO_ACCOUNTS.map((a) => (
-                <a key={a.email} className="lg-demo-btn" href={`/api/auth/dev-login?email=${encodeURIComponent(a.email)}`}>
-                  <span className="lg-demo-label">{a.label}</span>
-                  <span className="lg-demo-role">{a.role}</span>
-                </a>
-              ))}
-            </div>
+      <form onSubmit={handleSubmit} noValidate>
+        {error && (
+          <div className="lg-error" role="alert">
+            <Icon name="alert" size={16} />
+            <span>{error}</span>
           </div>
         )}
 
-      </div>
+        <label className="lg-field">
+          <span className="lg-label">{t('login.email')}</span>
+          <input
+            type="email" autoComplete="email" placeholder="name@example.com"
+            value={email} onChange={(e) => setEmail(e.target.value)}
+          />
+        </label>
+
+        <label className="lg-field">
+          <span className="lg-label">{t('login.password')}</span>
+          <span className="lg-input-wrap">
+            <input
+              type={showPw ? 'text' : 'password'} autoComplete="current-password" placeholder="••••••••"
+              value={password} onChange={(e) => setPassword(e.target.value)}
+            />
+            <button type="button" className="lg-eye" onClick={() => setShowPw(!showPw)} aria-label={showPw ? 'إخفاء' : 'إظهار'}>
+              <Icon name={showPw ? 'hide' : 'view'} size={20} />
+            </button>
+          </span>
+        </label>
+
+        <label className="lg-remember">
+          <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
+          {t('login.remember')}
+        </label>
+
+        <button className="lg-submit" type="submit" disabled={busy}>
+          {busy ? t('login.submitting') : t('login.submit')}
+          {!busy && <span className="au-arrow" aria-hidden="true">←</span>}
+        </button>
+      </form>
+
+      <p className="lg-switch">{t('login.noAccount')} <Link href="/signup">{t('login.createAccount')}</Link></p>
+
+      {/* حسابات الدخول التجريبية — للتطوير المحلّي فقط، تُخفى في الإنتاج */}
+      {process.env.NODE_ENV !== 'production' && (
+        <div className="lg-demo">
+          <div className="lg-demo-head"><span>{t('login.demo.head')}</span></div>
+          <div className="lg-demo-grid">
+            {DEMO_ACCOUNTS.map((a) => (
+              <a key={a.email} className="lg-demo-btn" href={`/api/auth/dev-login?email=${encodeURIComponent(a.email)}`}>
+                <span className="lg-demo-label">{a.label}</span>
+                <span className="lg-demo-role">{a.role}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
     </AuthShell>
   );
 }
