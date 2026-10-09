@@ -5,13 +5,24 @@
    · لا زجاج ولا تمويه · خصائص منطقية (RTL/LTR)
    ========================================================= */
 
-.v2 {
+/* المتغيّرات على الرأس والتذييل أيضًا — يُستخدمان في كل الصفحات العامة لا الرئيسية فقط */
+.v2, .v2-header, .v2-footer {
   --v2-deep: var(--brand-primary-dark);
   --v2-ink: var(--masra-ink);
   --v2-line: var(--gray-200);
   --v2-muted: var(--gray-600);
   --v2-on-deep: color-mix(in srgb, #fff 78%, transparent);
   --v2-line-deep: color-mix(in srgb, #fff 14%, transparent);
+}
+.v2-header, .v2-footer { font-family: var(--font-body); line-height: 1.7; }
+/* لون صريح لعناصر الرأس/التذييل — صفحات .mdl تفرض .mdl a { color: inherit } فيرث الرابط لونًا داكنًا */
+.v2-header { color: var(--white); }
+.v2-header .v2-brand, .v2-header .v2-btn-onDeep, .v2-footer .v2-brand { color: var(--white); }
+.v2-header .v2-btn-primary { color: var(--on-brand); }
+.v2-header *, .v2-header *::before, .v2-header *::after,
+.v2-footer *, .v2-footer *::before, .v2-footer *::after { box-sizing: border-box; }
+.v2-footer p { margin: 0; }
+.v2 {
   background: var(--white);
   color: var(--v2-ink);
   font-family: var(--font-body);
@@ -92,8 +103,11 @@
   transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
   border-block-end: 1px solid transparent;
 }
-.v2-header.is-scrolled { background: var(--v2-deep); border-block-end-color: var(--v2-line-deep); }
-.v2-nav { display: flex; align-items: center; gap: 24px; block-size: 72px; }
+.v2-header:is(.is-scrolled, .is-solid) { background: var(--v2-deep); border-block-end-color: var(--v2-line-deep); }
+/* يصغر الرأس عند التمرير (72 ← 60px) — الرأس ثابت فلا يزيح المحتوى */
+.v2-nav { display: flex; align-items: center; gap: 24px; block-size: 72px; transition: block-size var(--dur) var(--ease); }
+.v2-header.is-scrolled .v2-nav { block-size: 60px; }
+.v2-header-spacer { block-size: 72px; }
 .v2-brand { display: inline-flex; align-items: center; gap: 10px; color: var(--white); font-weight: 700; font-size: 19px; text-decoration: none; }
 .v2-nav-links { display: flex; gap: 4px; margin-inline-start: 16px; }
 .v2-nav-links a {
@@ -398,14 +412,19 @@
 .v2-feature h3 { font-size: 18px; font-weight: 700; color: var(--v2-deep); }
 .v2-feature p { margin-block-start: 6px; font-size: 14.5px; color: var(--v2-muted); }
 
-/* رأس الصفحات الثانوية (الباقات) */
-.v2-page-hero {
+/* رأس الصفحات الثانوية (الباقات + عن مسرى، المزايا، الأنظمة، الجهات) — شريط بنفسجي عميق موحّد */
+.v2-page-hero, .page-header {
   padding-block: 152px 72px; color: var(--white);
-  background: radial-gradient(60% 90% at 80% 0%, color-mix(in srgb, var(--brand-primary) 65%, transparent) 0%, transparent 70%), var(--v2-deep);
+  background: radial-gradient(60% 90% at 80% 0%, color-mix(in srgb, var(--brand-primary) 65%, transparent) 0%, transparent 70%), var(--brand-primary-dark);
 }
-[dir='ltr'] .v2-page-hero { background: radial-gradient(60% 90% at 20% 0%, color-mix(in srgb, var(--brand-primary) 65%, transparent) 0%, transparent 70%), var(--v2-deep); }
+[dir='ltr'] :is(.v2-page-hero, .page-header) { background: radial-gradient(60% 90% at 20% 0%, color-mix(in srgb, var(--brand-primary) 65%, transparent) 0%, transparent 70%), var(--brand-primary-dark); }
 .v2-page-hero h1 { max-width: 720px; margin-block: 16px !important; font-size: clamp(2rem, 1.4rem + 2.4vw, 3rem); font-weight: 700; line-height: 1.25; color: var(--white); text-wrap: balance; }
 .v2-page-hero .v2-draft { margin-block-start: 24px; }
+.page-header-inner { max-width: 1200px; margin-inline: auto; padding-inline: 24px; }
+.page-header .eyebrow { display: inline-flex; align-items: center; gap: 8px; margin: 0; font-size: 13px; font-weight: 600; letter-spacing: normal; color: var(--brand-primary-soft); }
+.page-header .eyebrow::before { content: ''; inline-size: 24px; block-size: 2px; border-radius: 2px; background: var(--brand-primary-medium); }
+.page-header h1 { max-width: 720px; margin-block: 16px; font-size: clamp(2rem, 1.4rem + 2.4vw, 3rem); font-weight: 700; line-height: 1.25; color: var(--white); text-wrap: balance; }
+.page-header p { max-width: 600px; margin: 0; font-size: 18px; line-height: 1.85; color: color-mix(in srgb, #fff 78%, transparent); }
 
 @media (max-width: 960px) {
   .v2-feature-grid { grid-template-columns: 1fr 1fr; }
@@ -414,5 +433,7 @@
   .v2.has-announce .v2-hero { padding-block-start: 164px; }
   .v2-feature-grid { grid-template-columns: 1fr; }
   .v2-section-rule > .v2-wrap::before { margin-block-end: 56px; }
-  .v2-page-hero { padding-block: 112px 56px; }
+  :is(.v2-page-hero, .page-header) { padding-block: 112px 56px; }
+  .page-header-inner { padding-inline: 16px; }
+  .page-header p { font-size: 16.5px; }
 }

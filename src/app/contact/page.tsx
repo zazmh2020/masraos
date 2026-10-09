@@ -1,14 +1,16 @@
 import Link from 'next/link';
-import MasraHeader from '@/components/landing/MasraHeader';
+import V2Header from '@/components/v2/V2Header';
+import V2Footer from '@/components/v2/V2Footer';
 import { getT } from '@/lib/i18n/server';
 import '@/styles/masra.css';
+import '@/styles/v2.css'; // الرأس والتذييل الموحّدان
 
 export default async function ContactPage() {
   const { t } = await getT();
   return (
     <div className="mdl">
-      <MasraHeader />
-      <main className="mdl-contact">
+      <V2Header solid />
+      <main id="main" className="mdl-contact">
         <div className="mdl-wrap">
           <span className="mdl-eyebrow">{t('contact.preview')}</span>
           <h1>{t('contact.title')}</h1>
@@ -29,17 +31,7 @@ export default async function ContactPage() {
           </div>
         </div>
       </main>
-      <footer className="mdl-footer">
-        <div className="mdl-wrap">
-          <p>{t('footer.desc')}</p>
-          <div className="mdl-contact-footer">
-            <Link href="/">{t('nav.home')}</Link>
-            <Link href="/privacy">{t('footer.privacy')}</Link>
-            <Link href="/terms">{t('footer.terms')}</Link>
-          </div>
-          <p>{t('footer.rights')}</p>
-        </div>
-      </footer>
+      <V2Footer />
     </div>
   );
 }

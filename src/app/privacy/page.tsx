@@ -1,8 +1,10 @@
 import Link from 'next/link';
-import MasraHeader from '@/components/landing/MasraHeader';
+import V2Header from '@/components/v2/V2Header';
+import V2Footer from '@/components/v2/V2Footer';
 import { getLocale } from '@/lib/i18n/server';
 import '@/styles/masra.css';
 import '@/styles/legal.css';
+import '@/styles/v2.css'; // الرأس والتذييل الموحّدان
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'سياسة الخصوصية · مسرى' };
@@ -17,8 +19,8 @@ export default async function PrivacyPage() {
 
   return (
     <div className="mdl">
-      <MasraHeader />
-      <main className="legal">
+      <V2Header solid />
+      <main id="main" className="legal">
         <span className="legal-eyebrow">{en ? 'Legal' : 'قانوني'}</span>
         <h1>{en ? 'Privacy Policy' : 'سياسة الخصوصية'}</h1>
         <p className="legal-updated">{en ? `Last updated: ${UPDATED}` : `آخر تحديث: ${UPDATED}`}</p>
@@ -113,6 +115,7 @@ export default async function PrivacyPage() {
           <span>مسرى © 2026</span>
         </div>
       </main>
+      <V2Footer />
     </div>
   );
 }

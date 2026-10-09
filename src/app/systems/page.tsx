@@ -1,9 +1,10 @@
 import Link from 'next/link';
-import SiteHeader from '@/components/SiteHeader';
-import SiteFooter from '@/components/SiteFooter';
+import V2Header from '@/components/v2/V2Header';
+import V2Footer from '@/components/v2/V2Footer';
 import Reveal from '@/components/Reveal';
 import Icon from '@/components/Icon';
 import '@/styles/landing.css';
+import '@/styles/v2.css'; // الرأس والتذييل الموحّدان
 
 const systems = [
   { title: 'إدارة الأفراد', text: 'موظفون، متطوعون، معلمون، مستفيدون — بملفاتهم وأدوارهم وصلاحياتهم.' },
@@ -23,8 +24,8 @@ const systems = [
 export default function SystemsPage() {
   return (
     <>
-      <SiteHeader />
-      <main>
+      <V2Header />
+      <main id="main">
         <section className="page-header">
           <div className="page-header-inner">
             <Reveal>
@@ -62,7 +63,7 @@ export default function SystemsPage() {
           </Reveal>
         </section>
       </main>
-      <SiteFooter />
+      <V2Footer />
     </>
   );
 }
