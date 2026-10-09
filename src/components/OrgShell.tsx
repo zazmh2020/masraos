@@ -29,6 +29,8 @@ interface Props {
   nav: NavEntry[];
   inbox: OrgInbox;
   assistant?: { show: boolean; ready: boolean };
+  /** جلسة عرض تجريبي — تُخفي أزرار الحذف (عرض فقط؛ المنع الفعلي في proxy.ts على الخادم). */
+  demo?: boolean;
 }
 
 // مفاتيح التنقّل القديمة تُحلّ عبر خريطة Tabler المركزية.
@@ -62,7 +64,7 @@ function Avatar({ url }: { url?: string | null }) {
   );
 }
 
-export default function OrgShell({ children, org, user, nav, inbox, assistant }: Props) {
+export default function OrgShell({ children, org, user, nav, inbox, assistant, demo = false }: Props) {
   const t = useT();
   const pathname = usePathname();
   const router = useRouter();
@@ -111,7 +113,7 @@ export default function OrgShell({ children, org, user, nav, inbox, assistant }:
   }
 
   return (
-    <div className={`org-app ${collapsed ? 'is-collapsed' : ''}`} style={brandVars(org.brandColor, org.brandAccent)} {...uiThemeAttrs(normalizeUiTheme(org.uiTheme))}>
+    <div className={`org-app ${collapsed ? 'is-collapsed' : ''}`} style={brandVars(org.brandColor, org.brandAccent)} {...uiThemeAttrs(normalizeUiTheme(org.uiTheme))} data-demo={demo ? 'true' : undefined}>
       <WelcomeBack name={user.name} greeting={t('welcome.greeting')} />
       <a href="#org-main" className="skip-link">{t('a11y.skip')}</a>
       <aside className={`org-sidebar ${open ? 'is-open' : ''}`}>

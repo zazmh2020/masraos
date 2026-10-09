@@ -393,3 +393,7 @@ body:has(.org-app) { background: #fff; }
 /* لا نمط زجاجي: أسطح الهيكل صلبة دائمًا */
 .org-app .org-content, .org-app .org-topbar, .org-app .org-sidebar { -webkit-backdrop-filter: none; backdrop-filter: none; }
 .org-app .org-content { background: #fff; }
+
+/* العرض التجريبي: للاستعراض فقط — نُخفي أزرار الحذف كي لا تبدو قابلة للتنفيذ.
+   هذا للتجربة فقط؛ المنع الفعلي لكل تعديل في الخادم (src/proxy.ts → DEMO_READONLY). */
+.org-app[data-demo='true'] :is(.org-btn-danger, .ann-del, [data-demo-hide]) { display: none !important; }

@@ -45,8 +45,9 @@ export function proxy(request: NextRequest) {
     const isDemo = request.cookies.get('midad_demo')?.value === '1' || (token ? parseSession(token)?.demo === true : false);
     const sessionExit = path === '/api/auth/login' || path === '/api/auth/logout';
     if (isDemo && mutating && !sessionExit) {
+      const en = request.cookies.get('midad_locale')?.value === 'en';
       return NextResponse.json(
-        { ok: false, error: 'وضع العرض التجريبي — للاستعراض فقط، لا يمكن حفظ التغييرات.', code: 'DEMO_READONLY' },
+        { ok: false, error: en ? 'Demo mode — view only. Changes cannot be saved.' : 'وضع العرض التجريبي — للاستعراض فقط، لا يمكن حفظ التغييرات.', code: 'DEMO_READONLY' },
         { status: 403 },
       );
     }

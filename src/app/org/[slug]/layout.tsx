@@ -150,6 +150,7 @@ export default async function OrgLayout({
       nav={nav}
       inbox={inbox}
       assistant={{ show: canUseAssistant(r) && moduleEnabled(md, 'assistant'), ready: isAssistantConfigured() }}
+      demo={isDemo}
     >
       {isDemo && (
         <div className="org-demo-banner" role="status">

@@ -112,7 +112,7 @@ export default function StudentRegistrationForm(p: Props) {
           <img className={styles.photo} src={`/api/org/education/students/${p.id}/photo?v=${encodeURIComponent(p.updatedAt)}`} alt="صورة الطالب" />}
         <p>{p.storageReady ? 'احفظ الموافقة أولًا. JPEG أو PNG أو WebP حتى 2 ميجابايت. تُحذف بيانات الموقع المضمّنة بالصورة تلقائيًا.' : 'التخزين الخاص للصور غير مُعدّ؛ يمكنك حفظ الاستمارة وطباعتها دون صورة.'}</p>
         <label>اختيار صورة <input type="file" accept="image/jpeg,image/png,image/webp" disabled={busy || dirty || !p.consent || !p.storageReady} onChange={e => { void upload(e.target.files?.[0]); e.target.value = ''; }} /></label>
-        {p.hasPhoto && <button type="button" className="org-btn org-btn-outline" disabled={busy || dirty} onClick={() => void detachPhoto()}>إزالة الصورة من الاستمارة</button>}
+        {p.hasPhoto && <button type="button" className="org-btn org-btn-outline" data-demo-hide disabled={busy || dirty} onClick={() => void detachPhoto()}>إزالة الصورة من الاستمارة</button>}
       </section>
       <section className="org-panel"><h2>الطباعة والتصدير</h2>
         <label>نوع النسخة <select value={mode} onChange={e => setMode(e.target.value as typeof mode)}>
