@@ -2135,6 +2135,14 @@ const ar: Dict = {
   'auth.step1': 'أدخل بيانات المركز',
   'auth.step2': 'أكّد برمز يصلك على البريد أو الجوال',
   'auth.step3': 'ادخل لوحة مركزك مباشرة',
+  // ---- صفحات الحالة (404 والخطأ) ----
+  'status.404.title': 'الصفحة غير موجودة',
+  'status.404.d': 'ربما تغيّر الرابط أو حُذفت الصفحة. تأكّد من العنوان أو ابدأ من الصفحة الرئيسية.',
+  'status.home': 'العودة للرئيسية',
+  'status.err.title': 'حدث خطأ غير متوقّع',
+  'status.err.d': 'واجهنا مشكلة أثناء عرض هذه الصفحة. حاول مرة أخرى، وإن تكرّر الخطأ تواصل معنا مع رقم المرجع.',
+  'status.retry': 'إعادة المحاولة',
+  'status.ref': 'رقم المرجع',
 };
 
 const en: Dict = {
@@ -4220,6 +4228,14 @@ const en: Dict = {
   'auth.step1': 'Enter your center details',
   'auth.step2': 'Confirm with a code sent to your email or phone',
   'auth.step3': 'Go straight to your center dashboard',
+  // ---- صفحات الحالة (404 والخطأ) ----
+  'status.404.title': 'Page not found',
+  'status.404.d': 'The link may have changed or the page was removed. Check the address or start from the home page.',
+  'status.home': 'Back to home',
+  'status.err.title': 'Something went wrong',
+  'status.err.d': 'We hit a problem showing this page. Try again, and if it keeps happening, contact us with the reference number.',
+  'status.retry': 'Try again',
+  'status.ref': 'Reference',
 };
 
 export const DICTIONARIES: Record<Locale, Dict> = { ar, en };
