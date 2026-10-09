@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Reveal from '@/components/Reveal';
@@ -8,14 +7,14 @@ import V2Tour from '@/components/v2/V2Tour';
 import V2Pricing from '@/components/v2/V2Pricing';
 import V2Faq from '@/components/v2/V2Faq';
 import V2Footer from '@/components/v2/V2Footer';
-import MasraAssistant from '@/components/landing/MasraAssistant';
+import { CtaBand, Eyebrow } from '@/components/v2/blocks';
+import SiteAssistant from '@/components/v2/SiteAssistant';
 import WordReveal from '@/components/v2/motion/WordReveal';
 import ScrollScale from '@/components/v2/motion/ScrollScale';
 import ScrollLine from '@/components/v2/motion/ScrollLine';
 import { getT } from '@/lib/i18n/server';
 import { getPlatformSettings } from '@/lib/platform-settings';
 import { getActiveHeroSlides } from '@/lib/hero';
-import '@/styles/masra.css'; // أنماط مساعد الموقع العائم (.mdl-asst)
 import '@/styles/v2.css';
 
 // الصفحة الرئيسية — مبنية وفق «الدليل الشامل»: لقطات حقيقية ببيانات توضيحية، حركة هادئة،
@@ -25,10 +24,6 @@ const PILLARS = [['hero.trust.systems', 'v2.pillar.1.d'], ['hero.trust.isolation
 const PROBLEMS = ['ps.p1', 'ps.p2', 'ps.p3', 'ps.p4'];
 const ROLES = ['manager', 'teacher', 'staff', 'guardian'];
 const SECURITY: [string, boolean][] = [['sec2.perms', false], ['sec2.workspaces', false], ['sec2.access', false], ['sec2.audit', false], ['sec2.mfa', true], ['sec2.sso', true]];
-
-function Eyebrow({ children, onDeep }: { children: ReactNode; onDeep?: boolean }) {
-  return <span className={`v2-eyebrow ${onDeep ? 'is-onDeep' : ''}`}>{children}</span>;
-}
 
 export default async function HomePage() {
   const [{ t, locale }, settings, slides] = await Promise.all([getT(), getPlatformSettings(), getActiveHeroSlides()]);
@@ -236,25 +231,11 @@ export default async function HomePage() {
         </section>
 
         {/* 09 — الدعوة الأخيرة */}
-        <section className="v2-cta">
-          <div className="v2-wrap v2-cta-inner">
-            <Reveal>
-              <h2>{t('cta.title')}</h2>
-              <p>{t('cta.lead')}</p>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <div className="v2-actions">
-                <a href={primaryHref} className="v2-btn v2-btn-light">{primaryLabel}</a>
-                <Link href="/contact" className="v2-link v2-link-onDeep">{t('cta.contact')} <span className="v2-arrow" aria-hidden="true">←</span></Link>
-              </div>
-            </Reveal>
-          </div>
-        </section>
+        <CtaBand />
       </main>
 
       <V2Footer />
-      {/* مساعد الموقع العائم — أنماطه تحت .mdl؛ display:contents يمرّر المتغيّرات دون صندوق */}
-      <div className="mdl v2-contents"><MasraAssistant /></div>
+      <SiteAssistant />
     </div>
   );
 }

@@ -1,95 +1,60 @@
-import Link from 'next/link';
-import V2Header from '@/components/v2/V2Header';
-import V2Footer from '@/components/v2/V2Footer';
+import type { Metadata } from 'next';
 import Reveal from '@/components/Reveal';
 import Icon from '@/components/Icon';
-import '@/styles/landing.css';
-import '@/styles/v2.css'; // الرأس والتذييل الموحّدان
+import V2Header from '@/components/v2/V2Header';
+import V2Footer from '@/components/v2/V2Footer';
+import SiteAssistant from '@/components/v2/SiteAssistant';
+import { CtaBand, Eyebrow, PageHero, SectionHead } from '@/components/v2/blocks';
+import { getT } from '@/lib/i18n/server';
+import '@/styles/v2.css';
 
-const values = [
-  { title: 'الوضوح', text: 'واجهات مفهومة ونصوص واضحة، بلا تعقيد ولا مصطلحات فارغة.' },
-  { title: 'الاحترام', text: 'احترام وقت المستخدم، وخصوصية بياناته، وحدود صلاحياته.' },
-  { title: 'الاستمرارية', text: 'نبني ما يبقى ويتراكم، لا ما يُهمَل بعد أشهر.' },
-  { title: 'الجودة', text: 'كل وحدة تُختبر وتُصقل قبل أن تصل للمؤسسات.' },
-];
+export async function generateMetadata(): Promise<Metadata> {
+  const { t } = await getT();
+  return { title: `${t('footer.aboutUs')} — ${t('brand')}`, description: t('pg.us.lead') };
+}
 
-export default function AboutMasraPage() {
+// «من نحن» — بُني مَسرى لعمل مراكز القرآن اليومي (الدليل ص21) — بلا أسماء فريق أو أرقام مختلَقة
+export default async function AboutMasraPage() {
+  const { t } = await getT();
   return (
-    <>
+    <div className="v2">
       <V2Header />
       <main id="main">
-        <section className="page-header">
-          <div className="page-header-inner">
+        <PageHero eyebrow={t('pg.us.eyebrow')} title={t('pg.us.title')} lead={t('pg.us.lead')} />
+
+        <section className="v2-section">
+          <div className="v2-wrap v2-split">
             <Reveal>
-              <span className="eyebrow">عن مسرى</span>
-              <h1>من نحن</h1>
-              <p>
-                مسرى فريق يؤمن أن المؤسسات لا تحتاج مزيدًا من الأنظمة، بل تحتاج
-                منظومة واحدة تجمع ما تفرّق وتُنظّم ما تشتّت.
-              </p>
+              <Eyebrow>{t('pg.us.why.eyebrow')}</Eyebrow>
+              <h2 className="v2-h2">{t('pg.us.why.title')}</h2>
+              <p className="v2-lead">{t('pg.us.why.d')}</p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <h3 className="v2-list-title">{t('pg.us.promise.title')}</h3>
+              <ul className="v2-checks v2-checks-lined">
+                {[1, 2, 3, 4, 5].map((n) => <li key={n}><Icon name="check" size={16} />{t(`pg.us.promise.${n}`)}</li>)}
+              </ul>
             </Reveal>
           </div>
         </section>
 
-        <section className="section">
-          <div className="section-heading">
-            <Reveal>
-              <span className="eyebrow">رؤيتنا</span>
-              <h2>بنية رقمية موثوقة للتحول المؤسسي</h2>
-              <p>
-                أن تصبح مسرى المنصة التي تعتمد عليها المؤسسات لبناء بيئة عمل
-                أكثر تنظيمًا وأمانًا وكفاءة، والانتقال من الإدارة التقليدية إلى
-                الإدارة الرقمية الذكية.
-              </p>
-            </Reveal>
+        <section className="v2-section v2-tint">
+          <div className="v2-wrap">
+            <SectionHead eyebrow={t('pg.us.how.eyebrow')} title={t('pg.us.how.title')} />
+            <div className="v2-feature-grid v2-grid-4">
+              {[1, 2, 3, 4].map((n) => (
+                <Reveal key={n} delay={(n - 1) * 0.05}>
+                  <div className="v2-feature is-onTint"><h3>{t(`pg.us.h${n}.t`)}</h3><p>{t(`pg.us.h${n}.d`)}</p></div>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </section>
 
-        <section className="section section-dark">
-          <div className="section-heading">
-            <Reveal>
-              <span className="eyebrow">رسالتنا</span>
-              <h2>تمكين المؤسسات من إدارة أعمالها بذكاء</h2>
-              <p>
-                من خلال منظومة رقمية موحّدة، آمنة، مرنة، وقابلة للتوسع —
-                تناسب كل حجم وكل نوع من المؤسسات.
-              </p>
-            </Reveal>
-          </div>
-        </section>
-
-        <section className="section">
-          <div className="section-heading">
-            <Reveal>
-              <span className="eyebrow">قيمنا</span>
-              <h2>ما نؤمن به</h2>
-            </Reveal>
-          </div>
-
-          <div className="card-grid">
-            {values.map((v, i) => (
-              <Reveal key={v.title} delay={i * 0.05}>
-                <article className="card">
-                  <div className="card-icon">
-                    <Icon name="target" size={24} />
-                  </div>
-                  <h3>{v.title}</h3>
-                  <p>{v.text}</p>
-                </article>
-              </Reveal>
-            ))}
-          </div>
-        </section>
-
-        <section className="cta-band">
-          <Reveal>
-            <h2>هل تشاركنا الرؤية؟</h2>
-            <p>تواصل معنا لنبدأ رحلة مؤسستك الرقمية معًا.</p>
-            <Link className="btn btn-light" href="/contact">تواصل معنا</Link>
-          </Reveal>
-        </section>
+        <CtaBand />
       </main>
       <V2Footer />
-    </>
+      <SiteAssistant />
+    </div>
   );
 }

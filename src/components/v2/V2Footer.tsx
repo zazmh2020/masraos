@@ -14,6 +14,8 @@ export default async function V2Footer() {
         </div>
         <nav aria-label={t('footer.col.platform')}>
           <h2>{t('footer.col.platform')}</h2>
+          <FooterLink href="/about">{t('footer.whatIs')}</FooterLink>
+          <FooterLink href="/features">{t('footer.features')}</FooterLink>
           <FooterLink href="/#systems">{t('nav.platform')}</FooterLink>
           <FooterLink href="/#ai">{t('nav.ai')}</FooterLink>
           <FooterLink href="/pricing">{t('nav.pricing')}</FooterLink>
@@ -26,6 +28,7 @@ export default async function V2Footer() {
         </nav>
         <nav aria-label={t('footer.col.support')}>
           <h2>{t('footer.col.support')}</h2>
+          <FooterLink href="/about-masra">{t('footer.aboutUs')}</FooterLink>
           <FooterLink href="/login">{t('nav.login')}</FooterLink>
           <FooterLink href="/contact">{t('footer.contact')}</FooterLink>
           <FooterLink href="/privacy">{t('footer.privacy')}</FooterLink>

@@ -1,65 +1,68 @@
-import Link from 'next/link';
-import V2Header from '@/components/v2/V2Header';
-import V2Footer from '@/components/v2/V2Footer';
+import type { Metadata } from 'next';
 import Reveal from '@/components/Reveal';
 import Icon from '@/components/Icon';
-import '@/styles/landing.css';
-import '@/styles/v2.css'; // الرأس والتذييل الموحّدان
+import V2Header from '@/components/v2/V2Header';
+import V2Footer from '@/components/v2/V2Footer';
+import V2Tour from '@/components/v2/V2Tour';
+import SiteAssistant from '@/components/v2/SiteAssistant';
+import { CtaBand, PageHero, SectionHead } from '@/components/v2/blocks';
+import { getT } from '@/lib/i18n/server';
+import '@/styles/v2.css';
 
-const features = [
-  { title: 'منصة واحدة', text: 'كل شيء في مكان واحد بدل مجموعة أنظمة منفصلة تعمل بمفردها.' },
-  { title: 'وحدات معيارية', text: 'تُفعّل ما تحتاجه فقط، ويبقى الباقي مطفأً حتى يأتي وقته.' },
-  { title: 'عزل كامل للبيانات', text: 'كل مؤسسة تعمل في بيئة مستقلة تمامًا — بياناتها لها وحدها.' },
-  { title: 'صلاحيات دقيقة', text: 'المستخدم لا يرى إلا ما يحقّ له الوصول إليه، بلا استثناءات.' },
-  { title: 'ذكاء اصطناعي محترم للصلاحيات', text: 'المساعد يعمل ضمن حدود ما يحقّ للمستخدم رؤيته، لا خارجها.' },
-  { title: 'واجهة عربية أصيلة', text: 'مصمّمة من اليمين لليسار منذ البداية، بخطوط ونصوص واضحة.' },
-  { title: 'قابلية للتوسّع', text: 'تبدأ بمؤسسة واحدة، وتضيف عشرات المؤسسات دون إعادة بناء.' },
-  { title: 'تحديثات مستمرة', text: 'المنصة تتطوّر باستمرار، والتحديثات تصل لكل المؤسسات تلقائيًا.' },
+export async function generateMetadata(): Promise<Metadata> {
+  const { t } = await getT();
+  return { title: `${t('footer.features')} — ${t('brand')}`, description: t('pg.feat.lead') };
+}
+
+// المجالات ووحداتها — مطابقة لما في لوحة المركز فعلًا (src/app/org/[slug]/* و src/lib/modules.ts)
+const AREAS: { key: string; count: number }[] = [
+  { key: 'edu', count: 9 },
+  { key: 'mot', count: 4 },
+  { key: 'org', count: 6 },
+  { key: 'com', count: 6 },
+  { key: 'opt', count: 6 },
 ];
 
-export default function FeaturesPage() {
+// «المزايا» — كل ما يحتاجه مركزك، في نظام واحد (الدليل ص21)
+export default async function FeaturesPage() {
+  const { t } = await getT();
   return (
-    <>
+    <div className="v2">
       <V2Header />
       <main id="main">
-        <section className="page-header">
-          <div className="page-header-inner">
-            <Reveal>
-              <span className="eyebrow">المميزات</span>
-              <h1>لماذا مسرى</h1>
-              <p>
-                ثمانية أسباب تجعل مسرى الخيار المناسب للمؤسسات التي تريد
-                الانتقال من الفوضى إلى النظام.
-              </p>
-            </Reveal>
-          </div>
-        </section>
+        <PageHero eyebrow={t('pg.feat.eyebrow')} title={t('pg.feat.title')} lead={t('pg.feat.lead')} />
 
-        <section className="section">
-          <div className="card-grid">
-            {features.map((f, i) => (
-              <Reveal key={f.title} delay={(i % 4) * 0.05}>
-                <article className="card">
-                  <div className="card-icon">
-                    <Icon name="star" size={24} />
-                  </div>
-                  <h3>{f.title}</h3>
-                  <p>{f.text}</p>
-                </article>
+        <section className="v2-section">
+          <div className="v2-wrap v2-areas">
+            {AREAS.map(({ key, count }) => (
+              <Reveal key={key} className="v2-area">
+                <div>
+                  <h2>{t(`pg.feat.${key}.t`)}</h2>
+                  <span className="v2-count">{t('pg.feat.count', { n: count })}</span>
+                  <p>{t(`pg.feat.${key}.d`)}</p>
+                </div>
+                <div>
+                  <ul className="v2-checks v2-checks-2col">
+                    {Array.from({ length: count }, (_, i) => <li key={i}><Icon name="check" size={16} />{t(`pg.feat.${key}.${i + 1}`)}</li>)}
+                  </ul>
+                  {key === 'com' && <p className="v2-note">{t('pg.feat.aiNote')}</p>}
+                </div>
               </Reveal>
             ))}
           </div>
         </section>
 
-        <section className="cta-band">
-          <Reveal>
-            <h2>جاهز لتجربة مسرى؟</h2>
-            <p>تواصل معنا لإنشاء مساحة مؤسستك.</p>
-            <Link className="btn btn-light" href="/contact">تواصل معنا</Link>
-          </Reveal>
+        <section className="v2-section v2-tint">
+          <div className="v2-wrap">
+            <SectionHead eyebrow={t('sec.systems.eyebrow')} title={t('v2.tour.title')} lead={t('v2.tour.lead')} />
+            <Reveal delay={0.1}><V2Tour /></Reveal>
+          </div>
         </section>
+
+        <CtaBand />
       </main>
       <V2Footer />
-    </>
+      <SiteAssistant />
+    </div>
   );
 }

@@ -1,102 +1,64 @@
-import Link from 'next/link';
-import V2Header from '@/components/v2/V2Header';
-import V2Footer from '@/components/v2/V2Footer';
+import type { Metadata } from 'next';
 import Reveal from '@/components/Reveal';
 import Icon from '@/components/Icon';
-import '@/styles/landing.css';
-import '@/styles/v2.css'; // الرأس والتذييل الموحّدان
+import V2Header from '@/components/v2/V2Header';
+import V2Footer from '@/components/v2/V2Footer';
+import SiteAssistant from '@/components/v2/SiteAssistant';
+import { CtaBand, Eyebrow, PageHero, SectionHead } from '@/components/v2/blocks';
+import { getT } from '@/lib/i18n/server';
+import '@/styles/v2.css';
 
-const problems = [
-  { title: 'تشتت المعلومات', text: 'ملفات ورقية، جداول، تطبيقات تواصل، وأنظمة منفصلة لكل مهمة.' },
-  { title: 'تكرار العمل', text: 'نفس البيانات تُدخل مرات، ونفس الإجراء يُعاد شرحه لكل موظف جديد.' },
-  { title: 'ضعف المتابعة', text: 'قرارات تُتخذ بدون بيانات، ومهام تُنسى، وتقارير تتأخر أسابيع.' },
-  { title: 'فقدان المعرفة', text: 'الخبرة تخرج من الباب مع الموظف، ولا يتراكم شيء للمؤسسة.' },
-];
+export async function generateMetadata(): Promise<Metadata> {
+  const { t } = await getT();
+  return { title: `${t('pg.about.title')} — ${t('brand')}`, description: t('pg.about.lead') };
+}
 
-const pillars = [
-  { title: 'توحيد', text: 'جمع العمليات والمعلومات في بيئة واحدة، بدل أنظمة متفرقة.' },
-  { title: 'تنظيم', text: 'تحويل الإجراءات المتفرقة إلى عمليات واضحة وقابلة للمتابعة.' },
-  { title: 'تمكين', text: 'توفير الأدوات التي تساعد كل موظف على أداء عمله بكفاءة.' },
-  { title: 'تطوير', text: 'استخدام البيانات والذكاء الاصطناعي لبناء مؤسسة أكثر قدرة.' },
-];
-
-export default function AboutPage() {
+// «ما هو مَسرى؟» — التعريف ووعد المنتج (الدليل ص7) والتموضع (ص48)
+export default async function AboutPage() {
+  const { t } = await getT();
   return (
-    <>
+    <div className="v2">
       <V2Header />
       <main id="main">
-        <section className="page-header">
-          <div className="page-header-inner">
+        <PageHero eyebrow={t('pg.about.eyebrow')} title={t('pg.about.title')} lead={t('pg.about.lead')} />
+
+        <section className="v2-section">
+          <div className="v2-wrap">
+            <SectionHead eyebrow={t('pg.about.promise.eyebrow')} title={t('pg.about.promise.title')} />
+            <ol className="v2-promise">
+              {[1, 2, 3, 4, 5, 6].map((n) => (
+                <li key={n}>
+                  <Reveal delay={((n - 1) % 3) * 0.05}>
+                    <span className="v2-num">{String(n).padStart(2, '0')}</span>
+                    <h3>{t(`pg.about.p${n}.t`)}</h3>
+                    <p>{t(`pg.about.p${n}.d`)}</p>
+                  </Reveal>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        <section className="v2-section v2-tint">
+          <div className="v2-wrap v2-split">
             <Reveal>
-              <span className="eyebrow">عن المنصة</span>
-              <h1>ما هي مسرى؟</h1>
-              <p>
-                منظومة رقمية متكاملة للتحول المؤسسي، تساعد المؤسسات على إدارة
-                عملياتها وبياناتها وأفرادها وبرامجها ومشاريعها من منصة واحدة.
-              </p>
+              <Eyebrow>{t('pg.about.pos.eyebrow')}</Eyebrow>
+              <h2 className="v2-h2">{t('pg.about.pos.title')}</h2>
+              <p className="v2-lead">{t('pg.about.pos.lead')}</p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <h3 className="v2-list-title">{t('pg.about.not.title')}</h3>
+              <ul className="v2-not">
+                {[1, 2, 3, 4, 5, 6].map((n) => <li key={n}><Icon name="close" size={14} />{t(`pg.about.not.${n}`)}</li>)}
+              </ul>
             </Reveal>
           </div>
         </section>
 
-        <section className="section">
-          <div className="section-heading">
-            <Reveal>
-              <span className="eyebrow">لماذا مسرى</span>
-              <h2>مشكلات تعرفها كل مؤسسة</h2>
-              <p>
-                معلومات متفرقة، عمل مكرّر، ومعرفة تضيع — هذه ليست تفاصيل صغيرة،
-                بل ما يُبطئ المؤسسات ويستنزفها.
-              </p>
-            </Reveal>
-          </div>
-
-          <div className="card-grid">
-            {problems.map((p, i) => (
-              <Reveal key={p.title} delay={i * 0.05}>
-                <article className="card">
-                  <div className="card-icon">
-                    <Icon name="alert" size={24} />
-                  </div>
-                  <h3>{p.title}</h3>
-                  <p>{p.text}</p>
-                </article>
-              </Reveal>
-            ))}
-          </div>
-        </section>
-
-        <section className="section section-dark">
-          <div className="section-heading">
-            <Reveal>
-              <span className="eyebrow">فلسفة مسرى</span>
-              <h2>أربعة مفاهيم تحكم كل ما نبنيه</h2>
-            </Reveal>
-          </div>
-
-          <div className="card-grid">
-            {pillars.map((p, i) => (
-              <Reveal key={p.title} delay={i * 0.05}>
-                <article className="card">
-                  <div className="card-icon">
-                    <Icon name="check" size={24} />
-                  </div>
-                  <h3>{p.title}</h3>
-                  <p>{p.text}</p>
-                </article>
-              </Reveal>
-            ))}
-          </div>
-        </section>
-
-        <section className="cta-band">
-          <Reveal>
-            <h2>مستعد للبدء؟</h2>
-            <p>اكتشف الأنظمة والوحدات التي يمكن أن تخدم مؤسستك.</p>
-            <Link className="btn btn-light" href="/systems">استكشف الأنظمة</Link>
-          </Reveal>
-        </section>
+        <CtaBand />
       </main>
       <V2Footer />
-    </>
+      <SiteAssistant />
+    </div>
   );
 }

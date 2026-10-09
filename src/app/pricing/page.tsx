@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import V2Header from '@/components/v2/V2Header';
 import V2Footer from '@/components/v2/V2Footer';
 import PricingPreview from '@/components/landing/PricingPreview';
-import MasraAssistant from '@/components/landing/MasraAssistant';
+import SiteAssistant from '@/components/v2/SiteAssistant';
 import { getT } from '@/lib/i18n/server';
 import '@/styles/masra.css';
 import '@/styles/pricing.css';
@@ -34,7 +34,7 @@ export default async function PricingPage() {
         </section>
       </main>
       <V2Footer />
-      <div className="mdl v2-contents"><MasraAssistant /></div>
+      <SiteAssistant />
     </div>
   );
 }

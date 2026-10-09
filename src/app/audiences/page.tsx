@@ -1,65 +1,72 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import V2Header from '@/components/v2/V2Header';
-import V2Footer from '@/components/v2/V2Footer';
 import Reveal from '@/components/Reveal';
 import Icon from '@/components/Icon';
-import '@/styles/landing.css';
-import '@/styles/v2.css'; // الرأس والتذييل الموحّدان
+import V2Header from '@/components/v2/V2Header';
+import V2Footer from '@/components/v2/V2Footer';
+import SiteAssistant from '@/components/v2/SiteAssistant';
+import { CtaBand, PageHero, SectionHead } from '@/components/v2/blocks';
+import { SECTORS } from '@/lib/org-types';
+import { getT } from '@/lib/i18n/server';
+import '@/styles/v2.css';
 
-const audiences = [
-  { title: 'الجمعيات الخيرية', text: 'موظفون ومتطوعون ومستفيدون ومشاريع وتبرعات وتقارير.' },
-  { title: 'المنظمات الإنسانية', text: 'برامج ميدانية وفرق عمل ومتابعة حالات وتقارير ميدانية.' },
-  { title: 'المؤسسات التنموية', text: 'مبادرات ومؤشرات ونتائج قابلة للقياس والمتابعة.' },
-  { title: 'المراكز التعليمية', text: 'طلاب ومعلمون وحضور وتقييمات وبرامج تعليمية.' },
-  { title: 'مراكز القرآن الكريم', text: 'حلقات وحفظ وتسميع ومسابقات وشهادات وأولياء أمور.' },
-  { title: 'المؤسسات الوقفية', text: 'أصول ومشاريع وقفية وتبرعات وتقارير دورية.' },
-  { title: 'المساجد', text: 'إدارة أنشطة المسجد وبرامجه ومتطوعيه والتبرعات.' },
-  { title: 'المشاريع الخاصة', text: 'بيئة رقمية تُشكَّل بحسب طبيعة المشروع والوحدات التي يحتاجها.' },
-];
+export async function generateMetadata(): Promise<Metadata> {
+  const { t } = await getT();
+  return { title: `${t('pg.aud.title')} — ${t('brand')}`, description: t('pg.aud.lead') };
+}
 
-export default function AudiencesPage() {
+// «لمن مَسرى» — مصدر الحقيقة: حالة القطاع في src/lib/org-types.ts (المتاح الآن مقابل المخطط له)
+export default async function AudiencesPage() {
+  const { t } = await getT();
+  const active = SECTORS.filter((s) => s.status === 'ACTIVE');
+  const planned = SECTORS.filter((s) => s.status !== 'ACTIVE');
   return (
-    <>
+    <div className="v2">
       <V2Header />
       <main id="main">
-        <section className="page-header">
-          <div className="page-header-inner">
+        <PageHero eyebrow={t('pg.aud.eyebrow')} title={t('pg.aud.title')} lead={t('pg.aud.lead')} />
+
+        <section className="v2-section">
+          <div className="v2-wrap v2-split">
             <Reveal>
-              <span className="eyebrow">الجهات</span>
-              <h1>لمن مسرى</h1>
-              <p>
-                منظومة واحدة لمؤسسات مختلفة — ما يتغيّر هو الوحدات المفعّلة
-                والمصطلحات، لا الأساس الذي تقوم عليه كل بيئة.
-              </p>
+              <span className="v2-badge is-available">{t('pg.available')}</span>
+              <h2 className="v2-h2">{t('pg.aud.now.title')}</h2>
+              <p className="v2-lead">{t('pg.aud.now.d')}</p>
+              <div className="v2-actions">
+                <Link href="/signup" className="v2-btn v2-btn-primary">{t('pg.cta.signup')}</Link>
+                <Link href="/features" className="v2-link">{t('pg.cta.features')} <span className="v2-arrow" aria-hidden="true">←</span></Link>
+              </div>
+            </Reveal>
+            <Reveal delay={0.1}>
+              {active.map((s) => <h3 key={s.id} className="v2-list-title">{t(s.labelKey)}</h3>)}
+              <ul className="v2-checks v2-checks-lined">
+                {[1, 2, 3, 4, 9].map((n) => <li key={n}><Icon name="check" size={16} />{t(`pg.feat.edu.${n}`)}</li>)}
+              </ul>
             </Reveal>
           </div>
         </section>
 
-        <section className="section">
-          <div className="card-grid">
-            {audiences.map((a, i) => (
-              <Reveal key={a.title} delay={(i % 4) * 0.05}>
-                <article className="card">
-                  <div className="card-icon">
-                    <Icon name="home" size={24} />
+        <section className="v2-section v2-tint">
+          <div className="v2-wrap">
+            <SectionHead eyebrow={t('pg.aud.later.eyebrow')} title={t('pg.aud.later.title')} lead={t('pg.aud.later.lead')} />
+            <div className="v2-feature-grid">
+              {planned.map((s, i) => (
+                <Reveal key={s.id} delay={(i % 3) * 0.05}>
+                  <div className="v2-feature is-onTint">
+                    <span className={`v2-badge ${s.status === 'COMING_SOON' ? 'is-soon' : 'is-future'}`}>{t(s.status === 'COMING_SOON' ? 'pg.soon' : 'pg.future')}</span>
+                    <h3>{t(s.labelKey)}</h3>
+                    <p>{t(s.descKey)}</p>
                   </div>
-                  <h3>{a.title}</h3>
-                  <p>{a.text}</p>
-                </article>
-              </Reveal>
-            ))}
+                </Reveal>
+              ))}
+            </div>
           </div>
         </section>
 
-        <section className="cta-band">
-          <Reveal>
-            <h2>لا ترى مؤسستك في القائمة؟</h2>
-            <p>مسرى قابلة للتشكيل — تواصل معنا لنبني ما يناسبك.</p>
-            <Link className="btn btn-light" href="/contact">تواصل معنا</Link>
-          </Reveal>
-        </section>
+        <CtaBand />
       </main>
       <V2Footer />
-    </>
+      <SiteAssistant />
+    </div>
   );
 }
