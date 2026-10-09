@@ -165,6 +165,13 @@
 .v2-frame-bar i { inline-size: 9px; block-size: 9px; border-radius: 50%; background: var(--v2-line); }
 .v2-frame-bar span { margin-inline: auto; font-size: 12px; color: var(--gray-400); }
 
+/* حركة الدخول بـ CSS (بلا JavaScript — لا تؤخّر الظهور على الجوال) */
+.v2-rise { animation: v2-rise 0.6s var(--ease-out) both; }
+@keyframes v2-rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.v2-word { display: inline-block; overflow: hidden; vertical-align: top; padding-block: 0.12em; margin-block: -0.12em; }
+.v2-word > span { display: inline-block; animation: v2-word-up 0.7s var(--ease-out) both; }
+@keyframes v2-word-up { from { opacity: 0; transform: translateY(105%); } to { opacity: 1; transform: none; } }
+
 /* ---------- الركائز الثلاث ---------- */
 .v2-pillars { padding-block: 40px 8px; }
 .v2-pillars-row { display: grid; grid-template-columns: repeat(3, 1fr); }
@@ -194,8 +201,10 @@
   border: 0; border-radius: 999px; background: transparent; color: var(--v2-muted); white-space: nowrap;
   font: 500 14.5px/1 var(--font-body); cursor: pointer; transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
 }
-.v2-tour-tab:hover { color: var(--v2-deep); background: var(--brand-primary-subtle); }
-.v2-tour-tab[aria-selected='true'] { background: var(--brand-primary); color: var(--on-brand); }
+.v2-tour-tab:not([aria-selected='true']):hover { color: var(--v2-deep); background: var(--brand-primary-subtle); }
+.v2-tour-tab { position: relative; isolation: isolate; }
+.v2-tour-tab[aria-selected='true'] { color: var(--on-brand); background: transparent; }
+.v2-tab-pill { position: absolute; inset: 0; z-index: -1; border-radius: 999px; background: var(--brand-primary); }
 .v2-tour-tab[aria-selected='true'] .icon-duo { --icon-line: var(--on-brand); --icon-fill: color-mix(in srgb, #fff 30%, transparent); }
 .v2-tour-panel { display: grid; grid-template-columns: minmax(260px, 340px) 1fr; gap: 56px; align-items: center; margin-block-start: 40px; }
 .v2-tour-copy h3 { font-size: 26px; font-weight: 700; color: var(--v2-deep); }
@@ -208,6 +217,12 @@
 /* 04 كيف يعمل: خط زمني */
 .v2-steps { position: relative; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; }
 .v2-steps::before { content: ''; position: absolute; inset-block-start: 20px; inset-inline: 20px; block-size: 1px; background: var(--v2-line); }
+.v2-steps-progress {
+  position: absolute; inset-block-start: 20px; inset-inline: 20px; block-size: 2px; margin-block-start: -0.5px;
+  background: var(--brand-primary); transform: scaleX(var(--p, 1)); transform-origin: right center; pointer-events: none;
+}
+[dir='ltr'] .v2 .v2-steps-progress { transform-origin: left center; }
+.v2-steps > li:not(.v2-steps-progress) { position: relative; }
 .v2-step-num {
   position: relative; display: inline-grid; place-items: center; inline-size: 40px; block-size: 40px; border-radius: 50%;
   background: var(--white); border: 1.5px solid var(--brand-primary-medium); color: var(--brand-primary); font-weight: 700; font-size: 15px;
@@ -265,22 +280,27 @@
 .v2-plan-limits { margin-block-start: auto !important; padding-block-start: 16px; border-block-start: 1px solid var(--v2-line); font-size: 12.5px; color: var(--gray-500); }
 .v2-plans-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; margin-block-start: 20px; }
 
-/* 08 الأسئلة */
-.v2-faq { border-block-end: 1px solid color-mix(in srgb, var(--brand-primary) 16%, transparent); }
-.v2-faq details { border-block-start: 1px solid color-mix(in srgb, var(--brand-primary) 16%, transparent); }
-.v2-faq summary {
-  display: flex; align-items: center; justify-content: space-between; gap: 16px; min-block-size: 64px; padding-block: 16px;
-  list-style: none; cursor: pointer; font-size: 17px; font-weight: 600; color: var(--v2-deep);
+/* 08 الأسئلة — أكورديون (VengeanceUI faq-accordion) */
+.v2-faq { list-style: none; margin: 0; padding: 0; border-block-end: 1px solid color-mix(in srgb, var(--brand-primary) 16%, transparent); }
+.v2-faq > li { border-block-start: 1px solid color-mix(in srgb, var(--brand-primary) 16%, transparent); border-inline-start: 3px solid transparent; transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease); }
+.v2-faq > li.is-open { border-inline-start-color: var(--brand-primary); background: color-mix(in srgb, var(--white) 60%, transparent); }
+.v2-faq h3 { font-size: inherit; }
+.v2-faq button {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; inline-size: 100%; min-block-size: 64px;
+  padding-block: 16px; padding-inline: 16px; border: 0; background: transparent; cursor: pointer; text-align: start;
+  font: 600 17px/1.5 var(--font-body); color: var(--v2-deep);
 }
-.v2-faq summary::-webkit-details-marker { display: none; }
 .v2-faq-mark { position: relative; flex: none; inline-size: 14px; block-size: 14px; }
 .v2-faq-mark::before, .v2-faq-mark::after {
   content: ''; position: absolute; inset-block-start: 6px; inset-inline: 0; block-size: 2px; border-radius: 2px;
-  background: var(--brand-primary); transition: transform var(--dur) var(--ease);
+  background: var(--brand-primary); transition: transform var(--dur-slow, 320ms) var(--ease);
 }
 .v2-faq-mark::after { transform: rotate(90deg); }
-.v2-faq details[open] .v2-faq-mark::after { transform: rotate(0deg); }
-.v2-faq details p { padding-block-end: 20px; font-size: 15.5px; line-height: 1.85; color: var(--v2-muted); }
+.v2-faq li.is-open .v2-faq-mark::after { transform: rotate(0deg); }
+.v2-faq-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--dur-slow, 320ms) var(--ease); }
+.v2-faq li.is-open .v2-faq-panel { grid-template-rows: 1fr; }
+.v2-faq-panel > div { overflow: hidden; }
+.v2-faq-panel p { padding-block-end: 20px; padding-inline: 16px; font-size: 15.5px; line-height: 1.85; color: var(--v2-muted); }
 .v2-faq-more { margin-block-start: 24px !important; font-size: 15px; color: var(--v2-muted); display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
 
 /* 09 الدعوة الأخيرة + التذييل */
@@ -300,6 +320,11 @@
 .v2-footer h2 { margin-block-end: 10px !important; font-size: 13px; font-weight: 600; color: var(--brand-primary-soft); }
 .v2-footer nav a { padding-block: 6px; font-size: 14.5px; color: var(--v2-on-deep); text-decoration: none; }
 .v2-footer nav a:hover { color: var(--white); }
+.v2-flink { position: relative; display: inline-flex; inline-size: fit-content; }
+.v2-scribble { position: absolute; inset-inline: 0; inset-block-start: calc(100% - 4px); inline-size: 100%; block-size: 9px; overflow: visible; pointer-events: none; }
+.v2-scribble path { fill: none; stroke: var(--brand-primary-medium); stroke-width: 1.5; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 0.6s cubic-bezier(0.7, 0, 0.3, 1); }
+.v2-flink:is(:hover, :focus-visible) .v2-scribble path { stroke-dashoffset: 0; transition-duration: 0.3s; transition-timing-function: cubic-bezier(0.8, 1, 0.7, 1); }
+[dir='rtl'] .v2 .v2-scribble { transform: scaleX(-1); }
 .v2-footer-base { padding-block: 20px; border-block-start: 1px solid var(--v2-line-deep); font-size: 13px; color: color-mix(in srgb, #fff 60%, transparent); }
 
 /* ---------- الاستجابة ---------- */
@@ -307,7 +332,8 @@
   .v2-nav-links { display: none; }
   .v2-menu-btn { display: inline-grid; }
   .v2-steps { grid-template-columns: 1fr; gap: 0; }
-  .v2-steps::before { inset-block: 20px; inset-inline-start: 20px; inset-inline-end: auto; inline-size: 1px; block-size: auto; }
+  .v2-steps::before, .v2-steps-progress { inset-block: 20px; inset-inline-start: 20px; inset-inline-end: auto; inline-size: 1px; block-size: auto; }
+  .v2-steps-progress { inline-size: 2px; margin-inline-start: -0.5px; margin-block-start: 0; transform: scaleY(var(--p, 1)); transform-origin: center top !important; }
   .v2-steps li > div { display: grid; grid-template-columns: 40px 1fr; column-gap: 20px; padding-block-end: 28px; }
   .v2-steps li > div > .v2-step-num { grid-row: span 2; }
   .v2-steps h3 { margin-block: 8px 4px !important; }
@@ -347,6 +373,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .v2-fade, .v2-drawer[open] { animation: none; }
+  .v2-fade, .v2-drawer[open], .v2-rise, .v2-word > span { animation: none; }
   .v2 * { transition: none !important; }
 }

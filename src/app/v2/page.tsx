@@ -8,6 +8,11 @@ import { LogoMark } from '@/components/Logo';
 import V2Header from '@/components/v2/V2Header';
 import V2Tour from '@/components/v2/V2Tour';
 import V2Pricing from '@/components/v2/V2Pricing';
+import V2Faq from '@/components/v2/V2Faq';
+import FooterLink from '@/components/v2/FooterLink';
+import WordReveal from '@/components/v2/motion/WordReveal';
+import ScrollScale from '@/components/v2/motion/ScrollScale';
+import ScrollLine from '@/components/v2/motion/ScrollLine';
 import { getT } from '@/lib/i18n/server';
 import { getPlatformSettings } from '@/lib/platform-settings';
 import '@/styles/v2.css';
@@ -41,20 +46,21 @@ export default async function HomeV2() {
         {/* 01 — الواجهة الأولى: رسالة واحدة + لقطة حقيقية */}
         <section className="v2-hero">
           <div className="v2-wrap v2-hero-copy">
-            <Reveal><Eyebrow onDeep>{t('hero.eyebrow')}</Eyebrow></Reveal>
-            <Reveal delay={0.05}>
-              <h1>{settings.heroTitle1 || t('hero.title1')} <span>{settings.heroTitle2 || t('hero.title2')}</span></h1>
-            </Reveal>
-            <Reveal delay={0.1}><p className="v2-hero-sub">{settings.heroSubtitle || t('hero.sub')}</p></Reveal>
-            <Reveal delay={0.15}>
+            <div className="v2-rise"><Eyebrow onDeep>{t('hero.eyebrow')}</Eyebrow></div>
+            <h1>
+              <WordReveal text={settings.heroTitle1 || t('hero.title1')} delay={0.05} />{' '}
+              <span><WordReveal text={settings.heroTitle2 || t('hero.title2')} delay={0.3} /></span>
+            </h1>
+            <p className="v2-hero-sub v2-rise" style={{ animationDelay: '0.45s' }}>{settings.heroSubtitle || t('hero.sub')}</p>
+            <div className="v2-rise" style={{ animationDelay: '0.55s' }}>
               <div className="v2-actions">
                 <a href={primaryHref} className="v2-btn v2-btn-light">{primaryLabel}</a>
                 <a href="#pricing" className="v2-link v2-link-onDeep">{t('nav.pricing')} <span className="v2-arrow" aria-hidden="true">←</span></a>
               </div>
-            </Reveal>
+            </div>
           </div>
-          <Reveal delay={0.2} y={28} className="v2-wrap v2-hero-shot">
-            <figure className="v2-hero-fig">
+          <ScrollScale className="v2-wrap v2-hero-shot">
+            <figure className="v2-hero-fig v2-rise" style={{ animationDelay: '0.35s' }}>
               <div className="v2-frame">
                 <div className="v2-frame-bar" aria-hidden="true"><i /><i /><i /><span dir="ltr">masraos.com</span></div>
                 <Image src={`/v2/dashboard-${locale}.webp`} width={1920} height={1200} priority sizes="(max-width: 1200px) 100vw, 1160px"
@@ -62,7 +68,7 @@ export default async function HomeV2() {
               </div>
               <figcaption className="v2-tag">{t('v2.shot.tag')}</figcaption>
             </figure>
-          </Reveal>
+          </ScrollScale>
         </section>
 
         <section className="v2-pillars" aria-label={t('hero.eyebrow')}>
@@ -107,13 +113,13 @@ export default async function HomeV2() {
               <h2 className="v2-h2">{t('sec.how.title')}</h2>
               <p className="v2-lead">{t('sec.how.lead')}</p>
             </Reveal>
-            <ol className="v2-steps">
+            <ScrollLine className="v2-steps">
               {[1, 2, 3, 4, 5].map((n) => (
                 <li key={n}>
                   <Reveal delay={n * 0.05}><span className="v2-step-num">{n}</span><h3>{t(`how.${n}.t`)}</h3><p>{t(`how.${n}.d`)}</p></Reveal>
                 </li>
               ))}
-            </ol>
+            </ScrollLine>
           </div>
         </section>
 
@@ -195,14 +201,7 @@ export default async function HomeV2() {
               <p className="v2-faq-more">{t('v2.faq.more')} <Link href="/contact" className="v2-link">{t('cta.contact')} <span className="v2-arrow" aria-hidden="true">←</span></Link></p>
             </Reveal>
             <Reveal delay={0.1}>
-              <div className="v2-faq">
-                {faqs.map((f, i) => (
-                  <details key={i}>
-                    <summary>{f.q}<span className="v2-faq-mark" aria-hidden="true" /></summary>
-                    <p>{f.a}</p>
-                  </details>
-                ))}
-              </div>
+              <V2Faq items={faqs} />
             </Reveal>
           </div>
         </section>
@@ -232,16 +231,16 @@ export default async function HomeV2() {
           </div>
           <nav aria-label={t('footer.col.platform')}>
             <h2>{t('footer.col.platform')}</h2>
-            <a href="#tour">{t('nav.platform')}</a><a href="#ai">{t('nav.ai')}</a><a href="#pricing">{t('nav.pricing')}</a>
+            <FooterLink href="#tour">{t('nav.platform')}</FooterLink><FooterLink href="#ai">{t('nav.ai')}</FooterLink><FooterLink href="#pricing">{t('nav.pricing')}</FooterLink>
           </nav>
           <nav aria-label={t('footer.col.solutions')}>
             <h2>{t('footer.col.solutions')}</h2>
-            <a href="#how">{t('nav.journey')}</a><a href="#roles">{t('nav.roles')}</a><Link href="/audiences">{t('nav.orgs')}</Link>
+            <FooterLink href="#how">{t('nav.journey')}</FooterLink><FooterLink href="#roles">{t('nav.roles')}</FooterLink><FooterLink href="/audiences">{t('nav.orgs')}</FooterLink>
           </nav>
           <nav aria-label={t('footer.col.support')}>
             <h2>{t('footer.col.support')}</h2>
-            <Link href="/login">{t('nav.login')}</Link><Link href="/contact">{t('footer.contact')}</Link>
-            <Link href="/privacy">{t('footer.privacy')}</Link><Link href="/terms">{t('footer.terms')}</Link>
+            <FooterLink href="/login">{t('nav.login')}</FooterLink><FooterLink href="/contact">{t('footer.contact')}</FooterLink>
+            <FooterLink href="/privacy">{t('footer.privacy')}</FooterLink><FooterLink href="/terms">{t('footer.terms')}</FooterLink>
           </nav>
         </div>
         <div className="v2-wrap v2-footer-base">{t('footer.rights')}</div>

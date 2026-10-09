@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useRef, useState, type KeyboardEvent } from 'react';
 import Icon from '@/components/Icon';
 import { useLocale, useT } from '@/lib/i18n/LocaleProvider';
@@ -12,13 +13,18 @@ const TOOLS = [
   { key: 'statistics', icon: 'analytics' },
 ] as const;
 
-/** جولة المنتج: تبويبات (WAI-ARIA tabs) تبدّل لقطة حقيقية من اللوحة مع وصفها. */
+/**
+ * جولة المنتج: تبويبات (WAI-ARIA tabs) تبدّل لقطة حقيقية من اللوحة مع وصفها.
+ * المؤشّر المنزلق بين التبويبات مقتبس من نمط VengeanceUI `spotlight-navbar` (MIT — https://github.com/Ashutoshx7/VengeanceUI):
+ * عنصر واحد بـ layoutId ينتقل بين التبويبات، بلا ارتداد (0.35s).
+ */
 export default function V2Tour() {
   const t = useT();
   const { locale } = useLocale();
   const [active, setActive] = useState(0);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const rtl = locale === 'ar';
+  const reduce = useReducedMotion();
 
   function onKey(e: KeyboardEvent<HTMLDivElement>) {
     const step = { ArrowLeft: rtl ? 1 : -1, ArrowRight: rtl ? -1 : 1, Home: -active, End: TOOLS.length - 1 - active }[e.key];
@@ -37,6 +43,7 @@ export default function V2Tour() {
           <button key={x.key} ref={(el) => { tabs.current[i] = el; }} type="button" role="tab" id={`v2-tab-${x.key}`}
             aria-selected={i === active} aria-controls="v2-tour-panel" tabIndex={i === active ? 0 : -1}
             className="v2-tour-tab" onClick={() => setActive(i)}>
+            {i === active && <motion.span layoutId="v2-tab-pill" className="v2-tab-pill" transition={reduce ? { duration: 0 } : { type: 'spring', bounce: 0, duration: 0.35 }} />}
             <Icon name={x.icon} size={18} tone={i === active ? 'duo' : 'line'} />{t(`v2.tour.${x.key}.t`)}
           </button>
         ))}

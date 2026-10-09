@@ -7,6 +7,7 @@ import { useCurrency } from '@/components/CurrencyProvider';
 import { CURRENCIES, convertRounded, formatAmount } from '@/lib/currency';
 import { CurrencySymbol } from '@/components/RiyalSign';
 import { plans } from '@/components/landing/PricingPreview';
+import AnimatedAmount from '@/components/v2/motion/AnimatedAmount';
 
 /** ملخص الباقات (نفس بيانات العرض المقترح) — التفاصيل الكاملة والسياسة في /pricing. */
 export default function V2Pricing() {
@@ -15,7 +16,8 @@ export default function V2Pricing() {
   const { currency } = useCurrency();
   const lang = locale === 'en' ? 1 : 0;
   // الأسعار المقترحة بالدولار؛ المحوّل المشترك يستقبل مبالغ بالريال
-  const money = (usd: number) => formatAmount(convertRounded(usd / CURRENCIES.USD.rate, currency), locale);
+  const amount = (usd: number) => convertRounded(usd / CURRENCIES.USD.rate, currency);
+  const fmt = (n: number) => formatAmount(n, locale);
 
   return (
     <>
@@ -26,7 +28,7 @@ export default function V2Pricing() {
             <h3>{plan.name[lang]}</h3>
             <p className="v2-plan-desc">{plan.description[lang]}</p>
             <p className="v2-plan-price">
-              <b dir="ltr">{money(plan.price)}</b>
+              <b dir="ltr"><AnimatedAmount value={amount(plan.price)} format={fmt} /></b>
               <span><CurrencySymbol code={currency} locale={locale} /> {t('v2.pricing.month')}</span>
             </p>
             <small className="v2-muted">{t('v2.pricing.proposed')}</small>
