@@ -42,3 +42,7 @@
 .result ul { margin:0; padding-inline-start:1.2rem; font-size:.9rem; line-height:1.9; }
 .result p { font-size:.8rem; line-height:1.7; }
 @media(max-width:600px) { .invitation { flex-wrap:wrap; gap:.8rem; padding:1.1rem; } .invitationText { flex-basis:calc(100% - 70px); } .launch { width:100%; } .body { padding:1.25rem; } .twoColumns { grid-template-columns:1fr; } .dialog h2 { font-size:1.25rem; } }
+
+/* هيئة الموقع الجديد: شريط مسطّح بحدّ خفيف (الظل للعناصر الطافية فقط — النافذة تبقى بظلها) */
+.invitation { border-color: var(--gray-200); background: var(--brand-primary-subtle); box-shadow: none; border-radius: 18px; }
+.launch { box-shadow: none; }

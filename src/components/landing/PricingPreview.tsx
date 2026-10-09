@@ -9,10 +9,6 @@ import styles from './pricing-preview.module.css';
 import PreviewPlanAdvisor from './PreviewPlanAdvisor';
 import Icon from '@/components/Icon';
 
-function PlanIcon({ level }: { level: number }) {
-  return <Icon className={styles.planIcon} name={['leaf', 'home', 'organization', 'office'][level] ?? 'organization'} size={40} />;
-}
-
 // Presentation-only proposal: never use these values for billing or access control.
 export const plans = [
   {
@@ -78,9 +74,9 @@ export default function PricingPreview() {
       </div>
       <div className={styles.planGrid}>
         {plans.map((plan, index) => (
-          <article id={`preview-plan-${index}`} tabIndex={-1} key={plan.price} className={`${styles.planCard} ${index === 2 ? styles.growthCard : ''}`}>
+          <article id={`preview-plan-${index}`} tabIndex={-1} key={plan.price} className={`${styles.planCard} ${index === 1 ? styles.growthCard : ''}`}>
             <div className={styles.cardIntro}>
-              <PlanIcon level={index} />
+              {index === 1 && <span className={styles.featuredFlag}>{pick('الأنسب لأغلب المراكز', 'Fits most centers')}</span>}
               <h3 className={styles.planName}>{plan.name[lang]}</h3>
               <div className={styles.planPrice} aria-live="polite"><b className={styles.planAmount} dir="ltr">{total(plan.price)}</b><span className={styles.planPeriod}>{symbol} {period}</span></div>
               <small>{pick('سعر مقترح، قبل الضرائب.', 'Proposed price, before taxes.')}</small>
@@ -97,7 +93,6 @@ export default function PricingPreview() {
         ))}
         <article id="preview-plan-3" tabIndex={-1} className={`${styles.planCard} ${styles.empowerCard}`}>
           <div className={styles.cardIntro}>
-            <PlanIcon level={3} />
             <h3 className={styles.planName}>{pick('الأثر', 'Impact')}</h3>
             <div className={styles.planPrice}><b className={styles.pendingPrice}>{pick('التفاصيل قريبًا', 'Coming soon')}</b></div>
             <small>{pick('السعر ومدة الاستحقاق لم يُحدّدا بعد.', 'Price and entitlement period are not defined yet.')}</small>
