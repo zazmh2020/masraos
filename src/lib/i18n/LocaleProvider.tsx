@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useCallback, useContext, useMemo, useEffect, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useMemo, useEffect, useState, useTransition, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { DEFAULT_LOCALE, LOCALE_COOKIE, dirFor, type Locale } from './config';
 import { translate } from './dictionaries';
@@ -10,6 +10,8 @@ interface LocaleContextValue {
   dir: 'rtl' | 'ltr';
   t: (key: string, vars?: Record<string, string | number>) => string;
   setLocale: (next: Locale) => void;
+  /** جارٍ تبديل اللغة (بانتظار محتوى الخادم باللغة الجديدة). */
+  switching: boolean;
 }
 
 const LocaleContext = createContext<LocaleContextValue | null>(null);
@@ -45,20 +47,26 @@ export function persistLocale(next: Locale) {
 
 export function LocaleProvider({ initialLocale, children }: { initialLocale: Locale; children: ReactNode }) {
   const router = useRouter();
-  // حالة محلية للتبديل الفوري بلا إعادة تحميل الصفحة
   const [locale, setLocaleState] = useState<Locale>(initialLocale);
-  // مزامنة الحالة المحلية مع القيمة القادمة من الخادم عند تغيّرها
-  // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => { setLocaleState(initialLocale); }, [initialLocale]);
+  const [isPending, startTransition] = useTransition();
+  // تبديل دفعة واحدة: لا نغيّر النصوص ولا الاتجاه في المتصفح قبل وصول محتوى الخادم باللغة الجديدة،
+  // حتى لا تظهر صفحة مختلطة (نص عربي باتجاه إنجليزي). عند وصوله يتبدّل كل شيء معًا.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setLocaleState(initialLocale);
+    try {
+      document.documentElement.lang = initialLocale;
+      document.documentElement.dir = dirFor(initialLocale);
+      delete document.documentElement.dataset.switching;
+    } catch { /* تجاهل */ }
+  }, [initialLocale]);
+  // احتياط: إن انتهى التحديث دون تغيّر اللغة (خطأ شبكة مثلًا) نزيل حالة التبديل
+  useEffect(() => { if (!isPending) delete document.documentElement.dataset.switching; }, [isPending]);
 
   const setLocale = useCallback((next: Locale) => {
     persistLocale(next);
-    setLocaleState(next); // تحديث فوري لمكوّنات العميل (t)
-    try {
-      document.documentElement.lang = next;
-      document.documentElement.dir = dirFor(next);
-    } catch { /* تجاهل */ }
-    router.refresh(); // تحديث محتوى الخادم بسلاسة (بلا وميض ولا شاشة ترحيب)
+    try { document.documentElement.dataset.switching = 'true'; } catch { /* تجاهل */ } // خفوت قصير بدل الصفحة المختلطة
+    startTransition(() => router.refresh()); // محتوى الخادم باللغة الجديدة — بلا إعادة تحميل ولا فقدان موضع التمرير
   }, [router]);
 
   const value = useMemo<LocaleContextValue>(
@@ -67,8 +75,9 @@ export function LocaleProvider({ initialLocale, children }: { initialLocale: Loc
       dir: dirFor(locale),
       t: (key, vars) => translate(locale, key, vars),
       setLocale,
+      switching: isPending,
     }),
-    [locale, setLocale],
+    [locale, setLocale, isPending],
   );
 
   return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>;
@@ -83,6 +92,7 @@ export function useLocale(): LocaleContextValue {
     dir: dirFor(DEFAULT_LOCALE),
     t: (key, vars) => translate(DEFAULT_LOCALE, key, vars),
     setLocale: () => {},
+    switching: false,
   };
 }
 

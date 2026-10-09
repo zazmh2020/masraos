@@ -4,6 +4,7 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { LogoMark } from '@/components/Logo';
 import LangToggle from '@/components/LangToggle';
+import Icon from '@/components/Icon';
 import { useT } from '@/lib/i18n/LocaleProvider';
 import '@/styles/login.css';
 import '@/styles/auth.css';
@@ -19,7 +20,7 @@ export default function AuthShell({ wide = false, children }: { wide?: boolean; 
   return (
     <div className="au-page">
       <div className="au-top">
-        <Link href="/" className="au-home"><span className="au-arrow" aria-hidden="true">→</span>{t('login.home')}</Link>
+        <Link href="/" className="au-home"><Icon name="home" size={18} />{t('login.home')}</Link>
         <LangToggle className="on-deep" />
       </div>
 

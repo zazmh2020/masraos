@@ -383,3 +383,9 @@ svg {
 }
 .lang-gate-x:hover { background: var(--gray-300, #e0dcea); color: var(--purple-700, var(--brand-primary)); }
 :root[data-theme="dark"] .lang-gate-x { background: rgba(255,255,255,0.08); color: #cfc8e0; }
+
+/* تبديل اللغة: خفوت قصير للصفحة ثم ظهور المحتوى الجديد دفعة واحدة (بدل صفحة مختلطة اللغة/الاتجاه) */
+body { transition: opacity 0.18s ease; }
+html[data-switching] body { opacity: 0.55; }
+.lang-toggle[aria-busy] { cursor: progress; }
+@media (prefers-reduced-motion: reduce) { body { transition: none; } }

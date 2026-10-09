@@ -5,13 +5,15 @@ import Icon from '@/components/Icon';
 
 /** زر تبديل اللغة عربي/إنجليزي — أيقونة كرة أرضية. */
 export default function LangToggle({ className = '' }: { className?: string }) {
-  const { locale, setLocale } = useLocale();
+  const { locale, setLocale, switching } = useLocale();
   const next = locale === 'ar' ? 'en' : 'ar';
   return (
     <button
       type="button"
       className={`lang-toggle ${className}`}
       onClick={() => setLocale(next)}
+      disabled={switching}
+      aria-busy={switching || undefined}
       aria-label={locale === 'ar' ? 'Switch to English' : 'التبديل إلى العربية'}
       title={locale === 'ar' ? 'English' : 'العربية'}
     >
