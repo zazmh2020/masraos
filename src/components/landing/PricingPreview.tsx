@@ -14,7 +14,7 @@ function PlanIcon({ level }: { level: number }) {
 }
 
 // Presentation-only proposal: never use these values for billing or access control.
-const plans = [
+export const plans = [
   {
     name: ['الانطلاقة', 'Launch'], price: 19, years: 10,
     description: ['نظّم أعمال مركزك اليومية، دون ذكاء اصطناعي.', 'Organize everyday center operations, without AI.'],
