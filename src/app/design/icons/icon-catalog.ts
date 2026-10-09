@@ -10,7 +10,7 @@ export const ICON_GROUPS: { title: string; names: IconName[] }[] = [
   { title: 'التعليم', names: ['education', 'quran', 'students', 'teachers', 'halaqat', 'attendance', 'memorization', 'recitation', 'review', 'assessment', 'certificates', 'knowledge'] },
   { title: 'الجهة والإدارة', names: ['organization', 'building', 'office', 'structure', 'users', 'group', 'activeUser', 'administration', 'verified', 'identity', 'qr', 'lock'] },
   { title: 'العمليات والمحتوى', names: ['operations', 'resources', 'projects', 'programs', 'campaigns', 'donations', 'beneficiaries', 'events', 'announcement', 'documents', 'content', 'folders', 'folder', 'notes'] },
-  { title: 'التحليلات والعناصر العامة', names: ['analytics', 'statistics', 'reports', 'growth', 'activities', 'target', 'assistant', 'star', 'heart', 'leaf', 'world', 'pin', 'completed', 'alert'] },
+  { title: 'التحليلات والعناصر العامة', names: ['analytics', 'statistics', 'reports', 'growth', 'activities', 'target', 'assistant', 'star', 'heart', 'leaf', 'world', 'pin', 'phone', 'mail', 'location', 'completed', 'alert'] },
   { title: 'إجراءات التحكّم', names: ['add', 'edit', 'delete', 'copy', 'link', 'view', 'hide', 'send', 'check', 'close', 'reject', 'back', 'forward', 'chevronDown', 'expand', 'collapse', 'sun', 'moon'] },
 ];
 
@@ -84,6 +84,9 @@ export const ICON_LABELS: Record<IconName, { ar: string; en: string }> = {
   leaf: { ar: 'البداية', en: 'Starter' },
   world: { ar: 'الموقع العام', en: 'Public site' },
   pin: { ar: 'تثبيت', en: 'Pin' },
+  phone: { ar: 'الهاتف', en: 'Phone' },
+  mail: { ar: 'البريد', en: 'Email' },
+  location: { ar: 'العنوان', en: 'Location' },
   completed: { ar: 'مكتمل', en: 'Completed' },
   alert: { ar: 'تنبيه', en: 'Alert' },
 

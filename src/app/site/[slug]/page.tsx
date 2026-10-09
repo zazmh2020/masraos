@@ -1,5 +1,10 @@
+import type { CSSProperties } from 'react';
+import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import { getT } from '@/lib/i18n/server';
+import { brandPalette } from '@/lib/brand-palette';
+import Icon from '@/components/Icon';
+import LangToggle from '@/components/LangToggle';
 import '@/styles/public-site.css';
 
 export const dynamic = 'force-dynamic';
@@ -8,6 +13,16 @@ const TYPE_KEY: Record<string, string> = {
   ASSOCIATION: 'atype.ASSOCIATION', MOSQUE: 'atype.MOSQUE', SCHOOL: 'atype.SCHOOL', PROJECT: 'atype.PROJECT',
 };
 
+/** ألوان الموقع من هوية الجهة عبر brandPalette (نفس اشتقاق اللوحة): تباين مضمون للنص الأبيض مهما كان اللون المختار. */
+function siteVars(hex: string | null): CSSProperties {
+  const p = brandPalette(hex) ?? brandPalette('#61428C')!;
+  return {
+    ['--ps-primary' as string]: p.primary, ['--ps-deep' as string]: p.deep, ['--ps-soft' as string]: p.soft,
+    ['--ps-support' as string]: p.support, ['--ps-subtle' as string]: p.subtle, ['--ps-on' as string]: p.onBrand,
+  };
+}
+
+// المحتوى الذي تكتبه الجهة (الاسم، النبذة، العنوان، الأخبار) بـ dir="auto" — يُعرض باتجاه لغته أيًّا كانت لغة الواجهة
 export default async function PublicSitePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const { t, locale } = await getT();
@@ -25,6 +40,7 @@ export default async function PublicSitePage({ params }: { params: Promise<{ slu
     return (
       <main className="ps-empty">
         <div className="ps-empty-card">
+          <span className="ps-empty-icon" aria-hidden="true"><Icon name="world" size={28} /></span>
           <h1>{t('psite.unavailableTitle')}</h1>
           <p>{t('psite.unavailableBody')}</p>
         </div>
@@ -39,65 +55,68 @@ export default async function PublicSitePage({ params }: { params: Promise<{ slu
     select: { id: true, title: true, body: true, createdAt: true, pinned: true },
   });
 
-  const brand = org.brandColor || '#61428C';
+  const phone = org.contactPhone?.replace(/[^\d+]/g, '') || null;
 
   return (
-    <main className="ps" style={{ ['--ps-brand' as string]: brand }}>
+    <div className="ps" style={siteVars(org.brandColor)}>
       <header className="ps-hero">
+        <div className="ps-top"><LangToggle /></div>
         <div className="ps-hero-in">
           {org.logoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
+            // eslint-disable-next-line @next/next/no-img-element -- شعار الجهة من رابط خارجي يحدده المدير
             <img src={org.logoUrl} alt="" className="ps-logo" />
           ) : (
-            <div className="ps-logo ps-logo-ph">{org.name.slice(0, 1)}</div>
+            <div className="ps-logo ps-logo-ph" aria-hidden="true">{org.name.slice(0, 1)}</div>
           )}
-          <h1>{org.name}</h1>
+          <h1 dir="auto">{org.name}</h1>
           <p className="ps-type">{t(TYPE_KEY[org.type] ?? 'atype.ASSOCIATION')}</p>
         </div>
       </header>
 
-      {org.aboutText && (
-        <section className="ps-about">
-          <h2>{t('psite.about')}</h2>
-          <p>{org.aboutText}</p>
-        </section>
-      )}
-
-      {(org.contactEmail || org.contactPhone || org.address) && (
-        <section className="ps-contact">
-          <h2>{t('psite.contact')}</h2>
-          <div className="ps-contact-grid">
-            {org.contactPhone && <div className="ps-contact-item"><span>📞</span><a href={`tel:${org.contactPhone}`} dir="ltr">{org.contactPhone}</a></div>}
-            {org.contactEmail && <div className="ps-contact-item"><span>✉️</span><a href={`mailto:${org.contactEmail}`} dir="ltr">{org.contactEmail}</a></div>}
-            {org.address && <div className="ps-contact-item"><span>📍</span><span>{org.address}</span></div>}
-          </div>
-        </section>
-      )}
-
-      <section className="ps-news">
-        <h2>{t('psite.news')}</h2>
-        {announcements.length === 0 ? (
-          <p className="ps-none">{t('psite.noNews')}</p>
-        ) : (
-          <div className="ps-news-grid">
-            {announcements.map((a) => (
-              <article key={a.id} className="ps-card">
-                <div className="ps-card-top">
-                  {a.pinned && <span className="ps-pin">{t('psite.pinned')}</span>}
-                  <time>{dateFmt.format(a.createdAt)}</time>
-                </div>
-                <h3>{a.title}</h3>
-                <p>{a.body}</p>
-              </article>
-            ))}
-          </div>
+      <main id="main">
+        {org.aboutText && (
+          <section className="ps-section ps-about">
+            <h2>{t('psite.about')}</h2>
+            <p dir="auto">{org.aboutText}</p>
+          </section>
         )}
-      </section>
+
+        {(org.contactEmail || phone || org.address) && (
+          <section className="ps-section">
+            <h2>{t('psite.contact')}</h2>
+            <ul className="ps-contact">
+              {phone && <li><Icon name="phone" size={18} /><a href={`tel:${phone}`} dir="ltr">{org.contactPhone}</a></li>}
+              {org.contactEmail && <li><Icon name="mail" size={18} /><a href={`mailto:${org.contactEmail.trim()}`} dir="ltr">{org.contactEmail}</a></li>}
+              {org.address && <li><Icon name="location" size={18} /><span dir="auto">{org.address}</span></li>}
+            </ul>
+          </section>
+        )}
+
+        <section className="ps-section">
+          <h2>{t('psite.news')}</h2>
+          {announcements.length === 0 ? (
+            <p className="ps-none">{t('psite.noNews')}</p>
+          ) : (
+            <div className="ps-news">
+              {announcements.map((a) => (
+                <article key={a.id} className="ps-card">
+                  <div className="ps-card-top">
+                    {a.pinned && <span className="ps-pin"><Icon name="pin" size={13} />{t('psite.pinned')}</span>}
+                    <time dateTime={a.createdAt.toISOString()}>{dateFmt.format(a.createdAt)}</time>
+                  </div>
+                  <h3 dir="auto">{a.title}</h3>
+                  <p dir="auto">{a.body}</p>
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
+      </main>
 
       <footer className="ps-footer">
-        <span>{org.name}</span>
-        <span className="ps-by">{t('psite.poweredBy')}</span>
+        <span className="ps-footer-name" dir="auto">{org.name}</span>
+        <Link href="/" className="ps-by">{t('psite.poweredBy')}</Link>
       </footer>
-    </main>
+    </div>
   );
 }
