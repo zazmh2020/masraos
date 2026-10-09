@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image, { getImageProps } from 'next/image';
 import Link from 'next/link';
 import Reveal from '@/components/Reveal';
 import Icon from '@/components/Icon';
@@ -34,6 +34,10 @@ export default async function HomePage() {
   const demoEnabled = !!process.env.DEMO_LOGIN_EMAIL;
   const primaryHref = demoEnabled ? '/api/auth/demo' : '/signup';
   const primaryLabel = t(demoEnabled ? 'hero.cta.demo' : 'hero.cta.explore');
+  // لقطة الهيرو: لوحة سطح المكتب، ولقطة الجوال على الشاشات الصغيرة (يُحمَّل واحدة فقط حسب الشاشة)
+  const shotAlt = t('v2.shot.tag');
+  const { props: { srcSet: mobileShot } } = getImageProps({ alt: shotAlt, src: `/v2/mobile-${locale}.webp`, width: 600, height: 1298, sizes: '320px' });
+  const { props: heroShot } = getImageProps({ alt: shotAlt, src: `/v2/dashboard-${locale}.webp`, width: 1920, height: 1200, sizes: '(max-width: 1200px) 100vw, 1160px', loading: 'eager', fetchPriority: 'high' });
   const faqs = settings.homeFaqs?.length ? settings.homeFaqs : [1, 2, 3, 4, 5].map((n) => ({ q: t(`faq.q${n}`), a: t(`faq.a${n}`) }));
 
   return (
@@ -68,8 +72,11 @@ export default async function HomePage() {
             <figure className="v2-hero-fig v2-rise" style={{ animationDelay: '0.35s' }}>
               <div className="v2-frame">
                 <div className="v2-frame-bar" aria-hidden="true"><i /><i /><i /><span dir="ltr">masraos.com</span></div>
-                <Image src={`/v2/dashboard-${locale}.webp`} width={1920} height={1200} priority sizes="(max-width: 1200px) 100vw, 1160px"
-                  alt={t('v2.shot.tag')} className="v2-shot-img" />
+                <picture>
+                  <source media="(max-width: 640px)" srcSet={mobileShot} sizes="320px" />
+                  {/* eslint-disable-next-line @next/next/no-img-element -- picture للتوجيه الفني (getImageProps) */}
+                  <img {...heroShot} alt={shotAlt} className="v2-shot-img v2-hero-img" />
+                </picture>
               </div>
               <figcaption className="v2-tag">{t('v2.shot.tag')}</figcaption>
             </figure>

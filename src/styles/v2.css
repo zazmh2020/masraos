@@ -499,3 +499,17 @@
 @media (max-width: 640px) {
   .v2-promise, .v2-grid-4, .v2-checks-2col { grid-template-columns: 1fr; }
 }
+
+/* الهيرو على الجوال: لقطة الجوال بإطار هاتف بدل لوحة سطح المكتب المصغّرة */
+@media (max-width: 640px) {
+  .v2-hero-fig .v2-frame {
+    max-inline-size: 300px; margin-inline: auto; border-radius: 34px;
+    border: 6px solid color-mix(in srgb, #fff 16%, var(--brand-primary-dark));
+  }
+  .v2-hero-fig .v2-frame-bar { display: none; }
+  .v2-hero-img { inline-size: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: top; }
+  .v2-hero-fig .v2-tag { display: flex; justify-content: center; }
+}
+@media (max-width: 640px) {
+  .v2-roles .v2-phone { display: none; } /* لقطة الجوال ظاهرة في الهيرو — لا تكرار */
+}
