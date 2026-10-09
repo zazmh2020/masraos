@@ -2,12 +2,9 @@
 
 import { useEffect, useRef, useState, useSyncExternalStore, type FormEvent } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { LogoMark } from '@/components/Logo';
-import LangToggle from '@/components/LangToggle';
+import AuthShell from '@/components/auth/AuthShell';
 import Icon from '@/components/Icon';
 import { useT } from '@/lib/i18n/LocaleProvider';
-import '@/styles/login.css';
 import '@/styles/signup.css';
 
 type Channel = 'EMAIL' | 'PHONE';
@@ -129,26 +126,8 @@ export default function SignupPage() {
   const fieldError = (k: Field) => (fieldErr[k] ? <span id={`err-${k}`} className="su-field-error" role="alert">{fieldErr[k]}</span> : null);
 
   return (
-    <div className="lg-page">
-      <div className="lg-ambient" aria-hidden="true">
-        <span className="lg-blob lg-blob-1" />
-        <span className="lg-blob lg-blob-2" />
-        <span className="lg-grid" />
-      </div>
-
-      <div className="lg-toggles"><LangToggle className="on-deep" /></div>
-      <Link href="/" className="lg-home-top">{t('login.home')}</Link>
-
-      <motion.main
-        className="lg-card su-card"
-        initial={{ opacity: 0, y: 26, scale: 0.985 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.5, ease: [0.22, 0.61, 0.36, 1] }}
-      >
-        <Link href="/" className="lg-brand" aria-label="مسرى">
-          <span className="lg-brand-mark"><LogoMark size={26} /></span>
-          <span className="lg-brand-name">{t('brand')}</span>
-        </Link>
+    <AuthShell variant="signup">
+      <div className="lg-card au-card su-card">
 
         <div className="lg-head">
           <h1>{step === 'details' ? t('signup.title') : t('signup.verifyTitle')}</h1>
@@ -231,7 +210,7 @@ export default function SignupPage() {
 
             <button className="lg-submit" type="submit" disabled={busy}>
               {busy ? t('signup.submitting') : t('signup.submit')}
-              {!busy && <span aria-hidden="true">←</span>}
+              {!busy && <span className="au-arrow" aria-hidden="true">←</span>}
             </button>
 
             <p className="su-switch">{t('signup.haveAccount')} <Link href="/login">{t('login.submit')}</Link></p>
@@ -244,12 +223,20 @@ export default function SignupPage() {
 
             <label className="lg-field">
               <span className="lg-label">{t('signup.code')}</span>
-              <input
-                ref={codeRef}
-                className="su-otp" dir="ltr" inputMode="numeric" autoComplete="one-time-code" maxLength={6}
-                placeholder="••••••" value={code}
-                onChange={(e) => setCode(e.target.value.replace(/[^\d٠-٩۰-۹]/g, '').slice(0, 6))}
-              />
+              {/* حقل واحد حقيقي (يدعم التعبئة التلقائية واللصق) تعرضه ست خانات؛ المؤشّر يتقدّم تلقائيًا */}
+              <span className="su-otp-wrap" data-invalid={error ? 'true' : undefined}>
+                <input
+                  ref={codeRef}
+                  className="su-otp-input" dir="ltr" inputMode="numeric" autoComplete="one-time-code" maxLength={6}
+                  value={code} aria-invalid={error ? true : undefined}
+                  onChange={(e) => setCode(e.target.value.replace(/[^\d٠-٩۰-۹]/g, '').slice(0, 6))}
+                />
+                <span className="su-otp-boxes" aria-hidden="true">
+                  {Array.from({ length: 6 }, (_, i) => (
+                    <span key={i} className={`su-otp-box${code[i] ? ' is-filled' : ''}${i === Math.min(code.length, 5) ? ' is-next' : ''}`}>{code[i] ?? ''}</span>
+                  ))}
+                </span>
+              </span>
             </label>
 
             <button className="lg-submit" type="submit" disabled={busy || code.length < 6}>
@@ -266,9 +253,7 @@ export default function SignupPage() {
             {devCode && <p className="su-dev">{t('signup.dev', { code: devCode })}</p>}
           </form>
         )}
-      </motion.main>
-
-      <div className="lg-copyright">{t('footer.rights')}</div>
-    </div>
+      </div>
+    </AuthShell>
   );
 }

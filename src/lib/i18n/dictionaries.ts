@@ -2132,6 +2132,9 @@ const ar: Dict = {
   'pg.contact.phone': 'الهاتف',
   'pg.contact.whatsapp': 'واتساب',
   'pg.contact.haveAccount': 'لديك حساب؟',
+  'auth.step1': 'أدخل بيانات المركز',
+  'auth.step2': 'أكّد برمز يصلك على البريد أو الجوال',
+  'auth.step3': 'ادخل لوحة مركزك مباشرة',
 };
 
 const en: Dict = {
@@ -4214,6 +4217,9 @@ const en: Dict = {
   'pg.contact.phone': 'Phone',
   'pg.contact.whatsapp': 'WhatsApp',
   'pg.contact.haveAccount': 'Already have an account?',
+  'auth.step1': 'Enter your center details',
+  'auth.step2': 'Confirm with a code sent to your email or phone',
+  'auth.step3': 'Go straight to your center dashboard',
 };
 
 export const DICTIONARIES: Record<Locale, Dict> = { ar, en };

@@ -2,12 +2,9 @@
 
 import { useState, type FormEvent } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { LogoMark } from '@/components/Logo';
-import LangToggle from '@/components/LangToggle';
+import AuthShell from '@/components/auth/AuthShell';
 import Icon from '@/components/Icon';
 import { useT } from '@/lib/i18n/LocaleProvider';
-import '@/styles/login.css';
 
 const DEMO_ACCOUNTS = [
   { email: 'owner@midad.local', label: 'مالك المنصة', role: 'لوحة الإدارة' },
@@ -53,29 +50,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="lg-page">
-      <div className="lg-ambient" aria-hidden="true">
-        <span className="lg-blob lg-blob-1" />
-        <span className="lg-blob lg-blob-2" />
-        <span className="lg-grid" />
-      </div>
-
-      <div className="lg-toggles">
-        <LangToggle className="on-deep" />
-      </div>
-
-      <Link href="/" className="lg-home-top">{t('login.home')}</Link>
-
-      <motion.main
-        className="lg-card"
-        initial={{ opacity: 0, y: 26, scale: 0.985 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.5, ease: [0.22, 0.61, 0.36, 1] }}
-      >
-        <Link href="/" className="lg-brand" aria-label="مسرى">
-          <span className="lg-brand-mark"><LogoMark size={26} /></span>
-          <span className="lg-brand-name">{t('brand')}</span>
-        </Link>
+    <AuthShell variant="login">
+      <div className="lg-card au-card">
 
         <div className="lg-head">
           <h1>{t('login.welcome')}</h1>
@@ -118,7 +94,7 @@ export default function LoginPage() {
 
           <button className="lg-submit" type="submit" disabled={busy}>
             {busy ? t('login.submitting') : t('login.submit')}
-            {!busy && <span aria-hidden="true">←</span>}
+            {!busy && <span className="au-arrow" aria-hidden="true">←</span>}
           </button>
         </form>
 
@@ -139,9 +115,7 @@ export default function LoginPage() {
           </div>
         )}
 
-      </motion.main>
-
-      <div className="lg-copyright">{t('footer.rights')}</div>
-    </div>
+      </div>
+    </AuthShell>
   );
 }
