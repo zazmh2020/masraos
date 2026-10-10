@@ -64,7 +64,7 @@ export default async function HomePage() {
                       ? <Link href={slide.ctaLink} className="v2-btn v2-btn-light">{slide.ctaText}</Link>
                       : <a href={slide.ctaLink} className="v2-btn v2-btn-light" target="_blank" rel="noopener noreferrer">{slide.ctaText}</a>)
                   : <a href={primaryHref} className="v2-btn v2-btn-light">{primaryLabel}</a>}
-                <a href="#pricing" className="v2-link v2-link-onDeep">{t('nav.pricing')} <span className="v2-arrow" aria-hidden="true">←</span></a>
+                <a href="#pricing" className="v2-btn v2-btn-onDeep">{t('nav.pricing')}</a>
               </div>
             </div>
           </div>

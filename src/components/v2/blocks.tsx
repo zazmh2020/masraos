@@ -47,7 +47,7 @@ export async function CtaBand({ title, lead }: { title?: string; lead?: string }
         <Reveal delay={0.1}>
           <div className="v2-actions">
             <a href={demoEnabled ? '/api/auth/demo' : '/signup'} className="v2-btn v2-btn-light">{t(demoEnabled ? 'hero.cta.demo' : 'hero.cta.explore')}</a>
-            <Link href="/contact" className="v2-link v2-link-onDeep">{t('cta.contact')} <span className="v2-arrow" aria-hidden="true">←</span></Link>
+            <Link href="/contact" className="v2-btn v2-btn-onDeep">{t('cta.contact')}</Link>
           </div>
         </Reveal>
       </div>
