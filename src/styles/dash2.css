@@ -232,3 +232,14 @@
 /* روابط الخطوات الأولى: هدف لمس 44px */
 .d2-steps li a { display: inline-flex; align-items: center; min-block-size: 44px; }
 @media (min-width: 861px) { .d2-steps li a { min-block-size: 40px; } }
+
+/* ---------- تصحيحات التخطيط على الشاشات الكبيرة (مراجعة بصرية) ---------- */
+@media (min-width: 768px) {
+  /* المقياس المحوري ضعف عرض الداعمين، والجميع في صف واحد مهما كان عددهم */
+  .d2-metrics { grid-template-columns: 2fr repeat(auto-fit, minmax(0, 1fr)); }
+  .d2-metric.is-primary { grid-column: auto; }
+}
+.d2-metric.is-primary .d2-metric-value { font-size: clamp(32px, 3.2vw, 44px); }
+@media (min-width: 1024px) {
+  .d2.d2-grid { grid-auto-flow: row dense; } /* العمودان يمتلئان جنبًا إلى جنب دون قفزات */
+}

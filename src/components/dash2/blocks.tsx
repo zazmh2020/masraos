@@ -126,7 +126,10 @@ export function MobileActionBar({ children }: { children: ReactNode }) {
 
 /** خط بياني صغير بلا محاور (اتجاه الأيام) — يتخطّى الأيام بلا بيانات. */
 export function Sparkline({ values, label }: { values: (number | null)[]; label: string }) {
-  const pts = values.map((v, i) => (v === null ? null : { x: (i / Math.max(1, values.length - 1)) * 100, y: 100 - v })).filter((p): p is { x: number; y: number } => !!p);
+  // مقياس نسبي (أدنى–أعلى) كي يظهر الاتجاه حتى لو تقاربت القيم؛ بهامش علوي وسفلي
+  const known = values.filter((v): v is number => v !== null);
+  const lo = Math.min(...known), hi = Math.max(...known), span = hi - lo || 1;
+  const pts = values.map((v, i) => (v === null ? null : { x: (i / Math.max(1, values.length - 1)) * 100, y: 85 - ((v - lo) / span) * 70 })).filter((p): p is { x: number; y: number } => !!p);
   if (pts.length < 2) return null;
   const line = pts.map((p, i) => `${i ? 'L' : 'M'}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ');
   const area = `${line} L${pts[pts.length - 1].x.toFixed(1)} 100 L${pts[0].x.toFixed(1)} 100 Z`;
