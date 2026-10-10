@@ -7,7 +7,9 @@ export default async function V2Footer() {
   const { t } = await getT();
   return (
     <footer id="about" className="v2-footer">
-      <div className="v2-wrap v2-footer-grid">
+      <div className="v2-wrap">
+      <div className="v2-footer-card">
+      <div className="v2-footer-grid">
         <div>
           <span className="v2-brand"><LogoMark size={26} /><span>{t('brand')}</span></span>
           <p>{t('footer.desc')}</p>
@@ -35,7 +37,10 @@ export default async function V2Footer() {
           <FooterLink href="/terms">{t('footer.terms')}</FooterLink>
         </nav>
       </div>
-      <div className="v2-wrap v2-footer-base">{t('footer.rights')}</div>
+      <div className="v2-footer-base">{t('footer.rights')}</div>
+      </div>
+      <div className="v2-watermark" aria-hidden="true">{t('brand')}</div>
+      </div>
     </footer>
   );
 }

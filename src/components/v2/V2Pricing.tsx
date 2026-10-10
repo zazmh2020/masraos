@@ -25,19 +25,24 @@ export default function V2Pricing() {
         {plans.map((plan, i) => (
           <article key={plan.price} className={`v2-plan ${i === 1 ? 'is-featured' : ''}`}>
             {i === 1 && <span className="v2-plan-flag">{t('v2.pricing.featured')}</span>}
+            <div className="v2-plan-inner">
+            <div className="v2-plan-top">
             <h3>{plan.name[lang]}</h3>
             <p className="v2-plan-desc">{plan.description[lang]}</p>
-            <div className="v2-plan-rule" aria-hidden="true" />
             <p className="v2-plan-price">
               <b dir="ltr"><AnimatedAmount value={amount(plan.price)} format={fmt} /></b>
               <span><CurrencySymbol code={currency} locale={locale} /> {t('v2.pricing.month')}</span>
             </p>
             <small className="v2-muted">{t('v2.pricing.proposed')}</small>
+            <Link href={`/pricing#preview-plan-${i}`} className={`v2-btn ${i === 1 ? 'v2-btn-primary' : 'v2-btn-outline'} v2-plan-cta`}>{t('v2.pricing.preview')}</Link>
+            </div>
+            <div className="v2-plan-body">
             <ul className="v2-plan-list">
               {plan.features.slice(0, 4).map((f) => <li key={f[1]}><span className="v2-tick" aria-hidden="true"><Icon name="check" size={13} /></span>{f[lang]}</li>)}
             </ul>
             <p className="v2-plan-limits">{plan.limits[lang]}</p>
-            <Link href={`/pricing#preview-plan-${i}`} className={`v2-btn ${i === 1 ? 'v2-btn-light' : 'v2-btn-outline'} v2-plan-cta`}>{t('v2.pricing.preview')}</Link>
+            </div>
+            </div>
           </article>
         ))}
       </div>
