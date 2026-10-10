@@ -243,3 +243,7 @@
 @media (min-width: 1024px) {
   .d2.d2-grid { grid-auto-flow: row dense; } /* العمودان يمتلئان جنبًا إلى جنب دون قفزات */
 }
+
+/* حدّ أدنى للنص 12px داخل لوحة المالك (أنماط dashboard.css القديمة كانت 11px) */
+.dash .dash-ring-label, .dash .d2-table th { font-size: 12px; }
+.dash .d2-table th { font-weight: 600; }

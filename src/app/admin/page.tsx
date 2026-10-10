@@ -5,6 +5,7 @@ import { DashboardMetric, EmptyNote, MobileActionBar, Panel, ProgressSummary, St
 import AreaChart from '@/components/dash/AreaChart';
 import DonutRing from '@/components/dash/DonutRing';
 import { getT } from '@/lib/i18n/server';
+import '@/styles/dashboard.css'; // أنماط الحلقة والرسم والجدول (كانت تصل عبر DashboardShell)
 
 export const dynamic = 'force-dynamic';
 
@@ -100,6 +101,7 @@ export default async function AdminOverview() {
 
   return (
     <div className="org-page">
+      <div className="dash">
       <div className="d2 d2-grid d2-has-actionbar">
         <header className="d2-head">
           <div>
@@ -180,6 +182,7 @@ export default async function AdminOverview() {
         <MobileActionBar>
           <Link href="/admin/organizations/new" className="d2-action is-primary"><Icon name="add" size={20} />{t('adm.create')}</Link>
         </MobileActionBar>
+      </div>
       </div>
     </div>
   );
