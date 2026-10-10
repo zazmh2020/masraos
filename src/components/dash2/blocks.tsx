@@ -11,14 +11,25 @@ import '@/styles/dash2.css';
 export const numFmt = new Intl.NumberFormat('en-US');
 
 /** مقياس: قيمة كبيرة + تسمية قصيرة + سياق. primary = المقياس المحوري الواحد في الشاشة. */
-export function DashboardMetric({ label, value, hint, primary, href }: {
+export function DashboardMetric({ label, value, hint, primary, href, trend, chart, bar }: {
   label: string; value: ReactNode; hint?: ReactNode; primary?: boolean; href?: string;
+  /** شارة اتجاه (مثل «▲ 4%») بجانب القيمة. */
+  trend?: { text: string; dir: 'up' | 'down' };
+  /** رسم صغير (Sparkline) أسفل المقياس المحوري. */
+  chart?: ReactNode;
+  /** شريط ملوّن أسفل المقياس الداعم (درجة من سلّم الهوية). */
+  bar?: 1 | 2 | 3;
 }) {
   const body = (
     <>
       <span className="d2-metric-label">{label}</span>
-      <span className="d2-metric-value">{value}</span>
+      <span className="d2-metric-row">
+        <span className="d2-metric-value">{value}</span>
+        {trend && <span className={`d2-trend is-${trend.dir}`}>{trend.dir === 'up' ? '▲' : '▼'} {trend.text}</span>}
+      </span>
       {hint && <span className="d2-metric-hint">{hint}</span>}
+      {chart}
+      {bar && <span className={`d2-metric-bar b${bar}`} aria-hidden="true" />}
     </>
   );
   const cls = `d2-metric ${primary ? 'is-primary' : ''}`;
@@ -111,4 +122,18 @@ export function EmptyNote({ children }: { children: ReactNode }) {
 /** شريط إجراء ثابت أسفل الشاشة على الجوال فقط — يحترم المناطق الآمنة. */
 export function MobileActionBar({ children }: { children: ReactNode }) {
   return <div className="d2-actionbar">{children}</div>;
+}
+
+/** خط بياني صغير بلا محاور (اتجاه الأيام) — يتخطّى الأيام بلا بيانات. */
+export function Sparkline({ values, label }: { values: (number | null)[]; label: string }) {
+  const pts = values.map((v, i) => (v === null ? null : { x: (i / Math.max(1, values.length - 1)) * 100, y: 100 - v })).filter((p): p is { x: number; y: number } => !!p);
+  if (pts.length < 2) return null;
+  const line = pts.map((p, i) => `${i ? 'L' : 'M'}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ');
+  const area = `${line} L${pts[pts.length - 1].x.toFixed(1)} 100 L${pts[0].x.toFixed(1)} 100 Z`;
+  return (
+    <svg className="d2-spark" viewBox="0 0 100 100" preserveAspectRatio="none" role="img" aria-label={label}>
+      <path d={area} className="d2-spark-area" />
+      <path d={line} className="d2-spark-line" vectorEffect="non-scaling-stroke" />
+    </svg>
+  );
 }

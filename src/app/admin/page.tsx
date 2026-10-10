@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
 import Icon, { IconShape } from '@/components/Icon';
-import DashboardShell from '@/components/dash/DashboardShell';
-import StatCard from '@/components/dash/StatCard';
+import { DashboardMetric, EmptyNote, MobileActionBar, Panel, ProgressSummary, StatusBadge } from '@/components/dash2/blocks';
 import AreaChart from '@/components/dash/AreaChart';
 import DonutRing from '@/components/dash/DonutRing';
 import { getT } from '@/lib/i18n/server';
@@ -100,33 +99,52 @@ export default async function AdminOverview() {
   }
 
   return (
-    <DashboardShell>
-      <div className="dash-hd">
-        <div>
-          <span className="dash-eyebrow">{t('anav.owner')}</span>
-          <h1>{t('adm.title')} 👋</h1>
-          <p className="dash-sub">{t('adm.sub')}</p>
-        </div>
-        <div className="dash-hd-actions">
-          <Link href="/admin/organizations/new" className="dash-btn">
-            <Icon name="actions/actions-add" size={16} /> {t('adm.create')}
-          </Link>
-        </div>
-      </div>
-
-      <div className="dash-stats">
-        <StatCard icon="organization/organization-institution" color="purple" label={t('adm.stat.totalOrgs')} value={numFmt.format(orgCount)} trend={newThisMonth ? t('adm.thisMonth', { n: newThisMonth }) : undefined} />
-        <StatCard icon="organization/organization-building" color="green" label={t('adm.stat.activeOrgs')} value={numFmt.format(activeOrgCount)} />
-        <StatCard icon="people/people-users" color="blue" label={t('adm.stat.totalUsers')} value={numFmt.format(userCount)} />
-        <StatCard icon="analytics/analytics-kpi" color="gold" label={t('adm.stat.avgUsers')} value={numFmt.format(avgUsers)} />
-      </div>
-
-      <div className="dash-grid-main">
-        <div className="dash-card">
-          <div className="dash-card-hd">
-            <h3>{t('adm.growth')}</h3>
-            <Link href="/admin/organizations" className="dash-link">{t('adm.orgs')} ←</Link>
+    <div className="org-page">
+      <div className="d2 d2-grid d2-has-actionbar">
+        <header className="d2-head">
+          <div>
+            <span className="d2-eyebrow">{t('anav.owner')}</span>
+            <h1>{t('adm.title')}</h1>
+            <p>{t('adm.sub')}</p>
           </div>
+          <div className="d2-head-actions">
+            <Link href="/admin/organizations/new" className="d2-action is-primary"><Icon name="add" size={18} />{t('adm.create')}</Link>
+          </div>
+        </header>
+
+        {/* المقياس المحوري: المؤسسات النشطة — ثم الداعم */}
+        <div className="d2-metrics o-1">
+          <DashboardMetric primary label={t('adm.stat.activeOrgs')} value={numFmt.format(activeOrgCount)}
+            hint={t('adm.activeHint', { a: numFmt.format(activeOrgCount), b: numFmt.format(orgCount) })} href="/admin/organizations" />
+          <DashboardMetric label={t('adm.stat.totalOrgs')} value={numFmt.format(orgCount)} hint={newThisMonth ? t('adm.thisMonth', { n: newThisMonth }) : undefined} />
+          <DashboardMetric label={t('adm.stat.totalUsers')} value={numFmt.format(userCount)} />
+          <DashboardMetric label={t('adm.stat.avgUsers')} value={numFmt.format(avgUsers)} />
+        </div>
+
+        <Panel title={t('adm.latestOrgs')} more={{ href: '/admin/organizations', label: t('adm.viewAll') }} className="o-2 d2-col-main">
+          <table className="d2-table dash-table">
+            <thead>
+              <tr><th>{t('adm.th.name')}</th><th>{t('adm.th.type')}</th><th>{t('adm.th.users')}</th><th>{t('adm.th.status')}</th><th>{t('adm.th.created')}</th></tr>
+            </thead>
+            <tbody>
+              {recent.map((o) => (
+                <tr key={o.slug}>
+                  <td data-label={t('adm.th.name')}><strong>{o.name}</strong></td>
+                  <td data-label={t('adm.th.type')}>{TYPE_KEYS[o.type] ? t(TYPE_KEYS[o.type]) : o.type}</td>
+                  <td data-label={t('adm.th.users')}>{numFmt.format(o._count.users)}</td>
+                  <td data-label={t('adm.th.status')}><StatusBadge tone={o.isActive ? 'green' : 'muted'}>{o.isActive ? t('adm.status.active') : t('adm.status.inactive')}</StatusBadge></td>
+                  <td data-label={t('adm.th.created')}>{dateFmt.format(o.createdAt)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Panel>
+
+        <Panel title={t('adm.activation')} className="o-3 d2-col-side">
+          <DonutRing percent={activeRatio} label={t('adm.activeOf')} hint={t('adm.activeHint', { a: numFmt.format(activeOrgCount), b: numFmt.format(orgCount) })} />
+        </Panel>
+
+        <Panel title={t('adm.growth')} more={{ href: '/admin/organizations', label: t('adm.orgs') }} className="d2-col-main" secondary>
           {hasSeries ? (
             <>
               <AreaChart
@@ -142,77 +160,27 @@ export default async function AdminOverview() {
               </div>
             </>
           ) : (
-            <p className="dash-chart-empty">{t('adm.noActivity')}</p>
+            <EmptyNote>{t('adm.noActivity')}</EmptyNote>
           )}
-        </div>
+        </Panel>
 
-        <div className="dash-card">
-          <div className="dash-card-hd">
-            <h3>{t('adm.activation')}</h3>
-            <span className="dash-link">{t('adm.orgs')}</span>
-          </div>
-          <DonutRing
-            percent={activeRatio}
-            label={t('adm.activeOf')}
-            hint={t('adm.activeHint', { a: numFmt.format(activeOrgCount), b: numFmt.format(orgCount) })}
-          />
-        </div>
+        <Panel title={t('adm.distByType')} className="d2-col-side" secondary>
+          <ul className="d2-list">
+            {typeData.map((row) => (
+              <li key={row.label} className="d2-row">
+                <span className="d2-row-main" style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
+                  <span>{row.label}</span><strong>{numFmt.format(row.value)}</strong>
+                </span>
+                <ProgressSummary value={row.value} max={typeMax} label="" />
+              </li>
+            ))}
+          </ul>
+        </Panel>
+
+        <MobileActionBar>
+          <Link href="/admin/organizations/new" className="d2-action is-primary"><Icon name="add" size={20} />{t('adm.create')}</Link>
+        </MobileActionBar>
       </div>
-
-      <div className="dash-grid-bottom">
-        <div className="dash-card">
-          <div className="dash-card-hd">
-            <h3>{t('adm.latestOrgs')}</h3>
-            <Link href="/admin/organizations" className="dash-link">{t('adm.viewAll')} ←</Link>
-          </div>
-          <table className="dash-table">
-            <thead>
-              <tr><th>{t('adm.th.name')}</th><th>{t('adm.th.type')}</th><th>{t('adm.th.users')}</th><th>{t('adm.th.status')}</th><th>{t('adm.th.created')}</th></tr>
-            </thead>
-            <tbody>
-              {recent.map((o) => (
-                <tr key={o.slug}>
-                  <td>
-                    <div className="dash-cell-user">
-                      <span className="dash-avatar">{o.name.charAt(0)}</span>
-                      <div className="n">{o.name}</div>
-                    </div>
-                  </td>
-                  <td>{TYPE_KEYS[o.type] ? t(TYPE_KEYS[o.type]) : o.type}</td>
-                  <td>{numFmt.format(o._count.users)}</td>
-                  <td><span className={`dash-badge ${o.isActive ? 'green' : 'muted'}`}>{o.isActive ? t('adm.status.active') : t('adm.status.inactive')}</span></td>
-                  <td>{dateFmt.format(o.createdAt)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <div className="dash-side">
-          <div className="dash-card">
-            <div className="dash-card-hd"><h3>{t('adm.distByType')}</h3></div>
-            <div className="dash-ann-list">
-              {typeData.map((row) => (
-                <div key={row.label} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: '13px' }}>
-                  <span style={{ flex: '0 0 110px', color: 'var(--gray-700)' }}>{row.label}</span>
-                  <span style={{ flex: 1, height: 8, borderRadius: 100, background: 'var(--gray-100)', overflow: 'hidden' }}>
-                    <span style={{ display: 'block', height: '100%', width: `${(row.value / typeMax) * 100}%`, background: 'linear-gradient(90deg, var(--purple-300), var(--purple-500))', borderRadius: 100 }} />
-                  </span>
-                  <span style={{ fontWeight: 700, color: 'var(--purple-900)', minWidth: 24, textAlign: 'end' }}>{numFmt.format(row.value)}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="dash-promo">
-            <h4>{t('adm.promo.title')}</h4>
-            <p>{t('adm.promo.sub')}</p>
-            <Link href="/admin/organizations/new" className="dash-promo-btn">
-              <Icon name="actions/actions-add" size={14} /> {t('adm.create')}
-            </Link>
-          </div>
-        </div>
-      </div>
-    </DashboardShell>
+    </div>
   );
 }

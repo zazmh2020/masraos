@@ -649,3 +649,23 @@
 .v2-faq > li.is-open { background: var(--white); border-color: var(--v2-line); border-inline-start-color: var(--v2-line); }
 .v2-faq button { padding-inline: 20px; }
 .v2-faq-panel p { padding-inline: 20px; }
+
+/* ---------- التذييل: العودة إلى التصميم القديم (داكن بعرض كامل) + كلمة «مسرى» كاملة ---------- */
+.v2-footer { background: var(--v2-ink); color: var(--v2-on-deep); padding: 0; overflow: hidden; }
+.v2-footer-card { background: none; border: 0; border-radius: 0; padding: 0; }
+.v2-footer-grid { padding-block: 64px 40px; }
+.v2-footer .v2-brand, .v2-footer-card .v2-brand { color: var(--white); }
+.v2-footer-grid p { color: var(--v2-on-deep); }
+.v2-footer h2 { color: var(--brand-primary-soft); }
+.v2-footer nav a { color: var(--v2-on-deep); }
+.v2-footer nav a:hover { color: var(--white); }
+.v2-footer .v2-scribble path { stroke: var(--brand-primary-medium); }
+.v2-footer-base { padding-block: 20px; border-block-start: 1px solid var(--v2-line-deep); font-size: 13px; color: color-mix(in srgb, #fff 60%, transparent); }
+/* الكلمة كاملة (بلا قصّ) بنفس التنسيق: حجم كبير وتدرّج يتلاشى */
+.v2-watermark {
+  margin: 0; padding-block: 8px 24px; block-size: auto; overflow: visible; line-height: 1.15;
+  font-size: clamp(6rem, 22vw, 15rem);
+  background: linear-gradient(180deg, color-mix(in srgb, #fff 20%, transparent), color-mix(in srgb, #fff 3%, transparent) 90%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+@media (max-width: 640px) { .v2-footer { padding: 0; } .v2-footer-card { padding: 0; border-radius: 0; } }

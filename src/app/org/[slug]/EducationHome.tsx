@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Icon from '@/components/Icon';
 import {
   ActivityItem, DashboardMetric, EmptyNote, HalaqaSummary, MobileActionBar, Panel, ProgressSummary,
-  QuickAction, StatusBadge, StudentAttentionItem, numFmt,
+  QuickAction, Sparkline, StatusBadge, StudentAttentionItem, numFmt,
 } from '@/components/dash2/blocks';
 import { getEducationOverview } from '@/lib/dashboard/education';
 import { getT } from '@/lib/i18n/server';
@@ -28,7 +28,12 @@ export default async function EducationHome({
   const dateFmt = new Intl.DateTimeFormat(locale === 'en' ? 'en' : 'ar-u-nu-latn', { day: 'numeric', month: 'short' });
   const isStaff = user.role === 'STAFF';
 
-  const { today, halaqat, halaqaCount, students, teachers, attention, recent } = data;
+  const { today, halaqat, halaqaCount, students, teachers, attention, recent, week } = data;
+  // اتجاه اليوم مقابل آخر يوم سابق مسجَّل (إن وُجد)
+  const rates = week.map((w) => w.rate);
+  const todayRate = rates[6];
+  const prevRate = [...rates.slice(0, 6)].reverse().find((r) => r !== null) ?? null;
+  const delta = todayRate !== null && prevRate !== null ? todayRate - prevRate : null;
   const attendanceValue = today.recorded ? `${Math.round((today.present / today.recorded) * 100)}%` : t('eh.att.none');
 
   const steps = [
@@ -65,10 +70,12 @@ export default async function EducationHome({
             primary label={t('eh.stat.attendanceToday')} value={attendanceValue}
             hint={today.recorded ? t('eh.att.of', { a: numFmt.format(today.present), b: numFmt.format(today.recorded) }) : undefined}
             href={`${base}/education/attendance`}
+            trend={delta !== null && delta !== 0 ? { text: `${Math.abs(delta)}%`, dir: delta > 0 ? 'up' : 'down' } : undefined}
+            chart={<Sparkline values={rates} label={t('eh.stat.attendanceToday')} />}
           />
-          <DashboardMetric label={t('eh.stat.students')} value={numFmt.format(students)} href={`${base}/education/students`} />
-          <DashboardMetric label={t('eh.stat.halaqat')} value={numFmt.format(halaqaCount)} href={`${base}/education/halaqat`} />
-          {!isStaff && <DashboardMetric label={t('eh.stat.teachers')} value={numFmt.format(teachers)} href={`${base}/education/teachers`} />}
+          <DashboardMetric bar={1} label={t('eh.stat.students')} value={numFmt.format(students)} href={`${base}/education/students`} />
+          <DashboardMetric bar={2} label={t('eh.stat.halaqat')} value={numFmt.format(halaqaCount)} href={`${base}/education/halaqat`} />
+          {!isStaff && <DashboardMetric bar={3} label={t('eh.stat.teachers')} value={numFmt.format(teachers)} href={`${base}/education/teachers`} />}
         </div>
 
         <Panel title={t('eh.followup.title')} className="o-2 d2-col-side">

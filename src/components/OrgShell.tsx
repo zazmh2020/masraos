@@ -31,6 +31,8 @@ interface Props {
   assistant?: { show: boolean; ready: boolean };
   /** جلسة عرض تجريبي — تُخفي أزرار الحذف (عرض فقط؛ المنع الفعلي في proxy.ts على الخادم). */
   demo?: boolean;
+  /** تنقّل سفلي على الجوال (المعلّم ووليّ الأمر) — «المزيد» يفتح الدرج الكامل. */
+  bottomNav?: { items: { href: string; label: string; icon: keyof typeof ICONS }[]; label: string; more: string };
 }
 
 // مفاتيح التنقّل القديمة تُحلّ عبر خريطة Tabler المركزية.
@@ -64,7 +66,7 @@ function Avatar({ url }: { url?: string | null }) {
   );
 }
 
-export default function OrgShell({ children, org, user, nav, inbox, assistant, demo = false }: Props) {
+export default function OrgShell({ children, org, user, nav, inbox, assistant, demo = false, bottomNav }: Props) {
   const t = useT();
   const pathname = usePathname();
   const router = useRouter();
@@ -225,6 +227,23 @@ export default function OrgShell({ children, org, user, nav, inbox, assistant, d
         </header>
         <main id="org-main" tabIndex={-1} className="org-content"><PageTransition>{children}</PageTransition></main>
       </div>
+      {bottomNav && (
+        <nav className="d2-bottomnav" aria-label={bottomNav.label}>
+          {bottomNav.items.map((it) => {
+            const active = isActive(it.href);
+            return (
+              <Link key={it.href} href={it.href} className={active ? 'is-active' : undefined} aria-current={active ? 'page' : undefined}>
+                <span className="d2-bn-ic"><AppIcon name={it.icon} size={20} /></span>
+                <span>{it.label}</span>
+              </Link>
+            );
+          })}
+          <button type="button" onClick={() => setOpen(true)} aria-haspopup="dialog">
+            <span className="d2-bn-ic"><AppIcon name="menu" size={20} /></span>
+            <span>{bottomNav.more}</span>
+          </button>
+        </nav>
+      )}
       {assistant?.show && <OrgAssistantFab ready={assistant.ready} />}
     </div>
   );

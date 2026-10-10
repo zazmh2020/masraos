@@ -23,6 +23,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: '#61428C',
+  viewportFit: 'cover', // يتيح env(safe-area-inset-*) — النتوء والشريط السفلي في الجوالات
 };
 
 // مؤقّتًا: الموقع مقفول على الوضع الفاتح (أُزيل مبدّل الثيم — سيُعاد لاحقًا).

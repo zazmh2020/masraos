@@ -22,6 +22,8 @@ export type AttentionRow = { id: string; name: string; absences: number; halaqaN
 export type ActivityRow = { name: string; text: string | null; pages: number | null; at: Date };
 
 export type AttendanceToday = { recorded: number; present: number };
+/** نسبة الحضور (0–100) لكل يوم من آخر 7 أيام؛ null = لا تسجيل في ذلك اليوم. */
+export type WeekPoint = { date: Date; rate: number | null };
 
 /** تجميع حضور اليوم حسب الحلقة (حاضر + متأخر = حاضر). */
 function summarizeToday(groups: { halaqaId: string; status: string; _count: { _all: number } }[]) {
@@ -33,6 +35,18 @@ function summarizeToday(groups: { halaqaId: string; status: string; _count: { _a
     byHalaqa.set(g.halaqaId, (byHalaqa.get(g.halaqaId) ?? 0) + g._count._all);
   }
   return { total: { recorded, present } as AttendanceToday, byHalaqa };
+}
+
+async function weekRates(orgId: string): Promise<WeekPoint[]> {
+  const today = todayUtc();
+  const from = new Date(today.getTime() - 6 * DAY);
+  const groups = await prisma.attendanceRecord.groupBy({ by: ['date', 'status'], where: { organizationId: orgId, date: { gte: from } }, _count: { _all: true } });
+  return Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(from.getTime() + i * DAY);
+    let total = 0, present = 0;
+    for (const g of groups) if (g.date.getTime() === d.getTime()) { total += g._count._all; if (g.status === 'PRESENT' || g.status === 'LATE') present += g._count._all; }
+    return { date: d, rate: total ? Math.round((present / total) * 100) : null };
+  });
 }
 
 async function absentees(orgId: string, halaqaIds: string[] | null, take: number): Promise<AttentionRow[]> {
@@ -80,7 +94,7 @@ async function recentActivity(orgId: string, studentIds: string[] | null, take: 
 export const getEducationOverview = cache(async (orgId: string) => {
   const today = todayUtc();
   const w = { organizationId: orgId };
-  const [students, teachers, halaqaCount, halaqat, todayGroups, anyAttendance, absent, recent] = await Promise.all([
+  const [students, teachers, halaqaCount, halaqat, todayGroups, anyAttendance, absent, recent, week] = await Promise.all([
     prisma.student.count({ where: { ...w, status: 'ACTIVE' } }),
     prisma.teacher.count({ where: { ...w, isActive: true } }),
     prisma.halaqa.count({ where: w }),
@@ -92,13 +106,14 @@ export const getEducationOverview = cache(async (orgId: string) => {
     prisma.attendanceRecord.findFirst({ where: w, select: { id: true } }),
     absentees(orgId, null, 5),
     recentActivity(orgId, null, 5),
+    weekRates(orgId),
   ]);
   const { total, byHalaqa } = summarizeToday(todayGroups);
   const rows: HalaqaRow[] = halaqat.map((h) => ({
     id: h.id, name: h.name, schedule: h.schedule, teacherName: h.teacher?.name ?? null,
     students: h._count.students, recorded: byHalaqa.get(h.id) ?? 0,
   }));
-  return { students, teachers, halaqaCount, halaqat: rows, today: total, hasAttendance: !!anyAttendance, attention: absent, recent };
+  return { students, teachers, halaqaCount, halaqat: rows, today: total, hasAttendance: !!anyAttendance, attention: absent, recent, week };
 });
 
 /* ---------------- المعلّم ---------------- */
