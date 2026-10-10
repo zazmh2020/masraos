@@ -275,24 +275,42 @@
   display: inline-flex; margin-block-start: 16px; padding: 4px 12px; border-radius: 999px;
   font-size: 12.5px; font-weight: 600; color: var(--warning); background: var(--warning-soft);
 }
-.v2-plans {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  border: 1px solid var(--v2-line); border-radius: 18px; overflow: hidden; background: var(--white);
+.v2-plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch; max-inline-size: 1080px; margin-inline: auto; }
+.v2-plan {
+  position: relative; display: flex; flex-direction: column; padding: 32px 28px 28px; border: 1px solid var(--v2-line); border-radius: 24px;
+  background: var(--white); text-align: center; transition: border-color var(--dur) var(--ease);
 }
-.v2-plan { position: relative; display: flex; flex-direction: column; padding: 32px; border-inline-start: 1px solid var(--v2-line); }
-.v2-plan:first-child { border-inline-start: 0; }
-.v2-plan.is-featured { background: var(--brand-primary-subtle); box-shadow: inset 0 3px 0 var(--brand-primary); }
-.v2-plan-flag { margin-block-end: 8px; font-size: 12.5px; font-weight: 600; color: var(--brand-primary); }
+.v2-plan:hover { border-color: var(--brand-primary-medium); }
+/* الباقة المميّزة: بنفسجي عميق وبارزة بإطار أوسع */
+.v2-plan.is-featured { background: var(--v2-deep); border-color: var(--v2-deep); color: var(--white); }
+.v2-plan.is-featured:hover { border-color: var(--brand-primary-medium); }
+.v2-plan-flag {
+  position: absolute; inset-block-start: -14px; inset-inline-start: 50%; transform: translateX(-50%); white-space: nowrap;
+  padding: 4px 16px; border-radius: 999px; font-size: 12.5px; font-weight: 600; color: var(--v2-deep); background: var(--brand-primary-soft);
+}
+[dir='rtl'] .v2-plan-flag { transform: translateX(50%); }
 .v2-plan h3 { font-size: 22px; font-weight: 700; color: var(--v2-deep); }
-.v2-plan-desc { margin-block: 6px 20px; font-size: 14.5px; color: var(--v2-muted); min-block-size: 3.4em; }
-.v2-plan-price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; }
-.v2-plan-price b { font-size: 40px; font-weight: 700; line-height: 1; color: var(--v2-deep); }
+.v2-plan.is-featured h3 { color: var(--white); }
+.v2-plan-desc { margin: 6px 0 20px; font-size: 14.5px; color: var(--v2-muted); min-block-size: 3.4em; text-wrap: balance; }
+.v2-plan.is-featured .v2-plan-desc { color: color-mix(in srgb, #fff 78%, transparent); }
+.v2-plan-rule { block-size: 1px; background: var(--v2-line); margin-block-end: 20px; }
+.v2-plan.is-featured .v2-plan-rule { background: var(--v2-line-deep); }
+.v2-plan-price { display: flex; align-items: baseline; justify-content: center; flex-wrap: wrap; gap: 4px 8px; margin: 0; }
+.v2-plan-price b { font-size: 48px; font-weight: 700; line-height: 1; color: var(--v2-deep); font-variant-numeric: tabular-nums; }
 .v2-plan-price span { font-size: 14px; color: var(--v2-muted); }
-.v2-plan .v2-muted { margin-block: 6px 24px; }
-.v2-plan .v2-checks { gap: 8px; margin-block-end: 24px; }
-.v2-plan .v2-checks li { font-size: 14.5px; }
-.v2-plan-limits { margin-block-start: auto !important; padding-block-start: 16px; border-block-start: 1px solid var(--v2-line); font-size: 12.5px; color: var(--gray-500); }
-.v2-plans-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; margin-block-start: 20px; }
+.v2-plan.is-featured .v2-plan-price b { color: var(--white); }
+.v2-plan.is-featured .v2-plan-price span, .v2-plan.is-featured .v2-muted { color: color-mix(in srgb, #fff 70%, transparent); }
+.v2-plan .v2-muted { margin-block: 8px 24px; }
+.v2-plan-list { list-style: none; margin: 0 0 24px; padding: 0; display: grid; gap: 12px; text-align: start; }
+.v2-plan-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14.5px; line-height: 1.6; }
+.v2-tick { flex: none; display: grid; place-items: center; inline-size: 22px; block-size: 22px; margin-block-start: 1px; border-radius: 50%; color: var(--brand-primary); background: var(--brand-primary-subtle); }
+.v2-plan.is-featured .v2-tick { color: var(--v2-deep); background: var(--brand-primary-soft); }
+.v2-plan-limits { margin: auto 0 20px !important; padding-block-start: 16px; border-block-start: 1px solid var(--v2-line); font-size: 12.5px; color: var(--gray-500); }
+.v2-plan.is-featured .v2-plan-limits { border-block-start-color: var(--v2-line-deep); color: color-mix(in srgb, #fff 60%, transparent); }
+.v2-plan-cta { inline-size: 100%; }
+.v2-btn-outline { color: var(--brand-primary); border-color: var(--brand-primary-soft); background: transparent; }
+.v2-btn-outline:hover { background: var(--brand-primary-subtle); border-color: var(--brand-primary-medium); }
+.v2-plans-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; text-align: center; gap: 8px 24px; margin-block-start: 20px; }
 
 /* 08 الأسئلة — أكورديون (VengeanceUI faq-accordion) */
 .v2-faq { list-style: none; margin: 0; padding: 0; border-block-end: 1px solid color-mix(in srgb, var(--brand-primary) 16%, transparent); }
@@ -360,9 +378,8 @@
   .v2-phone { max-inline-size: 280px; margin-inline: auto; }
   .v2-duo > div:first-child .v2-duo-col { padding-inline-end: 0; }
   .v2-duo > div:last-child .v2-duo-col { padding-inline-start: 0; padding-block-start: 40px; border-inline-start: 0; border-block-start: 1px solid var(--v2-line-deep); }
-  .v2-plans { grid-template-columns: 1fr; }
-  .v2-plan { border-inline-start: 0; border-block-start: 1px solid var(--v2-line); }
-  .v2-plan:first-child { border-block-start: 0; }
+  .v2-plans { grid-template-columns: 1fr; max-inline-size: 460px; gap: 28px; }
+  .v2-plan.is-featured { order: -1; }
   .v2-plan-desc { min-block-size: 0; }
   .v2-footer-grid { grid-template-columns: 1fr 1fr; }
   .v2-footer-grid > div:first-child { grid-column: 1 / -1; }
@@ -533,3 +550,37 @@
 
 /* الزر الثانوي على الخلفية العميقة بحجم الزر الأساسي (48px) بجانبه — بلا روابط نصية بسهم */
 .v2-actions .v2-btn-onDeep { min-height: 48px; padding-inline: 24px; font-size: 15px; }
+
+/* ---------- توسيط العناوين (عنوان صغير + عنوان + وصف) بما يناسب كل تخطيط ---------- */
+/* رؤوس الأقسام ذات العرض الكامل: وسط الصفحة */
+.v2-head { margin-inline: auto; text-align: center; }
+.v2-head .v2-eyebrow::after { content: ''; inline-size: 24px; block-size: 2px; border-radius: 2px; background: var(--brand-primary-medium); }
+.v2-head .v2-lead { margin-inline: auto; }
+.v2-head .v2-draft { margin-inline: auto; }
+/* شرائط عنوان الصفحات الداخلية (من نحن، المزايا، الجهات، الباقات، تواصل) */
+.v2-page-hero { text-align: center; }
+.v2-page-hero .v2-eyebrow::after { content: ''; inline-size: 24px; block-size: 2px; border-radius: 2px; background: var(--brand-primary-medium); }
+.v2-page-hero h1, .v2-page-hero .v2-hero-sub { margin-inline: auto; }
+.v2-tour-tabs { display: flex; inline-size: fit-content; max-inline-size: 100%; margin-inline: auto; }
+/* الدعوة الأخيرة */
+.v2-cta-inner { flex-direction: column; align-items: center; text-align: center; }
+.v2-cta h2, .v2-cta p { margin-inline: auto; }
+.v2-cta .v2-actions { justify-content: center; }
+/* الأقسام ذات العمودين: العنوان يتوسّط حين تتراصّ الأعمدة (≤960px) */
+@media (max-width: 960px) {
+  .v2-split > div:first-child, .v2-roles > div:first-child > div:first-child, .v2-duo-col { text-align: center; }
+  .v2-split .v2-lead, .v2-roles .v2-lead, .v2-duo-col .v2-lead { margin-inline: auto; }
+  .v2-split .v2-eyebrow, .v2-roles .v2-eyebrow, .v2-duo-col .v2-eyebrow { justify-content: center; }
+  .v2-split .v2-eyebrow::after, .v2-roles .v2-eyebrow::after, .v2-duo-col .v2-eyebrow::after { content: ''; inline-size: 24px; block-size: 2px; border-radius: 2px; background: var(--brand-primary-medium); }
+  .v2-faq-more { justify-content: center; }
+}
+/* كل عناوين الأقسام موسّطة — حتى داخل التخطيطات ذات العمودين (القوائم تبقى بمحاذاة بداية السطر) */
+.v2-split > div:first-child, .v2-roles > div:first-child > div:first-child, .v2-duo-col { text-align: center; }
+.v2-split .v2-lead, .v2-roles .v2-lead, .v2-duo-col .v2-lead { margin-inline: auto; }
+.v2-split .v2-eyebrow, .v2-roles .v2-eyebrow, .v2-duo-col .v2-eyebrow { justify-content: center; }
+.v2-split .v2-eyebrow::after, .v2-roles .v2-eyebrow::after, .v2-duo-col .v2-eyebrow::after { content: ''; inline-size: 24px; block-size: 2px; border-radius: 2px; background: var(--brand-primary-medium); }
+.v2-faq-more { justify-content: center; }
+.v2-duo-col .v2-sec-list { text-align: start; }
+.v2-split .v2-actions { justify-content: center; }
+.v2-plan :is(.v2-plan-price, .v2-muted, .v2-plan-limits, .v2-plan-desc, h3) { text-align: center; justify-self: center; align-self: stretch; }
+.v2-plan .v2-muted { display: block; }
