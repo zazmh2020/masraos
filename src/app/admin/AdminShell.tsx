@@ -109,16 +109,6 @@ export default function AdminShell({ children, session, avatarUrl, inbox, assist
         >
           <AppIcon name={collapsed ? 'menu' : 'sidebar'} size={20} />
         </button>
-        <div className="admin-side-profile">
-          <div className="admin-user admin-user-stacked">
-            <span className="admin-user-avatar admin-user-avatar-lg">
-              <Avatar url={avatarUrl} />
-            </span>
-            <span className="admin-user-name">{session.name}</span>
-            <span className="admin-user-role">{t('anav.owner')}</span>
-          </div>
-        </div>
-
         <nav className="admin-nav">
           {navItems.map((item) => {
             const isActive =

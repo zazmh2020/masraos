@@ -127,17 +127,6 @@ export default function OrgShell({ children, org, user, nav, inbox, assistant, d
         >
           <AppIcon name={collapsed ? 'menu' : 'sidebar'} size={20} />
         </button>
-        {/* ملف المستخدم أعلى الشريط — للعرض فقط */}
-        <div className="org-side-profile">
-          <div className="org-user org-user-stacked">
-            <span className="org-user-avatar org-user-avatar-lg">
-              <Avatar url={user.avatarUrl} />
-            </span>
-            <span className="org-user-name">{user.name}</span>
-            <span className="org-user-role">{t(orgKey(`role.${user.role}`, org.type))}</span>
-          </div>
-        </div>
-
         <nav className="org-nav">
           {nav.map((entry, i) =>
             entry.kind === 'divider' ? (
