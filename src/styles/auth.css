@@ -87,3 +87,8 @@
 @media (prefers-reduced-motion: reduce) {
   .lg-card.au-card { animation: none; }
 }
+
+/* زر الدخول/الإنشاء بلون البنفسجي العميق — متّسق مع الخلفية وعلامة البطاقة (الدليل ص25)؛ التمرير بالأساسي */
+.au-card .lg-submit { background: var(--brand-primary-dark); color: var(--white); }
+.au-card .lg-submit:is(:hover, :active):not(:disabled) { background: var(--brand-primary); }
+.au-card .lg-submit:disabled { background: var(--brand-primary-dark); }
