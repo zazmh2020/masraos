@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 import {
   canViewUsers, canManageUsers, canViewProjects, canViewStructure, canViewPrograms,
   canViewCampaigns, canViewBeneficiaries, canViewReports,
-  canViewDocuments, canUseAssistant, canManageSettings,
+  canViewDocuments, canUseAssistant, canManageSettings, canViewEducation,
 } from '@/lib/permissions';
 import { getOrgEntitlement } from '@/lib/entitlement-load';
 import Icon, { IconShape } from '@/components/Icon';
@@ -15,6 +15,8 @@ import DonutRing from '@/components/dash/DonutRing';
 import TeacherDashboard from './TeacherDashboard';
 import StudentDashboard from './StudentDashboard';
 import EducationHome from './EducationHome';
+import GuardianHome from './GuardianHome';
+import { isGuardianUser } from '@/lib/dashboard/education';
 import { moduleEnabled } from '@/lib/modules';
 import { getT } from '@/lib/i18n/server';
 import { orgKey } from '@/lib/i18n/dictionaries';
@@ -64,6 +66,11 @@ export default async function OrgDashboard({
   }
   if (user.role === 'STUDENT') {
     return <StudentDashboard orgId={org.id} slug={org.slug} userId={user.id} userName={user.name} />;
+  }
+
+  // وليّ أمر دون صلاحية التعليم: صفحته الرئيسية أبناؤه (لا بيانات المركز كلها)
+  if (!canViewEducation(user) && (await isGuardianUser(org.id, user.id))) {
+    return <GuardianHome orgId={org.id} slug={org.slug} userId={user.id} userName={user.name} />;
   }
 
   // جهة مفعَّل فيها التعليم: الصفحة الرئيسية حول الطلاب والحلقات والحضور

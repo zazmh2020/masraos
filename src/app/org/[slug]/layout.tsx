@@ -6,12 +6,13 @@ import {
   canViewUsers, canManageSettings, canViewProjects, canViewStructure,
   canViewCampaigns, canViewBeneficiaries, canViewKnowledge, canViewReports,
   canViewDocuments, canUseAssistant, canManageUsers, canViewRequests, canViewFinance,
-  canScanPoints,
+  canScanPoints, canViewEducation,
 } from '@/lib/permissions';
 import OrgShell, { type NavEntry } from '@/components/OrgShell';
 import { getSession } from '@/lib/session';
 import { getOrgInbox } from '@/lib/inbox';
 import { moduleEnabled } from '@/lib/modules';
+import { isGuardianUser } from '@/lib/dashboard/education';
 import { isAssistantConfigured } from '@/lib/anthropic';
 import { getT } from '@/lib/i18n/server';
 import { orgKey } from '@/lib/i18n/dictionaries';
@@ -56,7 +57,7 @@ export default async function OrgLayout({
   // الوحدات المفعّلة لهذه المؤسسة
   const md = org.disabledModules;
   // هل هذا الحساب وليّ أمر مرتبط؟ (لإظهار بوّابة المتابعة)
-  const isGuardian = (await prisma.guardian.count({ where: { userId: user.id, organizationId: org.id } })) > 0;
+  const isGuardian = await isGuardianUser(org.id, user.id);
 
   // الطبقة الأولى — العمل المؤسسي (الصلاحية + تفعيل الوحدة)
   const orgSection = canViewStructure(r) || canViewUsers(r) || canManageSettings(r);
@@ -143,6 +144,22 @@ export default async function OrgLayout({
     { kind: 'link', href: `${base}/settings`, label: t('onav.settings'), icon: 'settings' },
   ];
 
+  // تنقّل سفلي على الجوال للأدوار كثيرة الاستخدام: المعلّم ووليّ الأمر (بقية الأدوار: درج + إجراءات سريعة)
+  const bottomNav = user.role === 'TEACHER' && moduleEnabled(md, 'education')
+    ? [
+        { href: base, label: t('bn.home'), icon: 'home' as const },
+        { href: `${base}/education/my-halaqat`, label: t('onav.myHalaqat'), icon: 'education' as const },
+        { href: `${base}/education/attendance`, label: t('td.attendance'), icon: 'users' as const },
+        { href: `${base}/education/memorization`, label: t('td.memorization'), icon: 'knowledge' as const },
+      ]
+    : isGuardian && !canViewEducation(r)
+      ? [
+          { href: base, label: t('bn.home'), icon: 'home' as const },
+          { href: `${base}/guardian`, label: t('bn.children'), icon: 'users' as const },
+          { href: `${base}/notifications`, label: t('bn.alerts'), icon: 'notifications' as const },
+        ]
+      : undefined;
+
   return (
     <OrgShell
       org={{ name: org.name, slug: org.slug, type: org.type, uiTheme: org.uiTheme, brandColor: org.brandColor, brandAccent: org.brandAccent, logoUrl: org.logoUrl }}
@@ -151,6 +168,7 @@ export default async function OrgLayout({
       inbox={inbox}
       assistant={{ show: canUseAssistant(r) && moduleEnabled(md, 'assistant'), ready: isAssistantConfigured() }}
       demo={isDemo}
+      bottomNav={bottomNav ? { items: bottomNav, label: t('bn.label'), more: t('bn.more') } : undefined}
     >
       {isDemo && (
         <div className="org-demo-banner" role="status">
