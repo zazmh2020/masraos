@@ -669,3 +669,6 @@
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 @media (max-width: 640px) { .v2-footer { padding: 0; } .v2-footer-card { padding: 0; border-radius: 0; } }
+/* الدعوة الأخيرة تتصل بالتذييل: أسفلها بلون التذييل فلا تظهر زوايا أو شريط أبيض */
+.v2-cta { margin-block-end: 0 !important; }
+.v2 main:has(> .v2-cta:last-child) { background: linear-gradient(180deg, transparent calc(100% - 96px), var(--v2-ink) calc(100% - 96px)); }
