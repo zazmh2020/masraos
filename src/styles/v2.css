@@ -624,3 +624,6 @@
 .v2-faq > li.is-open { background: var(--white); border-color: var(--v2-line); border-inline-start-color: var(--v2-line); }
 .v2-faq button { padding-inline: 20px; }
 .v2-faq-panel p { padding-inline: 20px; }
+
+/* لون واحد متصل من «شاهد كيف يناسب مَسرى» حتى أسفل الصفحة: التذييل بنفس البنفسجي العميق */
+.v2-footer { background: var(--v2-deep); }
