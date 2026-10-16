@@ -414,14 +414,15 @@
   .v2-plan { padding: 24px; }
   .v2-nav-actions .v2-btn-onDeep { display: none; }
   .v2-nav { gap: 12px; }
-  /* الجوال: الشعار في منتصف الشاشة، وزر القائمة في بداية السطر (يمين بالعربية، يسار بالإنجليزية)،
-     واللغة والعملة داخل القائمة الجانبية التي تنفتح من الجهة نفسها */
+  /* الجوال: الشعار في منتصف الشاشة، زر القائمة في بداية السطر (يمين بالعربية، يسار بالإنجليزية)
+     واللغة في الجهة المقابلة، والعملة داخل القائمة الجانبية التي تنفتح من جهة زرها */
   .v2-nav { position: relative; }
   .v2-nav > .v2-brand {
-    position: absolute; inset: 0; margin: auto; inline-size: fit-content; block-size: fit-content;
+    position: absolute; inset: 0; z-index: 1; margin: auto; inline-size: fit-content; block-size: fit-content;
   }
-  .v2-nav-actions { margin-inline-start: 0; }
-  .v2-nav-actions :is(.lang-toggle, .cur-toggle) { display: none; }
+  .v2-nav-actions { flex: 1; justify-content: space-between; margin-inline-start: 0; }
+  .v2-nav-actions .v2-menu-btn { order: -1; }
+  .v2-nav-actions .cur-toggle { display: none; }
   .v2-drawer-prefs { display: flex; }
   .v2-cta { padding-block: 72px; }
 }
