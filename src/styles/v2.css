@@ -109,6 +109,14 @@
 .v2-header.is-scrolled .v2-nav { block-size: 60px; }
 .v2-header-spacer { block-size: 72px; }
 .v2-brand { display: inline-flex; align-items: center; gap: 10px; color: var(--white); font-weight: 700; font-size: 19px; text-decoration: none; }
+/* الشعار الأفقي الرسمي في الرأس والدرج: أصغر على الجوال ليتسع مع الأزرار */
+.v2-lockup { block-size: 34px; inline-size: calc(34px * 373 / 56); }
+@media (max-width: 479px) {
+  .v2-lockup { block-size: 26px; inline-size: calc(26px * 373 / 56); }
+}
+@media (max-width: 359px) {
+  .v2-lockup { block-size: 20px; inline-size: calc(20px * 373 / 56); }
+}
 .v2-nav-links { display: flex; gap: 4px; margin-inline-start: 16px; }
 .v2-nav-links a {
   padding: 8px 12px; border-radius: 999px; font-size: 14.5px; font-weight: 500;

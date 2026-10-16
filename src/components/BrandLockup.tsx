@@ -9,12 +9,13 @@ const RATIO = 373 / 56; // نسبة الإطار المقصوص للشعار ا�
  */
 export default function BrandLockup({
   dir,
-  height = 36,
+  height,
   label,
   className = '',
   style,
 }: {
   dir: 'rtl' | 'ltr';
+  /** الارتفاع بالبكسل؛ اتركه لتحديد المقاس من CSS. */
   height?: number;
   label: string;
   className?: string;
@@ -29,8 +30,8 @@ export default function BrandLockup({
       style={{
         display: 'inline-block',
         flexShrink: 0,
-        blockSize: height,
-        inlineSize: height * RATIO,
+        // بلا height يُترك المقاس لـ CSS (مثل رأس الموقع المتجاوب)
+        ...(height ? { blockSize: height, inlineSize: height * RATIO } : null),
         maxInlineSize: '100%',
         backgroundColor: 'currentColor',
         mask,

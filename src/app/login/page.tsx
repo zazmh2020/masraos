@@ -6,13 +6,6 @@ import AuthShell from '@/components/auth/AuthShell';
 import Icon from '@/components/Icon';
 import { useT } from '@/lib/i18n/LocaleProvider';
 
-const DEMO_ACCOUNTS = [
-  { email: 'owner@masra.local', label: 'role.PLATFORM_OWNER', role: 'لوحة الإدارة' },
-  { email: 'admin@masra.local', label: 'role.ORG_ADMIN', role: 'مركز تجريبي' },
-  { email: 'teacher@masra.local', label: 'role.TEACHER', role: 'مركز تجريبي' },
-  { email: 'guardian@masra.local', label: 'login.demo.guardian', role: 'مركز تجريبي' },
-];
-
 export default function LoginPage() {
   const t = useT();
   const [email, setEmail] = useState('');
@@ -98,21 +91,6 @@ export default function LoginPage() {
       </form>
 
       <p className="lg-switch">{t('login.noAccount')} <Link href="/signup">{t('login.createAccount')}</Link></p>
-
-      {/* حسابات الدخول التجريبية — للتطوير المحلّي فقط، تُخفى في الإنتاج */}
-      {process.env.NODE_ENV !== 'production' && (
-        <div className="lg-demo">
-          <div className="lg-demo-head"><span>{t('login.demo.head')}</span></div>
-          <div className="lg-demo-grid">
-            {DEMO_ACCOUNTS.map((a) => (
-              <a key={a.email} className="lg-demo-btn" href={`/api/auth/dev-login?email=${encodeURIComponent(a.email)}`}>
-                <span className="lg-demo-label">{t(a.label)}</span>
-                <span className="lg-demo-role">{t('login.demo.local')}</span>
-              </a>
-            ))}
-          </div>
-        </div>
-      )}
 
     </AuthShell>
   );

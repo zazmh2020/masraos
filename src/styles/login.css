@@ -121,25 +121,6 @@
 
 .lg-theme { position: absolute; top: 1.4rem; inset-inline-start: 1.4rem; z-index: 2; }
 
-/* ---------- تجربة سريعة (حسابات وهمية) ---------- */
-.lg-demo { margin-top: 1.4rem; }
-.lg-demo-head {
-  display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.8rem;
-  color: var(--gray-500); font-size: 0.72rem; font-weight: 600;
-}
-.lg-demo-head::before, .lg-demo-head::after { content: ''; flex: 1; height: 1px; background: var(--line); }
-.lg-demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
-.lg-demo-btn {
-  display: flex; flex-direction: column; gap: 0.1rem; padding: 0.6rem 0.8rem;
-  border: 1px solid var(--line); border-radius: 12px; background: var(--surface, #fff);
-  text-align: start; transition: border-color 0.18s, background 0.18s, transform 0.18s;
-}
-.lg-demo-btn:hover { border-color: var(--purple-500); background: var(--purple-50, var(--surface-brand-soft)); transform: translateY(-2px); }
-.lg-demo-label { font-family: var(--font-display); font-weight: 700; font-size: 0.86rem; color: var(--purple-900); }
-.lg-demo-role { font-size: 0.7rem; color: var(--gray-500); }
-:root[data-theme="dark"] .lg-demo-btn { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12); }
-:root[data-theme="dark"] .lg-demo-btn:hover { background: rgba(255,255,255,0.08); }
-
 /* مجموعة مبدّلات (لغة + ثيم) — عند نهاية السطر (يسار في RTL) بمنطق منطقي يعكس مع الاتجاه */
 .lg-toggles { position: absolute; top: 1.5rem; inset-inline-end: 1.5rem; z-index: 2; height: 34px; display: flex; align-items: center; gap: 0.5rem; }
 

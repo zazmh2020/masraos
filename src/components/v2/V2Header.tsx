@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { LogoMark } from '@/components/Logo';
+import BrandLockup from '@/components/BrandLockup';
 import Icon from '@/components/Icon';
 import LangToggle from '@/components/LangToggle';
 import CurrencyToggle from '@/components/CurrencyToggle';
-import { useT } from '@/lib/i18n/LocaleProvider';
+import { useLocale, useT } from '@/lib/i18n/LocaleProvider';
 
 // روابط مطلقة (‎/#قسم‎) لتعمل من الرئيسية وأي صفحة — نفس أقسام الرأس السابق
 const LINKS = [
@@ -34,6 +34,7 @@ function AnnounceBar({ a }: { a: NonNullable<Announcement> }) {
  */
 export default function V2Header({ announcement = null, solid = false, spacer = false }: { announcement?: Announcement; solid?: boolean; spacer?: boolean }) {
   const t = useT();
+  const { dir } = useLocale();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const drawer = useRef<HTMLDialogElement>(null);
@@ -54,8 +55,8 @@ export default function V2Header({ announcement = null, solid = false, spacer = 
         <a href="#main" className="v2-skip">{t('v2.skip')}</a>
         {announcement && <AnnounceBar a={announcement} />}
         <nav className="v2-nav v2-wrap" aria-label={t('nav.menu')}>
-          <Link href="/" className="v2-brand" aria-label={t('brand')}>
-            <LogoMark size={26} /><span>{t('brand')}</span>
+          <Link href="/" className="v2-brand">
+            <BrandLockup dir={dir} label={t('brand.corporate')} className="v2-lockup" />
           </Link>
           <div className="v2-nav-links">
             {LINKS.map(([href, key]) => <a key={key} href={href}>{t(key)}</a>)}
@@ -74,7 +75,7 @@ export default function V2Header({ announcement = null, solid = false, spacer = 
           onClick={(e) => { if (e.target === e.currentTarget) close(); }}>
           <div className="v2-drawer-panel">
             <div className="v2-drawer-head">
-              <span className="v2-brand"><LogoMark size={26} /><span>{t('brand')}</span></span>
+              <span className="v2-brand"><BrandLockup dir={dir} label={t('brand.corporate')} className="v2-lockup" /></span>
               <button type="button" className="v2-icon-btn" onClick={close} aria-label={t('nav.closeMenu')}><Icon name="close" size={20} /></button>
             </div>
             {LINKS.map(([href, key]) => <a key={key} href={href} onClick={close}>{t(key)}</a>)}
