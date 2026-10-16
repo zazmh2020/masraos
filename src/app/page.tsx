@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Reveal from '@/components/Reveal';
 import Icon from '@/components/Icon';
 import V2Header from '@/components/v2/V2Header';
+import SiteSplash from '@/components/SiteSplash';
 import V2Tour from '@/components/v2/V2Tour';
 import V2Pricing from '@/components/v2/V2Pricing';
 import V2Faq from '@/components/v2/V2Faq';
@@ -42,6 +43,7 @@ export default async function HomePage() {
 
   return (
     <div className={`v2 ${announcement ? 'has-announce' : ''}`}>
+      <SiteSplash />
       <V2Header announcement={announcement} />
       <main id="main">
         {/* 01 — الواجهة الأولى: رسالة واحدة + لقطة حقيقية */}

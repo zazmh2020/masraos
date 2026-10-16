@@ -1,0 +1,117 @@
+/* مَسرى — حركة الشعار (~2.2 ث): ترتفع القاعدتان ← يُرسم الجناحان ويُملآن ← تصعد النقطة.
+   بلا توهّج أو حلقة ضوء خلف الدائرة. الألوان من رموز الهوية فقط. */
+
+.ml-root {
+  --ml-size: 160px;
+  --ml-ink: var(--masra-deep);
+  --ml-ink-2: var(--masra-primary);
+  --ml-word: var(--masra-deep);
+  --ml-word-sub: var(--masra-primary);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--ml-size) * 0.08);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ml-root[data-theme='dark'] {
+  --ml-ink: var(--white);
+  --ml-ink-2: color-mix(in srgb, var(--masra-soft) 45%, var(--white));
+  --ml-word: var(--white);
+  --ml-word-sub: var(--masra-soft);
+}
+
+.ml-root[data-clickable='true'] { cursor: pointer; }
+
+.ml-mark {
+  width: var(--ml-size);
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.ml-leg,
+.ml-dot,
+.ml-wings { transform-box: fill-box; }
+
+/* 1. القاعدتان ترتفعان من الأرض */
+.ml-leg {
+  fill: var(--ml-ink);
+  transform-origin: 50% 100%;
+  animation: ml-rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.ml-leg--a { animation-delay: 0.1s; }
+.ml-leg--b { animation-delay: 0.25s; }
+
+@keyframes ml-rise {
+  from { transform: scaleY(0); opacity: 0; }
+  to   { transform: scaleY(1); opacity: 1; }
+}
+
+/* 2. الجناحان: يُرسم الخط ثم يمتلئ */
+.ml-wings {
+  stroke: var(--ml-ink-2);
+  stroke-width: 0.55;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  fill-opacity: 0;
+  transform-origin: 50% 100%;
+  animation:
+    ml-draw 1s cubic-bezier(0.65, 0, 0.35, 1) 0.45s both,
+    ml-fill 0.55s ease-out 1.2s both;
+}
+
+@keyframes ml-draw {
+  from { stroke-dashoffset: 1; transform: scale(0.94); }
+  to   { stroke-dashoffset: 0; transform: scale(1); }
+}
+@keyframes ml-fill {
+  from { fill-opacity: 0; stroke-opacity: 1; }
+  to   { fill-opacity: 1; stroke-opacity: 0; }
+}
+
+/* 3. النقطة تصعد من الكتاب المفتوح */
+.ml-dot {
+  fill: var(--ml-ink);
+  transform-origin: 50% 50%;
+  animation: ml-ascend 0.9s cubic-bezier(0.34, 1.45, 0.64, 1) 1.35s both;
+}
+
+@keyframes ml-ascend {
+  0%   { transform: translateY(15px) scale(0.2); opacity: 0; }
+  35%  { opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* 4. الاسم (اختياري) */
+.ml-word {
+  text-align: center;
+  line-height: 1.1;
+  animation: ml-word 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 1.9s both;
+}
+.ml-word-ar {
+  font-weight: 700;
+  font-size: calc(var(--ml-size) * 0.3);
+  color: var(--ml-word);
+  display: block;
+}
+.ml-word-en {
+  font-weight: 700;
+  font-size: max(11.5px, calc(var(--ml-size) * 0.09));
+  letter-spacing: 0.4em;
+  margin-inline-start: 0.4em;
+  margin-block-start: calc(var(--ml-size) * 0.04);
+  color: var(--ml-word-sub);
+  display: block;
+  direction: ltr;
+}
+@keyframes ml-word {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ml-leg, .ml-wings, .ml-dot, .ml-word { animation: none !important; }
+  .ml-wings { stroke-dashoffset: 0; fill-opacity: 1; stroke-opacity: 0; }
+}

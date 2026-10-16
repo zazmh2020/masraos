@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Reveal from '@/components/Reveal';
 import V2Header from '@/components/v2/V2Header';
+import SiteSplash from '@/components/SiteSplash';
 import V2Footer from '@/components/v2/V2Footer';
 import SiteAssistant from '@/components/v2/SiteAssistant';
 import { PageHero } from '@/components/v2/blocks';
@@ -33,6 +34,7 @@ export default async function ContactPage() {
 
   return (
     <div className="v2">
+      <SiteSplash />
       <V2Header />
       <main id="main">
         <PageHero eyebrow={t('contact.preview')} title={t('contact.title')} lead={t('contact.lead')} />

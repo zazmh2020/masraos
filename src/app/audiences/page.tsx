@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Reveal from '@/components/Reveal';
 import Icon from '@/components/Icon';
 import V2Header from '@/components/v2/V2Header';
+import SiteSplash from '@/components/SiteSplash';
 import V2Footer from '@/components/v2/V2Footer';
 import SiteAssistant from '@/components/v2/SiteAssistant';
 import { CtaBand, PageHero, SectionHead } from '@/components/v2/blocks';
@@ -22,6 +23,7 @@ export default async function AudiencesPage() {
   const planned = SECTORS.filter((s) => s.status !== 'ACTIVE');
   return (
     <div className="v2">
+      <SiteSplash />
       <V2Header />
       <main id="main">
         <PageHero eyebrow={t('pg.aud.eyebrow')} title={t('pg.aud.title')} lead={t('pg.aud.lead')} />

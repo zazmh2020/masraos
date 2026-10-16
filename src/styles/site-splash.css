@@ -1,0 +1,26 @@
+/* شاشة تحميل أول فتح للموقع — تغطي الصفحة أثناء حركة الشعار ثم تتلاشى.
+   الإخفاء بـ CSS وحده (لا يعتمد على JavaScript)، والضغط أو Escape يُنهيها مبكرًا. */
+
+.site-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background: var(--masra-deep);
+  cursor: pointer;
+  animation: site-splash-out 0.5s ease 2.5s forwards;
+}
+
+.site-splash.is-leaving { animation: site-splash-out 0.35s ease forwards; }
+
+/* ظهرت في هذه الجلسة: يضيف السكربت المبكر هذه الفئة قبل الرسم فلا تومض */
+.splash-seen .site-splash { display: none; }
+
+@keyframes site-splash-out {
+  to { opacity: 0; visibility: hidden; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-splash { animation-delay: 0.6s; }
+}

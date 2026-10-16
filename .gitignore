@@ -15,3 +15,6 @@ backups/
 
 # MASRA Graphify: private generated code graph
 graphify-out/
+
+# Playwright MCP screenshots and logs
+.playwright-mcp/

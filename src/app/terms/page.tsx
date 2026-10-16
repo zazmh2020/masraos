@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import V2Header from '@/components/v2/V2Header';
+import SiteSplash from '@/components/SiteSplash';
 import V2Footer from '@/components/v2/V2Footer';
 import { getLocale } from '@/lib/i18n/server';
 import '@/styles/masra.css';
@@ -19,6 +20,7 @@ export default async function TermsPage() {
 
   return (
     <div className="mdl">
+      <SiteSplash />
       <V2Header solid />
       <main id="main" className="legal">
         <span className="legal-eyebrow">{en ? 'Legal' : 'قانوني'}</span>

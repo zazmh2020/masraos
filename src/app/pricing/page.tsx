@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import V2Header from '@/components/v2/V2Header';
+import SiteSplash from '@/components/SiteSplash';
 import V2Footer from '@/components/v2/V2Footer';
 import PricingPreview from '@/components/landing/PricingPreview';
 import SiteAssistant from '@/components/v2/SiteAssistant';
@@ -18,6 +19,7 @@ export default async function PricingPage() {
   const { t } = await getT();
   return (
     <div className="v2">
+      <SiteSplash />
       <V2Header />
       <main id="main">
         <section className="v2-page-hero">

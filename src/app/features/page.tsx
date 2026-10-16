@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Reveal from '@/components/Reveal';
 import Icon from '@/components/Icon';
 import V2Header from '@/components/v2/V2Header';
+import SiteSplash from '@/components/SiteSplash';
 import V2Footer from '@/components/v2/V2Footer';
 import V2Tour from '@/components/v2/V2Tour';
 import SiteAssistant from '@/components/v2/SiteAssistant';
@@ -28,6 +29,7 @@ export default async function FeaturesPage() {
   const { t } = await getT();
   return (
     <div className="v2">
+      <SiteSplash />
       <V2Header />
       <main id="main">
         <PageHero eyebrow={t('pg.feat.eyebrow')} title={t('pg.feat.title')} lead={t('pg.feat.lead')} />
