@@ -11,3 +11,5 @@ Tests: `npm test`; `npm run lint`; `npm run build` (build includes type validati
 Decisions: do not silently change authentication, permissions, billing, destructive migrations or external publication. Prepare the concrete change and ask only for the missing decision. No real provider, deployment, message or production-database mutation is implied by local work.
 
 Finish with what changed, actual validation results and material limits. During compaction retain objective, decisions, changed paths, tests and next action; discard verbose logs.
+
+Installed tools (all pinned or project-local): skills `frontend-design` and `webapp-testing` (from anthropics/skills @ dbd4588, in .claude/skills); Playwright MCP pinned in .mcp.json; Prisma skills (skills-lock.json); Graphify runner (scripts/masra-graphify.ps1). Lighthouse CI is not a dependency: run `npx @lhci/cli@0.15.1 ...` against a production build after recording a baseline. CodeQL, Dependabot alerts and secret scanning are GitHub repository settings (Settings → Code security), not repo files.
