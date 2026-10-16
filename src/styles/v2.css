@@ -114,9 +114,6 @@
 @media (max-width: 479px) {
   .v2-lockup { block-size: 26px; inline-size: calc(26px * 373 / 56); }
 }
-@media (max-width: 359px) {
-  .v2-lockup { block-size: 20px; inline-size: calc(20px * 373 / 56); }
-}
 .v2-nav-links { display: flex; gap: 4px; margin-inline-start: 16px; }
 .v2-nav-links a {
   padding: 8px 12px; border-radius: 999px; font-size: 14.5px; font-weight: 500;
@@ -124,10 +121,10 @@
 }
 .v2-nav-links a:hover { color: var(--white); background: color-mix(in srgb, #fff 8%, transparent); }
 .v2-nav-actions { display: flex; align-items: center; gap: 8px; margin-inline-start: auto; }
-.v2-nav-actions :is(.lang-toggle, .cur-toggle) {
+:is(.v2-nav-actions, .v2-drawer-pref) :is(.lang-toggle, .cur-toggle) {
   inline-size: 40px; block-size: 40px; color: var(--white); border-color: transparent; background: color-mix(in srgb, #fff 8%, transparent);
 }
-.v2-nav-actions :is(.lang-toggle, .cur-toggle):hover { color: var(--white); background: color-mix(in srgb, #fff 16%, transparent); border-color: transparent; }
+:is(.v2-nav-actions, .v2-drawer-pref) :is(.lang-toggle, .cur-toggle):hover { color: var(--white); background: color-mix(in srgb, #fff 16%, transparent); border-color: transparent; }
 .v2-menu-btn, .v2-icon-btn {
   display: none; place-items: center; inline-size: 40px; block-size: 40px; border-radius: 50%;
   border: 0; background: color-mix(in srgb, #fff 8%, transparent); color: var(--white); cursor: pointer;
@@ -150,6 +147,15 @@
 }
 .v2-drawer-panel > a:not(.v2-btn):hover { background: color-mix(in srgb, #fff 8%, transparent); }
 .v2-drawer-panel .v2-btn { margin-block-start: 16px; }
+/* اللغة والعملة داخل القائمة — تظهر على الجوال فقط (على الأعرض هي في الشريط العلوي) */
+.v2-drawer-prefs {
+  display: none; flex-direction: column; gap: 4px;
+  margin-block-start: 12px; padding-block-start: 12px; border-block-start: 1px solid var(--v2-line-deep);
+}
+.v2-drawer-pref {
+  display: flex; align-items: center; justify-content: space-between; min-block-size: 48px; padding-inline: 12px;
+  font-size: 16px; font-weight: 500;
+}
 
 /* ---------- 01 الواجهة الأولى ---------- */
 .v2-hero { position: relative; padding-block-start: 152px; isolation: isolate; }
@@ -408,6 +414,15 @@
   .v2-plan { padding: 24px; }
   .v2-nav-actions .v2-btn-onDeep { display: none; }
   .v2-nav { gap: 12px; }
+  /* الجوال: الشعار في منتصف الشاشة، وزر القائمة في بداية السطر (يمين بالعربية، يسار بالإنجليزية)،
+     واللغة والعملة داخل القائمة الجانبية التي تنفتح من الجهة نفسها */
+  .v2-nav { position: relative; }
+  .v2-nav > .v2-brand {
+    position: absolute; inset: 0; margin: auto; inline-size: fit-content; block-size: fit-content;
+  }
+  .v2-nav-actions { margin-inline-start: 0; }
+  .v2-nav-actions :is(.lang-toggle, .cur-toggle) { display: none; }
+  .v2-drawer-prefs { display: flex; }
   .v2-cta { padding-block: 72px; }
 }
 

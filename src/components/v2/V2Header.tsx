@@ -79,6 +79,11 @@ export default function V2Header({ announcement = null, solid = false, spacer = 
               <button type="button" className="v2-icon-btn" onClick={close} aria-label={t('nav.closeMenu')}><Icon name="close" size={20} /></button>
             </div>
             {LINKS.map(([href, key]) => <a key={key} href={href} onClick={close}>{t(key)}</a>)}
+            {/* على الجوال تنتقل اللغة والعملة من الشريط العلوي إلى القائمة الجانبية */}
+            <div className="v2-drawer-prefs">
+              <div className="v2-drawer-pref"><span>{t('oset.language')}</span><LangToggle /></div>
+              <div className="v2-drawer-pref"><span>{t('plan.currencyLabel')}</span><CurrencyToggle /></div>
+            </div>
             <Link href="/login" className="v2-btn v2-btn-primary" onClick={close}>{t('nav.login')}</Link>
           </div>
         </dialog>
