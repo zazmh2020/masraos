@@ -141,6 +141,8 @@
 @keyframes v2-drawer-in { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: none; } }
 .v2-drawer-panel { display: flex; flex-direction: column; gap: 4px; padding: 16px 20px 24px; }
 .v2-drawer-head { display: flex; align-items: center; justify-content: space-between; margin-block-end: 16px; }
+/* الشعار على استقامة نصوص الروابط (التي تبدأ بعد حشوة 12px) */
+.v2-drawer-head .v2-brand { padding-inline-start: 12px; }
 .v2-drawer-panel > a:not(.v2-btn) {
   display: flex; align-items: center; min-block-size: 48px; padding-inline: 12px; border-radius: 12px;
   color: var(--white); text-decoration: none; font-size: 16px; font-weight: 500;
