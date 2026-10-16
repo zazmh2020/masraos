@@ -14,3 +14,5 @@ Before creating or modifying any UI component:
 - Use only the Tabler icon family via `<Icon />` / `src/lib/icons.ts`
 - Inside the org dashboard (`.org-app`) never hard-code brand colors — derive from `--purple-*` / `--c-*` so each organization's identity applies
 - Do not introduce random design patterns or new UI libraries
+
+@docs/engineering/CLAUDE-MASRA.md

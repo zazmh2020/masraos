@@ -1,0 +1,51 @@
+name: MASRA Quality
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: masra-quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: masra_ci
+          POSTGRES_PASSWORD: disposable-ci-only
+          POSTGRES_DB: masra_ci
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U masra_ci -d masra_ci"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+    env:
+      DATABASE_URL: postgresql://masra_ci:disposable-ci-only@127.0.0.1:5433/masra_ci
+      AUTH_SECRET: ci-only-synthetic-secret-never-use-in-production
+      NEXT_PUBLIC_APP_DOMAIN: localhost:3017
+      NEXT_PUBLIC_APP_PATH_ROUTING: '1'
+      APP_ROOT_DOMAINS: localhost
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Disposable database schema
+        run: npx prisma migrate deploy
+      - run: npm test
+      - run: npm run lint
+      - run: npm run build

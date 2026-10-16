@@ -6,3 +6,12 @@ node_modules
 /src/generated
 *.tsbuildinfo
 next-env.d.ts
+
+# MASRA professional kit: local secrets and backups
+.env.*
+!.env.example
+backups/
+*.dump
+
+# MASRA Graphify: private generated code graph
+graphify-out/
