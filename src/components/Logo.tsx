@@ -1,7 +1,8 @@
+import { BRAND } from '@/lib/brand';
 import { useId, type CSSProperties } from 'react';
 
 /**
- * Official supplied transparent artwork, without its empty canvas margins.
+ * Official Version 2 artwork extracted directly from Asset 6.pdf vector paths.
  * Alpha masking preserves the artwork and inherits the surrounding brand color.
  */
 export function LogoMark({
@@ -14,12 +15,12 @@ export function LogoMark({
   style?: CSSProperties;
 }) {
   const maskId = `masra-logo-${useId()}`;
-  const h = size * (50 / 58);
+  const h = size * (41.8399 / 51.575);
   return (
     <svg
       width={size}
       height={h}
-      viewBox="21 25 58 50"
+      viewBox="0 0 51.575 41.8399"
       fill="currentColor"
       className={className}
       style={{ flexShrink: 0, ...style }}
@@ -27,11 +28,11 @@ export function LogoMark({
       role="img"
     >
       <defs>
-        <mask id={maskId} x="21" y="25" width="58" height="50" maskUnits="userSpaceOnUse" style={{ maskType: 'alpha' }}>
-          <image href="/masra-logo.png" width="101" height="101" />
+        <mask id={maskId} x="0" y="0" width="51.575" height="41.8399" maskUnits="userSpaceOnUse" style={{ maskType: 'alpha' }}>
+          <image href="/brand/masra-mark-purple.svg" width="51.575" height="41.8399" />
         </mask>
       </defs>
-      <rect x="21" y="25" width="58" height="50" mask={`url(#${maskId})`} />
+      <rect x="0" y="0" width="51.575" height="41.8399" mask={`url(#${maskId})`} />
     </svg>
   );
 }
@@ -55,9 +56,9 @@ export default function Logo({
     >
       <LogoMark size={size} />
       <span style={{ display: 'inline-flex', flexDirection: 'column', lineHeight: 1 }}>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: size * 0.62 }}>مسرى</span>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: size * 0.62 }}>{BRAND.ar.name}</span>
         {showLatin && (
-          <span style={{ fontSize: size * 0.3, letterSpacing: '0.28em', opacity: 0.7, marginTop: 3 }}>MASRA</span>
+          <span style={{ fontSize: size * 0.3, letterSpacing: '0.28em', opacity: 0.7, marginTop: 3 }}>{BRAND.en.name}</span>
         )}
       </span>
     </span>

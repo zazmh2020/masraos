@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
+import { useDrawerFocus } from '@/components/useDrawerFocus';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import type { SessionData } from '@/lib/session';
 import { LogoMark } from '@/components/Logo';
 import AppIcon from '@/components/Icon';
@@ -70,6 +71,15 @@ export default function AdminShell({ children, session, avatarUrl, inbox, assist
   const [confirmLogout, setConfirmLogout] = useState(false);
   const [busy, setBusy] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
+  const sidebar = useRef<HTMLElement>(null);
+  const menuTrigger = useRef<HTMLButtonElement>(null);
+  const logoutDialog = useRef<HTMLDialogElement>(null);
+  const profileTrigger = useRef<HTMLButtonElement>(null);
+  useDrawerFocus(sidebarOpen, sidebar, menuTrigger, setSidebarOpen, 900);
+  useEffect(() => {
+    if (confirmLogout) logoutDialog.current?.showModal();
+    else logoutDialog.current?.close();
+  }, [confirmLogout]);
 
   useEffect(() => {
     // قراءة التخزين المحلي تتم بعد التركيب لتفادي عدم تطابق SSR
@@ -99,7 +109,8 @@ export default function AdminShell({ children, session, avatarUrl, inbox, assist
       <WelcomeBack name={session.name} greeting={t('welcome.greeting')} />
       {/* Sidebar */}
       <a href="#admin-main" className="skip-link">{t('a11y.skip')}</a>
-      <aside className={`admin-sidebar ${sidebarOpen ? 'is-open' : ''}`}>
+      <aside id="admin-navigation" ref={sidebar} aria-label={t('shell.menu')} className={`admin-sidebar ${sidebarOpen ? 'is-open' : ''}`}>
+        <button type="button" className="admin-mobile-close" onClick={() => setSidebarOpen(false)} aria-label={t('nav.closeMenu')}><AppIcon name="close" size={20} /></button>
         <button
           className="org-fold-toggle"
           onClick={toggleCollapsed}
@@ -120,6 +131,7 @@ export default function AdminShell({ children, session, avatarUrl, inbox, assist
                 key={item.href}
                 href={item.href}
                 className={`admin-nav-item ${isActive ? 'is-active' : ''}`}
+                aria-current={isActive ? 'page' : undefined}
                 onClick={() => setSidebarOpen(false)}
               >
                 <Icon name={item.icon} />
@@ -133,27 +145,24 @@ export default function AdminShell({ children, session, avatarUrl, inbox, assist
       {/* حجاب الخلفية عند فتح الشريط الجانبي على الموبايل */}
       {sidebarOpen && <div className="admin-scrim" onClick={() => setSidebarOpen(false)} />}
 
-      {confirmLogout && (
-        <div className="admin-modal-scrim" onClick={() => setConfirmLogout(false)}>
-          <div className="admin-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
-            <div className="admin-modal-ic"><Icon name="logout" /></div>
-            <h3>{t('shell.logout.confirm.title')}</h3>
-            <p>{t('shell.logout.confirm.body')}</p>
-            <div className="admin-modal-actions">
-              <button className="btn-admin-outline" onClick={() => setConfirmLogout(false)} disabled={busy}>{t('shell.cancel')}</button>
-              <button className="btn-admin-danger" onClick={handleLogout} disabled={busy}>
-                {busy ? t('shell.loggingOut') : t('shell.logout')}
-              </button>
-            </div>
+      <dialog ref={logoutDialog} className="admin-logout-dialog" aria-labelledby="admin-logout-title" onClose={() => { setConfirmLogout(false); profileTrigger.current?.focus(); }} onClick={event => { if (event.target === event.currentTarget) setConfirmLogout(false); }}>
+        <div className="admin-modal">
+          <div className="admin-modal-ic"><Icon name="logout" /></div>
+          <h3 id="admin-logout-title">{t('shell.logout.confirm.title')}</h3>
+          <p>{t('shell.logout.confirm.body')}</p>
+          <div className="admin-modal-actions">
+            <button autoFocus className="btn-admin-outline" onClick={() => setConfirmLogout(false)} disabled={busy}>{t('shell.cancel')}</button>
+            <button className="btn-admin-danger" onClick={handleLogout} disabled={busy}>{busy ? t('shell.loggingOut') : t('shell.logout')}</button>
           </div>
         </div>
-      )}
+      </dialog>
 
       {/* Main */}
       <div className="admin-main">
         <header className="admin-topbar">
           <button
-            className="admin-menu-toggle"
+            ref={menuTrigger}
+            aria-expanded={sidebarOpen} aria-controls="admin-navigation" className="admin-menu-toggle"
             onClick={() => setSidebarOpen(!sidebarOpen)}
             aria-label={t('shell.menu')}
           >
@@ -175,7 +184,7 @@ export default function AdminShell({ children, session, avatarUrl, inbox, assist
             storageKey="midad_admin"
           />
           <div className="org-topbar-profile">
-            <button className="tbar-user" onClick={() => setProfileOpen((v) => !v)} aria-expanded={profileOpen} aria-label={t('shell.profile')}>
+            <button ref={profileTrigger} className="tbar-user" onClick={() => setProfileOpen((v) => !v)} aria-expanded={profileOpen} aria-label={t('shell.profile')}>
               <span className="tbar-user-ava"><Avatar url={avatarUrl} /></span>
               <span className="tbar-user-tx">
                 <span className="tbar-user-name">{session.name}</span>

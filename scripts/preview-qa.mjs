@@ -1,0 +1,8 @@
+import {writeFile} from 'node:fs/promises';
+const base='http://127.0.0.1:3017';
+const results=[];
+async function check(path,cookie='',expect=200){const start=Date.now();const r=await fetch(base+path,{headers:{cookie},redirect:'manual',signal:AbortSignal.timeout(90000)}); const text=await r.text();const row={path,status:r.status,expected:expect,ok:r.status===expect,ms:Date.now()-start,serverError:/Internal Server Error|Application error: a server-side exception/.test(text)};results.push(row);return row;}
+for(const path of ['/','/about','/about-masra','/features','/audiences','/contact','/pricing','/privacy','/terms','/login','/signup','/manifest.webmanifest','/site/masra-demo']) await check(path);
+for(const [email,path] of [['admin@masra.local','/org/masra-demo'],['teacher@masra.local','/org/masra-demo'],['guardian@masra.local','/org/masra-demo'],['owner@masra.local','/admin']]){
+const r=await fetch(base+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:'MasraLocal2026!'})});const cookie=r.headers.getSetCookie().map(s=>s.split(';')[0]).join('; ');results.push({test:'role-login',role:email.split('@')[0],status:r.status,ok:r.status===200});if(r.ok){await check(path,cookie);if(email.startsWith('admin@')){await check('/org/masra-check',cookie,307);await check('/admin',cookie,307);for(const p of ['/education/students','/education/teachers','/education/halaqat','/education/attendance','/education/memorization','/education/statistics','/reports','/settings','/documents','/finance','/knowledge'])await check('/org/masra-demo'+p,cookie);}}}
+await writeFile('../../outputs/http-qa.json',JSON.stringify(results,null,2));console.log(JSON.stringify(results,null,2));

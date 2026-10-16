@@ -12,7 +12,9 @@ type Field = 'name' | 'orgName' | 'slug' | 'email' | 'phone' | 'password' | 'cha
 
 /** لاحقة النطاق الظاهرة بجانب رابط المركز — قيمة الخادم فارغة، والمتصفح يعطي المضيف الفعلي. */
 const noopSubscribe = () => () => {};
-const clientSuffix = () => `.${window.location.hostname.replace(/^www\./, '')}`;
+const clientSuffix = () => process.env.NEXT_PUBLIC_APP_PATH_ROUTING === '1'
+  ? `${window.location.host}/org/`
+  : `.${window.location.hostname.replace(/^www\./, '')}`;
 const serverSuffix = () => '';
 
 export default function SignupPage() {
@@ -164,10 +166,12 @@ export default function SignupPage() {
           <label className="lg-field">
             <span className="lg-label">{t('signup.slug')}</span>
             <span className="su-slug">
+              {process.env.NEXT_PUBLIC_APP_PATH_ROUTING === '1' && <span>/org/</span>}
               <input dir="ltr" inputMode="url" autoCapitalize="none" spellCheck={false} placeholder="alnoor" value={form.slug} onChange={set('slug')} {...fieldProps('slug')} />
-              <span>{suffix}</span>
+              {process.env.NEXT_PUBLIC_APP_PATH_ROUTING !== '1' && <span>{suffix}</span>}
             </span>
             {fieldErr.slug ? fieldError('slug') : <span className="su-hint">{t('signup.slugHint')}</span>}
+            {process.env.NEXT_PUBLIC_APP_PATH_ROUTING === '1' && <span className="su-hint su-url-preview" dir="ltr">{suffix}{form.slug || 'alnoor'}</span>}
           </label>
 
           <label className="lg-field">

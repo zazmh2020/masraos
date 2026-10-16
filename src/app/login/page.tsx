@@ -7,10 +7,10 @@ import Icon from '@/components/Icon';
 import { useT } from '@/lib/i18n/LocaleProvider';
 
 const DEMO_ACCOUNTS = [
-  { email: 'owner@midad.local', label: 'مالك المنصة', role: 'لوحة الإدارة' },
-  { email: 'association@midad.local', label: 'جمعية الخير', role: 'مدير جهة' },
-  { email: 'mosque@midad.local', label: 'مركز القرآن', role: 'مدير جهة' },
-  { email: 'school@midad.local', label: 'مركز تعليمي', role: 'مدير جهة' },
+  { email: 'owner@masra.local', label: 'role.PLATFORM_OWNER', role: 'لوحة الإدارة' },
+  { email: 'admin@masra.local', label: 'role.ORG_ADMIN', role: 'مركز تجريبي' },
+  { email: 'teacher@masra.local', label: 'role.TEACHER', role: 'مركز تجريبي' },
+  { email: 'guardian@masra.local', label: 'login.demo.guardian', role: 'مركز تجريبي' },
 ];
 
 export default function LoginPage() {
@@ -80,7 +80,7 @@ export default function LoginPage() {
               type={showPw ? 'text' : 'password'} autoComplete="current-password" placeholder="••••••••"
               value={password} onChange={(e) => setPassword(e.target.value)}
             />
-            <button type="button" className="lg-eye" onClick={() => setShowPw(!showPw)} aria-label={showPw ? 'إخفاء' : 'إظهار'}>
+            <button type="button" className="lg-eye" onClick={() => setShowPw(!showPw)} aria-label={t(showPw ? 'login.hidePw' : 'login.showPw')} aria-pressed={showPw}>
               <Icon name={showPw ? 'hide' : 'view'} size={20} />
             </button>
           </span>
@@ -106,8 +106,8 @@ export default function LoginPage() {
           <div className="lg-demo-grid">
             {DEMO_ACCOUNTS.map((a) => (
               <a key={a.email} className="lg-demo-btn" href={`/api/auth/dev-login?email=${encodeURIComponent(a.email)}`}>
-                <span className="lg-demo-label">{a.label}</span>
-                <span className="lg-demo-role">{a.role}</span>
+                <span className="lg-demo-label">{t(a.label)}</span>
+                <span className="lg-demo-role">{t('login.demo.local')}</span>
               </a>
             ))}
           </div>

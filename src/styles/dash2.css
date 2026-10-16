@@ -247,3 +247,19 @@
 /* حدّ أدنى للنص 12px داخل لوحة المالك (أنماط dashboard.css القديمة كانت 11px) */
 .dash .dash-ring-label, .dash .d2-table th { font-size: 12px; }
 .dash .d2-table th { font-weight: 600; }
+
+/* Panels adapt to their own available space, including narrow desktop columns. */
+.d2-panel { container-type: inline-size; container-name: dashboard-panel; }
+@container dashboard-panel (max-width: 520px) {
+  .d2-halaqa { grid-template-columns: minmax(0, 1fr) auto; gap: 6px 12px; }
+  .d2-halaqa-main, .d2-halaqa-teacher, .d2-halaqa-count { grid-column: 1; }
+  .d2-halaqa-count { text-align: start; }
+  .d2-count-unit { display: inline; }
+  .d2-halaqa-status { grid-column: 2; grid-row: 1; }
+  .d2-panel-hd { flex-wrap: wrap; }
+  .d2-child-line { flex-wrap: wrap; overflow-wrap: anywhere; }
+}
+@container dashboard-panel (max-width: 300px) {
+  .d2-halaqa { grid-template-columns: minmax(0, 1fr); }
+  .d2-halaqa-status { grid-column: 1; grid-row: auto; justify-self: start; }
+}

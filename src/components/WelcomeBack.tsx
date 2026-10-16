@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Icon from '@/components/Icon';
+import { useT } from '@/lib/i18n/LocaleProvider';
 
 const WELCOME_COOKIE = 'midad_welcome';
 let welcomePending = false; // أُخذت العلامة ولم يُعرض الترحيب بعد
@@ -21,6 +22,7 @@ function consumeWelcomeCookie() {
  * تتلاشى سريعًا، والنقر أو Escape يُنهيها. ليست عنوانًا للصفحة (لا h1).
  */
 export default function WelcomeBack({ name, greeting }: { name: string; greeting: string }) {
+  const t = useT();
   const [show, setShow] = useState(false);
   const [leaving, setLeaving] = useState(false);
 
@@ -56,7 +58,7 @@ export default function WelcomeBack({ name, greeting }: { name: string; greeting
         <p className="wlc-greeting">{greeting}</p>
         <p className="wlc-name">{name}</p>
         <span className="wlc-line" />
-        <span className="wlc-brand">مسرى · Masra</span>
+        <span className="wlc-brand">{t('brand')}</span>
       </div>
     </div>
   );

@@ -157,21 +157,20 @@ export type ChildRow = {
 export const getGuardianOverview = cache(async (orgId: string, userId: string) => {
   const guardian = await prisma.guardian.findFirst({
     where: { userId, organizationId: orgId },
-    select: { fullName: true, students: { orderBy: { name: 'asc' }, select: { id: true, name: true, halaqa: { select: { name: true } } } } },
+    select: { fullName: true, students: { where: { organizationId: orgId }, orderBy: { name: 'asc' }, select: { id: true, name: true, halaqa: { select: { name: true } }, memorization: { where: { organizationId: orgId }, orderBy: { date: 'desc' }, take: 1, select: { content: true, date: true, rating: true } } } } },
   });
   if (!guardian) return null;
   const ids = guardian.students.map((s) => s.id);
   const today = todayUtc();
   const since = new Date(today.getTime() - 29 * DAY);
-  const [att, memo] = await Promise.all([
+  const [att] = await Promise.all([
     ids.length ? prisma.attendanceRecord.findMany({ where: { organizationId: orgId, studentId: { in: ids }, date: { gte: since } }, select: { studentId: true, status: true, date: true } }) : Promise.resolve([]),
-    ids.length ? prisma.memorizationEntry.findMany({ where: { organizationId: orgId, studentId: { in: ids } }, orderBy: { date: 'desc' }, take: ids.length * 3, select: { studentId: true, content: true, date: true, rating: true } }) : Promise.resolve([]),
   ]);
   const children: ChildRow[] = guardian.students.map((s) => {
     const mine = att.filter((a) => a.studentId === s.id);
     const present = mine.filter((a) => a.status === 'PRESENT' || a.status === 'LATE').length;
     const todays = mine.find((a) => a.date.getTime() === today.getTime());
-    const last = memo.find((m) => m.studentId === s.id);
+    const last = s.memorization[0];
     return {
       id: s.id, name: s.name, halaqaName: s.halaqa?.name ?? null,
       attendanceRate: mine.length ? Math.round((present / mine.length) * 100) : null,

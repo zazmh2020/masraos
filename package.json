@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:preview": "node scripts/preview.mjs",
     "dev:local": "node scripts/local.mjs start",
     "local:setup": "node scripts/local.mjs setup",
     "local:backup": "node scripts/local.mjs backup",

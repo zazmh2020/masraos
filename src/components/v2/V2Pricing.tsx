@@ -6,7 +6,7 @@ import { useLocale, useT } from '@/lib/i18n/LocaleProvider';
 import { useCurrency } from '@/components/CurrencyProvider';
 import { CURRENCIES, convertRounded, formatAmount } from '@/lib/currency';
 import { CurrencySymbol } from '@/components/RiyalSign';
-import { plans } from '@/components/landing/PricingPreview';
+import { plans } from '@/lib/pricing-preview';
 import AnimatedAmount from '@/components/v2/motion/AnimatedAmount';
 
 /** ملخص الباقات (نفس بيانات العرض المقترح) — التفاصيل الكاملة والسياسة في /pricing. */

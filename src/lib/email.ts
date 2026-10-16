@@ -1,3 +1,4 @@
+import { BRAND } from '@/lib/brand';
 /**
  * إرسال البريد عبر مزوّد Resend (بلا اعتمادية إضافية — عبر fetch).
  * يعمل فقط عند ضبط RESEND_API_KEY؛ وإلا يعيد reason: 'not_configured'
@@ -15,7 +16,7 @@ export async function sendEmail({
   const key = process.env.RESEND_API_KEY;
   if (!key) return { ok: false, reason: 'not_configured' };
   if (!to) return { ok: false, reason: 'no_recipient' };
-  const from = process.env.EMAIL_FROM || 'Masra <onboarding@resend.dev>';
+  const from = process.env.EMAIL_FROM || `${BRAND.en.name} <onboarding@resend.dev>`;
   if (process.env.NODE_ENV === 'production' && !process.env.EMAIL_FROM?.trim()) return { ok: false, reason: 'not_configured' };
   try {
     const res = await fetch('https://api.resend.com/emails', {

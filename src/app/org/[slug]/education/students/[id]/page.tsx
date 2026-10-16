@@ -1,3 +1,4 @@
+import { recentStudentTimeline } from '@/lib/student-timeline';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { requireOrgAccess } from '@/lib/org';
@@ -23,15 +24,26 @@ export default async function StudentProfilePage({ params }: { params: Promise<{
     select: {
       id: true, name: true, phone: true, guardianName: true, guardianPhone: true, guardianEmail: true, status: true,
       halaqa: { select: { id: true, name: true } },
-      quranRecords: { orderBy: { date: 'desc' }, take: 8 },
-      fees: { orderBy: { createdAt: 'desc' }, take: 6 },
+      quranRecords: { where: { organizationId: org.id }, orderBy: { date: 'desc' }, take: 20 },
+      fees: { where: { organizationId: org.id }, orderBy: { createdAt: 'desc' }, take: 6 },
+      attendance: { where: { organizationId: org.id }, orderBy: { date: 'desc' }, take: 20, select: { id: true, date: true, status: true } },
+      memorization: { where: { organizationId: org.id }, orderBy: { date: 'desc' }, take: 20, select: { id: true, date: true, kind: true, content: true, rating: true } },
+      assessments: { where: { organizationId: org.id }, orderBy: { date: 'desc' }, take: 20, select: { id: true, date: true, title: true, result: true } },
     },
   });
   if (!student) notFound();
 
-  const totalPages = student.quranRecords.reduce((s, r) => s + (r.pages ?? 0), 0);
-  const present = student.quranRecords.filter((r) => r.attendance !== 'ABSENT').length;
+  const recentQuran = student.quranRecords.slice(0, 8);
+  const totalPages = recentQuran.reduce((s, r) => s + (r.pages ?? 0), 0);
+  const present = recentQuran.filter((r) => r.attendance === 'PRESENT' || r.attendance === 'LATE').length;
   const feeDue = student.fees.filter((f) => !f.paid).reduce((s, f) => s + f.amount, 0);
+  const timeline = recentStudentTimeline([
+    ...student.quranRecords.map(r => ({ id: `daily-${r.id}`, date: r.date, kind: 'memorization' as const, detail: t('stu.timelineDaily', { n: r.pages ?? 0 }) })),
+    ...student.attendance.map(r => ({ id: `attendance-${r.id}`, date: r.date, kind: 'attendance' as const, detail: t(`status.attendance.${r.status}`) })),
+    ...student.memorization.map(r => ({ id: `memorization-${r.id}`, date: r.date, kind: 'memorization' as const, detail: r.content })),
+    ...student.assessments.map(r => ({ id: `assessment-${r.id}`, date: r.date, kind: 'assessment' as const, detail: r.title })),
+  ]);
+
 
   return (
     <div className="org-page">
@@ -39,15 +51,15 @@ export default async function StudentProfilePage({ params }: { params: Promise<{
         <div>
           <Link href={`${base}/education/students`} className="org-back-link">← {t('pg.students.title')}</Link>
           <h1>{student.name}</h1>
-          {canManageRegistration(user) && <Link className="org-btn org-btn-primary" href={`${base}/education/students/${id}/registration`}>استمارة الطالب والطباعة</Link>}
+          {canManageRegistration(user) && <Link className="org-btn org-btn-primary" href={`${base}/education/students/${id}/registration`}>{t('stu.registrationLink')}</Link>}
           <p>{student.halaqa ? student.halaqa.name : t('edu.st.noHalaqa')} · {t(`status.student.${student.status}`)}</p>
         </div>
       </div>
 
       <div className="org-stats">
-        <div className="org-stat"><div className="org-stat-label">{t('qm.sumPages', { n: '' }).replace(/[:：].*$/, '')}</div><div className="org-stat-value">{numFmt.format(totalPages)}</div></div>
-        <div className="org-stat"><div className="org-stat-label">{t('stu.presentDays')}</div><div className="org-stat-value">{present}/{student.quranRecords.length}</div></div>
-        <div className="org-stat"><div className="org-stat-label">{t('fee.totalDue')}</div><div className="org-stat-value">{numFmt.format(feeDue)}</div></div>
+        <div className="org-stat"><div className="org-stat-label">{t('qm.sumPages', { n: '' }).replace(/[:：].*$/, '')}</div><div className="org-stat-value">{numFmt.format(totalPages)}</div><small>{t('stu.recentScope')}</small></div>
+        <div className="org-stat"><div className="org-stat-label">{t('stu.presentDays')}</div><div className="org-stat-value">{present}/{recentQuran.length}</div><small>{t('stu.recentScope')}</small></div>
+        <div className="org-stat"><div className="org-stat-label">{t('fee.totalDue')}</div><div className="org-stat-value">{numFmt.format(feeDue)}</div><small>{t('stu.feeScope')}</small></div>
       </div>
 
       <div className="org-report-grid">
@@ -64,9 +76,9 @@ export default async function StudentProfilePage({ params }: { params: Promise<{
 
         <div className="org-panel">
           <h2>{t('stu.recentRecords')}</h2>
-          {student.quranRecords.length === 0 ? <p className="org-panel-sub">{t('edu.mz.none')}</p> : (
+          {recentQuran.length === 0 ? <p className="org-panel-sub">{t('edu.mz.none')}</p> : (
             <ul className="stu-records">
-              {student.quranRecords.map((r) => (
+              {recentQuran.map((r) => (
                 <li key={r.id}>
                   <span>{dateFmt.format(new Date(r.date))}</span>
                   <span>{r.newFrom != null ? `${r.newFrom}→${r.newTo ?? ''}` : '—'}</span>
@@ -77,6 +89,17 @@ export default async function StudentProfilePage({ params }: { params: Promise<{
           )}
         </div>
       </div>
+
+      <section className="org-panel stu-timeline" aria-labelledby="student-timeline-title">
+        <h2 id="student-timeline-title">{t('stu.timeline')}</h2>
+        <p className="org-panel-sub">{t('stu.timelineHint')}</p>
+        {timeline.length === 0 ? <p>{t('stu.timelineEmpty')}</p> : <ol className="stu-timeline-list">
+          {timeline.map(event => <li key={event.id}>
+            <time dateTime={event.date.toISOString()}>{dateFmt.format(event.date)}</time>
+            <div><strong>{t(`stu.timeline${event.kind[0].toUpperCase()}${event.kind.slice(1)}`)}</strong><p dir="auto">{event.detail}</p></div>
+          </li>)}
+        </ol>}
+      </section>
 
       <div className="org-panel">
         <h2>{t('fee.pageTitle')}</h2>

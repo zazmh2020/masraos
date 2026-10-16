@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
+import { useDrawerFocus } from '@/components/useDrawerFocus';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { LogoMark } from '@/components/Logo';
 import AppIcon from '@/components/Icon';
 import TopbarTools, { type SearchItem } from '@/components/TopbarTools';
@@ -75,6 +76,18 @@ export default function OrgShell({ children, org, user, nav, inbox, assistant, d
   const [profileOpen, setProfileOpen] = useState(false);
   const [confirmLogout, setConfirmLogout] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
+  const sidebar = useRef<HTMLElement>(null);
+  const logoutDialog = useRef<HTMLDialogElement>(null);
+  const profileTrigger = useRef<HTMLButtonElement>(null);
+  const menuTrigger = useRef<HTMLButtonElement>(null);
+
+  useDrawerFocus(open, sidebar, menuTrigger, setOpen, 860);
+
+  useEffect(() => {
+    if (confirmLogout) logoutDialog.current?.showModal();
+    else logoutDialog.current?.close();
+  }, [confirmLogout]);
+
 
   useEffect(() => {
     // قراءة التخزين المحلي تتم بعد التركيب لتفادي عدم تطابق SSR
@@ -118,7 +131,8 @@ export default function OrgShell({ children, org, user, nav, inbox, assistant, d
     <div className={`org-app ${collapsed ? 'is-collapsed' : ''}`} style={brandVars(org.brandColor, org.brandAccent)} {...uiThemeAttrs(normalizeUiTheme(org.uiTheme))} data-demo={demo ? 'true' : undefined}>
       <WelcomeBack name={user.name} greeting={t('welcome.greeting')} />
       <a href="#org-main" className="skip-link">{t('a11y.skip')}</a>
-      <aside className={`org-sidebar ${open ? 'is-open' : ''}`}>
+      <aside id="org-navigation" ref={sidebar} aria-label={t('shell.menu')} className={`org-sidebar ${open ? 'is-open' : ''}`}>
+        <button type="button" className="org-mobile-close" onClick={() => setOpen(false)} aria-label={t('nav.closeMenu')}><AppIcon name="close" size={20} /></button>
         {/* زر طيّ/فرد الشريط الجانبي (ضمن القائمة نفسها) */}
         <button
           className="org-fold-toggle"
@@ -140,6 +154,7 @@ export default function OrgShell({ children, org, user, nav, inbox, assistant, d
                 key={entry.href}
                 href={entry.href}
                 className={`org-nav-item ${isActive(entry.href, entry.match) ? 'is-active' : ''}`}
+                aria-current={isActive(entry.href, entry.match) ? 'page' : undefined}
                 onClick={() => setOpen(false)}
                 title={entry.label}
               >
@@ -151,27 +166,23 @@ export default function OrgShell({ children, org, user, nav, inbox, assistant, d
         </nav>
       </aside>
 
-      {confirmLogout && (
-        <div className="org-modal-scrim" onClick={() => setConfirmLogout(false)}>
-          <div className="org-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
-            <div className="org-modal-ic"><Icon name="logout" /></div>
-            <h3>{t('shell.logout.confirm.title')}</h3>
-            <p>{t('shell.logout.confirm.body')}</p>
-            <div className="org-modal-actions">
-              <button className="org-btn org-btn-outline" onClick={() => setConfirmLogout(false)} disabled={busy}>{t('shell.cancel')}</button>
-              <button className="org-btn org-btn-danger" onClick={handleLogout} disabled={busy}>
-                {busy ? t('shell.loggingOut') : t('shell.logout')}
-              </button>
-            </div>
+      <dialog ref={logoutDialog} className="org-logout-dialog" aria-labelledby="org-logout-title" onClose={() => { setConfirmLogout(false); profileTrigger.current?.focus(); }} onClick={event => { if (event.target === event.currentTarget) setConfirmLogout(false); }}>
+        <div className="org-modal">
+          <div className="org-modal-ic"><Icon name="logout" /></div>
+          <h3 id="org-logout-title">{t('shell.logout.confirm.title')}</h3>
+          <p>{t('shell.logout.confirm.body')}</p>
+          <div className="org-modal-actions">
+            <button autoFocus className="org-btn org-btn-outline" onClick={() => setConfirmLogout(false)} disabled={busy}>{t('shell.cancel')}</button>
+            <button className="org-btn org-btn-danger" onClick={handleLogout} disabled={busy}>{busy ? t('shell.loggingOut') : t('shell.logout')}</button>
           </div>
         </div>
-      )}
+      </dialog>
 
       {open && <div className="org-scrim" onClick={() => setOpen(false)} />}
 
       <div className="org-main">
         <header className="org-topbar">
-          <button className="org-menu-toggle" onClick={() => setOpen(true)} aria-label={t('shell.menu')}>
+          <button ref={menuTrigger} aria-expanded={open} aria-controls="org-navigation" className="org-menu-toggle" onClick={() => setOpen(true)} aria-label={t('shell.menu')}>
             <AppIcon name="menu" size={20} />
           </button>
           {pathname !== base && (
@@ -196,7 +207,7 @@ export default function OrgShell({ children, org, user, nav, inbox, assistant, d
             orgType={org.type}
           />
           <div className="org-topbar-profile">
-            <button className="tbar-user" onClick={() => setProfileOpen((v) => !v)} aria-expanded={profileOpen} aria-label={t('shell.profile')}>
+            <button ref={profileTrigger} className="tbar-user" onClick={() => setProfileOpen((v) => !v)} aria-expanded={profileOpen} aria-label={t('shell.profile')}>
               <span className="tbar-user-ava"><Avatar url={user.avatarUrl} /></span>
               <span className="tbar-user-tx">
                 <span className="tbar-user-name">{user.name}</span>
@@ -238,7 +249,7 @@ export default function OrgShell({ children, org, user, nav, inbox, assistant, d
               </Link>
             );
           })}
-          <button type="button" onClick={() => setOpen(true)} aria-haspopup="dialog">
+          <button type="button" onClick={() => setOpen(true)} aria-expanded={open} aria-controls="org-navigation">
             <span className="d2-bn-ic"><AppIcon name="menu" size={20} /></span>
             <span>{bottomNav.more}</span>
           </button>
@@ -287,6 +298,7 @@ function NavGroup({
               key={c.href}
               href={c.href}
               className={`org-nav-child ${isActive(c.href, c.match) ? 'is-active' : ''}`}
+              aria-current={isActive(c.href, c.match) ? 'page' : undefined}
               onClick={onNavigate}
             >
               <span className="org-nav-dot" aria-hidden="true" />

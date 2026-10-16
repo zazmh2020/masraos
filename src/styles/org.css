@@ -2595,3 +2595,34 @@ a.org-module:hover {
 .dash-ent-remain { font-size: 1.05rem; font-weight: 800; color: var(--text-strong); }
 .dash-ent-target { font-size: 0.82rem; color: var(--text-soft, var(--text-secondary)); }
 .dash-ent-cta { font-weight: 700; color: var(--purple-700); white-space: nowrap; }
+
+/* Accessible compact navigation: off-screen links cannot receive focus. */
+.org-mobile-close { display: none; }
+.org-logout-dialog { padding: 0; border: 0; background: transparent; max-inline-size: calc(100vw - 32px); }
+.org-logout-dialog::backdrop { background: rgb(26 17 38 / .45); }
+.org-logout-dialog .org-modal { max-inline-size: 100%; }
+@media (max-width: 860px) {
+  .org-sidebar:not(.is-open) { visibility: hidden; }
+  .org-sidebar.is-open { visibility: visible; height: 100dvh; }
+  .org-mobile-close { display: inline-grid; place-items: center; min-inline-size: 44px; min-block-size: 44px; margin-inline-start: auto; border: 1px solid currentColor; border-radius: 12px; color: inherit; background: transparent; cursor: pointer; }
+}
+
+.stu-timeline-list { list-style: none; padding: 0; margin: 0; }
+.stu-timeline-list > li { display: grid; grid-template-columns: minmax(5rem, 7rem) minmax(0, 1fr); gap: 16px; padding-block: 16px; border-block-start: 1px solid var(--border-default); }
+.stu-timeline-list time { color: var(--text-secondary); font-size: .875rem; }
+.stu-timeline-list p { margin: 4px 0 0; overflow-wrap: anywhere; }
+.stu-timeline-list strong { color: var(--text-primary); }
+@media(max-width: 430px) { .stu-timeline-list > li { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
+
+/* Preserve every toolbar action on narrow phones without overlapping controls. */
+@media (max-width: 480px) {
+  .org-app .org-topbar { flex-wrap: wrap; gap: 8px; padding: 8px; top: 8px; }
+  .org-app .org-topbar > .tbt { order: 4; flex: 1 1 100%; inline-size: 100%; min-inline-size: 0; }
+  .org-app .org-topbar-profile { margin-inline-start: auto; }
+  .org-app .org-back { min-inline-size: 44px; min-block-size: 44px; margin-inline-end: 0; }
+  .org-app .tbt-search { min-inline-size: 80px; }
+  .org-app .tbt-search input { inline-size: 100%; }
+  .org-app .tbt-slot, .org-app .tbt .lang-toggle { flex-shrink: 0; }
+}
+
+.org-logout-dialog { margin: auto; max-block-size: calc(100dvh - 32px); }

@@ -9,7 +9,7 @@ export default async function V2Footer() {
     <footer id="about" className="v2-footer">
       <div className="v2-wrap v2-footer-grid">
         <div>
-          <span className="v2-brand"><LogoMark size={26} /><span>{t('brand')}</span></span>
+          <span className="v2-brand"><LogoMark size={26} /><span>{t('brand.corporate')}</span></span>
           <p>{t('footer.desc')}</p>
         </div>
         <nav aria-label={t('footer.col.platform')}>

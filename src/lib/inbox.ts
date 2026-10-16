@@ -1,3 +1,5 @@
+import { cache } from 'react';
+import { canViewUsers, canViewTasks, canViewRequests, canManageRequests, canViewDonations, canViewEducation, type Actor } from '@/lib/permissions';
 import { prisma } from '@/lib/prisma';
 import { getT } from '@/lib/i18n/server';
 
@@ -69,7 +71,7 @@ export async function getAdminInbox(): Promise<OrgInbox> {
   return { messages, notifications };
 }
 
-export async function getOrgInbox(organizationId: string): Promise<OrgInbox> {
+export const getOrgInbox = cache(async (organizationId: string, actor: Actor & { id: string }): Promise<OrgInbox> => {
   const where = { organizationId };
   const { t } = await getT();
   const [announcements, members, tasks, requests, donations, students] = await Promise.all([
@@ -78,14 +80,14 @@ export async function getOrgInbox(organizationId: string): Promise<OrgInbox> {
       orderBy: [{ pinned: 'desc' }, { createdAt: 'desc' }],
       take: 8,
     }),
-    prisma.user.findMany({ where, orderBy: { createdAt: 'desc' }, take: 5, select: { id: true, name: true, createdAt: true } }),
-    prisma.task.findMany({ where, orderBy: { createdAt: 'desc' }, take: 5, select: { id: true, title: true, createdAt: true } }),
-    prisma.memberRequest.findMany({
-      where, orderBy: { createdAt: 'desc' }, take: 5,
+    canViewUsers(actor) ? prisma.user.findMany({ where, orderBy: { createdAt: 'desc' }, take: 5, select: { id: true, name: true, createdAt: true } }) : Promise.resolve([]),
+    canViewTasks(actor) ? prisma.task.findMany({ where, orderBy: { createdAt: 'desc' }, take: 5, select: { id: true, title: true, createdAt: true } }) : Promise.resolve([]),
+    canViewRequests(actor) ? prisma.memberRequest.findMany({
+      where: { ...where, ...(canManageRequests(actor) ? {} : { requesterId: actor.id }) }, orderBy: { createdAt: 'desc' }, take: 5,
       select: { id: true, type: true, status: true, createdAt: true, requester: { select: { name: true } } },
-    }),
-    prisma.donation.findMany({ where, orderBy: { donatedAt: 'desc' }, take: 5, select: { id: true, donorName: true, donatedAt: true } }),
-    prisma.student.findMany({ where, orderBy: { createdAt: 'desc' }, take: 5, select: { id: true, name: true, createdAt: true } }),
+    }) : Promise.resolve([]),
+    canViewDonations(actor) ? prisma.donation.findMany({ where, orderBy: { donatedAt: 'desc' }, take: 5, select: { id: true, donorName: true, donatedAt: true } }) : Promise.resolve([]),
+    canViewEducation(actor) ? prisma.student.findMany({ where, orderBy: { createdAt: 'desc' }, take: 5, select: { id: true, name: true, createdAt: true } }) : Promise.resolve([]),
   ]);
 
   const messages: InboxMessage[] = announcements.map((a) => ({
@@ -123,4 +125,4 @@ export async function getOrgInbox(organizationId: string): Promise<OrgInbox> {
     .slice(0, 12);
 
   return { messages, notifications };
-}
+});

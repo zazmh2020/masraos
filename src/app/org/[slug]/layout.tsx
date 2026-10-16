@@ -49,7 +49,7 @@ export default async function OrgLayout({
   // الفاعل بقدراته الفعّالة (الدور المخصّص إن وُجد) — لتعكس القائمة صلاحياته
   const r = user;
   const base = `/org/${org.slug}`;
-  const inbox = await getOrgInbox(org.id);
+  const inbox = await getOrgInbox(org.id, user);
   const { t } = await getT();
   const session = await getSession();
   const isDemo = !!session?.demo; // جلسة عرض تجريبي → شريط تنبيه + منع التعديلات

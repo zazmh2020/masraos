@@ -1,3 +1,4 @@
+import { BRAND } from '@/lib/brand';
 import type { SignupChannel } from '@/lib/signup';
 import { sendEmail } from '@/lib/email';
 
@@ -14,7 +15,7 @@ export type OtpDelivery =
   | { ok: false; reason: 'not_configured' | 'failed' };
 
 export function otpMessage(code: string): string {
-  return `رمز التحقق لإنشاء حسابك في مسرى: ${code}\nصالح لمدة 10 دقائق. لا تشاركه مع أحد.`;
+  return `رمز التحقق لإنشاء حسابك في ${BRAND.ar.name}: ${code}\nصالح لمدة 10 دقائق. لا تشاركه مع أحد.`;
 }
 
 export async function deliverOtp(channel: SignupChannel, to: string, code: string): Promise<OtpDelivery> {
@@ -23,9 +24,9 @@ export async function deliverOtp(channel: SignupChannel, to: string, code: strin
     if (!/^\d{6}$/.test(code)) return { ok: false, reason: 'failed' };
     const result = await sendEmail({
       to,
-      subject: 'رمز التحقق لحسابك في مَسرى',
+      subject: `رمز التحقق لحسابك في ${BRAND.ar.name}`,
       text: otpMessage(code),
-      html: `<html lang="ar" dir="rtl"><body style="margin:0;padding:24px;background:#FAF7FE;font-family:Arial,sans-serif;color:#1A1126"><div style="max-width:480px;margin:auto;background:#fff;padding:32px;border-radius:16px"><h1 style="color:#61428C;font-size:24px">مَسرى</h1><h2 style="font-size:20px">تأكيد بريدك الإلكتروني</h2><p>استخدم الرمز التالي لإكمال إنشاء حسابك ومركزك:</p><p dir="ltr" style="font-size:32px;font-weight:bold;color:#61428C;text-align:center">${code}</p><p>صالح لمدة 10 دقائق. لا تشارك الرمز مع أحد.</p><p>إذا لم تطلب إنشاء حساب، تجاهل هذه الرسالة.</p></div></body></html>`,
+      html: `<html lang="ar" dir="rtl"><body style="margin:0;padding:24px;background:#FAF7FE;font-family:Arial,sans-serif;color:#1A1126"><div style="max-width:480px;margin:auto;background:#fff;padding:32px;border-radius:16px"><h1 style="color:#61428C;font-size:24px">${BRAND.ar.name}</h1><h2 style="font-size:20px">تأكيد بريدك الإلكتروني</h2><p>استخدم الرمز التالي لإكمال إنشاء حسابك ومركزك:</p><p dir="ltr" style="font-size:32px;font-weight:bold;color:#61428C;text-align:center">${code}</p><p>صالح لمدة 10 دقائق. لا تشارك الرمز مع أحد.</p><p>إذا لم تطلب إنشاء حساب، تجاهل هذه الرسالة.</p></div></body></html>`,
     });
     return result.ok ? { ok: true, via: 'resend' } : { ok: false, reason: result.reason === 'not_configured' ? 'not_configured' : 'failed' };
   }

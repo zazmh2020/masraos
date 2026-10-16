@@ -7,9 +7,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function NotificationsPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const { org } = await requireOrgAccess(slug);
+  const { user, org } = await requireOrgAccess(slug);
   const { t } = await getT();
-  const inbox = await getOrgInbox(org.id);
+  const inbox = await getOrgInbox(org.id, user);
 
   return (
     <div className="org-page">

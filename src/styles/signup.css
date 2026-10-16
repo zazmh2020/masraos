@@ -62,3 +62,7 @@
 
 /* اختيار طريقة التحقق: مربع فاتح 40 على شبكة الأشكال الموحّدة */
 .su-channel .ic { width: 40px; height: 40px; border-radius: 12px; background: var(--brand-primary-subtle); color: var(--brand-primary); }
+
+.su-slug > span { max-inline-size: 55%; overflow: hidden; text-overflow: ellipsis; display: block; align-content: center; }
+
+.su-url-preview { overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }

@@ -1177,3 +1177,26 @@
 .admin-app .d2-action.is-primary:hover { background: var(--brand-primary-dark); filter: none; }
 .admin-app .d2-metric-bar.b3 { background: var(--brand-primary); }
 .admin-app .d2-link, .admin-app .d2-eyebrow { color: var(--brand-primary); }
+
+.admin-mobile-close { display: none; }
+.admin-logout-dialog { padding: 0; border: 0; background: transparent; max-inline-size: calc(100vw - 32px); }
+.admin-logout-dialog::backdrop { background: rgb(26 17 38 / .45); }
+.admin-logout-dialog .admin-modal { max-inline-size: 100%; }
+@media (max-width: 900px) {
+  .admin-sidebar:not(.is-open) { visibility: hidden; }
+  .admin-sidebar.is-open { visibility: visible; height: 100dvh; }
+  .admin-mobile-close { display: inline-grid; place-items: center; min-inline-size: 44px; min-block-size: 44px; margin-inline-start: auto; border: 1px solid currentColor; border-radius: 12px; color: #fff; background: transparent; cursor: pointer; }
+}
+@media (max-width: 480px) {
+  .admin-app .admin-topbar { flex-wrap: wrap; gap: 8px; padding: 8px; top: 8px; }
+  .admin-app .admin-topbar > .tbt { order: 4; flex: 1 1 100%; inline-size: 100%; min-inline-size: 0; }
+  .admin-app .org-topbar-profile { margin-inline-start: auto; }
+  .admin-app .org-back, .admin-app .admin-menu-toggle { min-inline-size: 44px; min-block-size: 44px; }
+  .admin-app .tbt-search { min-inline-size: 80px; }
+  .admin-app .tbt-search input { inline-size: 100%; }
+  .admin-app .tbt-slot, .admin-app .tbt .lang-toggle { flex-shrink: 0; }
+}
+
+.admin-logout-dialog { margin: auto; max-block-size: calc(100dvh - 32px); }
+
+@media(max-width:900px) { .admin-sidebar .org-fold-toggle { display: none; } }

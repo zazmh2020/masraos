@@ -1,19 +1,23 @@
+import { BRAND } from '@/lib/brand';
+import { getLocale } from '@/lib/i18n/server';
 import type { MetadataRoute } from 'next';
 
 /** بيان تطبيق الويب — يجعل مسرى قابلًا للتثبيت على الجوال كتطبيق (PWA). */
-export default function manifest(): MetadataRoute.Manifest {
+export default async function manifest(): Promise<MetadataRoute.Manifest> {
+  const locale = await getLocale();
+  const brand = BRAND[locale];
   return {
-    name: 'مَسرى — إدارة مراكز تعليم القرآن',
-    short_name: 'مسرى',
-    description: 'تنظيم عمل مراكز القرآن: الطلاب والحلقات والحضور وسجل الحفظ.',
+    name: brand.corporate,
+    short_name: brand.name,
+    description: brand.positioning,
     start_url: '/',
     scope: '/',
     display: 'standalone',
     orientation: 'portrait',
     background_color: '#FAF7FE',
     theme_color: '#61428C',
-    lang: 'ar',
-    dir: 'rtl',
+    lang: locale,
+    dir: locale === 'ar' ? 'rtl' : 'ltr',
     categories: ['education', 'productivity', 'business'],
     icons: [
       { src: '/icons/pwa/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },

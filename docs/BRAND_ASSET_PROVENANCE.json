@@ -1,0 +1,15 @@
+{
+  "sources": [
+    {
+      "source": "Asset 5.pdf",
+      "sha256": "2d7df216a9cc635312a5c44cacee2614046280e50cc59aefb5a1a1f53c55effd"
+    },
+    {
+      "source": "Asset 6.pdf",
+      "sha256": "71e85c5dcfd3c138d9efc0f78d039807289887ef2886cab67dadddfa76625e99"
+    }
+  ],
+  "paths": 4,
+  "viewBox": "24.2126 29.0799 51.575 41.8399",
+  "method": "Original PDF path operators and transforms; no redrawing"
+}

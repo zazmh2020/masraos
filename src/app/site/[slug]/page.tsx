@@ -1,3 +1,6 @@
+import type { Metadata } from 'next';
+import { cache } from 'react';
+import { BRAND } from '@/lib/brand';
 import type { CSSProperties } from 'react';
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
@@ -22,19 +25,28 @@ function siteVars(hex: string | null): CSSProperties {
   };
 }
 
+const publicOrganization = cache((slug: string) => prisma.organization.findUnique({
+    where: { slug },
+    select: {
+      name: true, type: true, brandColor: true, logoUrl: true, sitePublished: true, isActive: true,
+      aboutText: true, contactEmail: true, contactPhone: true, address: true,
+    },
+  }));
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const [{ locale }, org] = await Promise.all([getT(), publicOrganization(slug)]);
+  if (!org?.isActive || !org.sitePublished) return { robots: { index: false, follow: false } };
+  return { title: `${org.name} | ${BRAND[locale].name}`, description: org.aboutText || undefined, openGraph: { title: org.name, description: org.aboutText || undefined, siteName: org.name } };
+}
+
 // المحتوى الذي تكتبه الجهة (الاسم، النبذة، العنوان، الأخبار) بـ dir="auto" — يُعرض باتجاه لغته أيًّا كانت لغة الواجهة
 export default async function PublicSitePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const { t, locale } = await getT();
   const dateFmt = new Intl.DateTimeFormat(locale === 'en' ? 'en' : 'ar-u-nu-latn', { year: 'numeric', month: 'long', day: 'numeric' });
 
-  const org = await prisma.organization.findUnique({
-    where: { slug },
-    select: {
-      name: true, type: true, brandColor: true, logoUrl: true, sitePublished: true, isActive: true,
-      aboutText: true, contactEmail: true, contactPhone: true, address: true,
-    },
-  });
+  const org = await publicOrganization(slug);
 
   if (!org || !org.isActive || !org.sitePublished) {
     return (
@@ -49,7 +61,7 @@ export default async function PublicSitePage({ params }: { params: Promise<{ slu
   }
 
   const announcements = await prisma.announcement.findMany({
-    where: { organization: { slug } },
+    where: { organization: { slug }, isPublished: true },
     orderBy: [{ pinned: 'desc' }, { createdAt: 'desc' }],
     take: 30,
     select: { id: true, title: true, body: true, createdAt: true, pinned: true },

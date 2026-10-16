@@ -1,3 +1,5 @@
+import { BRAND } from '@/lib/brand';
+import { getLocale } from '@/lib/i18n/server';
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { cookies } from 'next/headers';
@@ -9,17 +11,19 @@ import LangGate from '@/components/LangGate';
 import PWARegister from '@/components/PWARegister';
 import './globals.css';
 
-export const metadata: Metadata = {
-  title: 'مَسرى | MASRA — منصة إدارة مراكز تعليم القرآن',
-  description:
-    'مَسرى ينظّم عمل مراكز القرآن: الطلاب والحلقات والحضور وسجل الحفظ والمراجعة، بصلاحيات واضحة لكل دور.',
-  applicationName: 'مسرى',
-  appleWebApp: { capable: true, statusBarStyle: 'default', title: 'مسرى' },
-  icons: {
-    icon: '/favicon.svg',
-    apple: '/icons/pwa/apple-touch-icon.png',
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const brand = BRAND[locale];
+  return {
+    title: `${brand.name} | ${brand.positioning}`,
+    description: brand.description,
+    applicationName: brand.name,
+    appleWebApp: { capable: true, statusBarStyle: 'default', title: brand.name },
+    openGraph: { title: brand.corporate, description: brand.description, siteName: brand.name, locale: locale === 'ar' ? 'ar_SA' : 'en_US', type: 'website' },
+    twitter: { card: 'summary', title: brand.corporate, description: brand.description },
+    icons: { icon: '/favicon.svg', apple: '/icons/pwa/apple-touch-icon.png' },
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: '#61428C',
