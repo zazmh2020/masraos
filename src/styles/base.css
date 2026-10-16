@@ -284,7 +284,7 @@ svg {
   animation: langGateIn 0.3s cubic-bezier(0.22,0.61,0.36,1) both;
 }
 @keyframes langGateIn { from { opacity: 0; transform: translateY(16px) scale(0.97); } to { opacity: 1; transform: none; } }
-.lang-gate-logo { font-family: var(--font-display); font-weight: 800; color: var(--purple-500, var(--brand-primary)); font-size: 1.1rem; margin-bottom: 1rem; }
+.lang-gate-logo { display: flex; justify-content: center; color: var(--brand-primary-dark); margin-bottom: 1rem; }
 .lang-gate h2 { font-family: var(--font-display); font-size: 1.35rem; color: var(--purple-900, var(--brand-primary-dark)); margin: 0; }
 .lang-gate-en { color: var(--gray-500, var(--text-secondary)); font-size: 0.95rem; margin: 0.3rem 0 1.6rem; }
 .lang-gate-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }

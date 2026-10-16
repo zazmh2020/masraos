@@ -14,7 +14,7 @@ export default function SplashDismiss({ storageKey }: { storageKey: string }) {
     const leave = () => el.classList.add('is-leaving');
     const onEnd = (e: AnimationEvent) => { if (e.target === el && e.animationName === 'site-splash-out') done(); };
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') leave(); };
-    const fallback = setTimeout(done, 4000);
+    const fallback = setTimeout(done, 5000);
 
     el.addEventListener('animationend', onEnd);
     el.addEventListener('click', leave);

@@ -7,12 +7,21 @@
   z-index: 9999;
   display: grid;
   place-items: center;
+  padding-inline: 16px;
   background: var(--masra-deep);
+  color: var(--white);
   cursor: pointer;
-  animation: site-splash-out 0.5s ease 2.5s forwards;
+  animation: site-splash-out 0.5s ease 3.8s forwards;
 }
 
 .site-splash.is-leaving { animation: site-splash-out 0.35s ease forwards; }
+
+/* الأفقي للشاشات العريضة، والعمودي للجوال */
+.site-splash-narrow { display: none; }
+@media (max-width: 639px) {
+  .site-splash-wide { display: none; }
+  .site-splash-narrow { display: block; }
+}
 
 /* ظهرت في هذه الجلسة: يضيف السكربت المبكر هذه الفئة قبل الرسم فلا تومض */
 .splash-seen .site-splash { display: none; }
@@ -22,5 +31,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .site-splash { animation-delay: 0.6s; }
+  .site-splash { animation-delay: 0.8s; }
 }

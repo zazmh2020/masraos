@@ -6,6 +6,8 @@ import { persistLocale, useLocale } from '@/lib/i18n/LocaleProvider';
 import { translate } from '@/lib/i18n/dictionaries';
 import type { Locale } from '@/lib/i18n/config';
 import Icon from '@/components/Icon';
+import BrandLockup from '@/components/BrandLockup';
+import { BRAND } from '@/lib/brand';
 
 /** نافذة اختيار اللغة عند أول زيارة — على الصفحة الرئيسية فقط، لا داخل المنصّة. */
 export default function LangGate({ hasChosen }: { hasChosen: boolean }) {
@@ -41,7 +43,9 @@ export default function LangGate({ hasChosen }: { hasChosen: boolean }) {
         <button className="lang-gate-x" onClick={dismiss} aria-label="إغلاق / Close">
           <Icon name="close" size={20} />
         </button>
-        <div className="lang-gate-logo">مسرى · Masra</div>
+        <div className="lang-gate-logo">
+          <BrandLockup dir="rtl" height={30} label={`${BRAND.ar.corporate} — ${BRAND.en.corporate}`} />
+        </div>
         <h2>{translate('ar', 'lang.title')}</h2>
         <p className="lang-gate-en">{translate('en', 'lang.title')}</p>
         <div className="lang-gate-opts">
