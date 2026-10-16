@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import { LogoMark } from '@/components/Logo';
+import BrandLockup from '@/components/BrandLockup';
 import LangToggle from '@/components/LangToggle';
-import { useT } from '@/lib/i18n/LocaleProvider';
+import { useLocale } from '@/lib/i18n/LocaleProvider';
 import '@/styles/login.css';
 import '@/styles/auth.css';
 
@@ -15,7 +15,7 @@ import '@/styles/auth.css';
  * wide: بطاقة أعرض قليلًا (نموذج إنشاء الحساب).
  */
 export default function AuthShell({ wide = false, children }: { wide?: boolean; children: ReactNode }) {
-  const t = useT();
+  const { t, dir } = useLocale();
   return (
     <div className="au-page">
       <div className="au-top">
@@ -25,9 +25,8 @@ export default function AuthShell({ wide = false, children }: { wide?: boolean; 
 
       <main id="main" className="au-main">
         <div className={`lg-card au-card ${wide ? 'su-card' : ''}`}>
-          <Link href="/" className="au-brand" aria-label={t('brand')}>
-            <span className="au-brand-mark"><LogoMark size={24} /></span>
-            <span>{t('brand')}</span>
+          <Link href="/" className="au-brand">
+            <BrandLockup dir={dir} height={34} label={t('brand.corporate')} />
           </Link>
           {children}
         </div>

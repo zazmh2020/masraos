@@ -1,15 +1,17 @@
-import { LogoMark } from '@/components/Logo';
+import BrandLockup from '@/components/BrandLockup';
 import FooterLink from '@/components/v2/FooterLink';
 import { getT } from '@/lib/i18n/server';
 
 /** تذييل الموقع التسويقي — روابط مطلقة (‎/#قسم‎) لتعمل من الصفحة الرئيسية وأي صفحة أخرى. */
 export default async function V2Footer() {
-  const { t } = await getT();
+  const { t, locale } = await getT();
   return (
     <footer id="about" className="v2-footer">
       <div className="v2-wrap v2-footer-grid">
         <div>
-          <span className="v2-brand"><LogoMark size={26} /><span>{t('brand.corporate')}</span></span>
+          <span className="v2-brand">
+            <BrandLockup dir={locale === 'ar' ? 'rtl' : 'ltr'} height={40} label={t('brand.corporate')} />
+          </span>
           <p>{t('footer.desc')}</p>
         </div>
         <nav aria-label={t('footer.col.platform')}>
