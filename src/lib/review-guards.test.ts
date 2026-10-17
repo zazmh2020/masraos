@@ -4,6 +4,14 @@ import { proxy } from '@/proxy';
 import { serializeSession } from './session';
 import { POST as consult } from '@/app/api/consultation/route';
 
+// اختبارات وحدة بلا قاعدة بيانات: التقييد مغطّى في اختبارات التكامل (scripts/auth-hardening.test.ts)
+vi.mock('@/lib/auth-throttle', () => ({
+  hit: async () => ({ count: 1, blocked: false }),
+  throttleKey: (scope: string) => scope,
+  clientIp: () => '203.0.113.1',
+  tooManyResponse: () => new Response(null, { status: 429 }),
+}));
+
 afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); });
 describe('review fixes: demo write protection', () => {
   it('blocks a signed demo even after its unsigned marker is removed', async () => {
