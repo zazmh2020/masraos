@@ -22,6 +22,8 @@ const { POST: login } = await import('../src/app/api/auth/login/route');
 const { POST: forgot } = await import('../src/app/api/auth/password/forgot/route');
 const { POST: reset } = await import('../src/app/api/auth/password/reset/route');
 const { hashResetToken, issueResetToken } = await import('../src/lib/password-reset');
+const { POST: observe } = await import('../src/app/api/observe/route');
+const { POST: consult } = await import('../src/app/api/consultation/route');
 
 const RUN = randomUUID().slice(0, 8);
 const PASSWORD = `Correct-${RUN}-pw`;
@@ -195,5 +197,25 @@ describe('password reset', () => {
     for (let i = 0; i < 22; i++) statuses.push((await reset(post({ token: `guess-${i}-${'x'.repeat(30)}`, password: 'Valid-password-1' }, ip))).status);
     expect(statuses.slice(0, 20).every((s) => s === 400)).toBe(true);
     expect(statuses.at(-1)).toBe(429);
+  });
+});
+
+describe('public endpoints abuse limits', () => {
+  it('limits error-report flooding per address and refuses oversized reports', async () => {
+    const ip = nextIp();
+    const statuses = [];
+    for (let i = 0; i < 31; i++) statuses.push((await observe(post({ message: `qa ${i}` }, ip))).status);
+    expect(statuses.slice(0, 30).every((s) => s === 200)).toBe(true);
+    expect(statuses[30]).toBe(429);
+    const big = new Request('http://localhost/api/observe', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Forwarded-For': nextIp() }, body: JSON.stringify({ message: 'x'.repeat(20000) }) });
+    expect((await observe(big)).status).toBe(413);
+  });
+
+  it('limits consultation requests per address', async () => {
+    const ip = nextIp();
+    const statuses = [];
+    for (let i = 0; i < 6; i++) statuses.push((await consult(post({ name: 'QA', center: 'QA center', phone: '0500000000' }, ip))).status);
+    expect(statuses.slice(0, 5).every((s) => s !== 429)).toBe(true);
+    expect(statuses[5]).toBe(429);
   });
 });

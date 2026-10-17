@@ -1,4 +1,7 @@
 import { NextResponse } from 'next/server';
+import { clientIp, hit, throttleKey, tooManyResponse } from '@/lib/auth-throttle';
+
+const RULE = { limit: 5, windowSec: 3600, blockSec: 3600 }; // 5 طلبات من العنوان في الساعة — يمنع إغراق قناة الاستلام
 
 /* ============================================================
    طلب استشارة مجانية (من مساعد اختيار الباقة) — عام، بلا تسجيل.
@@ -20,6 +23,9 @@ function clean(v: unknown, max = 300): string {
 }
 
 export async function POST(request: Request) {
+  const { count } = await hit(throttleKey('consult:ip', clientIp(request)), RULE);
+  if (count > RULE.limit) return tooManyResponse(3600, 'تم استلام طلبات كثيرة من هذا الجهاز. حاول لاحقًا.');
+
   const body = (await request.json().catch(() => null)) as Lead | null;
   if (!body) return NextResponse.json({ error: 'bad request' }, { status: 400 });
 

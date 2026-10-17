@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { parseSession } from '@/lib/session';
+import { isCrossSiteMutation } from '@/lib/request-origin';
 
 /**
  * يوجّه الطلبات بحسب الدومين الفرعي ضمن دومينات مسرى الجذر فقط:
@@ -40,6 +41,9 @@ export function proxy(request: NextRequest) {
   // العرض التجريبي: للاستعراض فقط — نمنع أي تعديل عبر الـ API (باستثناء مسارات الدخول/الخروج).
   // مصدر القرار هو الجلسة الموقعة؛ حذف وسم العرض لا يزيل الحماية.
   if (path.startsWith('/api')) {
+    if (isCrossSiteMutation(request.method, path, request.headers, ROOT_DOMAINS)) {
+      return NextResponse.json({ ok: false, error: 'طلب مرفوض.', code: 'CROSS_SITE' }, { status: 403 });
+    }
     const mutating = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(request.method);
     const token = request.cookies.get('midad_session')?.value;
     const isDemo = request.cookies.get('midad_demo')?.value === '1' || (token ? parseSession(token)?.demo === true : false);
@@ -63,6 +67,7 @@ export function proxy(request: NextRequest) {
     path === '/terms' ||
     path === '/login' ||
     path === '/signup' ||       // إنشاء حساب مركز جديد
+    path === '/forgot-password' || path === '/reset-password' || // استعادة كلمة المرور
     path.startsWith('/verify') || // التحقّق العام من البطاقات الرقمية
     path.includes('.')
   ) {
