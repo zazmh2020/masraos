@@ -3,6 +3,7 @@ import {
   PutObjectCommand,
   GetObjectCommand,
   DeleteObjectCommand,
+  HeadObjectCommand,
 } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
@@ -45,27 +46,51 @@ function s3(): S3Client {
 
 const EXPIRES = 300; // صلاحية الرابط الموقّع: 5 دقائق
 
-/** رابط رفع موقّع (PUT) — يرفع المتصفّح الملف مباشرةً إلى المزوّد */
-export function presignUpload(key: string, contentType: string): Promise<string> {
+/**
+ * رابط رفع موقّع (PUT) — يرفع المتصفّح الملف مباشرةً إلى المزوّد.
+ * النوع والحجم ضمن التوقيع: يرفض المخزن أي رفع بنوع أو حجم مختلف عمّا أُذن به.
+ */
+export function presignUpload(key: string, contentType: string, size: number): Promise<string> {
   return getSignedUrl(
     s3(),
-    new PutObjectCommand({ Bucket: BUCKET, Key: key, ContentType: contentType }),
-    { expiresIn: EXPIRES },
+    new PutObjectCommand({ Bucket: BUCKET, Key: key, ContentType: contentType, ContentLength: size }),
+    { expiresIn: EXPIRES, signableHeaders: new Set(['content-type', 'content-length']) },
   );
 }
 
-/** رابط تنزيل موقّع (GET) — مع اسم ملف واضح عند الحفظ */
+/** ترويسة تنزيل آمنة: اسم ASCII احتياطي + الاسم الأصلي بترميز RFC 5987 (للأسماء العربية). */
+export function attachmentDisposition(fileName: string): string {
+  const fallback = fileName.replace(/[^\x20-\x7e]/g, '_').replace(/["\\]/g, '_') || 'file';
+  return `attachment; filename="${fallback}"; filename*=UTF-8''${encodeURIComponent(fileName.replace(/[\r\n]/g, ''))}`;
+}
+
+/** رابط تنزيل موقّع (GET) — دائمًا كمرفق، فلا يُعرض أي محتوى داخل المتصفّح من نطاق المخزن */
 export function presignDownload(key: string, fileName: string): Promise<string> {
-  const safe = fileName.replace(/["\\\r\n]/g, '_');
   return getSignedUrl(
     s3(),
     new GetObjectCommand({
       Bucket: BUCKET,
       Key: key,
-      ResponseContentDisposition: `attachment; filename="${safe}"`,
+      ResponseContentDisposition: attachmentDisposition(fileName),
     }),
     { expiresIn: EXPIRES },
   );
+}
+
+/** الحجم والنوع الفعليان لكائن مرفوع (أو null إن لم يوجد). */
+export async function statObject(key: string): Promise<{ size: number; contentType: string } | null> {
+  try {
+    const head = await s3().send(new HeadObjectCommand({ Bucket: BUCKET, Key: key }));
+    return { size: Number(head.ContentLength ?? -1), contentType: String(head.ContentType ?? '') };
+  } catch {
+    return null;
+  }
+}
+
+/** أول بايتات الكائن فقط (طلب Range) — لفحص توقيع الملف دون تحميله كاملًا في الذاكرة. */
+export async function readObjectHead(key: string, bytes = 64): Promise<Uint8Array> {
+  const object = await s3().send(new GetObjectCommand({ Bucket: BUCKET, Key: key, Range: `bytes=0-${bytes - 1}` }));
+  return (await object.Body?.transformToByteArray()) ?? new Uint8Array();
 }
 
 /** حذف كائن من المخزن */

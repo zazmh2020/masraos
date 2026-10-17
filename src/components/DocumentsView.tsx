@@ -4,6 +4,7 @@ import { IconShape } from '@/components/Icon';
 import { useMemo, useRef, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale } from '@/lib/i18n/LocaleProvider';
+import { DOCUMENT_ACCEPT } from '@/lib/upload-policy';
 
 type Doc = {
   id: string; name: string; description: string | null; category: string | null;
@@ -73,8 +74,9 @@ export default function DocumentsView({
 
       // 2) رفع الملف مباشرةً إلى المخزن
       setProgress(t('doc.uploadingP'));
+      // النوع المعتمد من الخادم — رابط الرفع موقّع عليه وعلى الحجم
       const put = await fetch(pdata.uploadUrl, {
-        method: 'PUT', headers: { 'Content-Type': file.type || 'application/octet-stream' }, body: file,
+        method: 'PUT', headers: { 'Content-Type': pdata.contentType }, body: file,
       });
       if (!put.ok) { setError(t('doc.uploadFail')); return; }
 
@@ -84,7 +86,7 @@ export default function DocumentsView({
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name, description, category, key: pdata.key,
-          fileName: file.name, contentType: file.type || 'application/octet-stream', size: file.size,
+          fileName: file.name, contentType: pdata.contentType, size: file.size,
           departmentId: departmentId || null,
         }),
       });
@@ -135,7 +137,7 @@ export default function DocumentsView({
         <form className="org-form" onSubmit={handleUpload}>
           <div className="org-field">
             <label htmlFor="doc-file">{t('doc.file')} <span className="org-hint">{t('doc.maxSize')}</span></label>
-            <input id="doc-file" ref={fileRef} type="file" onChange={(e) => pickFile(e.target.files?.[0] ?? null)} required />
+            <input id="doc-file" ref={fileRef} type="file" accept={DOCUMENT_ACCEPT} onChange={(e) => pickFile(e.target.files?.[0] ?? null)} required />
           </div>
           <div className="org-field-row">
             <div className="org-field">
