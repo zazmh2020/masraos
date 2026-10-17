@@ -133,7 +133,7 @@ export default function TopbarTools({ searchItems, messages, notifications, stor
       <div className="tbt-slot">
         <button className="tbt-btn" onClick={openMessages} aria-label={t('tb.messages')} aria-expanded={panel === 'messages'}>
           <Icon name="messages" size={20} />
-          {unreadMsg > 0 && <span className="tbt-dot">{unreadMsg}</span>}
+          {unreadMsg > 0 && <span className="tbt-dot"><span className="num-glyph">{unreadMsg}</span></span>}
         </button>
         {panel === 'messages' && (
           <div className="tbt-drop tbt-inbox">
@@ -152,7 +152,7 @@ export default function TopbarTools({ searchItems, messages, notifications, stor
       <div className="tbt-slot">
         <button className="tbt-btn" onClick={openNotif} aria-label={t('tb.notifications')} aria-expanded={panel === 'notif'}>
           <Icon name="notifications" size={20} />
-          {unreadNotif > 0 && <span className="tbt-dot">{unreadNotif}</span>}
+          {unreadNotif > 0 && <span className="tbt-dot"><span className="num-glyph">{unreadNotif}</span></span>}
         </button>
         {panel === 'notif' && (
           <div className="tbt-drop tbt-inbox">

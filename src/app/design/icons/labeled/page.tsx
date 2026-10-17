@@ -38,11 +38,11 @@ export default function LabeledIconsPreview() {
         .icl > p { margin: 0 0 32px; color: var(--text-secondary); font-size: 14px; }
         .icl h2 { font-size: 16px; font-weight: 700; color: var(--brand-primary-dark); margin: 32px 0 12px; }
         .icl table { border-collapse: collapse; width: 100%; table-layout: fixed; }
-        .icl th { font-size: 12px; font-weight: 600; color: var(--text-secondary); text-align: center; padding: 8px; border-bottom: 1px solid var(--gray-200); }
+        .icl th { font-size: 12px; font-weight: 500; color: var(--text-secondary); text-align: center; padding: 8px; border-bottom: 1px solid var(--gray-200); }
         .icl th:first-child { text-align: start; width: 150px; }
         .icl td { text-align: center; padding: 12px 4px; border-bottom: 1px solid var(--gray-100); vertical-align: middle; }
         .icl td:first-child { text-align: start; }
-        .icl .nm { display: block; font-size: 14px; font-weight: 600; color: var(--brand-primary-dark); }
+        .icl .nm { display: block; font-size: 14px; font-weight: 700; color: var(--brand-primary-dark); }
         .icl .nm-en { display: block; font-size: 12px; color: var(--text-secondary); }
         .icl .cell { display: inline-grid; justify-items: center; gap: 8px; color: var(--brand-primary-dark); }
         .icl .cell span.lb { font-size: 12px; font-weight: 500; line-height: 1.3; color: var(--text-primary); }

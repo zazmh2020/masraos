@@ -30,7 +30,7 @@ export default async function PointsGuidePage({ params }: { params: Promise<{ sl
           return (
             <li key={s} className="pts-guide-step">
               <div className="pts-guide-art">
-                <span className="pts-guide-num">{i + 1}</span>
+                <span className="pts-guide-num"><span className="num-glyph">{i + 1}</span></span>
                 <Art />
               </div>
               <div className="pts-guide-body">

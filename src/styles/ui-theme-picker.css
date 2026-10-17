@@ -18,11 +18,11 @@
    ============================================================ */
 .bm { display: grid; grid-template-columns: 132px minmax(0, 1fr); min-height: 220px; border: 1px solid var(--c-line); border-radius: var(--cr-lg); overflow: hidden; background: #fff; }
 .bm-side { background: var(--sb-bg); color: var(--sb-fg); padding: 12px 8px; display: grid; align-content: start; gap: 4px; border-inline-end: 1px solid var(--c-line); }
-.bm-logo { display: flex; align-items: center; gap: 8px; padding: 4px 8px 12px; font-weight: 700; font-size: 13px; color: var(--sb-fg); }
+.bm-logo { display: flex; align-items: center; gap: 8px; padding: 4px 8px 12px; font-weight: var(--fw-bold); font-size: 13px; color: var(--sb-fg); }
 .bm-logo img { width: 24px; height: 24px; object-fit: contain; border-radius: 6px; background: #fff; }
 .bm-logo .ph { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 6px; background: var(--sb-hover); }
 .bm-nav { display: flex; align-items: center; gap: 8px; min-height: 32px; padding: 0 8px; border-radius: 999px; font-size: 12.5px; color: var(--sb-fg-2); }
-.bm-nav.is-active { background: var(--sb-fg); color: var(--sb-bg); font-weight: 600; }
+.bm-nav.is-active { background: var(--sb-fg); color: var(--sb-bg); font-weight: var(--fw-medium); }
 .bm[data-sidebar='white'] .bm-nav.is-active { background: var(--c-p-10); color: var(--c-ink); }
 .bm .bm-side .icon-duo { --icon-line: var(--sb-fg); --icon-fill: color-mix(in srgb, var(--sb-fg) 32%, var(--sb-bg)); }
 .bm .bm-side .is-active .icon-duo { --icon-line: var(--sb-bg); --icon-fill: color-mix(in srgb, var(--sb-bg) 26%, var(--sb-fg)); }
@@ -32,7 +32,7 @@
 .bm-stat { display: flex; align-items: center; gap: 8px; padding: 12px; border: 1px solid var(--c-line); border-radius: 12px; font-size: 12px; color: var(--c-text-2); }
 .bm-stat b { display: block; font-size: 16px; color: var(--c-text); }
 .bm-btns { display: flex; flex-wrap: wrap; gap: 8px; }
-.bm-btn { display: inline-flex; align-items: center; min-height: 32px; padding: 0 12px; font-size: 12.5px; font-weight: 600; border: 1px solid var(--c-line-2); background: #fff; color: var(--c-text); }
+.bm-btn { display: inline-flex; align-items: center; min-height: 32px; padding: 0 12px; font-size: 12.5px; font-weight: var(--fw-bold); border: 1px solid var(--c-line-2); background: #fff; color: var(--c-text); }
 .bm-btn.is-primary { background: var(--c-brand); border-color: var(--c-brand); color: var(--on-brand, #fff); }
 .bm[data-buttons='pill'] .bm-btn { border-radius: 999px; }
 .bm[data-buttons='rounded'] .bm-btn { border-radius: 12px; }
@@ -52,13 +52,13 @@
 
 /* خيارات النمط في الإعدادات */
 .theme-group { border: 0; margin: 0 0 16px; padding: 0; }
-.theme-group legend { font-size: 13.5px; font-weight: 600; color: var(--c-text); margin-bottom: 8px; padding: 0; }
+.theme-group legend { font-size: 13.5px; font-weight: var(--fw-bold); color: var(--c-text); margin-bottom: 8px; padding: 0; }
 .theme-options { display: flex; flex-wrap: wrap; gap: 8px; }
 .theme-option { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--c-line-2); background: #fff; color: var(--c-text); font: inherit; font-size: 13.5px; cursor: pointer; }
 .theme-option:hover { border-color: var(--c-brand); background: var(--c-p-3); }
-.theme-option[aria-checked='true'] { border-color: var(--c-brand); background: var(--c-p-10); color: var(--c-ink); font-weight: 600; }
+.theme-option[aria-checked='true'] { border-color: var(--c-brand); background: var(--c-p-10); color: var(--c-ink); font-weight: var(--fw-bold); }
 .theme-option:focus-visible { outline: 2px solid var(--c-brand); outline-offset: 2px; }
 .theme-swatch { width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--c-line-2); flex: none; }
 @media (max-width: 860px) { .theme-option { min-height: 44px; } .bm { grid-template-columns: 104px minmax(0, 1fr); } }
-.org-label-strong { display: block; font-size: 14px; font-weight: 600; color: var(--c-text); }
+.org-label-strong { display: block; font-size: 14px; font-weight: var(--fw-bold); color: var(--c-text); }
 .ui-theme-options { display: grid; gap: 0; margin-bottom: 16px; }

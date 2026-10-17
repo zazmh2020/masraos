@@ -38,7 +38,7 @@ export default function IconsPreview() {
         .icp > p { margin: 0 0 32px; color: var(--text-secondary); font-size: 14px; }
         .icp h2 { font-size: 16px; font-weight: 700; color: var(--brand-primary-dark); margin: 32px 0 12px; }
         .icp table { border-collapse: collapse; width: 100%; }
-        .icp th { font-size: 12px; font-weight: 600; color: var(--text-secondary); text-align: center; padding: 8px; border-bottom: 1px solid var(--gray-200); }
+        .icp th { font-size: 12px; font-weight: 500; color: var(--text-secondary); text-align: center; padding: 8px; border-bottom: 1px solid var(--gray-200); }
         .icp th:first-child { text-align: start; }
         .icp td { text-align: center; padding: 8px; border-bottom: 1px solid var(--gray-100); color: var(--brand-primary-dark); }
         .icp td:first-child { text-align: start; font-size: 12px; color: var(--text-secondary); white-space: nowrap; }

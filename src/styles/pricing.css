@@ -11,7 +11,7 @@
 }
 .pricing-cur { display: inline-flex; align-items: center; gap: 0.5rem; }
 .pricing-cur-label {
-  font-family: var(--font-body); font-size: 0.85rem; font-weight: 600;
+  font-family: var(--font-body); font-size: 0.85rem; font-weight: var(--fw-medium);
   color: var(--text-muted, var(--text-secondary));
 }
 
@@ -33,7 +33,7 @@
   padding: 0.5rem 1.25rem;
   border-radius: 100px;
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   font-size: 0.85rem;
   color: var(--purple-700);
   transition: background 0.2s, color 0.2s, box-shadow 0.2s;
@@ -47,7 +47,7 @@
 
 .billing-save {
   font-family: var(--font-body);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   font-size: 0.65rem;
   padding: 0.1rem 0.45rem;
   border-radius: 100px;
@@ -98,7 +98,7 @@
   background: var(--purple-900);
   color: #fff;
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   font-size: 0.72rem;
   padding: 0.35rem 1rem;
   border-radius: 100px;
@@ -108,19 +108,19 @@
 
 .plan-name-row { display: flex; align-items: baseline; gap: 0.5rem; flex-wrap: wrap; }
 .plan-tag {
-  font-family: var(--font-display); font-weight: 700; font-size: 0.66rem; letter-spacing: 0.08em;
+  font-family: var(--font-display); font-weight: var(--fw-bold); font-size: 0.66rem; letter-spacing: 0.08em;
   text-transform: uppercase; color: var(--purple-300);
 }
 .plan-name {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   font-size: 1.4rem;
   color: var(--purple-900);
   margin: 0;
 }
 .plan-en {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: var(--fw-medium);
   font-size: 0.78rem;
   color: var(--purple-300);
   letter-spacing: 0.02em;
@@ -145,12 +145,12 @@
   flex-basis: 100%;
   color: var(--purple-500);
   font-size: 0.72rem;
-  font-weight: 600;
+  font-weight: var(--fw-medium);
   margin-top: 0.15rem;
 }
 .plan-amount {
   font-family: var(--font-display);
-  font-weight: 900;
+  font-weight: var(--fw-black);
   font-size: 2.15rem;
   color: var(--purple-900);
   line-height: 1;
@@ -158,7 +158,7 @@
 .plan-period { color: var(--text-muted); font-size: 0.78rem; }
 .plan-custom {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   font-size: 1.2rem;
   color: var(--purple-700);
 }
@@ -196,7 +196,7 @@
   border: 1.5px solid var(--purple-500);
   color: var(--purple-700);
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   font-size: 0.95rem;
   transition: background 0.2s, color 0.2s;
 }
@@ -231,8 +231,8 @@
 /* مؤشّر الاستحقاق الدائم في بطاقة الباقة — كتلة واضحة مكوّنة من عنوان + وصف */
 .plan-entitlement { display: flex; flex-direction: column; gap: 0.4rem; margin-top: auto; padding-top: 0.9rem; border-top: 1px dashed var(--border, #ececf0); text-align: start; }
 .plan-ent-head { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
-.plan-ent-title { font-size: 0.92rem; font-weight: 800; color: var(--p, var(--brand-primary)); }
-.plan-ent-optional { font-size: 0.66rem; font-weight: 800; color: var(--p, var(--brand-primary)); background: color-mix(in srgb, var(--brand-primary) 10%, transparent); border-radius: 100px; padding: 0.12rem 0.55rem; white-space: nowrap; }
+.plan-ent-title { font-size: 0.92rem; font-weight: var(--fw-bold); color: var(--p, var(--brand-primary)); }
+.plan-ent-optional { font-size: 0.66rem; font-weight: var(--fw-bold); color: var(--p, var(--brand-primary)); background: color-mix(in srgb, var(--brand-primary) 10%, transparent); border-radius: 100px; padding: 0.12rem 0.55rem; white-space: nowrap; }
 .plan-ent-desc { font-size: 0.82rem; line-height: 1.65; color: var(--text-muted, var(--text-secondary)); }
 
 /* ============================================================
@@ -250,7 +250,7 @@
 }
 .mdl .adv-cta-tx { flex: 1 1 260px; min-width: 0; }
 .mdl .adv-cta-badge {
-  display: inline-block; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.02em;
+  display: inline-block; font-size: 0.72rem; font-weight: var(--fw-bold); letter-spacing: 0.02em;
   color: var(--p, var(--brand-primary)); background: var(--white, #fff);
   border: 1px solid var(--border, var(--border-default)); border-radius: 100px; padding: 0.2rem 0.7rem; margin-bottom: 0.6rem;
 }
@@ -278,7 +278,7 @@
   padding: 1.15rem 1.35rem 0.9rem; border-bottom: 1px solid var(--border, var(--border-default));
 }
 .mdl .adv-head-eyebrow {
-  display: inline-block; font-size: 0.68rem; font-weight: 800; color: var(--p, var(--brand-primary));
+  display: inline-block; font-size: 0.68rem; font-weight: var(--fw-bold); color: var(--p, var(--brand-primary));
   background: var(--p-08, color-mix(in srgb, var(--brand-primary) 8%, transparent)); border-radius: 100px; padding: 0.12rem 0.55rem; margin-bottom: 0.45rem;
 }
 .mdl .adv-head h2 { font-size: 1.15rem; }
@@ -293,13 +293,13 @@
 .mdl .adv-progress { display: flex; align-items: center; gap: 0.8rem; padding: 0.9rem 1.35rem 0; }
 .mdl .adv-progress-bar { flex: 1 1 auto; height: 7px; border-radius: 100px; background: var(--p-08, color-mix(in srgb, var(--brand-primary) 10%, transparent)); overflow: hidden; }
 .mdl .adv-progress-bar span { display: block; height: 100%; border-radius: 100px; background: var(--p, var(--brand-primary)); transition: width 0.35s var(--ease, ease); }
-.mdl .adv-progress-tx { flex: 0 0 auto; font-size: 0.78rem; font-weight: 700; color: var(--muted, var(--text-secondary)); }
+.mdl .adv-progress-tx { flex: 0 0 auto; font-size: 0.78rem; font-weight: var(--fw-bold); color: var(--muted, var(--text-secondary)); }
 
 /* الجسم القابل للتمرير */
 .mdl .adv-body { flex: 1 1 auto; overflow-y: auto; overflow-x: hidden; padding: 1.15rem 1.35rem; }
 
 /* الأسئلة */
-.mdl .adv-q-sub { font-size: 0.78rem; font-weight: 800; letter-spacing: 0.02em; color: var(--p, var(--brand-primary)); margin: 0 0 0.3rem; }
+.mdl .adv-q-sub { font-size: 0.78rem; font-weight: var(--fw-bold); letter-spacing: 0.02em; color: var(--p, var(--brand-primary)); margin: 0 0 0.3rem; }
 .mdl .adv-q-title { font-size: clamp(1.05rem, 3vw, 1.28rem); margin: 0 0 1rem; }
 .mdl .adv-options { display: grid; gap: 0.6rem; }
 
@@ -307,7 +307,7 @@
   display: flex; align-items: center; gap: 0.75rem; width: 100%; text-align: start;
   min-height: 52px; padding: 0.75rem 0.95rem; cursor: pointer;
   background: var(--white, #fff); border: 1.5px solid var(--border, var(--border-default)); border-radius: 14px;
-  font-family: inherit; font-size: 0.98rem; font-weight: 600; color: var(--text, var(--text-primary));
+  font-family: inherit; font-size: 0.98rem; font-weight: var(--fw-bold); color: var(--text, var(--text-primary));
   transition: border-color 0.16s var(--ease, ease), background 0.16s var(--ease, ease), transform 0.12s var(--ease, ease);
 }
 .mdl .adv-opt:hover { border-color: var(--p, var(--brand-primary)); background: var(--p-08, color-mix(in srgb, var(--brand-primary) 5%, transparent)); }
@@ -329,7 +329,7 @@
 }
 .mdl .adv-back {
   background: none; border: none; cursor: pointer; font-family: inherit;
-  font-size: 0.9rem; font-weight: 700; color: var(--muted, var(--text-secondary)); padding: 0.5rem 0.4rem;
+  font-size: 0.9rem; font-weight: var(--fw-bold); color: var(--muted, var(--text-secondary)); padding: 0.5rem 0.4rem;
 }
 .mdl .adv-back:hover:not(:disabled) { color: var(--p, var(--brand-primary)); }
 .mdl .adv-back:disabled { opacity: 0.4; cursor: default; }
@@ -337,13 +337,13 @@
 
 /* النتيجة */
 .mdl .adv-result { text-align: center; }
-.mdl .adv-result-eyebrow { display: inline-block; font-size: 0.82rem; font-weight: 800; color: var(--p, var(--brand-primary)); margin-bottom: 0.5rem; }
+.mdl .adv-result-eyebrow { display: inline-block; font-size: 0.82rem; font-weight: var(--fw-bold); color: var(--p, var(--brand-primary)); margin-bottom: 0.5rem; }
 .mdl .adv-result-plan { font-size: clamp(1.5rem, 5vw, 2rem); margin: 0 0 0.4rem; }
 .mdl .adv-result-lead { color: var(--muted, var(--text-secondary)); font-size: 0.92rem; line-height: 1.65; max-width: 42ch; margin: 0 auto 1rem; }
 .mdl .adv-result-price { display: flex; align-items: baseline; justify-content: center; gap: 0.4rem; margin-bottom: 1.2rem; }
-.mdl .adv-price-amount { font-size: 2rem; font-weight: 800; color: var(--dark, var(--brand-primary-dark)); }
-.mdl .adv-price-period { font-size: 0.9rem; color: var(--muted, var(--text-secondary)); font-weight: 600; }
-.mdl .adv-price-custom { font-size: 1.35rem; font-weight: 800; color: var(--dark, var(--brand-primary-dark)); }
+.mdl .adv-price-amount { font-size: 2rem; font-weight: var(--fw-black); color: var(--dark, var(--brand-primary-dark)); }
+.mdl .adv-price-period { font-size: 0.9rem; color: var(--muted, var(--text-secondary)); font-weight: var(--fw-medium); }
+.mdl .adv-price-custom { font-size: 1.35rem; font-weight: var(--fw-bold); color: var(--dark, var(--brand-primary-dark)); }
 
 .mdl .adv-why { text-align: start; background: var(--p-08, color-mix(in srgb, var(--brand-primary) 6%, transparent)); border-radius: 16px; padding: 1rem 1.1rem; margin-bottom: 1.3rem; }
 .mdl .adv-why h4 { font-size: 0.95rem; margin: 0 0 0.6rem; }
@@ -361,7 +361,7 @@
 .mdl .adv-unsure span { font-size: 0.88rem; color: var(--muted, var(--text-secondary)); }
 .mdl .adv-link {
   background: none; border: none; cursor: pointer; font-family: inherit;
-  font-size: 0.95rem; font-weight: 800; color: var(--p, var(--brand-primary)); text-decoration: underline; text-underline-offset: 3px; padding: 0.2rem;
+  font-size: 0.95rem; font-weight: var(--fw-bold); color: var(--p, var(--brand-primary)); text-decoration: underline; text-underline-offset: 3px; padding: 0.2rem;
 }
 .mdl .adv-restart {
   display: block; margin: 1rem auto 0; background: none; border: none; cursor: pointer; font-family: inherit;
@@ -372,7 +372,7 @@
 .mdl .adv-consult h3 { font-size: 1.2rem; margin: 0 0 0.35rem; }
 .mdl .adv-consult-sub { color: var(--muted, var(--text-secondary)); font-size: 0.9rem; line-height: 1.6; margin: 0 0 1.1rem; }
 .mdl .adv-field { display: block; margin-bottom: 0.85rem; }
-.mdl .adv-field > span { display: block; font-size: 0.85rem; font-weight: 700; color: var(--dark, var(--brand-primary-dark)); margin-bottom: 0.35rem; }
+.mdl .adv-field > span { display: block; font-size: 0.85rem; font-weight: var(--fw-bold); color: var(--dark, var(--brand-primary-dark)); margin-bottom: 0.35rem; }
 .mdl .adv-field > span b { color: var(--p, var(--brand-primary)); }
 .mdl .adv-field input, .mdl .adv-field textarea {
   width: 100%; padding: 0.7rem 0.85rem; font-family: inherit; font-size: 0.95rem; color: var(--text, var(--text-primary));

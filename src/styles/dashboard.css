@@ -27,12 +27,12 @@
   gap: 1rem; flex-wrap: wrap;
 }
 .dash-hd .dash-eyebrow {
-  font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+  font-size: 11px; font-weight: var(--fw-bold); letter-spacing: 0.08em;
   color: var(--purple-500); text-transform: uppercase;
 }
 .dash-hd h1 {
   font-family: var(--font-display);
-  font-size: 22px; font-weight: 700; color: var(--purple-900);
+  font-size: 22px; font-weight: var(--fw-bold); color: var(--purple-900);
   margin: 2px 0 4px;
 }
 .dash-hd .dash-sub { color: var(--gray-500); font-size: 13.5px; }
@@ -41,7 +41,7 @@
   display: inline-flex; align-items: center; gap: 0.4rem;
   background: var(--purple-500); color: #fff;
   border: none; padding: 0.6rem 1.25rem; border-radius: 10px;
-  font-family: var(--font-display); font-weight: 700; font-size: 13.5px;
+  font-family: var(--font-display); font-weight: var(--fw-bold); font-size: 13.5px;
   cursor: pointer; text-decoration: none; transition: background 0.2s, transform 0.15s;
 }
 .dash-btn:hover { background: var(--purple-700); }
@@ -60,7 +60,7 @@
   display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 1rem; gap: 0.5rem;
 }
-.dash-card-hd h3 { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--purple-900); }
+.dash-card-hd h3 { font-family: var(--font-display); font-size: 15px; font-weight: var(--fw-bold); color: var(--purple-900); }
 .dash-card-hd .dash-link { font-size: 12.5px; color: var(--purple-500); text-decoration: none; }
 .dash-card-hd .dash-link:hover { color: var(--purple-700); }
 
@@ -93,11 +93,11 @@
 .dash-stat-ic.blue { background: var(--d-blue-bg); color: var(--d-blue); }
 .dash-stat-value {
   font-family: var(--font-display);
-  font-size: 26px; font-weight: 700; color: var(--purple-900); line-height: 1.1;
+  font-size: 26px; font-weight: var(--fw-bold); color: var(--purple-900); line-height: 1.1;
 }
 .dash-stat-trend {
   display: inline-block; margin-top: 0.45rem;
-  font-size: 11.5px; font-weight: 600; padding: 2px 8px; border-radius: 100px;
+  font-size: 11.5px; font-weight: var(--fw-medium); padding: 2px 8px; border-radius: 100px;
 }
 .dash-stat-trend.up { background: var(--d-green-bg); color: var(--d-green); }
 .dash-stat-trend.flat { background: var(--gray-100); color: var(--gray-500); }
@@ -123,7 +123,7 @@
   position: absolute; inset: 0; display: flex; flex-direction: column;
   align-items: center; justify-content: center; text-align: center;
 }
-.dash-ring-value { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--purple-900); }
+.dash-ring-value { font-family: var(--font-display); font-size: 28px; font-weight: var(--fw-bold); color: var(--purple-900); }
 .dash-ring-label { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
 .dash-ring-hint { margin-top: 0.85rem; font-size: 12.5px; color: var(--gray-500); text-align: center; line-height: 1.7; }
 
@@ -138,7 +138,7 @@
   border-bottom: 1px solid var(--line);
 }
 .dash-table th {
-  font-weight: 600; color: var(--gray-500); font-size: 11px;
+  font-weight: var(--fw-medium); color: var(--gray-500); font-size: 11px;
   text-transform: uppercase; letter-spacing: 0.04em;
 }
 .dash-table tbody tr:last-child td { border-bottom: none; }
@@ -147,11 +147,11 @@
 .dash-avatar {
   width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
   background: linear-gradient(135deg, var(--purple-300), var(--purple-500));
-  color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 12px;
+  color: #fff; display: grid; place-items: center; font-weight: var(--fw-bold); font-size: 12px;
 }
-.dash-cell-user .n { font-weight: 600; color: var(--purple-900); font-size: 13px; }
+.dash-cell-user .n { font-weight: var(--fw-medium); color: var(--purple-900); font-size: 13px; }
 .dash-cell-user .s { font-size: 11px; color: var(--gray-500); }
-.dash-badge { display: inline-block; padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; }
+.dash-badge { display: inline-block; padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: var(--fw-medium); }
 .dash-badge.gold { background: var(--d-gold-bg); color: var(--d-gold); }
 .dash-badge.green { background: var(--d-green-bg); color: var(--d-green); }
 .dash-badge.blue { background: var(--d-blue-bg); color: var(--d-blue); }
@@ -173,7 +173,7 @@
 .dash-ann-ic.green { background: var(--d-green-bg); color: var(--d-green); }
 .dash-ann-ic.blue { background: var(--d-blue-bg); color: var(--d-blue); }
 .dash-ann-body { flex: 1; min-width: 0; }
-.dash-ann-title { font-weight: 600; color: var(--purple-900); font-size: 13px; margin-bottom: 2px; }
+.dash-ann-title { font-weight: var(--fw-bold); color: var(--purple-900); font-size: 13px; margin-bottom: 2px; }
 .dash-ann-text { font-size: 12px; color: var(--gray-500); }
 .dash-ann-time { font-size: 11px; color: var(--gray-500); margin-top: 4px; }
 .dash-ann-empty { color: var(--gray-500); font-size: 13px; padding: 1rem 0; text-align: center; }
@@ -190,13 +190,13 @@
   background: radial-gradient(circle, var(--purple-300) 0%, transparent 70%);
   opacity: 0.5;
 }
-.dash-promo h4 { font-family: var(--font-display); font-size: 15px; font-weight: 700; margin-bottom: 6px; position: relative; z-index: 1; }
+.dash-promo h4 { font-family: var(--font-display); font-size: 15px; font-weight: var(--fw-bold); margin-bottom: 6px; position: relative; z-index: 1; }
 .dash-promo p { font-size: 12.5px; opacity: 0.85; margin-bottom: 1rem; position: relative; z-index: 1; line-height: 1.7; }
 .dash-promo .dash-promo-btn {
   display: inline-flex; align-items: center; gap: 0.4rem;
   background: #fff; color: var(--purple-700); border: none;
   padding: 0.5rem 1rem; border-radius: 8px; font-family: var(--font-display);
-  font-weight: 700; font-size: 12.5px; cursor: pointer; text-decoration: none;
+  font-weight: var(--fw-bold); font-size: 12.5px; cursor: pointer; text-decoration: none;
   position: relative; z-index: 1;
 }
 .dash-promo .dash-promo-btn .app-icon { width: 14px; height: 14px; }
@@ -216,7 +216,7 @@
   background: var(--purple-100); color: var(--purple-700);
 }
 .dash-module-ic .app-icon { width: 18px; height: 18px; }
-.dash-module strong { display: block; color: var(--purple-900); font-size: 13.5px; font-weight: 700; }
+.dash-module strong { display: block; color: var(--purple-900); font-size: 13.5px; font-weight: var(--fw-bold); }
 .dash-module span { display: block; color: var(--gray-500); font-size: 11.5px; line-height: 1.4; }
 
 /* ---------- مفتاح تبديل المظهر (مسطّح/زجاجي) ---------- */
@@ -228,7 +228,7 @@
   display: inline-flex; align-items: center; gap: 0.35rem;
   border: none; background: transparent; cursor: pointer;
   padding: 0.35rem 0.75rem; border-radius: 100px;
-  font-family: var(--font-display); font-weight: 700; font-size: 12px;
+  font-family: var(--font-display); font-weight: var(--fw-bold); font-size: 12px;
   color: var(--purple-700); transition: background 0.2s, color 0.2s;
 }
 .dash-skin button.is-active { background: var(--purple-500); color: #fff; }

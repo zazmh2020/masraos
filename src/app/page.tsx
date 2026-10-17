@@ -129,7 +129,7 @@ export default async function HomePage() {
             <ScrollLine className="v2-steps">
               {[1, 2, 3, 4, 5].map((n) => (
                 <li key={n}>
-                  <Reveal delay={n * 0.05}><span className="v2-step-num">{n}</span><h3>{t(`how.${n}.t`)}</h3><p>{t(`how.${n}.d`)}</p></Reveal>
+                  <Reveal delay={n * 0.05}><span className="v2-step-num"><span className="num-glyph v2-step-num__text">{n}</span></span><h3>{t(`how.${n}.t`)}</h3><p>{t(`how.${n}.d`)}</p></Reveal>
                 </li>
               ))}
             </ScrollLine>

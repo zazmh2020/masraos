@@ -7,8 +7,8 @@
 
 .su-steps { display: flex; align-items: center; justify-content: center; gap: 8px; margin: -0.4rem 0 1.4rem; }
 .su-step { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--gray-500); }
-.su-step i { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-size: 12px; font-weight: 700; background: var(--gray-100); color: var(--gray-700); }
-.su-step.is-on { color: var(--purple-900); font-weight: 600; }
+.su-step i { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-size: 12px; font-weight: var(--fw-bold); background: var(--gray-100); color: var(--gray-700); }
+.su-step.is-on { color: var(--purple-900); font-weight: var(--fw-medium); }
 .su-step.is-on i { background: var(--purple-900); color: #fff; }
 .su-step-sep { width: 28px; height: 1px; background: var(--gray-300); }
 
@@ -33,7 +33,7 @@
 }
 .su-channel:hover { border-color: color-mix(in srgb, var(--purple-500) 45%, #fff); }
 .su-channel[aria-checked='true'] { border-color: var(--purple-500); background: color-mix(in srgb, var(--purple-500) 7%, #fff); color: var(--purple-900); }
-.su-channel b { display: block; font-size: 0.88rem; font-weight: 600; }
+.su-channel b { display: block; font-size: 0.88rem; font-weight: var(--fw-bold); }
 .su-channel small { font-size: 12px; color: var(--gray-500); }
 .su-channel .ic { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; flex-shrink: 0; background: var(--gray-100); color: var(--purple-500); }
 .su-channel[aria-checked='true'] .ic { background: var(--purple-900); color: #fff; }
@@ -41,20 +41,20 @@
 /* إدخال الرمز */
 .su-otp {
   width: 100%; text-align: center; direction: ltr;
-  font-family: var(--font-display); font-size: 1.7rem; font-weight: 700; letter-spacing: 0.5em; text-indent: 0.5em;
+  font-family: var(--font-display); font-size: 1.7rem; font-weight: var(--fw-bold); letter-spacing: 0.5em; text-indent: 0.5em;
   padding: 0.7rem 0.5rem !important; font-variant-numeric: tabular-nums;
 }
 .su-target { text-align: center; color: var(--gray-700); font-size: 0.9rem; margin: -0.6rem 0 1.2rem; }
 .su-target b { direction: ltr; unicode-bidi: isolate; color: var(--purple-900); }
 .su-actions { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 0.9rem; font-size: 0.84rem; }
-.su-link { background: none; border: 0; padding: 4px 2px; font: inherit; color: var(--purple-500); cursor: pointer; font-weight: 600; }
-.su-link:disabled { color: var(--gray-500); cursor: default; font-weight: 400; }
+.su-link { background: none; border: 0; padding: 4px 2px; font: inherit; color: var(--purple-500); cursor: pointer; font-weight: var(--fw-medium); }
+.su-link:disabled { color: var(--gray-500); cursor: default; font-weight: var(--fw-regular); }
 .su-link:hover:not(:disabled) { color: var(--purple-700); }
 .su-dev { margin-top: 1rem; padding: 0.6rem 0.8rem; border-radius: 10px; font-size: 12.5px; background: var(--warning-soft); color: var(--warning); text-align: center; }
 .su-terms { margin: 0.2rem 0 1.1rem; font-size: 12.5px; color: var(--gray-500); line-height: 1.7; }
 .su-terms a { color: var(--purple-500); text-decoration: underline; text-underline-offset: 2px; }
 .su-switch { text-align: center; margin-top: 1.2rem; font-size: 0.86rem; color: var(--gray-500); }
-.su-switch a { color: var(--purple-500); font-weight: 600; }
+.su-switch a { color: var(--purple-500); font-weight: var(--fw-medium); }
 
 @media (max-width: 520px) {
   .su-row, .su-channels { grid-template-columns: minmax(0, 1fr); }

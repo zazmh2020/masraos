@@ -149,7 +149,7 @@ export default function PlansView({
             <div className="mod-stages">
               {curReady.stages.map((s, i) => (
                 <div key={i} className="mod-stage">
-                  <span className="mod-stage-n">{i + 1}</span>
+                  <span className="mod-stage-n"><span className="num-glyph">{i + 1}</span></span>
                   <span className="mod-stage-tx"><strong>{s.t}</strong><span>{s.d}</span></span>
                   <span className="mod-stage-meta">{s.meta}</span>
                 </div>
@@ -168,7 +168,7 @@ export default function PlansView({
             <div className="mod-stages">
               {curCustom.stages.length === 0 ? <p className="mod-empty">{t('plans.noStages')}</p> : curCustom.stages.map((s, i) => (
                 <div key={i} className="mod-stage">
-                  <span className="mod-stage-n">{i + 1}</span>
+                  <span className="mod-stage-n"><span className="num-glyph">{i + 1}</span></span>
                   <span className="mod-stage-tx"><strong>{s.t}</strong><span>{s.d}</span></span>
                   <span className="mod-stage-meta">{s.meta}</span>
                 </div>

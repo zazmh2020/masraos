@@ -34,7 +34,7 @@ body:has(.org-app) { background: #fff; }
 .org-app .org-user-avatar.org-user-avatar-lg { border: 2px solid #fff; box-shadow: 0 0 0 1px var(--c-line-2); }
 
 .org-app .org-nav-divider {
-  font-size: 12px; font-weight: 500; letter-spacing: 0; opacity: 1;
+  font-size: 12px; font-weight: var(--fw-medium); letter-spacing: 0; opacity: 1;
   color: var(--c-muted); padding: 18px 12px 6px;
 }
 .org-app .org-nav-item {
@@ -42,12 +42,12 @@ body:has(.org-app) { background: #fff; }
   font-size: 14px; color: var(--c-text-2);
 }
 .org-app .org-nav-item:hover { background: var(--c-p-6); color: var(--c-text); transform: none; border-color: transparent; }
-.org-app .org-nav-item.is-active { background: var(--c-p-10); color: var(--c-ink); font-weight: 600; }
+.org-app .org-nav-item.is-active { background: var(--c-p-10); color: var(--c-ink); font-weight: var(--fw-medium); }
 .org-app .org-nav-item.is-active .org-nav-ic { color: var(--c-brand); opacity: 1; }
-.org-app .org-nav-grouphd.is-parent-active { color: var(--c-ink); font-weight: 600; }
+.org-app .org-nav-grouphd.is-parent-active { color: var(--c-ink); font-weight: var(--fw-medium); }
 .org-app .org-nav-child { color: var(--c-text-2); font-size: 13.5px; border-radius: var(--cr-pill); }
 .org-app .org-nav-child:hover { background: var(--c-p-6); color: var(--c-text); }
-.org-app .org-nav-child.is-active { background: var(--c-p-10); color: var(--c-ink); font-weight: 600; }
+.org-app .org-nav-child.is-active { background: var(--c-p-10); color: var(--c-ink); font-weight: var(--fw-medium); }
 .org-app .org-module-count { background: var(--c-ink); color: #fff; }
 
 @media (min-width: 961px) {
@@ -66,7 +66,7 @@ body:has(.org-app) { background: #fff; }
   min-height: 60px;
   top: 12px;
 }
-.org-app .org-topbar-name { color: var(--c-text); font-weight: 600; }
+.org-app .org-topbar-name { color: var(--c-text); font-weight: var(--fw-medium); }
 
 /* ---------- لوحة المحتوى ---------- */
 .org-app .org-main { gap: 12px; }
@@ -81,9 +81,9 @@ body:has(.org-app) { background: #fff; }
 
 /* ---------- رأس الصفحة ---------- */
 .org-app .org-page-head { margin-bottom: 32px; gap: 16px; }
-.org-app .org-page-head h1 { font-size: 28px; line-height: 1.3; font-weight: 700; color: var(--c-text); margin: 4px 0 8px; }
+.org-app .org-page-head h1 { font-size: 28px; line-height: 1.3; font-weight: var(--fw-bold); color: var(--c-text); margin: 4px 0 8px; }
 .org-app .org-page-head p { font-size: 14.5px; color: var(--c-text-2); max-width: 64ch; }
-.org-app .org-eyebrow { font-size: 12.5px; font-weight: 500; letter-spacing: 0; color: var(--c-muted); }
+.org-app .org-eyebrow { font-size: 12.5px; font-weight: var(--fw-medium); letter-spacing: 0; color: var(--c-muted); }
 
 /* ---------- الإحصاءات واللوحات والبطاقات ---------- */
 .org-app .org-stats { gap: 12px; margin-bottom: 32px; }
@@ -94,14 +94,14 @@ body:has(.org-app) { background: #fff; }
 .org-app .org-card,
 .org-app .org-form { border: 1px solid var(--c-line); border-radius: var(--cr-lg); box-shadow: none; }
 .org-app .org-panel { padding: 24px; margin-bottom: 24px; }
-.org-app .org-panel h2 { font-size: 17px; font-weight: 700; color: var(--c-text); }
+.org-app .org-panel h2 { font-size: 17px; font-weight: var(--fw-bold); color: var(--c-text); }
 
 /* ---------- الجداول ---------- */
 .org-app .org-table-wrap { border-color: var(--c-line); border-radius: var(--cr-lg); }
 /* داخل لوحة: بلا إطار مزدوج — خط علوي فقط */
 .org-app .org-panel .org-table-wrap { border: 0; border-top: 1px solid var(--c-line); border-radius: 0; }
 .org-app .org-table th {
-  font-size: 13px; font-weight: 500; color: var(--c-muted);
+  font-size: 13px; font-weight: var(--fw-medium); color: var(--c-muted);
   background: transparent; letter-spacing: 0; text-transform: none;
   border-bottom: 1px solid var(--c-line);
 }
@@ -207,10 +207,10 @@ body:has(.org-app) { background: #fff; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .org-app .eh-setup { margin-bottom: 24px; }
 .org-app .eh-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-.org-app .eh-steps li { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; border: 1px solid var(--c-line); border-radius: var(--cr-lg); font-size: 14px; font-weight: 600; color: var(--c-text); }
+.org-app .eh-steps li { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 12px 16px; border: 1px solid var(--c-line); border-radius: var(--cr-lg); font-size: 14px; font-weight: var(--fw-medium); color: var(--c-text); }
 .org-app .eh-steps li a { color: var(--c-ink); text-decoration: underline; text-underline-offset: 4px; }
-.org-app .eh-steps li.is-done { background: var(--c-p-3); color: var(--c-muted); font-weight: 500; }
-.org-app .eh-step-n { display: inline-grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--c-p-10); color: var(--c-ink); font-size: 13px; font-weight: 700; }
+.org-app .eh-steps li.is-done { background: var(--c-p-3); color: var(--c-muted); font-weight: var(--fw-medium); }
+.org-app .eh-step-n { display: inline-grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--c-p-10); color: var(--c-ink); font-size: 13px; font-weight: var(--fw-bold); }
 .org-app .eh-steps li.is-done .eh-step-n { background: var(--t-mint); color: var(--t-mint-ink); }
 .org-app .eh-empty { display: grid; justify-items: start; gap: 16px; padding: 8px 0; }
 .org-app .eh-empty p { margin: 0; font-size: 14px; color: var(--c-text-2); }
@@ -234,7 +234,7 @@ body:has(.org-app) { background: #fff; }
   box-shadow: var(--c-shadow); color: var(--c-text);
 }
 .org-dialog::backdrop { background: color-mix(in srgb, var(--c-ink) 40%, transparent); }
-.org-dialog h2 { margin: 0 0 8px; font-size: 18px; font-weight: 700; color: var(--c-text); }
+.org-dialog h2 { margin: 0 0 8px; font-size: 18px; font-weight: var(--fw-bold); color: var(--c-text); }
 .org-dialog p { margin: 0 0 24px; font-size: 14.5px; line-height: 1.8; color: var(--c-text-2); }
 .org-dialog .org-form-actions { justify-content: flex-end; gap: 8px; }
 
@@ -302,7 +302,7 @@ body:has(.org-app) { background: #fff; }
    ============================================================ */
 .org-app :is(.org-btn, .dash-btn, .dash-promo-btn, .calm-btn) {
   min-height: 40px; padding-inline: 16px; border-radius: 999px;
-  font-size: 14px; font-weight: 600; line-height: 1;
+  font-size: 14px; font-weight: var(--fw-bold); line-height: 1;
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   transition: background-color .15s, color .15s, border-color .15s, transform .1s;
 }
@@ -362,7 +362,7 @@ body:has(.org-app) { background: #fff; }
 .org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-sidebar :is(.org-user-role, .org-nav-divider) { color: var(--sb-fg-3); }
 .org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-sidebar :is(.org-nav-item, .org-nav-child, .org-nav-chev) { color: var(--sb-fg-2); }
 .org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-sidebar :is(.org-nav-item, .org-nav-child):hover { background: var(--sb-hover); color: var(--sb-fg); }
-.org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-sidebar :is(.org-nav-item, .org-nav-child).is-active { background: var(--sb-fg); color: var(--sb-bg); font-weight: 600; }
+.org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-sidebar :is(.org-nav-item, .org-nav-child).is-active { background: var(--sb-fg); color: var(--sb-bg); font-weight: var(--fw-medium); }
 .org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-sidebar .org-nav-grouphd.is-parent-active { color: var(--sb-fg); }
 .org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-sidebar .icon-duo { --icon-line: var(--sb-fg); --icon-fill: color-mix(in srgb, var(--sb-fg) 32%, var(--sb-bg)); }
 .org-app:is([data-sidebar='brand'], [data-sidebar='deep']) .org-sidebar .is-active .icon-duo { --icon-line: var(--sb-bg); --icon-fill: color-mix(in srgb, var(--sb-bg) 26%, var(--sb-fg)); }

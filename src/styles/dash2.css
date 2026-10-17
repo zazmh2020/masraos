@@ -6,7 +6,7 @@
 
 .d2 { display: grid; gap: 16px; min-inline-size: 0; }
 .d2 > * { min-inline-size: 0; }
-.d2 .d2-link { color: var(--c-brand, var(--brand-primary)); font-weight: 600; text-decoration: none; }
+.d2 .d2-link { color: var(--c-brand, var(--brand-primary)); font-weight: var(--fw-medium); text-decoration: none; }
 .d2 .d2-link:hover { text-decoration: underline; text-underline-offset: 3px; }
 .d2 .d2-muted { color: var(--gray-600); font-size: 13.5px; }
 .d2 .d2-arrow { display: inline-block; }
@@ -15,8 +15,8 @@
 
 /* ---------- الرأس ---------- */
 .d2-head { display: grid; gap: 4px; }
-.d2-head .d2-eyebrow { font-size: 13px; font-weight: 600; color: var(--c-brand, var(--brand-primary)); }
-.d2-head h1 { margin: 0; font-size: 26px; line-height: 1.3; font-weight: 700; color: var(--gray-950); overflow-wrap: anywhere; }
+.d2-head .d2-eyebrow { font-size: 13px; font-weight: var(--fw-medium); color: var(--c-brand, var(--brand-primary)); }
+.d2-head h1 { margin: 0; font-size: 26px; line-height: 1.3; font-weight: var(--fw-bold); color: var(--gray-950); overflow-wrap: anywhere; }
 .d2-head p { margin: 0; font-size: 14px; color: var(--gray-600); overflow-wrap: anywhere; }
 .d2-head-actions { display: none; }
 
@@ -27,7 +27,7 @@
   background: #fff; color: var(--gray-950); text-decoration: none; min-inline-size: 0;
 }
 .d2-metric-label { font-size: 13px; color: var(--gray-600); }
-.d2-metric-value { font-size: 30px; line-height: 1.2; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--gray-950); overflow-wrap: anywhere; }
+.d2-metric-value { font-size: 30px; line-height: 1.2; font-weight: var(--fw-bold); font-variant-numeric: tabular-nums; color: var(--gray-950); overflow-wrap: anywhere; }
 .d2-metric-hint { font-size: 12.5px; color: var(--gray-600); }
 /* المقياس المحوري: يشغل العرض كاملًا ويُلوَّن بالهوية */
 .d2-metric.is-primary { grid-column: 1 / -1; padding: 20px; border-color: transparent; background: var(--c-brand, var(--brand-primary)); }
@@ -40,7 +40,7 @@
 /* ---------- البطاقات (الأقسام) ---------- */
 .d2-panel { padding: 16px; border: 1px solid var(--gray-200); border-radius: 16px; background: #fff; min-inline-size: 0; }
 .d2-panel-hd { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-block-end: 8px; min-block-size: 40px; }
-.d2-panel-hd h2 { margin: 0; font-size: 17px; font-weight: 700; color: var(--gray-950); }
+.d2-panel-hd h2 { margin: 0; font-size: 17px; font-weight: var(--fw-bold); color: var(--gray-950); }
 .d2-panel-hd .d2-link { font-size: 13.5px; display: inline-flex; align-items: center; min-block-size: 44px; white-space: nowrap; }
 .d2-empty { margin: 0; padding-block: 8px; font-size: 14px; color: var(--gray-600); }
 
@@ -54,14 +54,14 @@
 .d2-halaqa { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; padding-block: 14px; border-block-start: 1px solid var(--gray-200); }
 .d2-list > .d2-halaqa:first-child { border-block-start: 0; }
 .d2-halaqa-main { display: grid; gap: 2px; min-inline-size: 0; grid-column: 1; }
-.d2-halaqa-name { font-size: 16px; font-weight: 600; color: var(--gray-950); text-decoration: none; overflow-wrap: anywhere; }
+.d2-halaqa-name { font-size: 16px; font-weight: var(--fw-bold); color: var(--gray-950); text-decoration: none; overflow-wrap: anywhere; }
 .d2-halaqa-name:hover { color: var(--c-brand, var(--brand-primary)); }
 .d2-halaqa-status { grid-column: 2; grid-row: 1; justify-self: end; }
 .d2-halaqa-teacher { grid-column: 1; }
 .d2-halaqa-count { grid-column: 1; font-size: 13px; color: var(--gray-600); font-variant-numeric: tabular-nums; }
 
 /* شارات الحالة */
-.d2-badge { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 999px; font-size: 12.5px; font-weight: 600; white-space: nowrap; }
+.d2-badge { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 999px; font-size: 12.5px; font-weight: var(--fw-medium); white-space: nowrap; }
 .d2-badge.is-green { color: var(--success); background: var(--success-soft); }
 .d2-badge.is-amber { color: var(--warning); background: var(--warning-soft); }
 .d2-badge.is-muted { color: var(--gray-600); background: var(--gray-100); }
@@ -76,7 +76,7 @@
 .d2-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .d2-action {
   display: flex; align-items: center; gap: 10px; min-block-size: 56px; padding: 12px 16px; border: 1px solid var(--gray-200); border-radius: 16px;
-  background: #fff; color: var(--gray-950); font-weight: 600; font-size: 15px; text-decoration: none;
+  background: #fff; color: var(--gray-950); font-weight: var(--fw-bold); font-size: 15px; text-decoration: none;
   transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
 }
 .d2-action:hover { border-color: var(--c-brand, var(--brand-primary)); background: var(--brand-primary-subtle); }
@@ -87,15 +87,15 @@
 /* خطواتك الأولى */
 .d2-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
 .d2-steps li { display: flex; align-items: center; gap: 12px; min-block-size: 44px; font-size: 15px; }
-.d2-steps li a { color: inherit; text-decoration: none; font-weight: 600; }
-.d2-step-n { flex: none; display: grid; place-items: center; inline-size: 26px; block-size: 26px; border-radius: 50%; font-size: 13px; font-weight: 700; color: var(--c-brand, var(--brand-primary)); border: 1.5px solid var(--brand-primary-medium); }
+.d2-steps li a { color: inherit; text-decoration: none; font-weight: var(--fw-medium); }
+.d2-step-n { flex: none; display: grid; place-items: center; inline-size: 26px; block-size: 26px; border-radius: 50%; font-size: 13px; font-weight: var(--fw-bold); color: var(--c-brand, var(--brand-primary)); border: 1.5px solid var(--brand-primary-medium); }
 .d2-steps li.is-done { color: var(--gray-500); }
 .d2-steps li.is-done .d2-step-n { color: var(--on-brand, #fff); background: var(--c-brand, var(--brand-primary)); border-color: transparent; }
 
 /* وليّ الأمر: بطاقة ابن */
 .d2-child { display: grid; gap: 12px; padding: 16px; border: 1px solid var(--gray-200); border-radius: 16px; background: #fff; }
 .d2-child-hd { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
-.d2-child-hd h3 { margin: 0; font-size: 18px; font-weight: 700; overflow-wrap: anywhere; }
+.d2-child-hd h3 { margin: 0; font-size: 18px; font-weight: var(--fw-bold); overflow-wrap: anywhere; }
 .d2-child-line { display: flex; justify-content: space-between; gap: 12px; font-size: 14.5px; }
 .d2-child-line > span:first-child { color: var(--gray-600); }
 
@@ -157,7 +157,7 @@
   background: transparent; color: var(--gray-600); font: 500 11.5px/1.2 var(--font-body); text-decoration: none; cursor: pointer; min-inline-size: 0;
 }
 .d2-bottomnav a > span, .d2-bottomnav button > span { max-inline-size: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.d2-bottomnav .is-active { color: var(--c-brand, var(--brand-primary)); font-weight: 700; }
+.d2-bottomnav .is-active { color: var(--c-brand, var(--brand-primary)); font-weight: var(--fw-bold); }
 .d2-bottomnav .is-active .d2-bn-ic { background: var(--brand-primary-subtle); }
 .d2-bn-ic { display: grid; place-items: center; inline-size: 52px; block-size: 28px; border-radius: 999px; }
 .d2-bottomnav :is(a, button):focus-visible { outline: 2px solid var(--c-brand, var(--brand-primary)); outline-offset: -2px; }
@@ -218,7 +218,7 @@
 
 /* ---------- مرجع لوحات التحكم: رقم كبير + شارة اتجاه + خط صغير + شريط ملوّن ---------- */
 .d2-metric-row { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; }
-.d2-trend { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px; border-radius: 999px; font-size: 12.5px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.d2-trend { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px; border-radius: 999px; font-size: 12.5px; font-weight: var(--fw-bold); font-variant-numeric: tabular-nums; }
 .d2-trend.is-up { color: var(--success); background: var(--success-soft); }
 .d2-trend.is-down { color: var(--warning); background: var(--warning-soft); }
 .d2-metric.is-primary .d2-trend { color: var(--on-brand, #fff); background: color-mix(in srgb, #fff 20%, transparent); }
@@ -246,7 +246,7 @@
 
 /* حدّ أدنى للنص 12px داخل لوحة المالك (أنماط dashboard.css القديمة كانت 11px) */
 .dash .dash-ring-label, .dash .d2-table th { font-size: 12px; }
-.dash .d2-table th { font-weight: 600; }
+.dash .d2-table th { font-weight: var(--fw-medium); }
 
 /* Panels adapt to their own available space, including narrow desktop columns. */
 .d2-panel { container-type: inline-size; container-name: dashboard-panel; }

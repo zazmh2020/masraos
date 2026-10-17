@@ -72,7 +72,7 @@ export default function MessagesView({
                   <span className="msg-convo-top"><strong>{c.name}</strong><span className="msg-convo-time">{dayFmt.format(new Date(c.at))}</span></span>
                   <span className="msg-convo-last">{c.last}</span>
                 </span>
-                {c.unread > 0 && <span className="msg-unread">{c.unread}</span>}
+                {c.unread > 0 && <span className="msg-unread"><span className="num-glyph">{c.unread}</span></span>}
               </Link>
             ))}
           </div>

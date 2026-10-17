@@ -1,7 +1,7 @@
 input.field {
   font-family: inherit;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: var(--fw-medium);
   line-height: 1.5;
   font-variant-numeric: lining-nums tabular-nums;
   letter-spacing: normal;
@@ -14,7 +14,7 @@ input.serial {
 input.serial::placeholder {
   font-family: inherit;
   font-size: 0.95rem;
-  font-weight: 400;
+  font-weight: var(--fw-regular);
   color: var(--text-soft, var(--text-secondary));
   opacity: 1;
 }

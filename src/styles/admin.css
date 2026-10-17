@@ -88,7 +88,7 @@
 
 .admin-brand-name {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   color: var(--purple-900);
   font-size: 1.05rem;
   line-height: 1;
@@ -188,7 +188,7 @@
   display: grid;
   place-items: center;
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   font-size: 0.95rem;
   flex-shrink: 0;
   overflow: hidden;
@@ -204,7 +204,7 @@
 
 .admin-user-name {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: var(--fw-medium);
   font-size: 0.85rem;
   color: #fff;
   white-space: nowrap;
@@ -223,7 +223,7 @@
 .admin-user-role {
   font-size: 0.7rem;
   color: var(--purple-100);
-  font-weight: 600;
+  font-weight: var(--fw-medium);
 }
 .admin-user-chev { margin-inline-start: auto; color: rgba(255, 255, 255, 0.6); flex-shrink: 0; }
 
@@ -278,16 +278,16 @@
 .admin-topbar-brand .admin-brand-icon { width: 34px; height: 34px; }
 .admin-topbar-name {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   font-size: 1rem;
   color: var(--purple-900);
   white-space: nowrap;
 }
-.admin-topbar-name b { font-weight: 700; color: var(--gray-500); font-size: 0.82rem; }
+.admin-topbar-name b { font-weight: var(--fw-bold); color: var(--gray-500); font-size: 0.82rem; }
 
 .admin-topbar-title {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: var(--fw-bold);
   color: var(--purple-900);
 }
 
@@ -365,7 +365,7 @@
 .stat-value {
   font-family: var(--font-display);
   font-size: 1.9rem;
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   color: var(--purple-900);
   line-height: 1;
 }
@@ -399,7 +399,7 @@
   font-size: 0.82rem;
 }
 .admin-bar-label { color: var(--gray-700); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.admin-bar-value { color: var(--purple-900); font-weight: 700; text-align: end; }
+.admin-bar-value { color: var(--purple-900); font-weight: var(--fw-bold); text-align: end; }
 .admin-bar-track { height: 9px; background: var(--surface-secondary); border-radius: 100px; overflow: hidden; }
 .admin-bar-track > span {
   display: block; height: 100%; min-width: 4px; border-radius: 100px;
@@ -439,7 +439,7 @@
 .admin-table th {
   background: var(--surface-page);
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: var(--fw-medium);
   color: var(--purple-900);
   font-size: 0.82rem;
   white-space: nowrap;
@@ -468,7 +468,7 @@
   padding: 0.25rem 0.7rem;
   border-radius: 100px;
   font-size: 0.72rem;
-  font-weight: 600;
+  font-weight: var(--fw-medium);
 }
 
 .badge-success {
@@ -491,7 +491,7 @@
   color: var(--white);
   border-radius: 8px;
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: var(--fw-bold);
   font-size: 0.88rem;
   transition: background 0.2s;
   border: none;
@@ -515,7 +515,7 @@
   color: var(--purple-900);
   border-radius: 8px;
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: var(--fw-bold);
   font-size: 0.88rem;
   background: var(--white);
   transition: border-color 0.2s, color 0.2s;
@@ -603,7 +603,7 @@
 
 .admin-form legend {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   color: var(--purple-900);
   font-size: 1rem;
   margin-bottom: 1rem;
@@ -619,7 +619,7 @@
 .admin-field label {
   display: block;
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: var(--fw-medium);
   font-size: 0.85rem;
   color: var(--purple-900);
   margin-bottom: 0.4rem;
@@ -628,7 +628,7 @@
 .field-hint {
   display: block;
   font-family: var(--font-body);
-  font-weight: 400;
+  font-weight: var(--fw-regular);
   font-size: 0.75rem;
   color: var(--gray-500);
   margin-top: 0.15rem;
@@ -687,10 +687,10 @@
   color: var(--purple-700);
 }
 .sector-tx { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; flex: 1; }
-.sector-name { font-weight: 700; font-size: 0.88rem; color: var(--purple-900); }
+.sector-name { font-weight: var(--fw-bold); font-size: 0.88rem; color: var(--purple-900); }
 .sector-desc { font-size: 0.74rem; color: var(--gray-500); line-height: 1.45; }
 .sector-badge {
-  flex: none; font-size: 0.64rem; font-weight: 700;
+  flex: none; font-size: 0.64rem; font-weight: var(--fw-bold);
   padding: 0.12rem 0.45rem; border-radius: 999px; white-space: nowrap;
 }
 .sector-badge.st-ACTIVE { background: #e6f6ec; color: #1c7a43; }
@@ -806,7 +806,7 @@
 
 .detail-label {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: var(--fw-medium);
   color: var(--purple-900);
   text-align: start;
 }
@@ -856,7 +856,7 @@
 
 .detail-card-value {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: var(--fw-bold);
   color: var(--purple-900);
   font-size: 1rem;
 }
@@ -878,7 +878,7 @@
 
 /* ---------- Hero CMS (لوحة مالك المنصّة) ---------- */
 .hero-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.hero-check { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; }
+.hero-check { display: flex; align-items: center; gap: 0.5rem; font-weight: var(--fw-medium); }
 .hero-list { display: grid; gap: 0.5rem; }
 .hero-item { display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 0.9rem; border: 1px solid var(--line); border-radius: var(--r-sm); background: #fff; }
 .hero-item.is-off { opacity: 0.55; }
@@ -888,13 +888,13 @@
 .hero-item-main { flex: 1; display: grid; min-width: 0; }
 .hero-item-main strong { color: var(--purple-900); }
 .hero-item-sub { font-size: 0.78rem; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.hero-badge { flex: none; font-size: 0.68rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 999px; }
+.hero-badge { flex: none; font-size: 0.68rem; font-weight: var(--fw-bold); padding: 0.15rem 0.5rem; border-radius: 999px; }
 .hero-badge.st-PUBLISHED { background: var(--success-soft); color: var(--success); }
 .hero-badge.st-DRAFT { background: var(--gray-100); color: var(--gray-500); }
 .hero-badge.st-SCHEDULED { background: var(--info-soft); color: var(--info); }
 .hero-badge.st-ARCHIVED { background: #f3eef0; color: #8a6d75; }
 .hero-item-toggle input { cursor: pointer; }
-.hero-link-btn { border: none; background: none; cursor: pointer; color: var(--purple-700); font-weight: 700; font-size: 0.82rem; }
+.hero-link-btn { border: none; background: none; cursor: pointer; color: var(--purple-700); font-weight: var(--fw-bold); font-size: 0.82rem; }
 .hero-link-btn.danger { color: var(--error); }
 @media (max-width: 640px) { .hero-row2 { grid-template-columns: 1fr; } }
 
@@ -1005,7 +1005,7 @@
   z-index: 30;
 }
 .admin-profile-head { padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--line); margin-bottom: 0.3rem; display: flex; flex-direction: column; }
-.admin-profile-name { font-weight: 700; font-size: 0.85rem; color: var(--purple-900); }
+.admin-profile-name { font-weight: var(--fw-bold); font-size: 0.85rem; color: var(--purple-900); }
 .admin-profile-email { font-size: 0.72rem; color: var(--gray-500); }
 .admin-profile-link {
   display: flex;
@@ -1066,7 +1066,7 @@
   background: #c0392b;
   color: #fff;
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: var(--fw-bold);
   font-size: 0.88rem;
   cursor: pointer;
   transition: background 0.2s;
@@ -1077,7 +1077,7 @@
 .admin-topbar-theme { margin-inline-start: auto; }
 
 /* إدارة الاستحقاق الدائم (لمالك المنصّة) */
-.admin-count { font-size: 0.85rem; font-weight: 700; color: var(--gray-600, var(--text-secondary)); background: var(--gray-100); border-radius: 100px; padding: 0.3rem 0.8rem; }
+.admin-count { font-size: 0.85rem; font-weight: var(--fw-bold); color: var(--gray-600, var(--text-secondary)); background: var(--gray-100); border-radius: 100px; padding: 0.3rem 0.8rem; }
 .admin-empty { padding: 2.5rem; text-align: center; color: var(--gray-500); background: #fff; border: 1px solid var(--line); border-radius: 16px; }
 .entadm-list { display: grid; gap: 1rem; }
 .entadm-card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 1.2rem 1.3rem; }
@@ -1086,13 +1086,13 @@
 .entadm-slug { display: block; font-size: 0.78rem; color: var(--gray-500); margin-top: 0.15rem; }
 .entadm-progress { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
 .entadm-progress .ent-progress { flex: 1; }
-.entadm-pct { font-weight: 900; color: var(--purple-700); min-width: 3rem; text-align: end; }
+.entadm-pct { font-weight: var(--fw-bold); color: var(--purple-700); min-width: 3rem; text-align: end; }
 .entadm-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.7rem 1.2rem; }
 .entadm-grid > div { display: flex; flex-direction: column; gap: 0.15rem; }
 .entadm-grid span { font-size: 0.76rem; color: var(--gray-500); }
 .entadm-grid strong { font-size: 0.9rem; color: var(--gray-900); }
 .entadm-events { margin-top: 1rem; }
-.entadm-events summary { cursor: pointer; font-weight: 700; color: var(--purple-700); font-size: 0.88rem; }
+.entadm-events summary { cursor: pointer; font-weight: var(--fw-bold); color: var(--purple-700); font-size: 0.88rem; }
 .entadm-events ul { margin: 0.6rem 0 0; padding-inline-start: 1.2rem; display: grid; gap: 0.3rem; }
 .entadm-events li { font-size: 0.82rem; color: var(--gray-600, var(--text-secondary)); }
 .entadm-actions { margin-top: 1rem; }
@@ -1108,7 +1108,7 @@
 .admin-sidebar { background: var(--brand-primary); }
 .admin-nav-item { min-height: 42px; border-radius: 999px; color: color-mix(in srgb, #fff 82%, transparent); }
 .admin-nav-item:hover { background: color-mix(in srgb, #fff 12%, transparent); }
-.admin-nav-item.is-active { background: #fff; color: var(--brand-primary-dark); font-weight: 600; }
+.admin-nav-item.is-active { background: #fff; color: var(--brand-primary-dark); font-weight: var(--fw-medium); }
 .admin-nav-item .icon-duo { --icon-line: #fff; --icon-fill: color-mix(in srgb, #fff 32%, var(--brand-primary)); opacity: 1; }
 .admin-nav-item.is-active .icon-duo { --icon-line: var(--brand-primary); --icon-fill: var(--brand-primary-soft); }
 
@@ -1126,7 +1126,7 @@
 /* الأزرار: نفس نظام اللوحات (40، كبسولة، تركيز ظاهر، ضغط، معطّل) */
 :is(.btn-admin-primary, .btn-admin-outline, .btn-admin-danger) {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  min-height: 40px; padding: 0 16px; border-radius: 999px; font-size: 14px; font-weight: 600; line-height: 1;
+  min-height: 40px; padding: 0 16px; border-radius: 999px; font-size: 14px; font-weight: var(--fw-bold); line-height: 1;
   box-shadow: none; transition: background-color .15s, color .15s, border-color .15s, transform .1s;
 }
 :is(.btn-admin-primary, .btn-admin-outline, .btn-admin-danger):hover:not(:disabled) { transform: none; box-shadow: none; }
