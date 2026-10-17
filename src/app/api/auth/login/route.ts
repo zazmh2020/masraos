@@ -3,6 +3,11 @@ import { cookies } from 'next/headers';
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/prisma';
 import { createSession, sessionCookieDomain, tenantDestination } from '@/lib/session';
+import { BRAND } from '@/lib/brand';
+import { blockedFor, clear, clientIp, hit, LOGIN_RULES, loginKeys, tooManyResponse } from '@/lib/auth-throttle';
+
+/** تجزئة bcrypt ثابتة بنفس الكلفة (12) لكلمة عشوائية — للمقارنة عند عدم وجود الحساب. */
+const DUMMY_HASH = '$2b$12$BTgUPhUKirM5Tu6MLeuTOuvD3auT6L0i1xA3VeKV8gkM49vWSjoLm';
 
 /** يبني وجهة ما بعد الدخول على المضيف الصحيح لكل دور */
 function destinationFor(request: Request, role: string, slug: string | null): string {
@@ -33,6 +38,11 @@ export async function POST(request: Request) {
     );
   }
 
+  // الحماية من التخمين: يُفحص القفل قبل أي مقارنة لكلمة المرور
+  const keys = loginKeys(email, clientIp(request));
+  const wait = await blockedFor([keys.accountIp, keys.account, keys.ip]);
+  if (wait > 0) return tooManyResponse(wait);
+
   const user = await prisma.user.findUnique({
     where: { email },
     include: { organization: { select: { slug: true, isActive: true } } },
@@ -44,10 +54,17 @@ export async function POST(request: Request) {
     { status: 401 },
   );
 
-  if (!user) return invalid;
-
-  const ok = await bcrypt.compare(password, user.passwordHash);
-  if (!ok) return invalid;
+  // مقارنة bcrypt دائمًا (بتجزئة وهمية لحساب غير موجود) فلا يكشف زمن الرد وجود البريد
+  const ok = await bcrypt.compare(password, user?.passwordHash ?? DUMMY_HASH);
+  if (!user || !ok) {
+    await Promise.all([
+      hit(keys.accountIp, LOGIN_RULES.accountIp),
+      hit(keys.account, LOGIN_RULES.account),
+      hit(keys.ip, LOGIN_RULES.ip),
+    ]);
+    return invalid;
+  }
+  await clear([keys.accountIp, keys.account]);
 
   if (!user.isActive) {
     return NextResponse.json(
@@ -56,18 +73,18 @@ export async function POST(request: Request) {
     );
   }
 
+  // منع دخول مستخدم مؤسسة معطّلة
+  if (user.organization && !user.organization.isActive) {
+    return NextResponse.json(
+      { error: `مؤسستك موقوفة حالياً. تواصل مع إدارة ${BRAND.ar.name}.` },
+      { status: 403 },
+    );
+  }
+
   await prisma.user.update({
     where: { id: user.id },
     data: { lastLoginAt: new Date() },
   });
-
-  // منع دخول مستخدم مؤسسة معطّلة
-  if (user.organization && !user.organization.isActive) {
-    return NextResponse.json(
-      { error: 'مؤسستك موقوفة حالياً. تواصل مع إدارة مسرى.' },
-      { status: 403 },
-    );
-  }
 
   await createSession(
     {

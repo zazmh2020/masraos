@@ -15,6 +15,7 @@
     "seed": "tsx prisma/seed.ts",
     "postinstall": "prisma generate",
     "test": "vitest run",
+    "test:integration": "vitest run --config vitest.hardening.config.ts",
     "test:watch": "vitest"
   },
   "dependencies": {

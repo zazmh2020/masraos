@@ -47,5 +47,9 @@ jobs:
       - name: Disposable database schema
         run: npx prisma migrate deploy
       - run: npm test
+      - name: Security integration tests (disposable CI database)
+        run: npm run test:integration
+        env:
+          MASRA_DISPOSABLE_DB: '1'
       - run: npm run lint
       - run: npm run build

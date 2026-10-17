@@ -79,6 +79,8 @@ export default function LoginPage() {
           </span>
         </label>
 
+        <Link href="/forgot-password" className="lg-forgot">{t('login.forgot')}</Link>
+
         <label className="lg-remember">
           <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
           {t('login.remember')}

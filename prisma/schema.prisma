@@ -814,6 +814,7 @@ model User {
   receivedMessages   Message[]            @relation("MessageRecipient")
   pointsCreated      PointsTransaction[]  @relation("PointsCreator")
   entitlementsAccepted PermanentEntitlement[] @relation("EntitlementAcceptor")
+  passwordResetTokens  PasswordResetToken[]
 
   @@index([organizationId])
   @@index([departmentId])
@@ -1340,4 +1341,33 @@ model SignupRequest {
   @@index([email])
   @@index([createdAt])
   @@map("signup_requests")
+}
+
+/// عدّادات الحماية من المحاولات المتكررة (الدخول، الاستعادة، النماذج العامة).
+/// المفتاح بصمة HMAC — لا يُخزَّن بريد أو عنوان IP بنصه.
+model AuthThrottle {
+  key          String    @id
+  count        Int       @default(0)
+  windowStart  DateTime  @default(now())
+  blockedUntil DateTime?
+  updatedAt    DateTime  @default(now())
+
+  @@index([updatedAt])
+  @@map("auth_throttles")
+}
+
+/// رموز استعادة كلمة المرور — تُخزَّن بصمة SHA-256 فقط، صالحة 30 دقيقة، تُستعمل مرة واحدة.
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("password_reset_tokens")
 }
