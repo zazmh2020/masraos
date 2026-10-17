@@ -17,7 +17,7 @@ vi.mock('@/lib/email', () => ({ sendEmail: mocks.send, emailConfigured: () => tr
 vi.mock('@/lib/observe', () => ({ reportError: mocks.report }));
 
 const { prisma } = await import('../src/lib/prisma');
-const { hit, blockedFor } = await import('../src/lib/auth-throttle');
+const { hit, blockedFor, __resetThrottleMemory } = await import('../src/lib/auth-throttle');
 const { POST: login } = await import('../src/app/api/auth/login/route');
 const { POST: forgot } = await import('../src/app/api/auth/password/forgot/route');
 const { POST: reset } = await import('../src/app/api/auth/password/reset/route');
@@ -101,15 +101,22 @@ describe('login brute-force protection', () => {
     for (let i = 0; i < 4; i++) expect((await login(post({ email: user.email, password: 'wrong' }, ip))).status).toBe(401);
   });
 
-  it('keeps login available (and reports loudly) if the throttle migration was not applied yet', async () => {
-    const user = await makeUser();
+  it('if the throttle table is missing, login stays available AND the limits still hold (in-memory fallback)', async () => {
+    const victim = await makeUser();
+    const other = await makeUser();
+    const ip = nextIp();
+    __resetThrottleMemory();
     await prisma.$executeRawUnsafe('ALTER TABLE "auth_throttles" RENAME TO "auth_throttles_hidden"');
     try {
-      expect((await login(post({ email: user.email, password: 'wrong' }, nextIp()))).status).toBe(401);
-      expect((await login(post({ email: user.email, password: PASSWORD }, nextIp()))).status).toBe(200);
-      expect(mocks.report).toHaveBeenCalledWith(expect.objectContaining({ where: 'auth-throttle' }));
+      for (let i = 0; i < 5; i++) expect((await login(post({ email: victim.email, password: 'wrong' }, ip))).status).toBe(401);
+      // السادسة مرفوضة حتى بكلمة المرور الصحيحة — لا تجاوز للحد أثناء تعطل المخزن
+      expect((await login(post({ email: victim.email, password: PASSWORD }, ip))).status).toBe(429);
+      // والخدمة مستمرة لغيره
+      expect((await login(post({ email: other.email, password: PASSWORD }, nextIp()))).status).toBe(200);
+      expect(mocks.report).toHaveBeenCalledWith(expect.objectContaining({ where: 'auth-throttle', message: expect.stringContaining('IN MEMORY') }));
     } finally {
       await prisma.$executeRawUnsafe('ALTER TABLE "auth_throttles_hidden" RENAME TO "auth_throttles"');
+      __resetThrottleMemory();
     }
   });
 

@@ -4,7 +4,7 @@ import { reportError } from '@/lib/observe';
 
 /* ============================================================
    الحماية من المحاولات المتكررة — مخزن مركزي في PostgreSQL (جدول auth_throttles)
-   فيعمل مع أكثر من نسخة خادم، لا ذاكرة لكل عملية.
+   فيعمل مع أكثر من نسخة خادم؛ وعند تعذّره احتياطي في الذاكرة بنفس القواعد (انظر أدناه).
 
    - كل فشل يزيد عدّاد مفتاحه داخل نافذة زمنية بعملية ذرية واحدة (INSERT … ON CONFLICT).
    - عند تجاوز الحد يُقفل المفتاح مؤقتًا (blockedUntil) — لا قفل دائم للحساب.
@@ -36,66 +36,101 @@ export function clientIp(request: Request): string {
   return (last || request.headers.get('x-real-ip') || 'unknown').slice(0, 64);
 }
 
-/**
- * إن لم يُطبَّق ترحيل auth_throttles بعد (الجدول غير موجود) لا نُسقط تسجيل الدخول كله:
- * نسجّل خطأً واضحًا ونكمل بلا تقييد. أي خطأ آخر يُرمى كالمعتاد.
- */
-async function tolerateMissingTable<T>(fallback: T, run: () => Promise<T>): Promise<T> {
+/* ---------- احتياطي آمن عند تعذّر المخزن المركزي ----------
+   إن فشل الوصول إلى auth_throttles (ترحيل غير مطبَّق، انقطاع مؤقت، أي خطأ) لا نُسقط الدخول
+   ولا نتجاوز الحدود: تنتقل العدّادات إلى ذاكرة العملية بنفس القواعد فورًا، ويُسجَّل خطأ واضح
+   (مرة في الدقيقة على الأكثر). على نسخة خادم واحدة (Hostinger) يكون التقييد كاملًا؛ مع عدة نسخ
+   يصير لكل نسخة حدّها حتى يعود المخزن. لا نعود للتقييد من القاعدة إلا بعد نجاح استعلامها. */
+type MemEntry = { count: number; windowStart: number; blockedUntil: number };
+const memory = new Map<string, MemEntry>();
+const MEMORY_MAX_KEYS = 20_000;
+let lastReport = 0;
+
+async function reportFallback(error: unknown): Promise<void> {
+  if (Date.now() - lastReport < 60_000) return;
+  lastReport = Date.now();
+  const detail = String((error as { message?: unknown })?.message ?? error).slice(0, 300);
   try {
-    return await run();
-  } catch (error) {
-    const text = String((error as { message?: unknown })?.message ?? error);
-    if (/auth_throttles|AuthThrottle/.test(text) && /does not exist|42P01|P2021/.test(text + String((error as { code?: unknown })?.code ?? ''))) {
-      await reportError({ message: 'auth_throttles table missing: apply migration 20261017100000 — login throttling is OFF', where: 'auth-throttle' });
-      return fallback;
-    }
-    throw error;
-  }
+    await reportError({ message: 'auth_throttles unavailable — throttling continues IN MEMORY (apply migration 20261017100000 / check database): ' + detail, where: 'auth-throttle' });
+  } catch { /* لا يُسقط التسجيلُ الدخول */ }
 }
+
+function memHit(key: string, rule: ThrottleRule): { count: number; blocked: boolean } {
+  const now = Date.now();
+  let e = memory.get(key);
+  if (!e || e.windowStart < now - rule.windowSec * 1000) e = { count: 0, windowStart: now, blockedUntil: e?.blockedUntil ?? 0 };
+  e.count += 1;
+  if (e.count >= rule.limit) e.blockedUntil = now + rule.blockSec * 1000;
+  memory.delete(key);
+  memory.set(key, e); // الأحدث في النهاية
+  if (memory.size > MEMORY_MAX_KEYS) memory.delete(memory.keys().next().value as string); // أقدم مفتاح
+  return { count: e.count, blocked: e.blockedUntil > now };
+}
+
+function memBlockedFor(keys: string[]): number {
+  const now = Date.now();
+  const until = Math.max(0, ...keys.map((k) => memory.get(k)?.blockedUntil ?? 0));
+  return until > now ? Math.ceil((until - now) / 1000) : 0;
+}
+
+/** للاختبارات فقط. */
+export function __resetThrottleMemory(): void { memory.clear(); lastReport = 0; }
 
 /** أطول مدة قفل متبقية (بالثواني) بين المفاتيح، أو 0 إن لم يكن أي منها مقفلًا. */
 export async function blockedFor(keys: string[]): Promise<number> {
   if (keys.length === 0) return 0;
-  return tolerateMissingTable(0, async () => {
-  const rows = await prisma.authThrottle.findMany({
-    where: { key: { in: keys }, blockedUntil: { gt: new Date() } },
-    select: { blockedUntil: true },
-  });
-  const until = Math.max(0, ...rows.map((r) => r.blockedUntil!.getTime()));
-  return until ? Math.ceil((until - Date.now()) / 1000) : 0;
-  });
+  const local = memBlockedFor(keys); // قفل سُجّل أثناء تعطل المخزن يبقى ساريًا
+  try {
+    const rows = await prisma.authThrottle.findMany({
+      where: { key: { in: keys }, blockedUntil: { gt: new Date() } },
+      select: { blockedUntil: true },
+    });
+    const until = Math.max(0, ...rows.map((r) => r.blockedUntil!.getTime()));
+    return Math.max(local, until ? Math.ceil((until - Date.now()) / 1000) : 0);
+  } catch (error) {
+    await reportFallback(error);
+    return local;
+  }
 }
 
 /** يسجّل محاولة لمفتاح؛ عند بلوغ الحد (المحاولة رقم limit) يُقفل لما بعدها. يعيد العدد داخل النافذة. */
 export async function hit(key: string, rule: ThrottleRule): Promise<{ count: number; blocked: boolean }> {
-  return tolerateMissingTable({ count: 0, blocked: false }, async () => {
-  const rows = await prisma.$queryRaw<{ count: number; blockedUntil: Date | null }[]>`
-    INSERT INTO "auth_throttles" ("key", "count", "windowStart", "blockedUntil", "updatedAt")
-    VALUES (${key}, 1, now(), NULL, now())
-    ON CONFLICT ("key") DO UPDATE SET
-      "count" = CASE WHEN "auth_throttles"."windowStart" < now() - make_interval(secs => ${rule.windowSec})
-                     THEN 1 ELSE "auth_throttles"."count" + 1 END,
-      "windowStart" = CASE WHEN "auth_throttles"."windowStart" < now() - make_interval(secs => ${rule.windowSec})
-                     THEN now() ELSE "auth_throttles"."windowStart" END,
-      "blockedUntil" = CASE
-        WHEN (CASE WHEN "auth_throttles"."windowStart" < now() - make_interval(secs => ${rule.windowSec})
-                   THEN 1 ELSE "auth_throttles"."count" + 1 END) >= ${rule.limit}
-        THEN now() + make_interval(secs => ${rule.blockSec})
-        ELSE "auth_throttles"."blockedUntil" END,
-      "updatedAt" = now()
-    RETURNING "count", "blockedUntil"`;
-  const row = rows[0];
-  // تنظيف خفيف للسجلات القديمة (بلا مهمة مجدولة)
-  if (Math.random() < 0.02) {
-    await prisma.authThrottle.deleteMany({ where: { updatedAt: { lt: new Date(Date.now() - 2 * 86_400_000) } } }).catch(() => undefined);
+  try {
+    const rows = await prisma.$queryRaw<{ count: number; blockedUntil: Date | null }[]>`
+      INSERT INTO "auth_throttles" ("key", "count", "windowStart", "blockedUntil", "updatedAt")
+      VALUES (${key}, 1, now(), NULL, now())
+      ON CONFLICT ("key") DO UPDATE SET
+        "count" = CASE WHEN "auth_throttles"."windowStart" < now() - make_interval(secs => ${rule.windowSec})
+                       THEN 1 ELSE "auth_throttles"."count" + 1 END,
+        "windowStart" = CASE WHEN "auth_throttles"."windowStart" < now() - make_interval(secs => ${rule.windowSec})
+                       THEN now() ELSE "auth_throttles"."windowStart" END,
+        "blockedUntil" = CASE
+          WHEN (CASE WHEN "auth_throttles"."windowStart" < now() - make_interval(secs => ${rule.windowSec})
+                     THEN 1 ELSE "auth_throttles"."count" + 1 END) >= ${rule.limit}
+          THEN now() + make_interval(secs => ${rule.blockSec})
+          ELSE "auth_throttles"."blockedUntil" END,
+        "updatedAt" = now()
+      RETURNING "count", "blockedUntil"`;
+    const row = rows[0];
+    // تنظيف خفيف للسجلات القديمة (بلا مهمة مجدولة)
+    if (Math.random() < 0.02) {
+      await prisma.authThrottle.deleteMany({ where: { updatedAt: { lt: new Date(Date.now() - 2 * 86_400_000) } } }).catch(() => undefined);
+    }
+    return { count: Number(row?.count ?? 0), blocked: Boolean(row?.blockedUntil && row.blockedUntil.getTime() > Date.now()) };
+  } catch (error) {
+    await reportFallback(error);
+    return memHit(key, rule);
   }
-  return { count: Number(row?.count ?? 0), blocked: Boolean(row?.blockedUntil && row.blockedUntil.getTime() > Date.now()) };
-  });
 }
 
 /** يمسح العدّادات بعد نجاح (مثل دخول صحيح). */
 export async function clear(keys: string[]): Promise<void> {
-  await tolerateMissingTable(undefined, async () => { await prisma.authThrottle.deleteMany({ where: { key: { in: keys } } }); });
+  for (const k of keys) memory.delete(k);
+  try {
+    await prisma.authThrottle.deleteMany({ where: { key: { in: keys } } });
+  } catch (error) {
+    await reportFallback(error);
+  }
 }
 
 /** رد 429 موحّد مع Retry-After. */
