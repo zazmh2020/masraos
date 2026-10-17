@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [tsconfigPaths()],
   test: {
     environment: 'node',
-    include: ['scripts/auth-hardening.test.ts'],
+    include: ['scripts/auth-hardening.test.ts', 'scripts/tenant-isolation.test.ts'],
     testTimeout: 60000,
     hookTimeout: 60000,
     fileParallelism: false,
