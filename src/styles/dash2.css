@@ -33,6 +33,9 @@
 .d2-metric.is-primary { grid-column: 1 / -1; padding: 20px; border-color: transparent; background: var(--c-brand, var(--brand-primary)); }
 .d2-metric.is-primary :is(.d2-metric-label, .d2-metric-value, .d2-metric-hint) { color: var(--on-brand, #fff); }
 .d2-metric.is-primary .d2-metric-value { font-size: 44px; }
+/* قيمة نصية (لا رقم): حجم عنوان — يبقى الرقم الكبير للأرقام فقط */
+.d2-metric-value.is-text { font-size: 20px; line-height: var(--lh-heading); overflow-wrap: normal; }
+.d2-metric.is-primary .d2-metric-value.is-text { font-size: 24px; }
 .d2-metric.is-primary .d2-metric-hint { opacity: .85; }
 .d2 a.d2-metric:hover { border-color: var(--c-brand, var(--brand-primary)); }
 .d2 a.d2-metric.is-primary:hover { filter: brightness(.95); }

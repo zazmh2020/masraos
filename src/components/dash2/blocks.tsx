@@ -24,7 +24,8 @@ export function DashboardMetric({ label, value, hint, primary, href, trend, char
     <>
       <span className="d2-metric-label">{label}</span>
       <span className="d2-metric-row">
-        <span className="d2-metric-value">{value}</span>
+        {/* قيمة نصية بلا أرقام (مثل «لم يُسجَّل بعد») تُعرض بحجم عنوان لا بحجم الرقم الكبير */}
+        <span className={`d2-metric-value${typeof value === 'string' && !/d/.test(value) ? ' is-text' : ''}`}>{value}</span>
         {trend && <span className={`d2-trend is-${trend.dir}`}>{trend.dir === 'up' ? '▲' : '▼'} {trend.text}</span>}
       </span>
       {hint && <span className="d2-metric-hint">{hint}</span>}

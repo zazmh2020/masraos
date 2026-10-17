@@ -127,7 +127,7 @@ export default async function EducationHome({
             <ol className="d2-steps" style={{ marginBlockStart: 8 }}>
               {steps.map((s, i) => (
                 <li key={s.label} className={s.done ? 'is-done' : ''}>
-                  <span className="d2-step-n" aria-hidden="true">{s.done ? <Icon name="check" size={14} /> : i + 1}</span>
+                  <span className="d2-step-n" aria-hidden="true">{s.done ? <Icon name="check" size={14} /> : <span className="num-glyph">{i + 1}</span>}</span>
                   {s.done ? <span>{s.label}</span> : <Link href={s.href}>{s.label}</Link>}
                   <span className="sr-only">{s.done ? t('eh.setup.done') : t('eh.setup.todo')}</span>
                 </li>
