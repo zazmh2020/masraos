@@ -21,7 +21,7 @@ export default async function SiteSplash() {
     <>
       <script dangerouslySetInnerHTML={{ __html: seenScript }} />
       <div className="site-splash" id="site-splash" aria-hidden="true">
-        <LogoMotion layout={locale === 'ar' ? 'rtl' : 'ltr'} width="min(520px, 80vw)" label={label} className="site-splash-wide" />
+        <LogoMotion layout={locale === 'ar' ? 'rtl' : 'ltr'} width="min(520px, 80vw)" label={label} motion="slide" className="site-splash-wide" />
         <LogoMotion layout="stacked" width="min(300px, 78vw)" label={label} className="site-splash-narrow" />
       </div>
       <SplashDismiss storageKey={SPLASH_KEY} />

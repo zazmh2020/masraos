@@ -1,4 +1,4 @@
-/* مَسرى للأنظمة الرقمية — حركة الشعار (~3.4 ث):
+/* مَسرى للأنظمة الرقمية — حركة الشعار (بناء ~3.4 ث، انزلاق ~4.5 ث):
    1) ترتفع القاعدتان  2) يُرسم الجناحان ثم يمتلئان  3) تصعد النقطة من قلب الكتاب
    4) يُكتب الاسم العربي من اليمين  5) يظهر الاسم الإنجليزي حرفًا حرفًا.
    بلا توهّج أو حلقة ضوء. اللون من currentColor (رموز الهوية في المكان المستخدم). */
@@ -79,8 +79,22 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* الحركة 2 — الانزلاق: يُبنى الرمز في منتصف الشعار مكبّرًا قليلًا، ثم ينزلق إلى مكانه،
+   ثم يُكتب الاسم من خلفه. الإزاحة --ml-dx تضعها LogoMotion حسب اتجاه الشعار. */
+.ml-svg[data-motion='slide'] .ml-mark {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: ml-slide 1s cubic-bezier(0.65, 0, 0.35, 1) 2.2s both;
+}
+@keyframes ml-slide {
+  from { transform: translateX(var(--ml-dx, 0px)) scale(1.25); }
+  to   { transform: translateX(0) scale(1); }
+}
+.ml-svg[data-motion='slide'] .ml-ar { animation-delay: 2.8s; }
+.ml-svg[data-motion='slide'] .ml-letter { animation-delay: calc(3.45s + var(--i, 0) * 0.035s); }
+
 @media (prefers-reduced-motion: reduce) {
-  .ml-leg, .ml-wings, .ml-dot, .ml-ar, .ml-letter { animation: none !important; }
+  .ml-leg, .ml-wings, .ml-dot, .ml-ar, .ml-letter, .ml-mark { animation: none !important; }
   .ml-wings { stroke-dashoffset: 0; fill-opacity: 1; stroke-opacity: 0; }
   .ml-ar { clip-path: none; }
 }

@@ -11,7 +11,7 @@
   background: var(--masra-deep);
   color: var(--white);
   cursor: pointer;
-  animation: site-splash-out 0.5s ease 3.8s forwards;
+  animation: site-splash-out 0.5s ease 4.9s forwards; /* بعد اكتمال حركة الانزلاق */
 }
 
 .site-splash.is-leaving { animation: site-splash-out 0.35s ease forwards; }
@@ -21,6 +21,7 @@
 @media (max-width: 639px) {
   .site-splash-wide { display: none; }
   .site-splash-narrow { display: block; }
+  .site-splash { animation-delay: 3.8s; } /* العمودي بحركة البناء الأقصر */
 }
 
 /* ظهرت في هذه الجلسة: يضيف السكربت المبكر هذه الفئة قبل الرسم فلا تومض */
