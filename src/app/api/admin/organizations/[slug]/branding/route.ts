@@ -5,6 +5,7 @@ import { imageValue } from '@/lib/branding';
 import { planAllowsCustomDomain } from '@/lib/plans';
 import { parseUiThemeInput } from '@/lib/ui-theme';
 import type { Prisma } from '@/generated/prisma/client';
+import { clientErrorMessage } from '@/lib/client-error';
 
 type OrgData = Record<string, string | null>;
 
@@ -86,7 +87,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ sl
       }
     }
   } catch (e) {
-    return NextResponse.json({ error: e instanceof Error ? e.message : 'بيانات غير صالحة.' }, { status: 400 });
+    return NextResponse.json({ error: clientErrorMessage(e, 'بيانات غير صالحة.') }, { status: 400 });
   }
 
   await prisma.organization.update({ where: { id: org.id }, data: { ...data, ...(uiTheme !== undefined ? { uiTheme } : {}) } });

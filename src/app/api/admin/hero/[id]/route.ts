@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getVerifiedSession } from '@/lib/session-guard';
 import { parseSlideInput } from '@/lib/hero';
+import { clientErrorMessage } from '@/lib/client-error';
 
 async function requireOwner() {
   const session = await getVerifiedSession();
@@ -38,7 +39,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     }
     return NextResponse.json({ ok: true });
   } catch (e) {
-    return NextResponse.json({ error: e instanceof Error ? e.message : 'بيانات غير صالحة.' }, { status: 400 });
+    return NextResponse.json({ error: clientErrorMessage(e, 'بيانات غير صالحة.') }, { status: 400 });
   }
 }
 

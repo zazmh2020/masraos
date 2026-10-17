@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { Prisma } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { getVerifiedSession } from '@/lib/session-guard';
+import { clientErrorMessage } from '@/lib/client-error';
 
 const URL_RE = /^https?:\/\/.+/i;
 
@@ -74,7 +75,7 @@ export async function PATCH(request: Request) {
       instagramUrl: url(body.instagramUrl, 'إنستغرام'),
     };
   } catch (e) {
-    return NextResponse.json({ error: e instanceof Error ? e.message : 'بيانات غير صالحة.' }, { status: 400 });
+    return NextResponse.json({ error: clientErrorMessage(e, 'بيانات غير صالحة.') }, { status: 400 });
   }
 
   // حقول JSON: القيمة null تعني حذف المحتوى — تُترجم إلى NULL في قاعدة البيانات

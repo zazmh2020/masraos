@@ -44,6 +44,8 @@ jobs:
           node-version: '24'
           cache: npm
       - run: npm ci --no-audit --no-fund
+      - name: Known vulnerabilities in production dependencies
+        run: npm audit --omit=dev --audit-level=high
       - name: Disposable database schema
         run: npx prisma migrate deploy
       - run: npm test

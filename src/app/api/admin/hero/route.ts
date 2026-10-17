@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getVerifiedSession } from '@/lib/session-guard';
 import { parseSlideInput } from '@/lib/hero';
+import { clientErrorMessage } from '@/lib/client-error';
 
 async function requireOwner() {
   const session = await getVerifiedSession();
@@ -25,6 +26,6 @@ export async function POST(request: Request) {
     const slide = await prisma.heroSlide.create({ data });
     return NextResponse.json({ ok: true, slide });
   } catch (e) {
-    return NextResponse.json({ error: e instanceof Error ? e.message : 'بيانات غير صالحة.' }, { status: 400 });
+    return NextResponse.json({ error: clientErrorMessage(e, 'بيانات غير صالحة.') }, { status: 400 });
   }
 }
