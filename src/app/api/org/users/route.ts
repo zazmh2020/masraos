@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/prisma';
 import { getOrgActor } from '@/lib/org';
-import { canManageUsers, isAssignableRole } from '@/lib/permissions';
+import { canManageUsers, isAssignableRole, isUnrestrictedAdmin } from '@/lib/permissions';
+import { logAudit } from '@/lib/audit';
 import { planUserLimit, planLabel } from '@/lib/plans';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -34,6 +35,10 @@ export async function POST(request: Request) {
   if (!isAssignableRole(role)) {
     return NextResponse.json({ error: 'الدور غير صالح.' }, { status: 400 });
   }
+  // إسناد دور مدير المؤسسة لمدير المؤسسة وحده — لا يكفي امتلاك users.manage عبر دور مخصّص (H1)
+  if (role === 'ORG_ADMIN' && !isUnrestrictedAdmin(actor)) {
+    return NextResponse.json({ error: 'إسناد دور مدير المؤسسة لمدير المؤسسة فقط.' }, { status: 403 });
+  }
 
   // حدّ الباقة على عدد المستخدمين
   const limit = planUserLimit(actor.organization.plan);
@@ -64,5 +69,6 @@ export async function POST(request: Request) {
     select: { id: true },
   });
 
+  await logAudit(actor.organization.id, actor.name, 'created', 'user', `${name} (${role})`);
   return NextResponse.json({ ok: true, id: user.id });
 }

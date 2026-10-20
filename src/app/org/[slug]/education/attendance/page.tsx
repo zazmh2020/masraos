@@ -4,6 +4,7 @@ import { requireOrgAccess } from '@/lib/org';
 import { prisma } from '@/lib/prisma';
 import { canViewEducation, canManageEducation } from '@/lib/permissions';
 import AttendanceView from '@/components/education/AttendanceView';
+import { getStudentScope, halaqaScopeWhere } from '@/lib/access-scope';
 import { getT } from '@/lib/i18n/server';
 
 export const dynamic = 'force-dynamic';
@@ -13,9 +14,10 @@ export default async function AttendancePage({ params }: { params: Promise<{ slu
   const { user, org } = await requireOrgAccess(slug);
   const { t } = await getT();
   if (!canViewEducation(user)) redirect(`/org/${org.slug}`);
+  const scope = await getStudentScope(user, org.id); // المعلم: حلقاته فقط
 
   const halaqat = await prisma.halaqa.findMany({
-    where: { organizationId: org.id },
+    where: { organizationId: org.id, ...halaqaScopeWhere(scope) },
     orderBy: { name: 'asc' },
     select: {
       id: true, name: true,

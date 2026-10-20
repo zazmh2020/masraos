@@ -3,6 +3,7 @@ import { requireOrgAccess } from '@/lib/org';
 import { prisma } from '@/lib/prisma';
 import { canViewEducation, canManageEducation } from '@/lib/permissions';
 import AssessmentsView from '@/components/education/AssessmentsView';
+import { getStudentScope, studentRelationWhere, studentScopeWhere } from '@/lib/access-scope';
 import { getT } from '@/lib/i18n/server';
 
 export const dynamic = 'force-dynamic';
@@ -12,10 +13,11 @@ export default async function AssessmentPage({ params }: { params: Promise<{ slu
   const { user, org } = await requireOrgAccess(slug);
   const { t } = await getT();
   if (!canViewEducation(user)) redirect(`/org/${org.slug}`);
+  const scope = await getStudentScope(user, org.id); // المعلم: حلقاته فقط
 
   const [rows, students] = await Promise.all([
     prisma.assessment.findMany({
-      where: { organizationId: org.id },
+      where: { organizationId: org.id, ...studentRelationWhere(scope) },
       orderBy: { date: 'desc' },
       take: 200,
       select: {
@@ -23,7 +25,7 @@ export default async function AssessmentPage({ params }: { params: Promise<{ slu
         result: true, notes: true, date: true, student: { select: { name: true } },
       },
     }),
-    prisma.student.findMany({ where: { organizationId: org.id, status: 'ACTIVE' }, orderBy: { name: 'asc' }, select: { id: true, name: true } }),
+    prisma.student.findMany({ where: { organizationId: org.id, status: 'ACTIVE', ...studentScopeWhere(scope) }, orderBy: { name: 'asc' }, select: { id: true, name: true } }),
   ]);
 
   return (

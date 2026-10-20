@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { canManageFees, canViewEducation } from '@/lib/permissions';
 import { getT } from '@/lib/i18n/server';
 import FeesView from '@/components/FeesView';
+import { getStudentScope, studentRelationWhere, studentScopeWhere } from '@/lib/access-scope';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,13 +13,14 @@ export default async function OrgFeesPage({ params }: { params: Promise<{ slug: 
   const { user, org } = await requireOrgAccess(slug);
   const { t } = await getT();
   if (!canViewEducation(user)) redirect(`/org/${org.slug}`);
+  const scope = await getStudentScope(user, org.id); // المعلم: حلقاته فقط
 
   const [fees, students] = await Promise.all([
     prisma.studentFee.findMany({
-      where: { organizationId: org.id }, orderBy: [{ paid: 'asc' }, { createdAt: 'desc' }],
+      where: { organizationId: org.id, ...studentRelationWhere(scope) }, orderBy: [{ paid: 'asc' }, { createdAt: 'desc' }],
       select: { id: true, title: true, amount: true, dueDate: true, paid: true, student: { select: { name: true } } },
     }),
-    prisma.student.findMany({ where: { organizationId: org.id }, orderBy: { name: 'asc' }, select: { id: true, name: true } }),
+    prisma.student.findMany({ where: { organizationId: org.id, ...studentScopeWhere(scope) }, orderBy: { name: 'asc' }, select: { id: true, name: true } }),
   ]);
 
   return (

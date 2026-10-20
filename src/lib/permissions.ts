@@ -154,6 +154,18 @@ export function canViewUsers(a: string | Actor): boolean {
   return can(a, 'users.view');
 }
 
+/** مدير مؤسسة غير مقيَّد بدور مخصّص (أو مالك المنصة): وحده يُسنِد دور مدير المؤسسة ويعدّل المديرين ويمنح أي قدرة (H1) */
+export function isUnrestrictedAdmin(a: Actor): boolean {
+  return a.role === 'PLATFORM_OWNER' || (a.role === 'ORG_ADMIN' && !Array.isArray(a.permissions));
+}
+
+/** هل يملك الفاعل كل هذه القدرات؟ — لا يُمنَح غيره قدرة لا يملكها هو (إلا مدير غير مقيَّد) */
+export function canGrantCaps(a: Actor, caps: string[]): boolean {
+  if (isUnrestrictedAdmin(a)) return true;
+  const own = actorCaps(a);
+  return caps.every((c) => own.includes(c));
+}
+
 /** من يعدّل إعدادات المؤسسة */
 export function canManageSettings(a: string | Actor): boolean {
   return can(a, 'settings.manage');

@@ -3,6 +3,7 @@ import { requireOrgAccess } from '@/lib/org';
 import { prisma } from '@/lib/prisma';
 import { canViewEducation } from '@/lib/permissions';
 import HalaqatView from '@/components/education/HalaqatView';
+import { getStudentScope, halaqaScopeWhere } from '@/lib/access-scope';
 import { getT } from '@/lib/i18n/server';
 
 export const dynamic = 'force-dynamic';
@@ -12,10 +13,11 @@ export default async function HalaqatPage({ params }: { params: Promise<{ slug: 
   const { user, org } = await requireOrgAccess(slug);
   const { t } = await getT();
   if (!canViewEducation(user)) redirect(`/org/${org.slug}`);
+  const scope = await getStudentScope(user, org.id); // المعلم: حلقاته فقط
 
   const [halaqat, teachers] = await Promise.all([
     prisma.halaqa.findMany({
-      where: { organizationId: org.id },
+      where: { organizationId: org.id, ...halaqaScopeWhere(scope) },
       orderBy: { createdAt: 'desc' },
       select: {
         id: true, name: true, type: true, track: true, period: true, schedule: true, teacherId: true,

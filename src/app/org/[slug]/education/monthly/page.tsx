@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma';
 import { canViewEducation, canManageEducation, canCustomize } from '@/lib/permissions';
 import { getT, getLocale } from '@/lib/i18n/server';
 import MonthlySheetView from '@/components/education/MonthlySheetView';
+import { getStudentScope, studentScopeWhere } from '@/lib/access-scope';
 
 export const dynamic = 'force-dynamic';
 
@@ -24,10 +25,11 @@ export default async function MonthlySheetPage({
   const { t } = await getT();
 
   if (!canViewEducation(user)) redirect(`/org/${org.slug}`);
+  const scope = await getStudentScope(user, org.id); // المعلم: حلقاته فقط
   const canManage = canManageEducation(user);
 
   const students = await prisma.student.findMany({
-    where: { organizationId: org.id },
+    where: { organizationId: org.id, ...studentScopeWhere(scope) },
     orderBy: { name: 'asc' },
     select: { id: true, name: true, halaqa: { select: { name: true } } },
   });

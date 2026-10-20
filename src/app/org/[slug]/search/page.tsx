@@ -1,7 +1,7 @@
 import { IconShape } from '@/components/Icon';
 import Link from 'next/link';
 import { requireOrgAccess } from '@/lib/org';
-import { prisma } from '@/lib/prisma';
+import { searchOrg, searchTerm } from '@/lib/org-search';
 import { getT } from '@/lib/i18n/server';
 
 export const dynamic = 'force-dynamic';
@@ -11,27 +11,12 @@ export default async function SearchPage({
 }: { params: Promise<{ slug: string }>; searchParams: Promise<{ q?: string }> }) {
   const { slug } = await params;
   const { q } = await searchParams;
-  const { org } = await requireOrgAccess(slug);
+  const { user, org } = await requireOrgAccess(slug);
   const { t } = await getT();
   const base = `/org/${org.slug}`;
-  const term = (q ?? '').trim();
-  const where = { organizationId: org.id };
-
-  const serialTerm = /^\d+$/.test(term) ? Number(term) : null;
-  const studentWhere = serialTerm != null
-    ? { ...where, OR: [{ name: { contains: term, mode: 'insensitive' as const } }, { serial: serialTerm }] }
-    : { ...where, name: { contains: term, mode: 'insensitive' as const } };
-
-  const canSearch = term.length >= 2 || serialTerm != null;
-  const [students, halaqat, tasks, donations] = canSearch
-    ? await Promise.all([
-        prisma.student.findMany({ where: studentWhere, take: 8, select: { id: true, name: true, serial: true, section: true, halaqa: { select: { name: true } } } }),
-        prisma.halaqa.findMany({ where: { ...where, name: { contains: term, mode: 'insensitive' } }, take: 8, select: { id: true, name: true } }),
-        prisma.task.findMany({ where: { ...where, title: { contains: term, mode: 'insensitive' } }, take: 8, select: { id: true, title: true } }),
-        prisma.donation.findMany({ where: { ...where, donorName: { contains: term, mode: 'insensitive' } }, take: 8, select: { id: true, donorName: true, amount: true } }),
-      ])
-    : [[], [], [], []] as [never[], never[], never[], never[]];
-
+  const { term, canSearch } = searchTerm(q);
+  // كل نوع نتائج مقيَّد بقدرة الفاعل ونطاقه (المعلم: حلقاته) — خادميًا
+  const { students, halaqat, tasks, donations } = await searchOrg(user, org.id, q);
   const total = students.length + halaqat.length + tasks.length + donations.length;
 
   return (

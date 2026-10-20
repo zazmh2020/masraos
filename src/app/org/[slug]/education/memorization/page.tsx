@@ -3,6 +3,7 @@ import { requireOrgAccess } from '@/lib/org';
 import { prisma } from '@/lib/prisma';
 import { canViewEducation } from '@/lib/permissions';
 import MemorizationView from '@/components/education/MemorizationView';
+import { getStudentScope, studentRelationWhere, studentScopeWhere } from '@/lib/access-scope';
 import { getT } from '@/lib/i18n/server';
 
 export const dynamic = 'force-dynamic';
@@ -12,10 +13,11 @@ export default async function MemorizationPage({ params }: { params: Promise<{ s
   const { user, org } = await requireOrgAccess(slug);
   const { t } = await getT();
   if (!canViewEducation(user)) redirect(`/org/${org.slug}`);
+  const scope = await getStudentScope(user, org.id); // المعلم: حلقاته فقط
 
   const [entries, students] = await Promise.all([
     prisma.memorizationEntry.findMany({
-      where: { organizationId: org.id },
+      where: { organizationId: org.id, ...studentRelationWhere(scope) },
       orderBy: { date: 'desc' },
       take: 200,
       select: {
@@ -23,7 +25,7 @@ export default async function MemorizationPage({ params }: { params: Promise<{ s
         student: { select: { name: true } },
       },
     }),
-    prisma.student.findMany({ where: { organizationId: org.id, status: 'ACTIVE' }, orderBy: { name: 'asc' }, select: { id: true, name: true } }),
+    prisma.student.findMany({ where: { organizationId: org.id, status: 'ACTIVE', ...studentScopeWhere(scope) }, orderBy: { name: 'asc' }, select: { id: true, name: true } }),
   ]);
 
   return (

@@ -4,6 +4,7 @@ import { notFound, redirect } from 'next/navigation';
 import { requireOrgAccess } from '@/lib/org';
 import { prisma } from '@/lib/prisma';
 import { canViewEducation } from '@/lib/permissions';
+import { getStudentScope, studentScopeWhere } from '@/lib/access-scope';
 import { getT } from '@/lib/i18n/server';
 import { canManageRegistration } from '@/lib/student-registration';
 
@@ -16,11 +17,12 @@ export default async function StudentProfilePage({ params }: { params: Promise<{
   const { user, org } = await requireOrgAccess(slug);
   const { t, locale } = await getT();
   if (!canViewEducation(user)) redirect(`/org/${org.slug}`);
+  const scope = await getStudentScope(user, org.id); // المعلم: حلقاته فقط
   const base = `/org/${org.slug}`;
   const dateFmt = new Intl.DateTimeFormat(locale === 'en' ? 'en' : 'ar-u-nu-latn', { month: 'short', day: 'numeric' });
 
   const student = await prisma.student.findFirst({
-    where: { id, organizationId: org.id },
+    where: { id, organizationId: org.id, ...studentScopeWhere(scope) },
     select: {
       id: true, name: true, phone: true, guardianName: true, guardianPhone: true, guardianEmail: true, status: true,
       halaqa: { select: { id: true, name: true } },

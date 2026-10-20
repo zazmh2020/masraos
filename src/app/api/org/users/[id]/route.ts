@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server';
 import type { Role } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { getOrgActor } from '@/lib/org';
-import { canManageUsers, isAssignableRole } from '@/lib/permissions';
+import { canGrantCaps, canManageUsers, isAssignableRole, isUnrestrictedAdmin } from '@/lib/permissions';
+import { logAudit } from '@/lib/audit';
 
 /** تعديل دور مستخدم أو حالته (تفعيل/إيقاف) داخل مؤسسة الفاعل */
 export async function PATCH(
@@ -27,12 +28,17 @@ export async function PATCH(
   const body = await request.json().catch(() => null);
   if (!body) return NextResponse.json({ error: 'طلب غير صالح.' }, { status: 400 });
 
-  // لا يعدّل المستخدم دوره أو حالته بنفسه (تفادي القفل)
-  if (target.id === actor.id && (body.role !== undefined || body.isActive !== undefined)) {
+  // لا يعدّل المستخدم دوره أو حالته أو صلاحياته بنفسه (تفادي القفل والتصعيد الذاتي)
+  if (target.id === actor.id && (body.role !== undefined || body.isActive !== undefined || body.customRoleId !== undefined)) {
     return NextResponse.json(
-      { error: 'لا يمكنك تعديل دورك أو حالتك بنفسك.' },
+      { error: 'لا يمكنك تعديل دورك أو حالتك أو صلاحياتك بنفسك.' },
       { status: 400 },
     );
+  }
+
+  // مدراء المؤسسة (إسنادًا وتعديلًا وإيقافًا) لمدير المؤسسة وحده (H1)
+  if (!isUnrestrictedAdmin(actor) && (target.role === 'ORG_ADMIN' || String(body.role ?? '') === 'ORG_ADMIN')) {
+    return NextResponse.json({ error: 'تعديل مدير المؤسسة أو إسناد دوره لمدير المؤسسة فقط.' }, { status: 403 });
   }
 
   const data: { role?: Role; isActive?: boolean; departmentId?: string | null; customRoleId?: string | null } = {};
@@ -43,9 +49,13 @@ export async function PATCH(
       // عزل: الدور المخصّص يجب أن يكون ضمن نفس المؤسسة
       const role = await prisma.customRole.findFirst({
         where: { id: customRoleId, organizationId: actor.organization.id },
-        select: { id: true },
+        select: { id: true, permissions: true },
       });
       if (!role) return NextResponse.json({ error: 'الدور المخصّص غير موجود.' }, { status: 400 });
+      // لا يُمنَح مستخدم قدرات لا يملكها الفاعل نفسه (H1)
+      if (!canGrantCaps(actor, role.permissions)) {
+        return NextResponse.json({ error: 'لا يمكنك منح صلاحيات لا تملكها.' }, { status: 403 });
+      }
     }
     data.customRoleId = customRoleId;
   }
@@ -110,5 +120,12 @@ export async function PATCH(
     where: { id: target.id },
     data: revoke ? { ...data, sessionVersion: { increment: 1 } } : data,
   });
+  const changes = [
+    data.role !== undefined ? `role=${data.role}` : '',
+    data.isActive !== undefined ? (data.isActive ? 'activated' : 'deactivated') : '',
+    data.customRoleId !== undefined ? 'customRole' : '',
+    data.departmentId !== undefined ? 'department' : '',
+  ].filter(Boolean).join(', ');
+  await logAudit(actor.organization.id, actor.name, 'updated', 'user', `${target.name}: ${changes}`);
   return NextResponse.json({ ok: true });
 }

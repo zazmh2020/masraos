@@ -111,6 +111,11 @@ const ar: Dict = {
   'audit.entity.site': 'الموقع العام',
   'audit.entity.task': 'مهمة',
   'audit.entity.student': 'طالبًا',
+  'audit.action.exported': 'صدّر',
+  'audit.entity.user': 'مستخدمًا',
+  'audit.entity.role': 'دورًا',
+  'audit.entity.students': 'بيانات الطلاب',
+  'audit.entity.donations': 'بيانات التبرعات',
   // ---- Page headings ----
   'onav.fees': 'الرسوم',
   'fee.pageTitle': 'رسوم الطلاب',
@@ -2308,6 +2313,11 @@ const en: Dict = {
   'audit.entity.site': 'the public site',
   'audit.entity.task': 'a task',
   'audit.entity.student': 'a student',
+  'audit.action.exported': 'exported',
+  'audit.entity.user': 'a user',
+  'audit.entity.role': 'a role',
+  'audit.entity.students': 'student data',
+  'audit.entity.donations': 'donation data',
   // ---- Page headings ----
   'onav.fees': 'Fees',
   'fee.pageTitle': 'Student fees',

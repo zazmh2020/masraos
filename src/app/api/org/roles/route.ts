@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getOrgActor } from '@/lib/org';
-import { canManageUsers, ALL_CAPS } from '@/lib/permissions';
+import { canGrantCaps, canManageUsers, ALL_CAPS } from '@/lib/permissions';
+import { logAudit } from '@/lib/audit';
 
 /** يُبقي فقط القدرات المعروفة (يمنع حقن مفاتيح غير صالحة). */
 function sanitizeCaps(input: unknown): string[] {
@@ -23,13 +24,20 @@ export async function POST(request: Request) {
   const name = String(body.name ?? '').trim();
   if (name.length < 2) return NextResponse.json({ error: 'اسم الدور قصير جداً.' }, { status: 400 });
 
+  const permissions = sanitizeCaps(body.permissions);
+  // لا يُنشئ مفوَّض دورًا بقدرات لا يملكها (H1)
+  if (!canGrantCaps(actor, permissions)) {
+    return NextResponse.json({ error: 'لا يمكنك منح صلاحيات لا تملكها.' }, { status: 403 });
+  }
+
   const role = await prisma.customRole.create({
     data: {
       name,
-      permissions: sanitizeCaps(body.permissions),
+      permissions,
       organizationId: actor.organization.id, // عزل
     },
     select: { id: true },
   });
+  await logAudit(actor.organization.id, actor.name, 'created', 'role', name);
   return NextResponse.json({ ok: true, id: role.id });
 }
