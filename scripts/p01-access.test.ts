@@ -24,6 +24,7 @@ const userById = await import('../src/app/api/org/users/[id]/route');
 const roles = await import('../src/app/api/org/roles/route');
 const roleById = await import('../src/app/api/org/roles/[id]/route');
 const exportRoute = await import('../src/app/api/org/export/route');
+const statsRoute = await import('../src/app/api/org/statistics/route');
 
 const RUN = randomUUID().slice(0, 8);
 const ids: Record<string, string> = {};
@@ -69,8 +70,12 @@ beforeAll(async () => {
   const teacherRec = await prisma.teacher.create({ data: { name: 'Teacher', organizationId: orgA, userId: ids.teacher } });
   const h1 = await prisma.halaqa.create({ data: { name: 'حلقة المعلم', organizationId: orgA, teacherId: teacherRec.id } });
   const h2 = await prisma.halaqa.create({ data: { name: 'حلقة أخرى', organizationId: orgA } });
+  ids.h1 = h1.id; ids.h2 = h2.id;
   ids.s1 = (await prisma.student.create({ data: { name: 'طالب حلقتي', organizationId: orgA, halaqaId: h1.id, guardianName: 'ولي 1', guardianPhone: '0500000111' } })).id;
   ids.s2 = (await prisma.student.create({ data: { name: 'طالب حلقة غيري', organizationId: orgA, halaqaId: h2.id, guardianName: 'ولي 2', guardianPhone: '0500000222' } })).id;
+  for (const [sid, n] of [[ids.s1, 2], [ids.s2, 3]] as const) {
+    for (let i = 0; i < n; i++) await prisma.memorizationEntry.create({ data: { content: 'x', organizationId: orgA, studentId: sid } });
+  }
   await prisma.donation.create({ data: { donorName: 'متبرع سري', amount: 5000, organizationId: orgA } });
   await prisma.task.create({ data: { title: 'مهمة داخلية', organizationId: orgA } });
   await prisma.donation.create({ data: { donorName: 'متبرع المؤسسة ب', amount: 7000, organizationId: orgB } });
@@ -133,6 +138,27 @@ describe('H2 + MAS-240 — students export is scoped and audited', () => {
     expect(rows.length).toBeGreaterThanOrEqual(2);
     expect(rows.every((r) => r.entity === 'students' && /^\d+$/.test(r.label ?? ''))).toBe(true);
     expect(JSON.stringify(rows)).not.toContain('0500000');
+  });
+});
+
+describe('statistics API is scoped like the pages (teacher: own halaqat only)', () => {
+  const sessions = async (qs = '') => (await (await statsRoute.GET(get(`/api/org/statistics${qs}`))).json()).kpis.sessions as number;
+
+  it('teacher sees only own-halaqa sessions and cannot pull another halaqa or student by id', async () => {
+    await signInAs(ids.teacher);
+    expect(await sessions()).toBe(2);
+    expect(await sessions(`?halaqaId=${ids.h2}`)).toBe(0);
+    expect(await sessions(`?studentId=${ids.s2}`)).toBe(0);
+    expect(await sessions(`?studentId=${ids.s1}`)).toBe(2);
+    expect(await sessions(`?halaqaId=${ids.h1}`)).toBe(2);
+  });
+
+  it('control: staff sees all, can filter; student is refused', async () => {
+    await signInAs(ids.staff);
+    expect(await sessions()).toBe(5);
+    expect(await sessions(`?halaqaId=${ids.h2}`)).toBe(3);
+    await signInAs(ids.studentUser);
+    expect((await statsRoute.GET(get('/api/org/statistics'))).status).toBe(403);
   });
 });
 

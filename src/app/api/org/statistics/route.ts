@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getOrgActor } from '@/lib/org';
 import { canViewEducation } from '@/lib/permissions';
+import { getStudentScope } from '@/lib/access-scope';
 
 /** إحصاءات تطوّر الإنجاز — جلسات الحفظ/المراجعة عبر الزمن مع فلاتر. */
 export async function GET(request: Request) {
@@ -19,11 +20,21 @@ export async function GET(request: Request) {
   const from = fromRaw ? new Date(fromRaw) : new Date(to.getTime() - 1000 * 60 * 60 * 24 * 180);
   from.setHours(0, 0, 0, 0);
 
+  // المعلم: حلقاته فقط — أي halaqaId أو studentId خارج نطاقه يعطي نتيجة فارغة لا بيانات غيره
+  const scope = await getStudentScope(actor, actor.organizationId!);
+  let studentFilter: { halaqaId?: string | { in: string[] } } = {};
+  if (scope.restricted) {
+    studentFilter = halaqaId && !studentId
+      ? { halaqaId: scope.halaqaIds.includes(halaqaId) ? halaqaId : { in: [] } }
+      : { halaqaId: { in: scope.halaqaIds } };
+  } else if (halaqaId && !studentId) {
+    studentFilter = { halaqaId };
+  }
   const where = {
     organizationId: actor.organizationId!,
     date: { gte: from, lte: to },
     ...(studentId ? { studentId } : {}),
-    ...(halaqaId && !studentId ? { student: { halaqaId } } : {}),
+    ...(Object.keys(studentFilter).length ? { student: studentFilter } : {}),
   };
 
   const entries = await prisma.memorizationEntry.findMany({

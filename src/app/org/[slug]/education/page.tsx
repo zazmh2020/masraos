@@ -3,6 +3,7 @@ import { requireOrgAccess } from '@/lib/org';
 import { prisma } from '@/lib/prisma';
 import { canViewEducation } from '@/lib/permissions';
 import SectionHub, { type HubItem } from '@/components/SectionHub';
+import { getStudentScope, halaqaScopeWhere, studentRelationWhere, studentScopeWhere } from '@/lib/access-scope';
 import { getT } from '@/lib/i18n/server';
 
 export const dynamic = 'force-dynamic';
@@ -15,14 +16,15 @@ export default async function EducationHub({ params }: { params: Promise<{ slug:
   if (!canViewEducation(user)) redirect(`/org/${org.slug}`);
   const base = `/org/${org.slug}/education`;
   const w = { organizationId: org.id };
+  const scope = await getStudentScope(user, org.id); // المعلم: أعداد حلقاته فقط
   const quran = org.type === 'MOSQUE';
 
   const [teachers, students, halaqat, memos, assessments, guardians] = await Promise.all([
     prisma.teacher.count({ where: w }),
-    prisma.student.count({ where: w }),
-    prisma.halaqa.count({ where: w }),
-    prisma.memorizationEntry.count({ where: w }),
-    prisma.assessment.count({ where: w }),
+    prisma.student.count({ where: { ...w, ...studentScopeWhere(scope) } }),
+    prisma.halaqa.count({ where: { ...w, ...halaqaScopeWhere(scope) } }),
+    prisma.memorizationEntry.count({ where: { ...w, ...studentRelationWhere(scope) } }),
+    prisma.assessment.count({ where: { ...w, ...studentRelationWhere(scope) } }),
     prisma.guardian.count({ where: w }),
   ]);
 

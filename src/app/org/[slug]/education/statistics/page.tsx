@@ -1,6 +1,9 @@
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { requireOrgAccess } from '@/lib/org';
 import { prisma } from '@/lib/prisma';
+import { canViewEducation } from '@/lib/permissions';
+import { getStudentScope, halaqaScopeWhere, studentRelationWhere, studentScopeWhere } from '@/lib/access-scope';
 import StatisticsView from '@/components/StatisticsView';
 import '@/styles/statistics.css';
 import { getT, getLocale } from '@/lib/i18n/server';
@@ -9,7 +12,10 @@ export const dynamic = 'force-dynamic';
 
 export default async function StatisticsPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const { org } = await requireOrgAccess(slug);
+  const { user, org } = await requireOrgAccess(slug);
+  // كانت الصفحة بلا فحص صلاحية: أي عضو (طالب…) كان يرى أسماء الطلاب وإحصاءاتهم
+  if (!canViewEducation(user)) redirect(`/org/${org.slug}`);
+  const scope = await getStudentScope(user, org.id); // المعلم: حلقاته فقط
   const { t } = await getT();
   const locale = await getLocale();
   const base = `/org/${org.slug}`;
@@ -26,11 +32,11 @@ export default async function StatisticsPage({ params }: { params: Promise<{ slu
   const mkey = (d: Date) => `${d.getFullYear()}-${d.getMonth()}`;
 
   const [halaqat, students, memos, attendance, topRaw] = await Promise.all([
-    prisma.halaqa.findMany({ where: w, select: { id: true, name: true }, orderBy: { name: 'asc' } }),
-    prisma.student.findMany({ where: w, select: { id: true, name: true, halaqaId: true }, orderBy: { name: 'asc' } }),
-    prisma.memorizationEntry.findMany({ where: { ...w, date: { gte: since } }, select: { date: true, kind: true } }),
-    prisma.attendanceRecord.findMany({ where: { ...w, date: { gte: since } }, select: { date: true, status: true } }),
-    prisma.memorizationEntry.groupBy({ by: ['studentId'], where: w, _count: { _all: true }, orderBy: { _count: { studentId: 'desc' } }, take: 5 }),
+    prisma.halaqa.findMany({ where: { ...w, ...halaqaScopeWhere(scope) }, select: { id: true, name: true }, orderBy: { name: 'asc' } }),
+    prisma.student.findMany({ where: { ...w, ...studentScopeWhere(scope) }, select: { id: true, name: true, halaqaId: true }, orderBy: { name: 'asc' } }),
+    prisma.memorizationEntry.findMany({ where: { ...w, ...studentRelationWhere(scope), date: { gte: since } }, select: { date: true, kind: true } }),
+    prisma.attendanceRecord.findMany({ where: { ...w, ...studentRelationWhere(scope), date: { gte: since } }, select: { date: true, status: true } }),
+    prisma.memorizationEntry.groupBy({ by: ['studentId'], where: { ...w, ...studentRelationWhere(scope) }, _count: { _all: true }, orderBy: { _count: { studentId: 'desc' } }, take: 5 }),
   ]);
 
   const nameOf = new Map(students.map((s) => [s.id, s.name]));
