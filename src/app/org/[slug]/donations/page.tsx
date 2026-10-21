@@ -1,7 +1,8 @@
 import { redirect } from 'next/navigation';
 import { requireOrgAccess } from '@/lib/org';
 import { prisma } from '@/lib/prisma';
-import { canViewDonations, canManageDonations } from '@/lib/permissions';
+import { canViewDonations, canManageDonations, canSeeDonors } from '@/lib/permissions';
+import { withDonor } from '@/lib/sensitive-fields';
 import DonationsView from '@/components/DonationsView';
 import { getT } from '@/lib/i18n/server';
 
@@ -45,7 +46,7 @@ export default async function OrgDonationsPage({ params }: { params: Promise<{ s
         campaigns={campaigns}
         totalReceived={totalReceived}
         donations={donations.map((d) => ({
-          id: d.id, donorName: d.donorName, amount: d.amount, method: d.method, status: d.status,
+          id: d.id, donorName: withDonor(d, canSeeDonors(user)).donorName, amount: d.amount, method: d.method, status: d.status,
           note: d.note, campaignId: d.campaignId, donatedAt: d.donatedAt.toISOString().slice(0, 10),
         }))}
       />

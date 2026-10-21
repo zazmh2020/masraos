@@ -1,9 +1,10 @@
 import { redirect } from 'next/navigation';
 import { requireOrgAccess } from '@/lib/org';
 import { prisma } from '@/lib/prisma';
-import { canViewEducation } from '@/lib/permissions';
+import { canSeeStudentContacts, canViewEducation } from '@/lib/permissions';
 import StudentsView from '@/components/education/StudentsView';
 import { getStudentScope, halaqaScopeWhere, studentScopeWhere } from '@/lib/access-scope';
+import { withStudentContacts } from '@/lib/sensitive-fields';
 import { getT } from '@/lib/i18n/server';
 
 export const dynamic = 'force-dynamic';
@@ -36,7 +37,7 @@ export default async function StudentsPage({ params }: { params: Promise<{ slug:
           <p>{t('pg.students.sub', { n: students.length, org: org.name })}</p>
         </div>
       </div>
-      <StudentsView students={students} halaqat={halaqat} basePath={`/org/${org.slug}/education/students`} />
+      <StudentsView students={students.map((s) => withStudentContacts(s, canSeeStudentContacts(user)))} halaqat={halaqat} basePath={`/org/${org.slug}/education/students`} />
     </div>
   );
 }

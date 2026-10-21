@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { BeneficiaryCategory, BeneficiaryStatus } from '@/generated/prisma/client';
 import { prisma } from '@/lib/prisma';
 import { getOrgActor } from '@/lib/org';
-import { canManageBeneficiaries, isBeneficiaryCategory, isBeneficiaryStatus } from '@/lib/permissions';
+import { canManageBeneficiaries, canSeeBeneficiaryId, isBeneficiaryCategory, isBeneficiaryStatus } from '@/lib/permissions';
 
 async function loadOwn(orgId: string, id: string) {
   return prisma.beneficiary.findFirst({ where: { id, organizationId: orgId } });
@@ -31,7 +31,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     data.name = name;
   }
   if (body.phone !== undefined) data.phone = String(body.phone).trim() || null;
-  if (body.nationalId !== undefined) data.nationalId = String(body.nationalId).trim() || null;
+  // الرقم الوطني: يعدّله من يملك beneficiaries.sensitive فقط (غيره لا يراه فلا يستبدله ولا يمحوه)
+  if (body.nationalId !== undefined && canSeeBeneficiaryId(actor)) data.nationalId = String(body.nationalId).trim() || null;
   if (body.notes !== undefined) data.notes = String(body.notes).trim() || null;
   if (body.category !== undefined) {
     const category = String(body.category);

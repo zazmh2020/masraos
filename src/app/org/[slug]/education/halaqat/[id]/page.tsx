@@ -2,8 +2,9 @@ import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { requireOrgAccess } from '@/lib/org';
 import { prisma } from '@/lib/prisma';
-import { canViewEducation } from '@/lib/permissions';
+import { canSeeStudentContacts, canViewEducation } from '@/lib/permissions';
 import { getStudentScope, halaqaScopeWhere } from '@/lib/access-scope';
+import { withStudentContacts } from '@/lib/sensitive-fields';
 import { getT } from '@/lib/i18n/server';
 
 export const dynamic = 'force-dynamic';
@@ -16,7 +17,7 @@ export default async function HalaqaDetailPage({ params }: { params: Promise<{ s
   const scope = await getStudentScope(user, org.id); // المعلم: حلقاته فقط
   const base = `/org/${org.slug}`;
 
-  const halaqa = await prisma.halaqa.findFirst({
+  const halaqaRaw = await prisma.halaqa.findFirst({
     where: { id, organizationId: org.id, ...halaqaScopeWhere(scope) },
     select: {
       id: true, name: true, type: true, track: true, period: true, schedule: true,
@@ -24,7 +25,8 @@ export default async function HalaqaDetailPage({ params }: { params: Promise<{ s
       students: { orderBy: { name: 'asc' }, select: { id: true, name: true, phone: true, status: true } },
     },
   });
-  if (!halaqa) notFound();
+  if (!halaqaRaw) notFound();
+  const halaqa = { ...halaqaRaw, students: halaqaRaw.students.map((s) => withStudentContacts(s, canSeeStudentContacts(user))) };
 
   return (
     <div className="org-page">

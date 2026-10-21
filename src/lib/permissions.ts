@@ -67,19 +67,19 @@ export function isAssignableRole(role: string): role is Role {
 export type Actor = { role: string; permissions?: string[] | null };
 
 /** مجموعات القدرات لعرضها في محرّر الأدوار (مفتاح ترجمة الوحدة + القدرات). */
-export const CAP_GROUPS: { labelKey: string; caps: { key: string; kind: 'view' | 'manage' }[] }[] = [
+export const CAP_GROUPS: { labelKey: string; caps: { key: string; kind: 'view' | 'manage' | 'sensitive' }[] }[] = [
   { labelKey: 'hub.ops.projects', caps: [{ key: 'projects.view', kind: 'view' }, { key: 'projects.manage', kind: 'manage' }] },
   { labelKey: 'hub.ops.programs', caps: [{ key: 'programs.view', kind: 'view' }, { key: 'programs.manage', kind: 'manage' }] },
   { labelKey: 'hub.ops.campaigns', caps: [{ key: 'campaigns.view', kind: 'view' }, { key: 'campaigns.manage', kind: 'manage' }] },
-  { labelKey: 'hub.ops.donations', caps: [{ key: 'donations.view', kind: 'view' }, { key: 'donations.manage', kind: 'manage' }] },
+  { labelKey: 'hub.ops.donations', caps: [{ key: 'donations.view', kind: 'view' }, { key: 'donations.manage', kind: 'manage' }, { key: 'donations.donors', kind: 'sensitive' }] },
   { labelKey: 'hub.ops.tasks', caps: [{ key: 'tasks.view', kind: 'view' }, { key: 'tasks.manage', kind: 'manage' }] },
   { labelKey: 'hub.ops.workflow', caps: [{ key: 'approvals.view', kind: 'view' }, { key: 'approvals.decide', kind: 'manage' }] },
   { labelKey: 'hub.ops.branches', caps: [{ key: 'branches.view', kind: 'view' }, { key: 'branches.manage', kind: 'manage' }] },
   { labelKey: 'onav.finance', caps: [{ key: 'finance.view', kind: 'view' }, { key: 'finance.manage', kind: 'manage' }] },
-  { labelKey: 'onav.education', caps: [{ key: 'education.view', kind: 'view' }, { key: 'education.manage', kind: 'manage' }] },
+  { labelKey: 'onav.education', caps: [{ key: 'education.view', kind: 'view' }, { key: 'education.manage', kind: 'manage' }, { key: 'students.contact', kind: 'sensitive' }] },
   { labelKey: 'onav.points', caps: [{ key: 'points.view', kind: 'view' }, { key: 'points.scan', kind: 'manage' }, { key: 'points.adjust', kind: 'manage' }] },
   { labelKey: 'onav.resources', caps: [{ key: 'hr.view', kind: 'view' }, { key: 'hr.manage', kind: 'manage' }] },
-  { labelKey: 'hub.res.beneficiaries', caps: [{ key: 'beneficiaries.view', kind: 'view' }, { key: 'beneficiaries.manage', kind: 'manage' }] },
+  { labelKey: 'hub.res.beneficiaries', caps: [{ key: 'beneficiaries.view', kind: 'view' }, { key: 'beneficiaries.manage', kind: 'manage' }, { key: 'beneficiaries.sensitive', kind: 'sensitive' }] },
   { labelKey: 'onav.documents', caps: [{ key: 'documents.view', kind: 'view' }, { key: 'documents.manage', kind: 'manage' }] },
   { labelKey: 'onav.knowledge', caps: [{ key: 'knowledge.view', kind: 'view' }, { key: 'knowledge.manage', kind: 'manage' }] },
   { labelKey: 'roles.mod.structure', caps: [{ key: 'structure.view', kind: 'view' }, { key: 'structure.manage', kind: 'manage' }] },
@@ -107,6 +107,7 @@ const STAFF_CAPS = [
   'events.manage', 'fees.manage', 'education.view', 'education.manage', 'hr.view', 'hr.manage',
   'documents.manage', 'knowledge.manage', 'reports.view', 'finance.view', 'finance.manage',
   'points.view', 'points.scan',
+  'students.contact', 'beneficiaries.sensitive', 'donations.donors',
 ];
 // قدرات المشرف = إشراف تربوي/برامجي (متابعة الحلقات والمعلمين والطلاب والتقارير)
 // دون المالية والتبرعات والمستفيدين (تبقى للإدارة/الموظّفين).
@@ -115,9 +116,10 @@ const SUPERVISOR_CAPS = [
   'campaigns.view', 'tasks.manage', 'events.manage', 'reports.view',
   'requests.view', 'requests.manage', 'fees.manage', 'hr.view', 'documents.manage', 'knowledge.manage',
   'points.view', 'points.scan', 'points.adjust',
+  'students.contact',
 ];
 // قدرات المعلّم = قدرات العضو + الاطّلاع على التعليم (حلقاته وطلابه تُقصر ببوّابة «حلقاتي») + مسح النقاط.
-const TEACHER_CAPS = [...MEMBER_CAPS, 'education.view', 'points.view', 'points.scan'];
+const TEACHER_CAPS = [...MEMBER_CAPS, 'education.view', 'points.view', 'points.scan', 'students.contact'];
 // قدرات الطالب = محدودة جدًا (ملفّه ومحتوى منشور فقط).
 const STUDENT_CAPS = ['knowledge.view', 'events.view'];
 
@@ -164,6 +166,21 @@ export function canGrantCaps(a: Actor, caps: string[]): boolean {
   if (isUnrestrictedAdmin(a)) return true;
   const own = actorCaps(a);
   return caps.every((c) => own.includes(c));
+}
+
+/* ---------- الحقول الحساسة (NP1): لا تظهر إلا بقدرة صريحة ---------- */
+
+/** هاتف الطالب وهاتف/بريد وليّ الأمر (المعلم: لطلاب حلقاته فقط عبر نطاقه) */
+export function canSeeStudentContacts(a: string | Actor): boolean {
+  return can(a, 'students.contact');
+}
+/** الرقم الوطني للمستفيد */
+export function canSeeBeneficiaryId(a: string | Actor): boolean {
+  return can(a, 'beneficiaries.sensitive');
+}
+/** هوية المتبرع (اسمه) — المبلغ يبقى لمن يملك donations.view */
+export function canSeeDonors(a: string | Actor): boolean {
+  return can(a, 'donations.donors');
 }
 
 /** من يعدّل إعدادات المؤسسة */

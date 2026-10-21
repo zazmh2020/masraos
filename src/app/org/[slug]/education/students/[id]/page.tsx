@@ -3,8 +3,9 @@ import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { requireOrgAccess } from '@/lib/org';
 import { prisma } from '@/lib/prisma';
-import { canViewEducation } from '@/lib/permissions';
+import { canSeeStudentContacts, canViewEducation } from '@/lib/permissions';
 import { getStudentScope, studentScopeWhere } from '@/lib/access-scope';
+import { withStudentContacts } from '@/lib/sensitive-fields';
 import { getT } from '@/lib/i18n/server';
 import { canManageRegistration } from '@/lib/student-registration';
 
@@ -21,7 +22,7 @@ export default async function StudentProfilePage({ params }: { params: Promise<{
   const base = `/org/${org.slug}`;
   const dateFmt = new Intl.DateTimeFormat(locale === 'en' ? 'en' : 'ar-u-nu-latn', { month: 'short', day: 'numeric' });
 
-  const student = await prisma.student.findFirst({
+  const studentRaw = await prisma.student.findFirst({
     where: { id, organizationId: org.id, ...studentScopeWhere(scope) },
     select: {
       id: true, name: true, phone: true, guardianName: true, guardianPhone: true, guardianEmail: true, status: true,
@@ -33,7 +34,9 @@ export default async function StudentProfilePage({ params }: { params: Promise<{
       assessments: { where: { organizationId: org.id }, orderBy: { date: 'desc' }, take: 20, select: { id: true, date: true, title: true, result: true } },
     },
   });
-  if (!student) notFound();
+  if (!studentRaw) notFound();
+  // هاتف الطالب وهاتف/بريد الولي لا يظهران إلا بقدرة students.contact (NP1)
+  const student = withStudentContacts(studentRaw, canSeeStudentContacts(user));
 
   const recentQuran = student.quranRecords.slice(0, 8);
   const totalPages = recentQuran.reduce((s, r) => s + (r.pages ?? 0), 0);

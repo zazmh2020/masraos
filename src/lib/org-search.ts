@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import { canViewDonations, canViewEducation, canViewTasks, type Actor } from '@/lib/permissions';
+import { canSeeDonors, canViewDonations, canViewEducation, canViewTasks, type Actor } from '@/lib/permissions';
 import { getStudentScope, halaqaScopeWhere, studentScopeWhere, type ScopeActor } from '@/lib/access-scope';
 
 /* ============================================================
@@ -57,7 +57,8 @@ export async function searchOrg(
     canViewTasks(actor)
       ? prisma.task.findMany({ where: { ...where, title: { contains: term, mode: 'insensitive' } }, take: 8, select: { id: true, title: true } })
       : [],
-    canViewDonations(actor)
+    // البحث باسم المتبرع يكشف وجوده؛ فلا يُبحث فيه أصلًا إلا لمن يرى هويات المتبرعين (NP1)
+    canViewDonations(actor) && canSeeDonors(actor)
       ? prisma.donation.findMany({ where: { ...where, donorName: { contains: term, mode: 'insensitive' } }, take: 8, select: { id: true, donorName: true, amount: true } })
       : [],
   ]);

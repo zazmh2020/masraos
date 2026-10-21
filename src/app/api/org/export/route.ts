@@ -1,9 +1,10 @@
 import { prisma } from '@/lib/prisma';
 import { getOrgActor } from '@/lib/org';
-import { canViewEducation, canViewDonations } from '@/lib/permissions';
+import { canViewEducation, canViewDonations, canSeeDonors, canSeeStudentContacts } from '@/lib/permissions';
 import { csvRow as row, csvBody } from '@/lib/csv';
 import { getStudentScope, studentScopeWhere } from '@/lib/access-scope';
 import { logAudit } from '@/lib/audit';
+import { DONOR_MASK, withStudentContacts } from '@/lib/sensitive-fields';
 
 function csvResponse(name: string, rows: string[]): Response {
   return new Response(csvBody(rows), {
@@ -30,7 +31,11 @@ export async function GET(request: Request) {
     });
     const sectionAr: Record<string, string> = { BOYS: 'بنين', GIRLS: 'بنات' };
     const rows = [row(['#', 'القسم', 'الاسم', 'الهاتف', 'ولي الأمر', 'هاتف ولي الأمر', 'بريد ولي الأمر', 'الحالة', 'الحلقة'])];
-    for (const s of students) rows.push(row([s.serial, s.section ? sectionAr[s.section] : '', s.name, s.phone, s.guardianName, s.guardianPhone, s.guardianEmail, s.status, s.halaqa?.name]));
+    const contacts = canSeeStudentContacts(actor);
+    for (const raw of students) {
+      const s = withStudentContacts(raw, contacts);
+      rows.push(row([s.serial, s.section ? sectionAr[s.section] : '', s.name, s.phone, s.guardianName, s.guardianPhone, s.guardianEmail, s.status, s.halaqa?.name]));
+    }
     await logAudit(orgId, actor.name, 'exported', 'students', `${students.length}`);
     return csvResponse('students', rows);
   }
@@ -42,7 +47,8 @@ export async function GET(request: Request) {
       select: { donorName: true, amount: true, method: true, status: true, donatedAt: true, campaign: { select: { name: true } } },
     });
     const rows = [row(['المتبرع', 'المبلغ', 'الطريقة', 'الحالة', 'التاريخ', 'الحملة'])];
-    for (const d of donations) rows.push(row([d.donorName, d.amount, d.method, d.status, d.donatedAt.toISOString().slice(0, 10), d.campaign?.name]));
+    const donors = canSeeDonors(actor);
+    for (const d of donations) rows.push(row([donors ? d.donorName : DONOR_MASK, d.amount, d.method, d.status, d.donatedAt.toISOString().slice(0, 10), d.campaign?.name]));
     await logAudit(orgId, actor.name, 'exported', 'donations', `${donations.length}`);
     return csvResponse('donations', rows);
   }

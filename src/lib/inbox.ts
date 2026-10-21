@@ -1,5 +1,6 @@
 import { cache } from 'react';
-import { canViewUsers, canViewTasks, canViewRequests, canManageRequests, canViewDonations, canViewEducation, type Actor } from '@/lib/permissions';
+import { canViewUsers, canViewTasks, canViewRequests, canManageRequests, canViewDonations, canViewEducation, canSeeDonors, type Actor } from '@/lib/permissions';
+import { DONOR_MASK } from '@/lib/sensitive-fields';
 import { prisma } from '@/lib/prisma';
 import { getT } from '@/lib/i18n/server';
 
@@ -114,7 +115,7 @@ export const getOrgInbox = cache(async (organizationId: string, actor: Actor & {
     })),
     ...donations.map((d) => ({
       id: `don-${d.id}`, type: 'donation' as const,
-      title: t('inbox.newDonation', { name: d.donorName }), time: d.donatedAt.toISOString(),
+      title: t('inbox.newDonation', { name: canSeeDonors(actor) ? d.donorName : DONOR_MASK }), time: d.donatedAt.toISOString(),
     })),
     ...students.map((s) => ({
       id: `std-${s.id}`, type: 'student' as const,

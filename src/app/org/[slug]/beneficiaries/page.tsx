@@ -1,7 +1,8 @@
 import { redirect } from 'next/navigation';
 import { requireOrgAccess } from '@/lib/org';
 import { prisma } from '@/lib/prisma';
-import { canViewBeneficiaries, canManageBeneficiaries } from '@/lib/permissions';
+import { canViewBeneficiaries, canManageBeneficiaries, canSeeBeneficiaryId } from '@/lib/permissions';
+import { withBeneficiaryId } from '@/lib/sensitive-fields';
 import BeneficiariesView from '@/components/BeneficiariesView';
 import { getT } from '@/lib/i18n/server';
 
@@ -42,7 +43,7 @@ export default async function OrgBeneficiariesPage({ params }: { params: Promise
         canManage={canManage}
         departments={departments}
         programs={programs}
-        beneficiaries={beneficiaries}
+        beneficiaries={beneficiaries.map((b) => withBeneficiaryId(b, canSeeBeneficiaryId(user)))}
       />
     </div>
   );
